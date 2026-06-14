@@ -1,18 +1,13 @@
 {
   "name": "Portaria Primavera",
   "short_name": "Portaria",
-  "description": "Controle de portaria, visitantes, prestadores, moradores e relatórios do Condomínio Edifício Primavera.",
+  "description": "Controle de acessos, moradores e operação da guarita do Condomínio Primavera.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#0d1b2a",
   "theme_color": "#0d1b2a",
-  "categories": [
-    "productivity",
-    "utilities"
-  ],
-  "lang": "pt-BR",
   "icons": [
     {
       "src": "assets/icons/icon-192.png",
@@ -29,18 +24,16 @@
   ],
   "screenshots": [
     {
-      "src": "assets/screenshots/desktop-resumo.png",
-      "sizes": "1365x768",
+      "src": "assets/screenshots/screenshot-desktop.png",
+      "sizes": "1280x720",
       "type": "image/png",
-      "form_factor": "wide",
-      "label": "Painel Resumo"
+      "form_factor": "wide"
     },
     {
-      "src": "assets/screenshots/mobile-login.png",
+      "src": "assets/screenshots/screenshot-mobile.png",
       "sizes": "390x844",
       "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Login mobile"
+      "form_factor": "narrow"
     }
   ]
 }
