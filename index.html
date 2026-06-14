@@ -3751,20 +3751,25 @@ body.kiosk-mode{
 
 
 
-/* v109 — Correção login + topbar fixa
-   Mantém a topbar fixa após login, mas impede que ela apareça sobre a tela de login. */
-.loginOverlay{
-  z-index:2400!important;
-  padding-top:18px!important;
+/* v110 — Correção de modais com Topbar fixa
+   Mantém janelas/flutuantes sempre acima da Topbar e das guias no desktop. */
+.modal,
+.modal.show{
+  z-index:2600!important;
 }
-.appSplash{
-  z-index:2500!important;
+.sheet,
+.residentSheet,
+.unitPickerSheet,
+.agendaUnitSheet,
+.confirmSheet,
+.accessDetailSheet,
+.userModalSheet{
+  position:relative!important;
+  z-index:2610!important;
 }
-@media (min-width:761px){
-  body:not(.logged-in) .loginOverlay{
-    align-items:center!important;
-  }
-}
+.globalResults{z-index:2700!important;}
+.helpTourOverlay{z-index:2800!important;}
+.helpTourPanel{z-index:2810!important;}
 
 </style>
 </head>
@@ -4655,7 +4660,7 @@ document.addEventListener('keydown',(ev)=>{
   }
 });
 
-function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.toggle('logged-in',logged); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill)pill.textContent=logged?`${u.nome||u.login} • ${u.perfil==='admin'?'Admin':'Portaria'}`:'Não conectado'; document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.()}
+function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill)pill.textContent=logged?`${u.nome||u.login} • ${u.perfil==='admin'?'Admin':'Portaria'}`:'Não conectado'; document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.()}
 function loginUser(){const login=val('loginUser'), senha=val('loginPass'); const msg=document.getElementById('loginMsg'); const u=(state.users||[]).find(x=>x.login===login&&String(x.senha||'')===senha); if(!u){if(msg)msg.textContent='Usuário ou senha inválidos.';return;} if(u.ativo===false){if(msg)msg.textContent='Usuário inativo. Procure o administrador.';return;} sessionStorage.setItem('pp_current_user',u.login); const remember=document.getElementById('rememberLoginUser'); if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}else{localStorage.removeItem('pp_remember_user');localStorage.removeItem('pp_saved_login')} if(msg)msg.textContent=''; const pass=document.getElementById('loginPass'); if(pass)pass.value=''; applyPermissions(); renderAll(); maybeShowHelpTour();}
 function confirmLogoutUser(){
   openAppConfirm({

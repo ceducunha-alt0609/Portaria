@@ -42,7 +42,7 @@ Perfis iniciais:
 Depois, ajuste os usuários em **Ferramentas → Usuários e perfis**.
 
 
-## v109 — Correção mobile/PWA
+## v108 — Correção mobile/PWA
 
 - Corrigida rolagem em PWA instalado no celular.
 - Botão de tema da topbar permanece visível ao alternar claro/escuro/automático.
