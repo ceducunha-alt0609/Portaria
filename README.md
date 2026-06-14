@@ -1,42 +1,30 @@
-# Portaria Primavera
+# Portaria Primavera v1.0
 
-PWA de controle de portaria, moradores e operação da guarita do Condomínio Primavera.
-
-## Versão
-
-**v1.0.1 — pacote GitHub corrigido**
-
-Correção aplicada: o pacote anterior podia ficar preso na tela de splash por causa de um erro de script no `index.html` gerado para o GitHub. Esta versão usa o HTML íntegro da v105 e atualiza o cache do Service Worker.
+PWA para controle de acessos, moradores e operação da portaria do Condomínio Edifício Primavera.
 
 ## Arquivos principais
 
 - `index.html` — aplicativo completo
-- `sw.js` — Service Worker com cache PWA
-- `manifest.webmanifest` — instalação como PWA
+- `manifest.webmanifest` — manifesto PWA para instalação no Windows/Android
+- `sw.js` — Service Worker para cache/offline
 - `assets/icons/` — ícones do app
-- `assets/screenshots/` — espaço para screenshots do GitHub/PWA
+- `assets/screenshots/` — screenshots para instalação
 
-## Como publicar no GitHub Pages
+## Publicação no GitHub Pages
 
-1. Envie todos os arquivos para o repositório.
-2. Em **Settings → Pages**, selecione a branch principal e a pasta raiz.
-3. Aguarde a publicação.
-4. Abra a URL publicada e use **Ctrl + F5** na primeira abertura após atualizar.
+1. Suba todos os arquivos deste pacote para um repositório.
+2. Em **Settings → Pages**, selecione a branch principal e a pasta `/root`.
+3. Aguarde o endereço `https://usuario.github.io/repositorio/` ficar disponível.
+4. Abra no Chrome/Edge e use **Instalar aplicativo**.
 
-## Observação sobre atualização do PWA instalado
+## Atualização depois de publicar
 
-Se já instalou a versão anterior e ela ficou presa no splash:
+Após enviar uma nova versão, use `Ctrl + F5` no navegador. Se o app instalado mantiver cache antigo, desinstale e instale novamente.
 
-1. Feche o app instalado.
-2. No navegador, abra a URL do GitHub Pages.
-3. Pressione **Ctrl + F5**.
-4. Se ainda carregar a versão antiga, desinstale o PWA antigo e instale novamente.
+## Versão
 
-## Uso
+Base: `portaria_primavera_pwa_v105_tour_guiado.html`
 
-Perfis iniciais:
+## Observação
 
-- Admin: `admin / admin123`
-- Portaria: `portaria / 1234`
-
-Depois, ajuste os usuários em **Ferramentas → Usuários e perfis**.
+O backup local e os dados gravados no navegador continuam usando `localStorage`. O Service Worker apenas permite carregamento mais rápido/offline do aplicativo.

@@ -1,2 +1,1 @@
-Uso interno do Condomínio Edifício Primavera.
-Distribuição externa somente com autorização do responsável.
+Licença interna — Condomínio Edifício Primavera. Uso restrito/autorizado.

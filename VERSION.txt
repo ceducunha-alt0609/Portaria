@@ -1,2 +1,3 @@
-Portaria Primavera v1.0.1
-Correção do pacote GitHub/PWA: index íntegro e cache atualizado.
+Portaria Primavera v1.0
+Base: v105 Tour Guiado
+Pacote PWA definitivo para GitHub Pages
