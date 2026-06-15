@@ -280,6 +280,8 @@ body.splashing{overflow:hidden}
 }
 @media(max-width:420px){.cards{grid-template-columns:1fr}.aptGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.top{align-items:flex-start}.statusGroup{width:100%;justify-content:flex-end}.tab{min-width:116px}.splashSub{max-width:280px}}
 @media(display-mode:standalone){body{overscroll-behavior-y:none}.app{padding-bottom:calc(28px + var(--safe-bottom))}}
+html{touch-action:pan-y!important}
+body{touch-action:pan-y!important}
 
 
 
@@ -4803,7 +4805,7 @@ function restoreBackupFile(ev){
 }
 
 /* ── GOOGLE DRIVE v108 ──────────────────────────────────────── */
-const GDRIVE_CLIENT_ID=localStorage.getItem('pp_gdrive_client_id')||'';
+const GDRIVE_CLIENT_ID=localStorage.getItem('pp_gdrive_client_id')||'229469247318-168h5mugq4bst0a7otus9s5pboer14cv.apps.googleusercontent.com';
 const GDRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
 const GDRIVE_FOLDER='Portaria Primavera';
 const GDRIVE_MAX_BACKUPS=5;
