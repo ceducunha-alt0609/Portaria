@@ -4094,6 +4094,14 @@ let supabaseClient=null;
 let cloudTimer=null;
 let cloudReady=false;
 const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+const blocoNomes=['Bloco 1','Bloco 2','Bloco 3','Bloco 4'];
+const blocoFlores={1:'Azaleia',2:'Dalia',3:'Gardenia',4:'Hortensia'};
+function getAptosPorBloco(blocoNum){const flor=blocoFlores[blocoNum]; if(!flor)return aptos; return aptos.map(a=>flor+' '+a);}
+function unitIdFromImport(bloco,apto){
+  // Suporte a ambos formatos: "Azaleia 01" e "01"
+  const bNum=Number((bloco||'').match(/(\d+)/)?.[1]||0);
+  return unitId('Bloco '+bNum, apto);
+}
 let state=load();
 function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',ativo:true},{id:'u-portaria',nome:'Portaria',login:'portaria',senha:'1234',perfil:'portaria',ativo:true}]}
 function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[]}}
@@ -4618,7 +4626,7 @@ function renderDashboard(){
   const last=document.getElementById('lastAccess'); if(last)last.innerHTML=tableAccess(accesses.slice(0,6),false,true)||'<div class="empty">Ainda não há registros.</div>';
   renderTurnoCard();
 }
-function renderBlocks(){const q=(document.getElementById('residentSearch')?.value||'').toLowerCase(); const root=document.getElementById('blocks'); root.innerHTML=''; for(let b=1;b<=4;b++){let bloco='Bloco '+b; let html=''; aptos.forEach(ap=>{let u=getUnit(bloco,ap); let txt=(bloco+ap+u.fixo+(u.people||[]).map(p=>p.nome+p.cel+(p.vinculo||'')+(p.tipo||'')).join(' ')+(u.vehicles||[]).map(vehicleToText).join(' ')).toLowerCase(); if(q&&!txt.includes(q))return; let cls=(u.people?.length?'ok':''); html+=`<button class="apt ${cls}" onclick="openResidentModal('${unitId(bloco,ap)}')">${ap}<small>${u.people?.length||0} morador(es)</small></button>`}); root.innerHTML+=`<div class="card block"><h3>${bloco}</h3><div class="aptGrid">${html||'<div class="empty">Sem resultado</div>'}</div></div>`}}
+function renderBlocks(){const q=(document.getElementById('residentSearch')?.value||'').toLowerCase(); const root=document.getElementById('blocks'); root.innerHTML=''; for(let b=1;b<=4;b++){let bloco='Bloco '+b; const aptosBloco=getAptosPorBloco(b); let html=''; aptosBloco.forEach(ap=>{let u=getUnit(bloco,ap); let txt=(bloco+ap+u.fixo+(u.people||[]).map(p=>p.nome+p.cel+(p.vinculo||'')+(p.tipo||'')).join(' ')+(u.vehicles||[]).map(vehicleToText).join(' ')).toLowerCase(); if(q&&!txt.includes(q))return; let cls=(u.people?.length?'ok':''); html+=`<button class="apt ${cls}" onclick="openResidentModal('${unitId(bloco,ap)}')">${ap}<small>${u.people?.length||0} morador(es)</small></button>`}); root.innerHTML+=`<div class="card block"><h3>${bloco}<small style="font-size:12px;font-weight:400;color:var(--muted);margin-left:8px">${blocoFlores[b]||''}</small></h3><div class="aptGrid">${html||'<div class="empty">Sem resultado</div>'}</div></div>`}}
 function openResidentModal(id){let u=id?state.units[id]:getUnit('Bloco 1','01'); const oldId=unitId(u.bloco,u.apto); document.getElementById('modalTitle').textContent=`${u.bloco} • Apto ${u.apto}`; document.getElementById('modalSub').textContent='Ficha rápida da unidade.'; const actions=document.getElementById('modalActions'); if(actions)actions.innerHTML=isAdmin()?`<button class="btn ghost residentAddBtn" onclick="addPersonRow()">+ Morador</button><button class="btn ghost residentAddBtn" onclick="addVehicleRow()">+ Veículo</button><button class="btn gold" onclick="saveResident('${oldId}')">Salvar</button><button class="btn bad" onclick="clearUnit('${oldId}')">Limpar cadastro</button>`:''; document.getElementById('modalBody').innerHTML=residentForm(u); lockModalIfPortaria(); document.getElementById('residentModal').classList.add('show')}
 function closeModal(){document.getElementById('residentModal').classList.remove('show'); const a=document.getElementById('modalActions'); if(a)a.innerHTML=''}
 function residentForm(u){
@@ -5133,7 +5141,11 @@ function seedSample(){state.units[unitId('Bloco 1','11')]={bloco:'Bloco 1',apto:
 function normalizeResidentType(v,idx=0){v=String(v||'').toLowerCase(); if(idx===0){ if(v.includes('inq'))return'Inquilino'; return'Proprietário'; } if(v.includes('esposa'))return'Esposa'; if(v.includes('esposo'))return'Esposo'; if(v.includes('filh')||v==='filho')return v.includes('filha')?'Filha':'Filho'; if(v.includes('mulher')||v.includes('conjuge')||v.includes('cônjuge'))return'Esposa'; if(v.includes('marido'))return'Esposo'; return'Outro'}
 function boolText(v){return v===true||String(v).toLowerCase()==='sim'?'Sim':'Não'}
 function parseVehicle(v){
-  if(v&&typeof v==='object')return {desc:v.desc||v.veiculo||v.carro||v.modelo||'',vaga:v.vaga||'',tipoVaga:v.tipoVaga||v.tipo_vaga||v.vagaTipo||'Não informado'};
+  if(v&&typeof v==='object')return {
+    desc:v.desc||[v.marca,v.modelo,v.cor,v.placa].filter(Boolean).join(' ')||v.veiculo||v.carro||'',
+    marca:v.marca||'', modelo:v.modelo||'', cor:v.cor||'', placa:v.placa||'',
+    vaga:v.vaga||'', tipoVaga:v.tipoVaga||v.tipo_vaga||v.vagaTipo||'Não informado'
+  };
   let txt=String(v||'').trim(), vaga='', tipoVaga='Não informado';
   const m=txt.match(/(?:^|\s)vaga\s*[:\-]?\s*([\w\-\/]+)/i); if(m){vaga=m[1]; txt=txt.replace(m[0],'').trim();}
   if(/alugad/i.test(txt)){tipoVaga='Alugada'; txt=txt.replace(/vaga\s+alugada|alugada/ig,'').trim();}
@@ -5291,35 +5303,57 @@ function parseResidentsWorkbook(wb){
   const rows=XLSX.utils.sheet_to_json(wb.Sheets[wanted],{header:1,defval:''}); return parseResidentsRows(rows);
 }
 function parseResidentsRows(rows){
-  let headerIndex=rows.findIndex(r=>r.some(c=>normText(c)==='UNIDADE')&&r.some(c=>normText(c).includes('RESIDENCIAL')||normText(c).includes('CELULAR'))); if(headerIndex<0)headerIndex=rows.findIndex(r=>r.some(c=>normText(c)==='UNIDADE'));
-  if(headerIndex<0)return{units:{},count:0,people:0}; const h=rows[headerIndex].map(normText);
-  const idx=(label)=>h.findIndex(x=>x===normText(label)); const idxContains=(label)=>h.findIndex(x=>x.includes(normText(label)));
-  const unidadeCol=idx('UNIDADE'); const aptoCol=unidadeCol>=0?unidadeCol+1:2; const fixoCol=idxContains('RESIDENCIAL');
+  // Encontrar linha de cabeçalho (tem UNIDADE e CARRO)
+  let headerIndex=rows.findIndex(r=>r.some(c=>normText(c)==='UNIDADE')&&r.some(c=>normText(c)==='CARRO'));
+  if(headerIndex<0) headerIndex=rows.findIndex(r=>r.some(c=>normText(c)==='UNIDADE'));
+  if(headerIndex<0) return{units:{},count:0,people:0};
+  const h=rows[headerIndex].map(normText);
+  const blocoCol=h.findIndex(x=>x==='UNIDADE');
+  const aptoCol=blocoCol+1;
+  const vagaCol=h.findIndex(x=>x==='VAGA');
+  const tipoCol=h.findIndex(x=>x.includes('PROPRIETARIO INQUILINO'));
+  const fixoCol=h.findIndex(x=>x==='RESIDENCIAL');
   const celCols=h.map((x,i)=>x.includes('CELULAR')?i:-1).filter(i=>i>=0).slice(0,5);
-  const nameCols=[]; h.forEach((x,i)=>{if((x==='NOME'||x==='NOME COMPLETO')&&i>5&&nameCols.length<5)nameCols.push(i)});
-  const firstRel=idxContains('PROPRIETARIO INQUILINO'); const bioCols=h.map((x,i)=>(x.includes('LEITURA FACIAL')||x==='BIOMETRIA')?i:-1).filter(i=>i>=0).slice(0,5);
+  const nameCols=[]; h.forEach((x,i)=>{if((x==='NOME'||x==='NOME COMPLETO')&&i>5&&nameCols.length<5)nameCols.push(i);});
+  const parentCols=h.map((x,i)=>x.includes('PARENTESCO')&&!x.includes('EMERGENCIA')?i:-1).filter(i=>i>=0).slice(0,5);
+  const bioCols=h.map((x,i)=>x.includes('LEITURA FACIAL')?i:-1).filter(i=>i>=0).slice(0,5);
   const nokCols=h.map((x,i)=>x.includes('NOKNOX')?i:-1).filter(i=>i>=0).slice(0,5);
-  const vehicleStarts=h.map((x,i)=>x==='CARRO'?i:-1).filter(i=>i>=0);
-  const units={}; let count=0, peopleCount=0;
+  const carroCols=h.map((x,i)=>x==='CARRO'?i:-1).filter(i=>i>=0);
+  const units={}; let countN=0, peopleN=0;
   rows.slice(headerIndex+1).forEach(r=>{
-    const blocoRaw=r[unidadeCol]||''; const bloco=normalizeBlock(blocoRaw); const apto=parseApto(r[aptoCol]||r[unidadeCol+1]||''); if(!bloco||!apto)return;
-    const id=unitId(bloco,apto); const u={bloco,apto,fixo:String(r[fixoCol]||'').trim(),app:false,bio:false,vehicles:[],people:[]};
-    nameCols.forEach((c,i)=>{const nome=String(r[c]||'').trim(); if(!nome)return; let vinculo=''; if(i===0&&firstRel>=0)vinculo=String(r[firstRel]||'').trim(); else{const local=h.slice(c,c+6).findIndex(x=>x.includes('PARENTESCO')); if(local>=0)vinculo=String(r[c+local]||'').trim();} const cel=String(r[celCols[i]]||'').trim(); const bio=truthy(r[bioCols[i]]); const app=truthy(r[nokCols[i]]); u.people.push({nome,cel,vinculo,bio,app}); if(bio)u.bio=true; if(app)u.app=true;});
-    vehicleStarts.forEach((start,idxVeh)=>{
+    const blocoRaw=String(r[blocoCol]||'').trim();
+    const aptoRaw=String(r[aptoCol]||'').trim();
+    if(!blocoRaw||!aptoRaw)return;
+    const blocoM=blocoRaw.match(/(\d+)/); if(!blocoM)return;
+    const bloco='Bloco '+Number(blocoM[1]);
+    const apto=aptoRaw; // ex: "Azaleia 01"
+    const id=unitId(bloco,apto);
+    const fixo=String(r[fixoCol]||'').trim();
+    const u={bloco,apto,fixo,app:false,bio:false,vehicles:[],people:[]};
+    nameCols.forEach((c,i)=>{
+      const nome=String(r[c]||'').trim(); if(!nome)return;
+      const vinculo=parentCols[i]>=0?String(r[parentCols[i]]||'').trim():(i===0?String(r[tipoCol]||'').trim():'');
+      const cel=celCols[i]>=0?String(r[celCols[i]]||'').trim():'';
+      const bio=truthy(r[bioCols[i]]); const app=truthy(r[nokCols[i]]);
+      u.people.push({nome,cel,vinculo,bio,app});
+      if(bio)u.bio=true; if(app)u.app=true;
+    });
+    carroCols.forEach((start,idxV)=>{
       const marca=String(r[start]||'').trim();
       const modelo=String(r[start+1]||'').trim();
       const cor=String(r[start+2]||'').trim();
       const placa=String(r[start+3]||'').trim();
-      const nextStart=vehicleStarts[idxVeh+1] ?? h.length;
-      const vagaCol=findVehicleVagaColumn(h,start,nextStart);
-      let vaga=vagaCol>=0?String(r[vagaCol]||'').trim():'';
-      if(looksLikePhone(vaga) || (u.fixo && onlyDigits(vaga)===onlyDigits(u.fixo)))vaga='';
-      const parts=cleanVehicleParts([marca,modelo,cor,placa,vaga?('vaga '+vaga):''],u.fixo);
-      const txt=parts.join(' • ');
-      if(txt)u.vehicles.push(txt)
+      if(!marca&&!modelo&&!placa)return;
+      const nextStart=carroCols[idxV+1]??h.length;
+      let vagaV='';
+      for(let ci=start+1;ci<Math.min(nextStart,start+6);ci++){
+        if((h[ci]||'').includes('VAGA')){const v=String(r[ci]||'').trim(); if(v&&!looksLikePhone(v)){vagaV=v;} break;}
+      }
+      u.vehicles.push({marca,modelo,cor,placa,vaga:vagaV||String(r[vagaCol]||'').trim()||'',desc:[marca,modelo,cor,placa].filter(Boolean).join(' ')});
     });
-    units[id]=u; count++; peopleCount+=u.people.length;
-  }); return{units,count,people:peopleCount};
+    units[id]=u; countN++; peopleN+=u.people.length;
+  });
+  return{units,count:countN,people:peopleN};
 }
 function normalizeBlock(v){const m=String(v||'').match(/(\d+)/); return m?'Bloco '+Number(m[1]):''}
 function parseApto(v){const s=String(v||'').trim(); const m=s.match(/(\d{1,2})\s*$/); return m?String(m[1]).padStart(2,'0'):''}
@@ -5350,17 +5384,16 @@ function cleanVehicleParts(parts, fixo){
 }
 function normalizeImportedVehicles(){
   Object.values(state.units||{}).forEach(u=>{
-    const fixoDigits=onlyDigits(u.fixo||'');
     u.vehicles=(u.vehicles||[]).map(v=>{
-      let parts=String(v||'').split('•').map(x=>x.trim());
-      parts=parts.filter(part=>{
-        const d=onlyDigits(part);
-        if(fixoDigits && d && d===fixoDigits)return false;
-        if(/^vaga\s+/i.test(part) && looksLikePhone(part))return false;
-        return part;
-      });
-      return parts.join(' • ');
-    }).filter(Boolean);
+      // Se já é objeto válido, manter como está
+      if(v&&typeof v==='object'){
+        if(!v.desc) v.desc=[v.marca,v.modelo,v.cor,v.placa].filter(Boolean).join(' ');
+        return v;
+      }
+      // Se é string, converter para objeto
+      const parts=String(v||'').split('•').map(x=>x.trim()).filter(Boolean);
+      return{desc:parts.join(' '),marca:'',modelo:'',cor:'',placa:'',vaga:'',tipoVaga:'Não informado'};
+    }).filter(v=>v&&(v.desc||v.placa||v.modelo));
   });
 }
 
