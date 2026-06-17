@@ -214,6 +214,43 @@ body.theme-dark .bkpLabel--green{color:#4fd1a0!important}
 body.theme-dark #storageHealthBody > div{background:#0f1928!important;border-color:rgba(185,199,219,.14)!important}
 body.theme-dark #storageHealthBody > div > div[style*="color"]{color:#dbe6f6!important}
 
+
+
+
+/* v130 — Integrações Google Drive / Supabase */
+.integrationGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.integrationPanel{border:1px solid rgba(200,162,74,.28);background:linear-gradient(180deg,#fffaf0,#fff);border-radius:18px;padding:14px}
+.integrationPanel.blue{border-color:rgba(47,128,237,.28);background:linear-gradient(180deg,#eef4ff,#fff)}
+.integrationHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.integrationTitle{font-size:14px;font-weight:900;color:var(--navy)}
+.integrationStatus{font-size:11px;font-weight:900;border-radius:999px;padding:6px 9px;background:#fff5df;color:#7a5a12;border:1px solid rgba(200,162,74,.32);white-space:nowrap}
+.integrationStatus.ok{background:#e8f7f1;color:#08734d;border-color:rgba(15,159,110,.28)}
+.integrationStatus.warn{background:#fff5df;color:#9a6200;border-color:rgba(213,138,0,.28)}
+.integrationStatus.err{background:#f6e9eb;color:#a32636;border-color:rgba(163,38,54,.28)}
+.integrationFields{display:grid;gap:10px}
+.integrationFields label{margin:0 0 5px;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:900}
+.integrationFields input{height:42px;border-radius:10px;font-size:12px;font-family:monospace}
+.integrationActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.integrationHelp{font-size:11px;color:var(--muted);line-height:1.5;margin-top:9px}
+body.theme-dark .integrationPanel{background:linear-gradient(180deg,#1a1608,#0e1420)!important;border-color:rgba(216,184,92,.28)!important}
+body.theme-dark .integrationPanel.blue{background:linear-gradient(180deg,#091428,#0e1420)!important;border-color:rgba(47,128,237,.32)!important}
+@media(max-width:900px){.integrationGrid{grid-template-columns:1fr}}
+
+/* v130 — Integrações Google Drive + Centro de Backup */
+.recoveryCenter{display:grid;gap:14px}
+.recoveryHero{border:1px solid rgba(200,162,74,.34);background:linear-gradient(135deg,#fffaf0,#fff 55%,#eef4ff);border-radius:18px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.recoveryHeroTitle{font-size:15px;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px}
+.recoveryHeroText{font-size:12px;color:var(--muted);line-height:1.55;margin-top:3px}.recoveryHeroText b{color:var(--navy)}
+.recoveryStatusGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.recoveryStatusCard{border:1px solid #b8c6da;background:linear-gradient(180deg,#fff,#fbfcff);border-radius:16px;padding:12px;min-height:92px;box-shadow:0 8px 18px rgba(13,27,42,.06)}
+.recoveryStatusCard .k{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:6px}.recoveryStatusCard .v{font-size:13px;font-weight:900;color:var(--navy);line-height:1.35}.recoveryStatusCard .s{font-size:11px;color:var(--muted);line-height:1.45;margin-top:6px}
+.recoveryStatusCard.ok{border-color:rgba(15,159,110,.40);background:linear-gradient(180deg,#f0fbf7,#fff)}.recoveryStatusCard.warn{border-color:rgba(213,138,0,.42);background:linear-gradient(180deg,#fff8e8,#fff)}.recoveryStatusCard.err{border-color:rgba(204,51,68,.35);background:linear-gradient(180deg,#fff0f2,#fff)}
+.recoveryActions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.recoveryActions .btn{border-radius:12px}.recoveryMini{font-size:11px;color:var(--muted);line-height:1.5}.snapshotList{display:grid;gap:8px;text-align:left;max-height:420px;overflow:auto;padding-right:3px}.snapshotItem{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:9px 10px;background:var(--card);font-size:12px}.snapshotItem b{color:var(--navy)}.snapshotMeta{color:var(--muted);font-size:11px;margin-top:3px}.snapshotItem .btn{padding:7px 10px;font-size:11px;border-radius:10px}
+body.theme-dark .recoveryHero{background:linear-gradient(135deg,#181b23,#111c2c 58%,#091428);border-color:rgba(216,184,92,.28)}
+body.theme-dark .recoveryStatusCard{background:linear-gradient(180deg,#121f31,#0e1827);border-color:#31435a;box-shadow:0 10px 26px rgba(0,0,0,.20)}
+body.theme-dark .recoveryStatusCard.ok{background:linear-gradient(180deg,#061a12,#0e1827);border-color:rgba(15,159,110,.32)}body.theme-dark .recoveryStatusCard.warn{background:linear-gradient(180deg,#1a1608,#0e1827);border-color:rgba(216,184,92,.32)}body.theme-dark .recoveryStatusCard.err{background:linear-gradient(180deg,#241016,#0e1827);border-color:rgba(255,93,115,.32)}
+@media(max-width:1050px){.recoveryStatusGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.recoveryStatusGrid{grid-template-columns:1fr}.recoveryHero{align-items:flex-start}.recoveryActions .btn{flex:1}}
+
 /* v110 — Tabela de acessos responsiva: tabela no desktop, cards no mobile */
 .accessTableDesktop{display:block}
 .accessTableMobile{display:none}
@@ -3943,6 +3980,50 @@ body.theme-dark #residentModal .vehicleGrid input[readonly]{background:#241f12!i
         </div>
         <span class="configBadge">⚙️ Portaria Primavera</span>
       </div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
       <div class="configGrid">
         <div class="card toolCard" style="grid-column:1/-1">
           <div style="display:flex;align-items:center;gap:12px">
@@ -3950,6 +4031,26 @@ body.theme-dark #residentModal .vehicleGrid input[readonly]{background:#241f12!i
             <div>
               <h3>Backup e restauração</h3>
               <p class="mini">Exporte, importe e sincronize com o Google Drive. Backups com validação de integridade.</p>
+            </div>
+          </div>
+
+          <div class="recoveryCenter">
+            <div class="recoveryHero">
+              <div>
+                <div class="recoveryHeroTitle">🛡️ Centro de Recuperação</div>
+                <div class="recoveryHeroText"><b>Sync não é backup.</b> Sincronização espalha alterações; backup guarda uma cópia para recuperar desastres.</div>
+              </div>
+              <div class="recoveryActions">
+                <button class="btn gold adminOnly" onclick="createLocalSnapshot('manual')">Criar snapshot</button>
+                <button class="btn ghost adminOnly" onclick="openLocalSnapshots()">Histórico local</button>
+                <button class="btn ghost" onclick="refreshBackupCenterStatus()">Atualizar status</button>
+              </div>
+            </div>
+            <div class="recoveryStatusGrid">
+              <div class="recoveryStatusCard ok" id="backupLocalCard"><div class="k">💻 Local</div><div class="v" id="backupLocalStatus">Dados locais ativos</div><div class="s" id="backupLocalDetail">Calculando...</div></div>
+              <div class="recoveryStatusCard warn" id="backupSupabaseCard"><div class="k">☁️ Supabase</div><div class="v" id="backupSupabaseStatus">Verificando...</div><div class="s" id="backupSupabaseDetail">Sync + snapshots</div></div>
+              <div class="recoveryStatusCard warn" id="backupDriveCard"><div class="k">🟢 Google Drive</div><div class="v" id="backupDriveStatus">Não conectado</div><div class="s" id="backupDriveDetail">Backup externo opcional</div></div>
+              <div class="recoveryStatusCard ok" id="backupHealthCard"><div class="k">✅ Integridade</div><div class="v" id="backupHealthStatus">OK</div><div class="s" id="backupHealthDetail">Checksum nos arquivos JSON</div></div>
             </div>
           </div>
 
@@ -3996,7 +4097,7 @@ body.theme-dark #residentModal .vehicleGrid input[readonly]{background:#241f12!i
             </div>
             <div style="margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5">
               Salva na pasta <b>Portaria Primavera/</b> do seu Drive. Mantém as últimas 5 versões automaticamente.<br>
-              <span id="driveClientIdHint" style="color:#a32636;display:none">⚠ Configure o Google Client ID nas configurações avançadas.</span>
+              <span id="driveClientIdHint" style="color:#a32636;display:none">⚠ Configure o Google Drive em Ferramentas → Integrações.</span>
             </div>
           </div>
 
@@ -4132,6 +4233,11 @@ body.theme-dark #residentModal .vehicleGrid input[readonly]{background:#241f12!i
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
 try{updateTopbarClockGreeting();}catch(e){}
+
+
+/* v130 — inicialização das Integrações */
+setTimeout(()=>{try{loadIntegrationConfigs();}catch(e){}},800);
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 try{updateTopbarClockGreeting();}catch(e){}
@@ -4847,6 +4953,62 @@ function closeAppConfirm(ok){const fn=pendingConfirm;pendingConfirm=null;documen
 /* ── BACKUP ROBUSTO v108 ────────────────────────────────────── */
 
 /* CRC32 simples para checksum do payload */
+
+/* v130 — Integrações Google Drive + Centro de Backup */
+const LOCAL_SNAPSHOTS_KEY='pp_local_snapshots_v1';
+const LOCAL_SNAPSHOTS_MAX=12;
+function formatWhenBR(iso){if(!iso)return '—'; try{return new Date(iso).toLocaleString('pt-BR')}catch(e){return '—'}}
+function backupCounts(){return {unidades:Object.keys(state.units||{}).length,acessos:(state.accesses||[]).length,logs:(state.logs||[]).length,usuarios:(state.users||[]).length,veiculos:Object.values(state.units||{}).reduce((n,u)=>n+((u.vehicles||[]).filter(v=>v&&(v.placa||v.marca||v.modelo||v.cor||v.vaga)).length),0)}}
+function getLocalSnapshots(){try{return JSON.parse(localStorage.getItem(LOCAL_SNAPSHOTS_KEY)||'[]')}catch(e){return []}}
+function setLocalSnapshots(list){localStorage.setItem(LOCAL_SNAPSHOTS_KEY,JSON.stringify((list||[]).slice(0,LOCAL_SNAPSHOTS_MAX)))}
+function createLocalSnapshot(reason='manual',silent=false){
+  try{
+    const payload=buildBackupPayload('completo');
+    const op=currentOperator?.()||{};
+    const snap={id:'snap_'+Date.now(),reason,createdAt:new Date().toISOString(),createdBy:op.nome||op.login||'Sistema',checksum:payload.checksum,payload};
+    const list=[snap,...getLocalSnapshots()].slice(0,LOCAL_SNAPSHOTS_MAX);
+    setLocalSnapshots(list);
+    localStorage.setItem('pp_last_local_snapshot_at',snap.createdAt);
+    localStorage.setItem('pp_last_local_snapshot_checksum',snap.checksum);
+    if(!silent){addLog('Criou snapshot local',`${reason} • checksum ${snap.checksum}`,'backup'); showCloudToast?.('Snapshot local criado ✅','ok',3500);}
+    refreshBackupCenterStatus?.();
+    return snap;
+  }catch(e){console.warn('Erro snapshot local',e); if(!silent)showCloudToast?.('Erro ao criar snapshot local','err',5000); return null;}
+}
+function restoreLocalSnapshot(id){
+  const snap=getLocalSnapshots().find(x=>x.id===id); if(!snap)return;
+  const v=validateBackup(snap.payload); if(!v.ok){openAppConfirm({title:'Snapshot inválido',message:v.msg,okText:'OK'});return;}
+  openAppConfirm({title:'Restaurar snapshot local?',message:`Snapshot de <b>${formatWhenBR(snap.createdAt)}</b><br>Motivo: <b>${esc(snap.reason||'manual')}</b><br>Checksum: <b>${esc(snap.checksum||'—')}</b><br><br>A base atual será substituída. Um snapshot de segurança será criado antes.`,okText:'Restaurar',onConfirm:()=>{createLocalSnapshot('antes-restaurar-snapshot',true); applyBackupData(snap.payload,{name:'snapshot-local-'+(snap.createdAt||'')+'.json'}); showCloudToast?.('Snapshot restaurado ✅','ok',4500); refreshBackupCenterStatus?.();}})
+}
+function openLocalSnapshots(){
+  const list=getLocalSnapshots();
+  if(!list.length){openAppConfirm({title:'Histórico local',message:'Ainda não há snapshots locais. Clique em <b>Criar snapshot</b> antes de importações ou alterações grandes.',okText:'OK'});return;}
+  const html=`<div class="snapshotList">${list.map(s=>`<div class="snapshotItem"><div><b>${esc(formatWhenBR(s.createdAt))}</b><div class="snapshotMeta">${esc(s.reason||'manual')} • ${esc(s.createdBy||'Sistema')} • checksum ${esc(s.checksum||'—')}</div></div><button class="btn ghost adminOnly" onclick="restoreLocalSnapshot('${escAttr(s.id)}')">Restaurar</button></div>`).join('')}</div>`;
+  openAppConfirm({title:`Snapshots locais (${list.length})`,message:html,okText:'Fechar',onConfirm:()=>{}});
+}
+function setRecoveryCard(id,mode){const el=document.getElementById(id); if(!el)return; el.classList.remove('ok','warn','err'); el.classList.add(mode||'warn')}
+function refreshBackupCenterStatus(){
+  const counts=backupCounts();
+  const localStatus=document.getElementById('backupLocalStatus'), localDetail=document.getElementById('backupLocalDetail');
+  if(localStatus)localStatus.textContent='Local ativo';
+  if(localDetail)localDetail.textContent=`${counts.unidades} unidades • ${counts.acessos} acessos • ${counts.veiculos} veículos`;
+  setRecoveryCard('backupLocalCard','ok');
+  const supStatus=document.getElementById('backupSupabaseStatus'), supDetail=document.getElementById('backupSupabaseDetail');
+  const syncAt=localStorage.getItem('pp_last_sync_at')||'';
+  if(supStatus)supStatus.textContent=cloudReady?(syncRealtimeReady?'Tempo real ativo':'Sync ativo'):'Aguardando conexão';
+  if(supDetail)supDetail.textContent=syncAt?`Última sync: ${formatWhenBR(syncAt)}`:'Ainda sem sync registrada nesta instalação';
+  setRecoveryCard('backupSupabaseCard',cloudReady?'ok':'warn');
+  const drvStatus=document.getElementById('backupDriveStatus'), drvDetail=document.getElementById('backupDriveDetail');
+  if(drvStatus)drvStatus.textContent=_gdriveToken?'Drive conectado':'Drive não conectado';
+  const lastDrive=localStorage.getItem('pp_last_gdrive_backup_at')||'';
+  if(drvDetail)drvDetail.textContent=lastDrive?`Último Drive: ${formatWhenBR(lastDrive)}`:'Conecte para backup externo';
+  setRecoveryCard('backupDriveCard',_gdriveToken?'ok':'warn');
+  const health=document.getElementById('backupHealthStatus'), healthDetail=document.getElementById('backupHealthDetail');
+  const lastSnap=localStorage.getItem('pp_last_local_snapshot_at')||'';
+  if(health)health.textContent='Protegido';
+  if(healthDetail)healthDetail.textContent=lastSnap?`Último snapshot: ${formatWhenBR(lastSnap)}`:'Crie snapshot antes de mudanças grandes';
+  setRecoveryCard('backupHealthCard',lastSnap?'ok':'warn');
+}
 function crc32(str){
   let crc=0xFFFFFFFF;
   for(let i=0;i<str.length;i++){
@@ -4944,6 +5106,7 @@ function exportData(tipo='completo'){
   addLog('Exportou backup',`Arquivo: ${nome} | Tipo: ${tipo} | Checksum: ${payload.checksum}`,'backup');
   persistNoRender(); renderLogs();
   showCloudToast(`Backup exportado: ${nome}`,'ok',4000);
+  refreshBackupCenterStatus?.();
 }
 
 function restoreBackupFile(ev){
@@ -4967,7 +5130,7 @@ function restoreBackupFile(ev){
         title:'Restaurar backup?',
         message:`${info}<br><br>A base atual será substituída. Deseja continuar?`,
         okText:'Restaurar',
-        onConfirm:()=>applyBackupData(parsed,file)
+        onConfirm:()=>{createLocalSnapshot('antes-restaurar-json',true); applyBackupData(parsed,file); refreshBackupCenterStatus?.();}
       });
     }catch(err){
       if(status)status.textContent='❌ Erro ao ler o arquivo JSON.';
@@ -4979,6 +5142,7 @@ function restoreBackupFile(ev){
 
 /* ── GOOGLE DRIVE v108 ──────────────────────────────────────── */
 const GDRIVE_CLIENT_ID=localStorage.getItem('pp_gdrive_client_id')||'';
+const GDRIVE_API_KEY=localStorage.getItem('pp_gdrive_api_key')||'';
 const GDRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
 const GDRIVE_FOLDER='Portaria Primavera';
 const GDRIVE_MAX_BACKUPS=5;
@@ -4995,20 +5159,113 @@ function setDriveStatus(msg,type='info'){
 function gdriveClientId(){
   return localStorage.getItem('pp_gdrive_client_id')||'';
 }
+function gdriveApiKey(){
+  return localStorage.getItem('pp_gdrive_api_key')||'';
+}
+
+
+function maskCredential(v){
+  if(!v)return '';
+  if(v.length<=14)return v;
+  return v.slice(0,8)+'••••••'+v.slice(-6);
+}
+function loadIntegrationConfigs(){
+  const cid=document.getElementById('gdriveClientIdConfig');
+  const key=document.getElementById('gdriveApiKeyConfig');
+  if(cid)cid.value=localStorage.getItem('pp_gdrive_client_id')||'';
+  if(key)key.value=localStorage.getItem('pp_gdrive_api_key')||'';
+  const sbUrl=document.getElementById('supabaseUrlConfig');
+  const sbKey=document.getElementById('supabaseKeyConfig');
+  if(sbUrl)sbUrl.value=typeof SUPABASE_URL!=='undefined'?SUPABASE_URL:'';
+  if(sbKey)sbKey.value=typeof SUPABASE_KEY!=='undefined'?maskCredential(SUPABASE_KEY):'';
+  updateIntegrationStatus();
+}
+function updateIntegrationStatus(){
+  const st=document.getElementById('gdriveIntegrationStatus');
+  const hasClient=!!gdriveClientId();
+  const hasKey=!!gdriveApiKey();
+  if(st){
+    st.className='integrationStatus '+(hasClient&&hasKey?'ok':hasClient?'warn':'warn');
+    st.textContent=hasClient&&hasKey?'Configurado':hasClient?'Client ID salvo; falta API Key':'Não configurado';
+  }
+  const hint=document.getElementById('driveClientIdHint');
+  if(hint)hint.style.display=hasClient?'none':'';
+  refreshBackupCenterStatus?.();
+}
+function saveGDriveIntegrationConfig(){
+  const cid=(document.getElementById('gdriveClientIdConfig')?.value||'').trim();
+  const key=(document.getElementById('gdriveApiKeyConfig')?.value||'').trim();
+  if(!cid || !cid.includes('.apps.googleusercontent.com')){
+    showCloudToast?.('Informe um OAuth Client ID válido do Google','err',5000);
+    return;
+  }
+  if(!key || !key.startsWith('AIza')){
+    showCloudToast?.('Informe uma API Key válida do Google','err',5000);
+    return;
+  }
+  localStorage.setItem('pp_gdrive_client_id',cid);
+  localStorage.setItem('pp_gdrive_api_key',key);
+  addLog?.('Integração Google Drive','Credenciais salvas em Ferramentas → Integrações','sistema');
+  updateIntegrationStatus();
+  setDriveStatus('✅ Google Drive configurado. Clique em Conectar ao Google Drive.','ok');
+  showCloudToast?.('Integração Google Drive salva ✅','ok',4000);
+}
+async function testGDriveIntegrationConfig(){
+  const cid=(document.getElementById('gdriveClientIdConfig')?.value||gdriveClientId()||'').trim();
+  const key=(document.getElementById('gdriveApiKeyConfig')?.value||gdriveApiKey()||'').trim();
+  if(!cid || !key){showCloudToast?.('Preencha Client ID e API Key antes de testar','err',5000);return;}
+  setDriveStatus('⏳ Testando configuração do Google Drive...');
+  try{
+    const r=await fetch('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest?key='+encodeURIComponent(key));
+    if(!r.ok)throw new Error('API Key recusada pelo Google ('+r.status+')');
+    const j=await r.json();
+    if(!j || !j.name)throw new Error('Resposta inesperada do Google Drive API');
+    setDriveStatus('✅ Configuração válida. Agora conecte ao Google Drive.','ok');
+    const st=document.getElementById('gdriveIntegrationStatus');
+    if(st){st.className='integrationStatus ok';st.textContent='Configuração OK';}
+    showCloudToast?.('Google Drive API validada ✅','ok',4000);
+  }catch(e){
+    setDriveStatus('❌ Falha no teste: '+e.message,'err');
+    const st=document.getElementById('gdriveIntegrationStatus');
+    if(st){st.className='integrationStatus err';st.textContent='Teste falhou';}
+  }
+}
+function clearGDriveIntegrationConfig(){
+  openAppConfirm({
+    title:'Limpar integração Google Drive?',
+    message:'Isso remove o Client ID, API Key e token salvo neste navegador. Os backups já criados no Drive não serão apagados.',
+    okText:'Limpar',
+    onConfirm:()=>{
+      localStorage.removeItem('pp_gdrive_client_id');
+      localStorage.removeItem('pp_gdrive_api_key');
+      localStorage.removeItem('pp_gdrive_token');
+      _gdriveToken=null;
+      loadIntegrationConfigs();
+      gdriveUpdateUI?.(false);
+      setDriveStatus('Google Drive desconectado e configuração removida.');
+    }
+  });
+}
+async function testSupabaseIntegrationConfig(){
+  setCloudStatus?.('☁️ Testando Supabase...');
+  try{
+    await cloudSaveNow?.('teste-conexao');
+    showCloudToast?.('Supabase respondeu ao teste ✅','ok',4000);
+  }catch(e){
+    showCloudToast?.('Erro ao testar Supabase','err',6000);
+  }
+}
 
 function gdriveConnect(){
   const clientId=gdriveClientId();
   if(!clientId){
-    document.getElementById('driveClientIdHint').style.display='';
+    const hint=document.getElementById('driveClientIdHint'); if(hint)hint.style.display='';
+    setDriveStatus('⚠ Google Drive não configurado. Preencha Ferramentas → Integrações.','err');
     openAppConfirm({
-      title:'Client ID do Google não configurado',
-      message:'Para usar o Google Drive, você precisa informar o <b>Google OAuth Client ID</b>.<br><br>Obtenha em <b>console.cloud.google.com</b> → APIs → Credenciais → OAuth 2.0.<br><br>Informe agora:',
-      okText:'Salvar e conectar',
-      inputField:{id:'gdriveClientIdInput',placeholder:'xxxx.apps.googleusercontent.com'},
-      onConfirm:()=>{
-        const val=document.getElementById('gdriveClientIdInput')?.value?.trim();
-        if(val){localStorage.setItem('pp_gdrive_client_id',val); gdriveConnect();}
-      }
+      title:'Google Drive não configurado',
+      message:'Para usar o Google Drive, preencha o <b>OAuth Client ID</b> e a <b>API Key</b> em <b>Ferramentas → Integrações</b>.<br><br>Depois clique em <b>Conectar ao Google Drive</b> novamente.',
+      okText:'Entendi',
+      onConfirm:()=>{}
     });
     return;
   }
@@ -5069,6 +5326,7 @@ function gdriveDisconnect(){
   gdriveUpdateUI(false);
   const el=document.getElementById('driveUserInfo'); if(el)el.style.display='none';
   setDriveStatus('Desconectado do Google Drive.');
+  refreshBackupCenterStatus?.();
 }
 
 async function gdriveFindOrCreateFolder(){
@@ -5124,7 +5382,9 @@ async function gdriveSaveNow(){
     if(!r.ok)throw new Error('HTTP '+r.status);
     addLog('Backup Google Drive',`Arquivo: ${nome} | Checksum: ${payload.checksum}`,'backup');
     persistNoRender();
+    localStorage.setItem('pp_last_gdrive_backup_at',new Date().toISOString());
     setDriveStatus(`✅ Salvo no Drive: ${nome} (checksum ${payload.checksum})`,'ok');
+    refreshBackupCenterStatus?.();
     showCloudToast('Backup salvo no Google Drive ✅','ok',5000);
   }catch(e){
     setDriveStatus('❌ Erro ao salvar no Drive: '+e.message,'err');
@@ -5173,7 +5433,7 @@ async function gdriveRestoreFile(fileId,fileName){
       title:'Restaurar backup do Drive?',
       message:`Arquivo: <b>${fileName}</b><br>${info}<br><br>A base atual será substituída.`,
       okText:'Restaurar',
-      onConfirm:()=>{applyBackupData(parsed,{name:fileName}); setDriveStatus(`✅ Restaurado do Drive: ${fileName}`,'ok');}
+      onConfirm:()=>{createLocalSnapshot('antes-restaurar-drive',true); applyBackupData(parsed,{name:fileName}); setDriveStatus(`✅ Restaurado do Drive: ${fileName}`,'ok'); refreshBackupCenterStatus?.();}
     });
   }catch(e){
     setDriveStatus('❌ Erro ao baixar do Drive: '+e.message,'err');
@@ -5193,7 +5453,7 @@ async function gdriveRestoreFile(fileId,fileName){
   if(!gdriveClientId()) document.getElementById('driveClientIdHint')?.style && (document.getElementById('driveClientIdHint').style.display='');
 })();
 
-function setCloudStatus(msg){const el=document.getElementById('cloudStatus'); if(el)el.textContent=msg;}
+function setCloudStatus(msg){const el=document.getElementById('cloudStatus'); if(el)el.textContent=msg; try{setTimeout(()=>refreshBackupCenterStatus?.(),80)}catch(e){}}
 function cloudTodayKey(){return new Date().toISOString().slice(0,10)}
 function cloudBackupTargetToday(){const d=new Date(); d.setHours(CLOUD_BACKUP_HOUR,CLOUD_BACKUP_MINUTE,0,0); return d;}
 function cloudNextTarget(){const now=new Date(); const target=cloudBackupTargetToday(); if(now>=target)target.setDate(target.getDate()+1); return target;}
@@ -5290,6 +5550,7 @@ async function cloudRestoreLatest(){
     const payload=snap.dados||{};
     const nextState=payload.state||payload;
     openAppConfirm({title:'Restaurar último backup da nuvem?',message:`Será restaurado: <b>${esc(snap.descricao||'Backup')}</b><br>${esc(new Date(snap.criado_em).toLocaleString('pt-BR'))}`,okText:'Restaurar',onConfirm:()=>{
+      createLocalSnapshot('antes-restaurar-supabase',true);
       state=nextState;
       if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
       state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
@@ -5299,7 +5560,7 @@ async function cloudRestoreLatest(){
       addLog('Restaurou backup da nuvem',snap.descricao||'Backup','backup');
       setCloudStatus('☁️ Backup da nuvem restaurado com sucesso.');
       const st=document.getElementById('backupStatus'); if(st)st.textContent='Restaurado da nuvem: '+(snap.descricao||'Backup');
-      scheduleCloudAutoBackup(false);
+      scheduleCloudAutoBackup(false); refreshBackupCenterStatus?.();
     }});
   }catch(e){console.error('Erro ao restaurar da nuvem',e);setCloudStatus('☁️ Erro ao buscar/restaurar backup da nuvem.');}
 }
@@ -5460,7 +5721,9 @@ async function cloudSyncPullLatest(silent=false){
   }catch(e){console.warn('Falha no sync pull',e); if(!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.'); return false;}
   finally{syncInProgress=false;}
 }
-function atualizarDaNuvemAgora(){cloudSyncPullLatest(false).then(ok=>{showCloudToast(ok?'Dados atualizados pela nuvem.':'Nenhuma atualização nova encontrada.','ok',3500)})}
+function atualizarDaNuvemAgora(){cloudSyncPullLatest(false).then(ok=>{showCloudToast(ok?'Dados atualizados pela nuvem.':'Nenhuma atualização nova encontrada.','ok',3500); refreshBackupCenterStatus?.();})}
+
+setTimeout(()=>refreshBackupCenterStatus?.(),1200);
 
 function seedSample(){state.units[unitId('Bloco 1','11')]={bloco:'Bloco 1',apto:'11',fixo:'(11) 0000-0000',app:true,bio:true,vehicles:[{desc:'Honda Fit prata ABC1D23',vaga:'11',tipoVaga:'Própria'}],people:[{nome:'Morador Exemplo',cel:'(11) 90000-0000',tipo:'Proprietário',vinculo:'Proprietário',app:true,bio:true}]};save()}
 function normalizeResidentType(v,idx=0){v=String(v||'').toLowerCase(); if(idx===0){ if(v.includes('inq'))return'Inquilino'; return'Proprietário'; } if(v.includes('esposa'))return'Esposa'; if(v.includes('esposo'))return'Esposo'; if(v.includes('filh')||v==='filho')return v.includes('filha')?'Filha':'Filho'; if(v.includes('mulher')||v.includes('conjuge')||v.includes('cônjuge'))return'Esposa'; if(v.includes('marido'))return'Esposo'; return'Outro'}
@@ -5682,7 +5945,7 @@ function selectAccessUnit(bloco,apto,main){const bl='BL'+String(bloco).replace('
 function importResidentFile(ev){
   const file=ev.target.files?.[0]; if(!file)return; const status=document.getElementById('importStatus'); if(status)status.textContent='Lendo arquivo...';
   if(typeof XLSX==='undefined'){openAppConfirm({title:'Biblioteca de importação não carregou',message:'Conecte à internet uma vez para carregar o leitor de Excel, ou exporte a planilha em CSV e tente novamente.',okText:'OK'}); ev.target.value=''; return;}
-  const reader=new FileReader(); reader.onload=e=>{try{const data=new Uint8Array(e.target.result); const wb=XLSX.read(data,{type:'array',cellDates:false}); const parsed=parseResidentsWorkbook(wb); if(!parsed.count){if(status)status.textContent='Nenhuma unidade reconhecida no arquivo.'; openAppConfirm({title:'Importação não encontrou unidades',message:'Não encontrei linhas com Bloco/Apartamento. Verifique se a planilha possui a aba DADOS ou colunas de unidade.',okText:'OK'}); return;} openAppConfirm({title:'Confirmar importação?',message:`Foram encontradas <b>${parsed.count}</b> unidades, <b>${parsed.people}</b> moradores e <b>${parsed.vehicles||0}</b> veículo(s). Telefones/celulares em branco serão mantidos em branco. Deseja importar e atualizar a base de moradores?`,okText:'Importar',onConfirm:()=>{Object.assign(state.units,parsed.units); if(parsed.admin)state.admin=parsed.admin; addLog('Importou moradores',`${parsed.count} unidades • ${parsed.people} moradores • ${parsed.vehicles||0} veículo(s) • ${file.name}`,'moradores'); if(status)status.textContent=`Importado: ${parsed.count} unidades, ${parsed.people} moradores e ${parsed.vehicles||0} veículo(s) de ${file.name}.`; save();}})}catch(err){console.error(err); if(status)status.textContent='Erro ao importar o arquivo.'; openAppConfirm({title:'Erro na importação',message:'Não consegui ler esta planilha. Podemos ajustar o importador conforme o modelo exato do arquivo.',okText:'OK'});} finally{ev.target.value='';}}; reader.readAsArrayBuffer(file);
+  const reader=new FileReader(); reader.onload=e=>{try{const data=new Uint8Array(e.target.result); const wb=XLSX.read(data,{type:'array',cellDates:false}); const parsed=parseResidentsWorkbook(wb); if(!parsed.count){if(status)status.textContent='Nenhuma unidade reconhecida no arquivo.'; openAppConfirm({title:'Importação não encontrou unidades',message:'Não encontrei linhas com Bloco/Apartamento. Verifique se a planilha possui a aba DADOS ou colunas de unidade.',okText:'OK'}); return;} openAppConfirm({title:'Confirmar importação?',message:`Foram encontradas <b>${parsed.count}</b> unidades, <b>${parsed.people}</b> moradores e <b>${parsed.vehicles||0}</b> veículo(s). Telefones/celulares em branco serão mantidos em branco. Deseja importar e atualizar a base de moradores?`,okText:'Importar',onConfirm:()=>{createLocalSnapshot('antes-importar-moradores',true); Object.assign(state.units,parsed.units); if(parsed.admin)state.admin=parsed.admin; addLog('Importou moradores',`${parsed.count} unidades • ${parsed.people} moradores • ${parsed.vehicles||0} veículo(s) • ${file.name}`,'moradores'); if(status)status.textContent=`Importado: ${parsed.count} unidades, ${parsed.people} moradores e ${parsed.vehicles||0} veículo(s) de ${file.name}.`; save(); refreshBackupCenterStatus?.();}})}catch(err){console.error(err); if(status)status.textContent='Erro ao importar o arquivo.'; openAppConfirm({title:'Erro na importação',message:'Não consegui ler esta planilha. Podemos ajustar o importador conforme o modelo exato do arquivo.',okText:'OK'});} finally{ev.target.value='';}}; reader.readAsArrayBuffer(file);
 }
 function parseResidentsWorkbook(wb){
   const wanted=wb.SheetNames.find(n=>normText(n)==='DADOS')||wb.SheetNames.find(n=>normText(n).includes('DADOS'))||wb.SheetNames[0];
