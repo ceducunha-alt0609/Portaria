@@ -3960,6 +3960,49 @@ body.theme-dark .mobileAccessBody{border-top-color:rgba(216,184,92,.22)}
 
 @media(display-mode:standalone){body.mobileExperience{overscroll-behavior-y:auto!important;}}
 
+
+
+/* v136.1 — Correção: Topbar e menu fixos durante rolagem */
+header.v55Header{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  margin:0!important;
+  z-index:68!important;
+}
+.subbar.v55Subbar{
+  position:fixed!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  margin:0!important;
+  z-index:67!important;
+}
+main.app{
+  padding-top:154px!important;
+}
+body.mobileExperience header.v55Header{
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  margin:0!important;
+}
+body.mobileExperience .subbar.v55Subbar{
+  top:calc(98px + var(--safe-top,0px))!important;
+  left:0!important;
+  right:0!important;
+  margin:0!important;
+}
+body.mobileExperience main.app{
+  padding-top:calc(152px + var(--safe-top,0px))!important;
+}
+.loginOverlay{z-index:999!important;}
+.modal{z-index:80!important;}
+.condoPopover{z-index:120!important;}
+/* fim v136.1 */
+
 </style>
 </head>
 <body class="splashing">
@@ -4769,6 +4812,49 @@ body.theme-dark .condoPopItem.copyable:hover{background:#241f12;border-color:rgb
 body.theme-dark .condoPopLabel{color:#d8b85c}body.theme-dark .condoPopMini{background:#241f12;border-color:rgba(216,184,92,.26)}
 @media(max-width:680px){.condoPopover{left:14px!important;right:14px!important;top:86px!important;width:auto}.condoPopSystem{grid-template-columns:1fr}}
 
+
+
+/* v136.1 — Correção: Topbar e menu fixos durante rolagem */
+header.v55Header{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  margin:0!important;
+  z-index:68!important;
+}
+.subbar.v55Subbar{
+  position:fixed!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  margin:0!important;
+  z-index:67!important;
+}
+main.app{
+  padding-top:154px!important;
+}
+body.mobileExperience header.v55Header{
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  margin:0!important;
+}
+body.mobileExperience .subbar.v55Subbar{
+  top:calc(98px + var(--safe-top,0px))!important;
+  left:0!important;
+  right:0!important;
+  margin:0!important;
+}
+body.mobileExperience main.app{
+  padding-top:calc(152px + var(--safe-top,0px))!important;
+}
+.loginOverlay{z-index:999!important;}
+.modal{z-index:80!important;}
+.condoPopover{z-index:120!important;}
+/* fim v136.1 */
+
 </style></head><body>
   <h1>Portaria Primavera — Passagem de Turno</h1>
   <h2>${turno.label} &nbsp;·&nbsp; ${now}</h2>
@@ -4792,6 +4878,7 @@ body.theme-dark .condoPopLabel{color:#d8b85c}body.theme-dark .condoPopMini{backg
 <!-- v134: Ferramentas renomeada para Central Administrativa e reorganizada por grupos -->
 <!-- v135: Popover institucional do condomínio no Topbar -->
 <!-- v136: Sprint Mobile — cabeçalho enxuto, apenas Resumo/Moradores, últimos acessos em acordeão e correção de rolagem -->
+<!-- v136.1: Topbar e menu fixos durante rolagem no desktop e mobile -->
 </body></html>`);
   w.document.close();
 }
@@ -7057,5 +7144,6 @@ try{updateTopbarClockGreeting();}catch(e){}
 <!-- v134: Ferramentas renomeada para Central Administrativa e reorganizada por grupos -->
 <!-- v135: Popover institucional do condomínio no Topbar -->
 <!-- v136: Sprint Mobile — cabeçalho enxuto, apenas Resumo/Moradores, últimos acessos em acordeão e correção de rolagem -->
+<!-- v136.1: Topbar e menu fixos durante rolagem no desktop e mobile -->
 </body>
 </html>
