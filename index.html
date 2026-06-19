@@ -4003,6 +4003,49 @@ body.mobileExperience main.app{
 .condoPopover{z-index:120!important;}
 /* fim v136.1 */
 
+
+
+/* v136.3 — Mobile: guias sempre abaixo do topbar fixo */
+:root{--pp-fixed-header-h:154px;--pp-fixed-subbar-h:58px;}
+@media(max-width:760px){
+  body.mobileExperience .subbar.v55Subbar{
+    top:var(--pp-fixed-header-h,150px)!important;
+  }
+  body.mobileExperience main.app{
+    padding-top:calc(var(--pp-fixed-header-h,150px) + var(--pp-fixed-subbar-h,58px) + 10px)!important;
+  }
+}
+
+
+
+/* v136.3 — Mobile Moradores: X no topo e painel Administração oculto no celular */
+@media (max-width: 850px){
+  #residentModal .residentSheet .sheetHead{
+    position: relative;
+    padding-right: 54px;
+    align-items: flex-start;
+  }
+  #residentModal .residentSheet .sheetHead .close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3;
+    margin: 0;
+  }
+  #residentModal .residentSheet .sheetActions{
+    order: 2;
+    width: 100%;
+    padding-right: 0;
+    margin-left: 0;
+  }
+  #residentModal .residentSheet .sheetHead > div:first-child{
+    max-width: calc(100% - 10px);
+  }
+  #moradores .adminQuickCard{
+    display: none !important;
+  }
+}
+
 </style>
 </head>
 <body class="splashing">
@@ -4879,6 +4922,7 @@ body.mobileExperience main.app{
 <!-- v135: Popover institucional do condomínio no Topbar -->
 <!-- v136: Sprint Mobile — cabeçalho enxuto, apenas Resumo/Moradores, últimos acessos em acordeão e correção de rolagem -->
 <!-- v136.1: Topbar e menu fixos durante rolagem no desktop e mobile -->
+<!-- v136.3: Offset mobile dinâmico para guias ficarem abaixo do topbar -->
 </body></html>`);
   w.document.close();
 }
@@ -7103,12 +7147,24 @@ try{updateTopbarClockGreeting();}catch(e){}
     return `<div class="mobileAccessAccordion">${rows}</div>`;
   }
 
+  window.adjustMobileTopOffset = function(){
+    const header = document.querySelector('header.v55Header');
+    const subbar = document.querySelector('.subbar.v55Subbar');
+    if(!header || !subbar) return;
+    const headerH = Math.ceil(header.getBoundingClientRect().height || header.offsetHeight || 0);
+    const subbarH = Math.ceil(subbar.getBoundingClientRect().height || subbar.offsetHeight || 0);
+    if(headerH > 0) document.documentElement.style.setProperty('--pp-fixed-header-h', headerH + 'px');
+    if(subbarH > 0) document.documentElement.style.setProperty('--pp-fixed-subbar-h', subbarH + 'px');
+  };
+
   window.applyMobileExperience = function(){
     document.body.classList.toggle('mobileExperience', isMobile());
     if(isMobile()){
       const active = document.querySelector('.tab.active')?.dataset?.tab || '';
       if(['acessos','relatorios','configuracoes'].includes(active)) goTab('dashboard');
     }
+    setTimeout(()=>{ try{ window.adjustMobileTopOffset(); }catch(e){} }, 0);
+    setTimeout(()=>{ try{ window.adjustMobileTopOffset(); }catch(e){} }, 120);
   };
 
   const oldRenderDashboard = window.renderDashboard;
