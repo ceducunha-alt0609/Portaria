@@ -4191,6 +4191,54 @@ body.theme-dark .commSheet .sheetHead{background:#111c2c!important}
   }
 }
 
+
+
+/* v137.7 — Limpeza da Central, alerta vermelho e escudo de hierarquia */
+#commCenterBtn.hasPending,
+#commCenterBtn[data-pending]:not([data-pending="0"]){
+  background:linear-gradient(145deg,#e51f35,#8f1025)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.24)!important;
+  box-shadow:0 0 0 3px rgba(204,51,68,.13),0 12px 26px rgba(204,51,68,.30)!important;
+  animation:commPulse 1.55s ease-in-out infinite!important;
+}
+#commCenterBtn.hasPending .commBadge,
+#commCenterBtn[data-pending]:not([data-pending="0"]) .commBadge{display:flex!important;background:#fff!important;color:#a32636!important;border-color:rgba(204,51,68,.38)!important}
+body.theme-dark #commCenterBtn.hasPending,
+body.theme-dark #commCenterBtn[data-pending]:not([data-pending="0"]){
+  background:linear-gradient(145deg,#e51f35,#9b1028)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.22)!important;
+  box-shadow:0 0 0 3px rgba(255,93,115,.14),0 12px 28px rgba(255,93,115,.24)!important;
+}
+.commHero{display:none!important}
+.commSheet{width:min(1080px,calc(100vw - 34px))!important;max-height:86vh!important}
+.commSheet .sheetHead{margin-bottom:8px!important;padding-bottom:8px!important}
+.commComposer{margin-top:0!important}
+.commList{max-height:340px!important}
+.hierarchyShield{
+  width:44px!important;height:38px!important;min-width:44px!important;padding:0!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:12px!important;font-size:20px!important;line-height:1!important;
+  overflow:visible!important;white-space:nowrap!important;text-overflow:clip!important;
+}
+.hierarchyShield.adminShield{
+  color:#f3d27a!important;
+  border-color:rgba(216,184,92,.56)!important;
+  background:linear-gradient(145deg,rgba(216,184,92,.18),rgba(13,27,42,.18))!important;
+  box-shadow:0 8px 18px rgba(200,162,74,.14)!important;
+}
+.hierarchyShield.portariaShield{
+  color:#d7dde8!important;
+  border-color:rgba(215,221,232,.42)!important;
+  background:linear-gradient(145deg,rgba(215,221,232,.16),rgba(13,27,42,.18))!important;
+  box-shadow:0 8px 18px rgba(215,221,232,.10)!important;
+}
+.hierarchyShield:hover{transform:translateY(-1px);filter:brightness(1.04)}
+body.theme-light .hierarchyShield.adminShield{background:linear-gradient(145deg,#fff8e5,#fff)!important;color:#9f7b25!important}
+body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145deg,#f7f8fb,#fff)!important;color:#667085!important}
+@media(max-width:560px){.hierarchyShield{width:40px!important;min-width:40px!important;height:34px!important;font-size:18px!important}.commList{max-height:430px!important}}
+
 </style>
 </head>
 <body class="splashing">
@@ -5152,6 +5200,54 @@ body.mobileExperience main.app{
   body.mobileExperience #opListModal .close{position:relative!important;z-index:2!important;flex:0 0 auto!important;}
   body.mobileExperience .mobileAccessItem:not([open]) .mobileAccessBody{display:none!important;}
 }
+
+
+/* v137.7 — Limpeza da Central, alerta vermelho e escudo de hierarquia */
+#commCenterBtn.hasPending,
+#commCenterBtn[data-pending]:not([data-pending="0"]){
+  background:linear-gradient(145deg,#e51f35,#8f1025)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.24)!important;
+  box-shadow:0 0 0 3px rgba(204,51,68,.13),0 12px 26px rgba(204,51,68,.30)!important;
+  animation:commPulse 1.55s ease-in-out infinite!important;
+}
+#commCenterBtn.hasPending .commBadge,
+#commCenterBtn[data-pending]:not([data-pending="0"]) .commBadge{display:flex!important;background:#fff!important;color:#a32636!important;border-color:rgba(204,51,68,.38)!important}
+body.theme-dark #commCenterBtn.hasPending,
+body.theme-dark #commCenterBtn[data-pending]:not([data-pending="0"]){
+  background:linear-gradient(145deg,#e51f35,#9b1028)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.22)!important;
+  box-shadow:0 0 0 3px rgba(255,93,115,.14),0 12px 28px rgba(255,93,115,.24)!important;
+}
+.commHero{display:none!important}
+.commSheet{width:min(1080px,calc(100vw - 34px))!important;max-height:86vh!important}
+.commSheet .sheetHead{margin-bottom:8px!important;padding-bottom:8px!important}
+.commComposer{margin-top:0!important}
+.commList{max-height:340px!important}
+.hierarchyShield{
+  width:44px!important;height:38px!important;min-width:44px!important;padding:0!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:12px!important;font-size:20px!important;line-height:1!important;
+  overflow:visible!important;white-space:nowrap!important;text-overflow:clip!important;
+}
+.hierarchyShield.adminShield{
+  color:#f3d27a!important;
+  border-color:rgba(216,184,92,.56)!important;
+  background:linear-gradient(145deg,rgba(216,184,92,.18),rgba(13,27,42,.18))!important;
+  box-shadow:0 8px 18px rgba(200,162,74,.14)!important;
+}
+.hierarchyShield.portariaShield{
+  color:#d7dde8!important;
+  border-color:rgba(215,221,232,.42)!important;
+  background:linear-gradient(145deg,rgba(215,221,232,.16),rgba(13,27,42,.18))!important;
+  box-shadow:0 8px 18px rgba(215,221,232,.10)!important;
+}
+.hierarchyShield:hover{transform:translateY(-1px);filter:brightness(1.04)}
+body.theme-light .hierarchyShield.adminShield{background:linear-gradient(145deg,#fff8e5,#fff)!important;color:#9f7b25!important}
+body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145deg,#f7f8fb,#fff)!important;color:#667085!important}
+@media(max-width:560px){.hierarchyShield{width:40px!important;min-width:40px!important;height:34px!important;font-size:18px!important}.commList{max-height:430px!important}}
+
 </style></head><body>
   <h1>Portaria Primavera — Passagem de Turno</h1>
   <h2>${turno.label} &nbsp;·&nbsp; ${now}</h2>
@@ -5179,6 +5275,7 @@ body.mobileExperience main.app{
 <!-- v137: Central Inteligente de Comunicados (Push LAB) — leitura por usuário, destinatários e insight recorrente -->
 <!-- v137.4: Ajuste de UX — desktop com hover nos cards, mobile com modal centralizado e últimos acessos sempre fechados -->
 <!-- v137.6: Correção crítica da lista de Comunicados Ativos (escapeHtml/helper + render robusto) -->
+<!-- v137.7: Limpeza da Central, alerta vermelho e escudo de hierarquia -->
 <!-- v136.4: Atualização inteligente — mantém guia/rolagem e evita splash em refresh -->
 <!-- v136.3: Offset mobile dinâmico para guias ficarem abaixo do topbar -->
 </body></html>`);
@@ -6863,7 +6960,7 @@ document.addEventListener('keydown',(ev)=>{
   }
 });
 
-function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill)pill.textContent=logged?`${u.nome||u.login} • ${u.perfil==='admin'?'Admin':'Portaria'}`:'Não conectado'; document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.()}
+function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill){pill.classList.remove('adminShield','portariaShield','hierarchyShield'); if(logged){const isAdm=u.perfil==='admin'; pill.classList.add('hierarchyShield',isAdm?'adminShield':'portariaShield'); pill.textContent='🛡️'; pill.title=(isAdm?'Administrador':'Portaria')+' • '+(u.nome||u.login); pill.setAttribute('aria-label',pill.title);}else{pill.textContent=''; pill.title='Não conectado'; pill.setAttribute('aria-label','Não conectado');}} document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.(); renderCommunications?.()}
 function loginUser(){const login=val('loginUser'), senha=val('loginPass'); const msg=document.getElementById('loginMsg'); const u=(state.users||[]).find(x=>x.login===login&&String(x.senha||'')===senha); if(!u){if(msg)msg.textContent='Usuário ou senha inválidos.';return;} if(u.ativo===false){if(msg)msg.textContent='Usuário inativo. Procure o administrador.';return;} sessionStorage.setItem('pp_current_user',u.login); const remember=document.getElementById('rememberLoginUser'); if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}else{localStorage.removeItem('pp_remember_user');localStorage.removeItem('pp_saved_login')} if(msg)msg.textContent=''; const pass=document.getElementById('loginPass'); if(pass)pass.value=''; applyPermissions(); renderAll(); maybeShowHelpTour();}
 function confirmLogoutUser(){
   openAppConfirm({
@@ -7438,9 +7535,11 @@ function renderCommunications(){
   const pending=getPendingComms();
   const btn=document.getElementById('commCenterBtn'), badge=document.getElementById('commBadge');
   if(btn){
-    btn.classList.toggle('hasPending',pending.length>0);
+    const has=pending.length>0;
+    btn.classList.toggle('hasPending',has);
     btn.setAttribute('data-pending',String(pending.length));
-    btn.title=pending.length?`Central de Comunicados • ${pending.length} pendente(s)`:'Central de Comunicados';
+    btn.setAttribute('aria-label',has?`Central de Comunicados, ${pending.length} pendente(s)`:'Central de Comunicados');
+    btn.title=has?`Central de Comunicados • ${pending.length} pendente(s)`:'Central de Comunicados';
   }
   if(badge){badge.textContent=String(pending.length); badge.style.display=pending.length?'flex':'';}
   const list=document.getElementById('commList');
@@ -7657,5 +7756,6 @@ try{updateTopbarClockGreeting();}catch(e){}
 <!-- v137: Central Inteligente de Comunicados (Push LAB) — leitura por usuário, destinatários e insight recorrente -->
 <!-- v137.4: Ajuste de UX — desktop com hover nos cards, mobile com modal centralizado e últimos acessos sempre fechados -->
 <!-- v137.6: Correção crítica da lista de Comunicados Ativos (escapeHtml/helper + render robusto) -->
+<!-- v137.7: Limpeza da Central, alerta vermelho e escudo de hierarquia -->
 </body>
 </html>
