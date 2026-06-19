@@ -5052,6 +5052,31 @@ body.mobileExperience main.app{
 @media(max-width:520px){.commBtn{height:34px!important;min-width:38px!important}.commSheet{max-height:90vh!important}.commList{max-height:390px!important}}
 
 
+
+
+/* v137.3 — Refino UX Mobile: agenda centralizada e últimos acessos fechados */
+#opListModal{z-index:260!important;}
+#opListModal.modal.center{align-items:center!important;justify-content:center!important;}
+#opListModal .opListSheet{width:min(640px,calc(100vw - 28px))!important;max-height:78vh!important;border-radius:22px!important;}
+@media(max-width:760px){
+  body.mobileExperience .card.metric.opMetric .opTooltip,
+  body.mobileExperience .opMetric .opTooltip{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+  body.mobileExperience #opListModal{z-index:320!important;}
+  body.mobileExperience #opListModal.modal.center{align-items:center!important;padding:10px!important;}
+  body.mobileExperience #opListModal .opListSheet{
+    width:calc(100vw - 28px)!important;
+    max-height:72vh!important;
+    border-radius:22px!important;
+    padding:14px!important;
+  }
+  body.mobileExperience #opListModal .sheetHead{align-items:flex-start!important;}
+  body.mobileExperience #opListModal .close{position:relative!important;z-index:2!important;flex:0 0 auto!important;}
+  body.mobileExperience .mobileAccessItem:not([open]) .mobileAccessBody{display:none!important;}
+}
 </style></head><body>
   <h1>Portaria Primavera — Passagem de Turno</h1>
   <h2>${turno.label} &nbsp;·&nbsp; ${now}</h2>
@@ -6417,7 +6442,7 @@ function renderAgendaList(){
     return `<div class="agendaItem"><span class="agendaType${cls}">${esc(opTypeLabel(e.tipo))}</span><span class="agendaUnit">${esc(e.unidade||'—')}</span><span class="agendaResp">${esc(resp)}</span><span class="agendaDate">${esc(dateBR(e.data))}</span><button class="btn ghost agendaRemove" onclick="removeOperationalEvent('${e.id}')">Remover</button></div>`;
   }).join('');
 }
-function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>`<div class="opListRow"><div class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>'; modal.classList.add('show'); }
+function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>t.style.display='none'); const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>`<div class="opListRow"><div class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>'; modal.classList.add('show'); }
 function closeOperationalList(){document.getElementById('opListModal')?.classList.remove('show')}
 
 // ===== v15: Administração fixa + importação de moradores do Excel =====
@@ -7389,7 +7414,7 @@ try{updateTopbarClockGreeting();}catch(e){}
       const empresa = esc(a.empresa || a.tipo || '—');
       const nome = esc(a.nome || 'Sem nome');
       const status = mobileStatusHtml(a);
-      return `<details class="mobileAccessItem" ${i===0?'open':''}>
+      return `<details class="mobileAccessItem" ontoggle="ppMobileAccessToggle(this)">
         <summary>
           <div>
             <div class="mobileAccessName">${nome}</div>
@@ -7407,6 +7432,13 @@ try{updateTopbarClockGreeting();}catch(e){}
     }).join('');
     return `<div class="mobileAccessAccordion">${rows}</div>`;
   }
+
+  window.ppMobileAccessToggle = function(el){
+    if(!el || !el.open) return;
+    document.querySelectorAll('.mobileAccessItem[open]').forEach(item=>{
+      if(item!==el) item.removeAttribute('open');
+    });
+  };
 
   window.adjustMobileTopOffset = function(){
     const header = document.querySelector('header.v55Header');
