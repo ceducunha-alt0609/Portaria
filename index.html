@@ -5178,6 +5178,7 @@ body.mobileExperience main.app{
 <!-- v136.1: Topbar e menu fixos durante rolagem no desktop e mobile -->
 <!-- v137: Central Inteligente de Comunicados (Push LAB) — leitura por usuário, destinatários e insight recorrente -->
 <!-- v137.4: Ajuste de UX — desktop com hover nos cards, mobile com modal centralizado e últimos acessos sempre fechados -->
+<!-- v137.6: Correção crítica da lista de Comunicados Ativos (escapeHtml/helper + render robusto) -->
 <!-- v136.4: Atualização inteligente — mantém guia/rolagem e evita splash em refresh -->
 <!-- v136.3: Offset mobile dinâmico para guias ficarem abaixo do topbar -->
 </body></html>`);
@@ -7369,6 +7370,15 @@ let ppScrollSaveTimer=null;
 window.addEventListener('scroll',()=>{clearTimeout(ppScrollSaveTimer);ppScrollSaveTimer=setTimeout(saveUiState,180);},{passive:true});
 
 
+/* v137.6 — Correção crítica: helper de texto seguro da Central
+   A v137.5 usava escapeHtml() nos cards da Central, mas esse helper não existia
+   no arquivo base. Isso interrompia o render da lista de comunicados ativos. */
+function escapeHtml(v){
+  return String(v ?? '').replace(/[&<>"']/g,function(ch){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[ch];
+  });
+}
+
 /* v137 — Central Inteligente de Comunicados (Push LAB) */
 function ensureCommunications(){
   if(!Array.isArray(state.comunicados)) state.comunicados=[];
@@ -7438,7 +7448,7 @@ function renderCommunications(){
   if(list){
     const active=(state.comunicados||[]).filter(c=>c && c.active!==false && !isCommExpired(c)).sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
     if(panelTitle)panelTitle.setAttribute('data-count',active.length?`${active.length} ativo(s)`: 'vazio');
-    list.innerHTML=active.length?active.map(renderCommunicationCard).join(''):'<div class="commEmpty">Nenhum comunicado ativo no momento.</div>';
+    list.innerHTML=active.length?active.map(c=>{try{return renderCommunicationCard(c)}catch(e){console.warn('Falha ao renderizar comunicado',e,c);return `<div class="commCard"><div class="commTitle">Comunicado</div><div class="commMsg">Não foi possível exibir este comunicado. Ele permanece salvo.</div></div>`}}).join(''):'<div class="commEmpty">Nenhum comunicado ativo no momento.</div>';
   }
   scheduleCommInsight();
 }
@@ -7646,5 +7656,6 @@ try{updateTopbarClockGreeting();}catch(e){}
 <!-- v136.1: Topbar e menu fixos durante rolagem no desktop e mobile -->
 <!-- v137: Central Inteligente de Comunicados (Push LAB) — leitura por usuário, destinatários e insight recorrente -->
 <!-- v137.4: Ajuste de UX — desktop com hover nos cards, mobile com modal centralizado e últimos acessos sempre fechados -->
+<!-- v137.6: Correção crítica da lista de Comunicados Ativos (escapeHtml/helper + render robusto) -->
 </body>
 </html>
