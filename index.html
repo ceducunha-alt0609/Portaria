@@ -4239,6 +4239,38 @@ body.theme-light .hierarchyShield.adminShield{background:linear-gradient(145deg,
 body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145deg,#f7f8fb,#fff)!important;color:#667085!important}
 @media(max-width:560px){.hierarchyShield{width:40px!important;min-width:40px!important;height:34px!important;font-size:18px!important}.commList{max-height:430px!important}}
 
+
+
+/* v137.8 — Central compacta + filtro real por destinatário */
+.commSheet{width:min(1060px,calc(100vw - 34px))!important;max-height:82vh!important;overflow:auto!important;padding:14px!important}
+.commSheet .sheetHead{padding-bottom:7px!important;margin-bottom:8px!important;min-height:auto!important}
+.commSheet .sheetHead h2{font-size:17px!important;line-height:1.15!important}
+.commSheet .sheetHead .mini{font-size:11px!important;line-height:1.35!important;margin-top:4px!important}
+.commSheet .close{width:38px!important;height:38px!important;border-radius:12px!important;font-size:20px!important}
+.commHero{display:none!important}
+.commGrid{grid-template-columns:1fr!important;gap:8px!important}
+.commComposer,.commListPanel{padding:9px 12px!important;border-radius:13px!important}
+.commComposer h3,.commListPanel h3{font-size:14px!important;margin-bottom:6px!important}
+.commFormGrid{grid-template-columns:minmax(190px,1.55fr) 145px 165px 135px minmax(160px,1fr)!important;gap:7px!important;align-items:end!important}
+.commFormGrid label{font-size:9px!important;margin-bottom:3px!important}
+.commFormGrid input,.commFormGrid select{height:34px!important;font-size:11.5px!important;padding:7px 9px!important}
+.commFormGrid textarea{height:48px!important;min-height:48px!important;font-size:11.5px!important;padding:7px 9px!important}
+.commComposer .actions{margin-top:7px!important}
+.commComposer .actions .btn{height:38px!important;padding:8px 12px!important;border-radius:11px!important;font-size:12px!important}
+.commUserHint{font-size:10px!important;margin-top:4px!important;line-height:1.35!important}
+.commListPanel h3:after{font-size:10px!important;padding:4px 7px!important}
+.commList{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;max-height:260px!important;overflow:auto!important}
+.commCard{min-height:104px!important;padding:8px 10px!important;gap:5px!important;border-radius:13px!important}
+.commTitle{font-size:13px!important;line-height:1.16!important}
+.commUnreadNote{font-size:9.8px!important;line-height:1.2!important}
+.commTag{font-size:9px!important;padding:4px 7px!important}
+.commMsg{font-size:10.8px!important;line-height:1.34!important;max-height:43px!important;overflow:auto!important}
+.commMeta,.commReads{font-size:9.8px!important;line-height:1.3!important}
+.commReads{padding-top:5px!important}
+.commActions .btn{height:31px!important;padding:6px 8px!important;font-size:9.8px!important;border-radius:9px!important}
+.commEmpty{padding:16px!important;font-size:11px!important}
+@media(max-width:980px){.commSheet{max-height:88vh!important}.commFormGrid{grid-template-columns:1fr 1fr!important}.commFormGrid .commTitleField,.commFormGrid .full,.commFormGrid .commTargetUserWrap{grid-column:1/-1!important}.commList{grid-template-columns:1fr!important;max-height:360px!important}}
+@media(max-width:560px){.commSheet{width:calc(100vw - 20px)!important;max-height:90vh!important;padding:12px!important}.commFormGrid{grid-template-columns:1fr!important}.commList{max-height:380px!important}}
 </style>
 </head>
 <body class="splashing">
@@ -7499,6 +7531,10 @@ function isCommForCurrentUser(c){
   if(t==='user')return (c.targetUser||'')===(u.id||u.login||u.nome);
   return true;
 }
+function isCommVisibleInCenter(c){
+  // Admin visualiza todos os comunicados ativos para gestão. Portaria visualiza apenas os destinados a ela.
+  return isAdmin() || isCommForCurrentUser(c);
+}
 function isCommRead(c){const k=commUserKey(); return !!(k && c.reads && c.reads[k])}
 function getPendingComms(){ensureCommunications(); return state.comunicados.filter(c=>c.active!==false && !isCommExpired(c) && isCommForCurrentUser(c) && !isCommRead(c));}
 function toggleCommTargetUser(){const wrap=document.getElementById('commTargetUserWrap'); const target=document.getElementById('commTarget')?.value; if(wrap)wrap.classList.toggle('hide',target!=='user');}
@@ -7545,9 +7581,9 @@ function renderCommunications(){
   const list=document.getElementById('commList');
   const panelTitle=document.querySelector('.commListPanel h3');
   if(list){
-    const active=(state.comunicados||[]).filter(c=>c && c.active!==false && !isCommExpired(c)).sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
+    const active=(state.comunicados||[]).filter(c=>c && c.active!==false && !isCommExpired(c) && isCommVisibleInCenter(c)).sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
     if(panelTitle)panelTitle.setAttribute('data-count',active.length?`${active.length} ativo(s)`: 'vazio');
-    list.innerHTML=active.length?active.map(c=>{try{return renderCommunicationCard(c)}catch(e){console.warn('Falha ao renderizar comunicado',e,c);return `<div class="commCard"><div class="commTitle">Comunicado</div><div class="commMsg">Não foi possível exibir este comunicado. Ele permanece salvo.</div></div>`}}).join(''):'<div class="commEmpty">Nenhum comunicado ativo no momento.</div>';
+    list.innerHTML=active.length?active.map(c=>{try{return renderCommunicationCard(c)}catch(e){console.warn('Falha ao renderizar comunicado',e,c);return `<div class="commCard"><div class="commTitle">Comunicado</div><div class="commMsg">Não foi possível exibir este comunicado. Ele permanece salvo.</div></div>`}}).join(''):'<div class="commEmpty">Nenhum comunicado ativo para o seu perfil no momento.</div>';
   }
   scheduleCommInsight();
 }
