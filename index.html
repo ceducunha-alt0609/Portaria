@@ -4116,6 +4116,53 @@ body.theme-dark .commBtn{box-shadow:0 6px 16px rgba(0,0,0,.18)}
 @media(max-width:520px){.commBtn{height:34px!important;min-width:38px!important}.commSheet{max-height:90vh!important}.commList{max-height:390px!important}}
 
 
+
+
+/* v137.4 — Ajuste fino: desktop mantém tooltip por hover; mobile usa modal centralizado */
+@media(max-width:760px){
+  .card.metric.opMetric .opTooltip,
+  .opMetric .opTooltip,
+  .opMetric:hover .opTooltip,
+  .opMetric:focus-within .opTooltip,
+  body.mobileExperience .card.metric.opMetric .opTooltip,
+  body.mobileExperience .opMetric .opTooltip{
+    display:none!important;
+    visibility:hidden!important;
+    opacity:0!important;
+    pointer-events:none!important;
+    position:absolute!important;
+    left:auto!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    width:0!important;
+    height:0!important;
+    max-height:0!important;
+    overflow:hidden!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    box-shadow:none!important;
+  }
+  #opListModal.modal.center{
+    position:fixed!important;
+    inset:0!important;
+    display:none;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:14px!important;
+  }
+  #opListModal.modal.center.show{display:flex!important;}
+  #opListModal .opListSheet{
+    width:calc(100vw - 28px)!important;
+    max-width:640px!important;
+    max-height:72vh!important;
+    margin:auto!important;
+    align-self:center!important;
+    border-radius:22px!important;
+  }
+}
+
 </style>
 </head>
 <body class="splashing">
@@ -5102,6 +5149,7 @@ body.mobileExperience main.app{
 <!-- v136: Sprint Mobile — cabeçalho enxuto, apenas Resumo/Moradores, últimos acessos em acordeão e correção de rolagem -->
 <!-- v136.1: Topbar e menu fixos durante rolagem no desktop e mobile -->
 <!-- v137: Central Inteligente de Comunicados (Push LAB) — leitura por usuário, destinatários e insight recorrente -->
+<!-- v137.4: Ajuste de UX — desktop com hover nos cards, mobile com modal centralizado e últimos acessos sempre fechados -->
 <!-- v136.4: Atualização inteligente — mantém guia/rolagem e evita splash em refresh -->
 <!-- v136.3: Offset mobile dinâmico para guias ficarem abaixo do topbar -->
 </body></html>`);
@@ -7488,6 +7536,62 @@ try{updateTopbarClockGreeting();}catch(e){}
   applyMobileExperience();
   setTimeout(()=>{applyMobileExperience(); try{renderDashboard();}catch(e){}},80);
 })();
+
+
+/* v137.4 — Correção: tooltip no desktop e modal centralizado apenas no mobile */
+(function(){
+  const isMobile = () => window.matchMedia && window.matchMedia('(max-width:760px)').matches;
+  const oldOpenAccessDetail = window.openAccessDetail;
+
+  window.ppCloseAllMobileAccess = function(){
+    try{ document.querySelectorAll('.mobileAccessItem[open]').forEach(item=>item.removeAttribute('open')); }catch(e){}
+  };
+
+  // No desktop, os cards operacionais voltam ao comportamento anterior: apenas hover/tooltip.
+  // No mobile, o clique abre a lista centralizada, sem tooltip fora de posição.
+  window.openOperationalList = function(tipo){
+    try{ document.activeElement && document.activeElement.blur && document.activeElement.blur(); }catch(e){}
+    try{ document.querySelectorAll('.opTooltip').forEach(t=>{t.style.display='';}); }catch(e){}
+    if(!isMobile()) return false;
+
+    const modal=document.getElementById('opListModal');
+    if(!modal) return false;
+    const arr=(typeof getOperationalEvents==='function') ? getOperationalEvents(tipo) : [];
+    const title=document.getElementById('opListTitle');
+    const sub=document.getElementById('opListSub');
+    const body=document.getElementById('opListBody');
+    if(title) title.textContent=(typeof opTypeLabel==='function'?opTypeLabel(tipo):'Agenda')+' do mês';
+    if(sub) sub.textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual';
+    if(body){
+      body.innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>`<div class="opListRow"><div class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>';
+    }
+    modal.classList.add('show','center');
+    return false;
+  };
+
+  // Garante que a lista mobile nunca abra o primeiro acesso sozinha após render/troca de guia.
+  const prevRenderDashboard = window.renderDashboard;
+  if(typeof prevRenderDashboard === 'function'){
+    window.renderDashboard = function(){
+      prevRenderDashboard.apply(this, arguments);
+      if(isMobile()) setTimeout(window.ppCloseAllMobileAccess, 0);
+    };
+  }
+
+  const prevGoTab = window.goTab;
+  if(typeof prevGoTab === 'function'){
+    window.goTab = function(id){
+      const r = prevGoTab.apply(this, arguments);
+      if(isMobile()) setTimeout(window.ppCloseAllMobileAccess, 0);
+      return r;
+    };
+    try{ document.querySelectorAll('.tab,.footerNav button').forEach(b=>{b.onclick=()=>window.goTab(b.dataset.tab)}); }catch(e){}
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(window.ppCloseAllMobileAccess,120));
+  setTimeout(window.ppCloseAllMobileAccess,300);
+})();
+
 </script>
 <!-- v133: Centro de Sincronização exclusivo do perfil ADMIN -->
 <!-- v134: Ferramentas renomeada para Central Administrativa e reorganizada por grupos -->
@@ -7495,5 +7599,6 @@ try{updateTopbarClockGreeting();}catch(e){}
 <!-- v136: Sprint Mobile — cabeçalho enxuto, apenas Resumo/Moradores, últimos acessos em acordeão e correção de rolagem -->
 <!-- v136.1: Topbar e menu fixos durante rolagem no desktop e mobile -->
 <!-- v137: Central Inteligente de Comunicados (Push LAB) — leitura por usuário, destinatários e insight recorrente -->
+<!-- v137.4: Ajuste de UX — desktop com hover nos cards, mobile com modal centralizado e últimos acessos sempre fechados -->
 </body>
 </html>
