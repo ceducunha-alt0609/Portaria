@@ -2003,7 +2003,7 @@ body.theme-dark .tab:focus-visible{
   border:1px dashed rgba(216,184,92,.42)!important;
   background:rgba(216,184,92,.065)!important;
   color:#aeb8c6!important;
-  border-radius:14px!important;
+  border-radius:12px!important;
   padding:12px 13px!important;
   display:grid;
   gap:5px;
@@ -3705,7 +3705,7 @@ body:not(.theme-dark) .reportsHero,body:not(.theme-dark) .reportPanel,body:not(.
   .reportRows{gap:5px!important}
   .reportRow{border:1px solid #cbd5e1!important;background:#f8fafc!important;border-radius:6px!important;padding:6px 7px!important;font-size:9.5px!important;break-inside:avoid!important}
   .reportRow b{color:#0d1b2a!important}.reportRow span{color:#7a5a12!important}
-  .reportMiniGrid{gap:6px!important}.reportMini{border:1px solid #cbd5e1!important;background:#f8fafc!important;border-radius:7px!important;padding:7px!important}.reportMini b{font-size:15px!important;color:#0d1b2a!important}.reportMini span{font-size:9px!important;color:#475569!important}
+  .reportMiniGrid{gap:6px!important}.reportMini{border:1px solid #cbd5e1!important;background:#f8fafc!important;border-radius:7px!important;padding:6px!important}.reportMini b{font-size:15px!important;color:#0d1b2a!important}.reportMini span{font-size:9px!important;color:#475569!important}
   .reportSectionNote,.reportEmpty{font-size:9.5px!important;color:#475569!important}
 }
 
@@ -4271,6 +4271,763 @@ body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145d
 .commEmpty{padding:16px!important;font-size:11px!important}
 @media(max-width:980px){.commSheet{max-height:88vh!important}.commFormGrid{grid-template-columns:1fr 1fr!important}.commFormGrid .commTitleField,.commFormGrid .full,.commFormGrid .commTargetUserWrap{grid-column:1/-1!important}.commList{grid-template-columns:1fr!important;max-height:360px!important}}
 @media(max-width:560px){.commSheet{width:calc(100vw - 20px)!important;max-height:90vh!important;padding:12px!important}.commFormGrid{grid-template-columns:1fr!important}.commList{max-height:380px!important}}
+
+
+/* v137.9 — Cards de comunicados enxutos + borda pulsante para leitura pendente */
+.commSheet{width:min(1060px,calc(100vw - 34px))!important;max-height:80vh!important;padding:12px!important}
+.commSheet .sheetHead{padding-bottom:6px!important;margin-bottom:7px!important}
+.commComposer{padding:8px 12px!important}
+.commComposer h3{font-size:14px!important;margin-bottom:5px!important}
+.commFormGrid input,.commFormGrid select{height:32px!important}
+.commFormGrid textarea{height:42px!important;min-height:42px!important}
+.commComposer .actions .btn{height:34px!important;padding:7px 11px!important}
+.commListPanel{padding:9px 12px!important}
+.commList{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;max-height:285px!important;overflow:auto!important}
+.commCard{position:relative!important;min-height:86px!important;padding:12px 14px!important;border-radius:14px!important;display:grid!important;grid-template-columns:42px 1fr auto!important;grid-template-rows:auto auto!important;align-items:center!important;gap:6px 12px!important;overflow:hidden!important;cursor:pointer!important}
+.commCardIcon{grid-row:1 / span 2;width:34px;height:34px;border-radius:13px;display:grid;place-items:center;font-size:17px;background:rgba(15,159,110,.18);color:#42d392;border:1px solid rgba(15,159,110,.32)}
+.commCard.pending .commCardIcon{background:linear-gradient(145deg,#d21f3c,#8f1025);color:#fff;border-color:rgba(255,255,255,.18)}
+.commCardMain{min-width:0}.commCardTitle{font-size:15px!important;font-weight:900!important;color:var(--navy)!important;line-height:1.18!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.commCardDate{margin-top:5px!important;font-size:11px!important;color:var(--muted)!important;line-height:1.25!important}.commCardStatus{grid-column:2 / span 2;font-size:11px!important;font-weight:900!important;line-height:1.25!important;color:#08734d!important;display:flex;align-items:center;gap:7px;flex-wrap:wrap}.commCard.pending .commCardStatus{color:#ff6b7d!important}.commCardMeta{display:flex!important;align-items:center!important;gap:8px!important;justify-content:flex-end!important}.commCard .commTag{font-size:9px!important;padding:5px 8px!important}.commCard .commActions{display:flex!important;gap:6px!important;justify-content:flex-end!important}.commCard .commActions .btn{height:28px!important;padding:5px 8px!important;font-size:9.5px!important;border-radius:9px!important}
+.commCard .commMsg,.commCard .commMeta,.commCard .commReads,.commCard .commTop,.commCard .commUnreadNote{display:none!important}
+@keyframes commPendingBorderPulse{0%,100%{border-color:rgba(204,51,68,.55);box-shadow:0 0 0 0 rgba(204,51,68,.0), inset 4px 0 0 rgba(204,51,68,.85)}50%{border-color:rgba(255,93,115,.98);box-shadow:0 0 0 3px rgba(204,51,68,.18),0 12px 30px rgba(204,51,68,.16), inset 4px 0 0 rgba(255,93,115,.95)}}
+.commCard.pending{animation:commPendingBorderPulse 1.45s ease-in-out infinite!important;background:linear-gradient(180deg,rgba(204,51,68,.08),rgba(255,255,255,.02))!important}
+body.theme-dark .commCard.pending{background:linear-gradient(180deg,rgba(204,51,68,.12),rgba(14,24,39,.96))!important}
+@media(max-width:980px){.commList{grid-template-columns:1fr!important;max-height:390px!important}.commCard{grid-template-columns:40px 1fr!important}.commCardMeta{grid-column:2}.commCardStatus{grid-column:2}.commCard .commActions{justify-content:flex-start!important}}
+@media(max-width:560px){.commSheet{max-height:90vh!important}.commCard{min-height:92px!important;padding:11px 12px!important}.commCardTitle{font-size:14px!important}.commCardStatus{font-size:10.5px!important}}
+
+
+
+/* v137.10 — Ícones por tipo + cards enxutos em 2 colunas */
+.commHero{display:none!important}
+.commList{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;max-height:300px!important;overflow:auto!important}
+.commCard{position:relative!important;min-height:76px!important;padding:12px 42px 12px 14px!important;border-radius:14px!important;display:grid!important;grid-template-columns:46px 1fr 24px!important;align-items:center!important;gap:12px!important;overflow:visible!important;cursor:pointer!important;background:linear-gradient(180deg,rgba(18,31,49,.96),rgba(14,24,39,.96))!important;border:1px solid rgba(185,199,219,.16)!important}
+.commCard.read{border-color:rgba(66,211,146,.34)!important;box-shadow:0 10px 24px rgba(0,0,0,.08)!important}
+.commCard.pending{border-color:rgba(255,93,115,.72)!important;animation:commPendingOutlinePulse 1.45s ease-in-out infinite!important;box-shadow:none!important}
+@keyframes commPendingOutlinePulse{0%,100%{border-color:rgba(255,93,115,.62);box-shadow:0 0 0 0 rgba(255,93,115,0)}50%{border-color:rgba(255,93,115,1);box-shadow:0 0 0 3px rgba(255,93,115,.16),0 12px 28px rgba(204,51,68,.14)}}
+.commCardIcon{width:40px!important;height:40px!important;border-radius:50%!important;display:grid!important;place-items:center!important;font-size:21px!important;color:#fff!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:0 10px 22px rgba(0,0,0,.18)!important;background:linear-gradient(145deg,#d21f3c,#8f1025)!important}
+.commCard.read .commCardIcon{background:linear-gradient(145deg,#6caf3d,#2e7d32)!important}
+.commCardIcon.type-aviso{background:linear-gradient(145deg,#e94452,#b6122c)!important}
+.commCardIcon.type-manutencao{background:linear-gradient(145deg,#f28c28,#b85b05)!important}
+.commCardIcon.type-emergencia{background:linear-gradient(145deg,#ff5d73,#a32636)!important}
+.commCardIcon.type-info{background:linear-gradient(145deg,#2f80ed,#1f5eb7)!important}
+.commCardIcon.type-agua{background:linear-gradient(145deg,#22c8c8,#087ea4)!important}
+.commCardIcon.type-energia{background:linear-gradient(145deg,#ffd24a,#d58a00)!important;color:#172033!important}
+.commCardIcon.type-dedetizacao{background:linear-gradient(145deg,#6caf3d,#2e7d32)!important}
+.commCardIcon.type-portao{background:linear-gradient(145deg,#9a6a3a,#5b371b)!important}
+.commCardIcon.type-concluido{background:linear-gradient(145deg,#42d392,#08734d)!important}
+.commCardMain{min-width:0!important}.commCardTitle{font-size:15px!important;font-weight:900!important;color:#edf2f7!important;line-height:1.15!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;margin-bottom:7px!important}.commCardLine{display:flex!important;align-items:center!important;gap:14px!important;min-width:0!important;flex-wrap:wrap!important}.commCardDate{font-size:11px!important;color:#a7b0c0!important;white-space:nowrap!important}.commCardStatus{font-size:11px!important;font-weight:900!important;white-space:nowrap!important}.commCardStatus.pending{color:#ff5d73!important}.commCardStatus.read{color:#42d392!important}.commCardMeta,.commCard .commTag,.commCard .commActions,.commCard .commMsg,.commCard .commReads,.commCard .commTop,.commCard .commUnreadNote{display:none!important}
+.commMenuBtn{position:absolute!important;right:11px!important;top:50%!important;transform:translateY(-50%)!important;width:26px!important;height:32px!important;border:0!important;background:transparent!important;color:#edf2f7!important;font-size:24px!important;line-height:1!important;border-radius:10px!important;cursor:pointer!important;padding:0!important;z-index:6!important}.commMenuBtn:hover{background:rgba(255,255,255,.08)!important}.commMenu{position:absolute!important;right:10px!important;bottom:calc(100% - 6px)!important;top:auto!important;z-index:30!important;display:none!important;min-width:166px!important;background:#0f1928!important;border:1px solid rgba(185,199,219,.22)!important;border-radius:14px!important;box-shadow:0 20px 55px rgba(0,0,0,.32)!important;padding:7px!important;transform-origin:calc(100% - 18px) 100%!important}.commMenu:after{content:''!important;position:absolute!important;right:16px!important;top:100%!important;width:14px!important;height:14px!important;background:#0f1928!important;border-right:1px solid rgba(185,199,219,.22)!important;border-bottom:1px solid rgba(185,199,219,.22)!important;transform:translateY(-8px) rotate(45deg)!important}.commMenu.open{display:grid!important;gap:4px!important;animation:commMenuLift .16s ease-out!important}.commMenu button{width:100%!important;text-align:left!important;border:0!important;border-radius:10px!important;background:transparent!important;color:#edf2f7!important;padding:8px 9px!important;font:inherit!important;font-size:11.5px!important;font-weight:800!important;cursor:pointer!important}.commMenu button:hover{background:rgba(200,162,74,.14)!important;color:#f3d27a!important}@keyframes commMenuLift{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.commComposer .actions .btn.gold:before{content:'✈️';margin-right:7px;font-size:15px}.commFormGrid select#commType{font-weight:900!important}.commUserHint:before{content:'ⓘ ';color:#a7b0c0}.commListPanel h3:after{content:attr(data-count);float:right;font-size:11px;font-weight:900;color:#c7d0df;background:rgba(185,199,219,.12);border:1px solid rgba(185,199,219,.16);padding:5px 9px;border-radius:999px;margin-top:-2px}
+@media(max-width:980px){.commList{grid-template-columns:1fr!important;max-height:380px!important}.commCard{grid-template-columns:42px 1fr 24px!important;min-height:78px!important}.commCardLine{gap:8px!important}.commCardStatus{white-space:normal!important}}
+
+
+/* v137.12 — Correção: menu contextual dos comunicados fora do scroll, abrindo para cima */
+.commMenu.open{
+  position:fixed!important;
+  z-index:9999!important;
+  min-width:188px!important;
+}
+.commMenu.open:after{display:none!important}
+
+
+/* v137.14 — Arquivo de Comunicados em popover */
+.commHeaderActions{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+.commArchiveBtn{
+  position:relative!important;
+  width:42px!important;
+  height:42px!important;
+  border-radius:14px!important;
+  border:1px solid rgba(200,162,74,.38)!important;
+  background:linear-gradient(145deg,#0f1928,#15243a)!important;
+  color:#f3d27a!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  font-size:18px!important;
+  cursor:pointer!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.14)!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+}
+.commArchiveBtn:hover{
+  border-color:rgba(200,162,74,.72)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:0 12px 24px rgba(0,0,0,.20)!important;
+}
+.commArchiveBtn .archiveCount{
+  position:absolute!important;
+  right:-5px!important;
+  top:-6px!important;
+  min-width:18px!important;
+  height:18px!important;
+  padding:0 5px!important;
+  border-radius:999px!important;
+  background:#d21f3c!important;
+  color:#fff!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1px solid rgba(255,255,255,.45)!important;
+  box-shadow:0 6px 14px rgba(210,31,60,.30)!important;
+}
+.commArchiveBtn.hasItems .archiveCount{display:flex!important}
+.commArchiveWrap{position:relative!important}
+.commArchivePopover{
+  position:absolute!important;
+  right:0!important;
+  top:52px!important;
+  width:min(390px,calc(100vw - 34px))!important;
+  max-height:440px!important;
+  overflow:auto!important;
+  display:none!important;
+  z-index:150!important;
+  background:#0f1928!important;
+  border:1px solid rgba(200,162,74,.36)!important;
+  border-radius:18px!important;
+  box-shadow:0 28px 75px rgba(0,0,0,.34)!important;
+  padding:12px!important;
+  color:#edf2f7!important;
+}
+.commArchivePopover.open{display:block!important;animation:commArchivePop .16s ease-out!important}
+@keyframes commArchivePop{from{opacity:0;transform:translateY(-5px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.commArchivePopover:before{
+  content:''!important;
+  position:absolute!important;
+  right:17px!important;
+  top:-7px!important;
+  width:14px!important;
+  height:14px!important;
+  background:#0f1928!important;
+  border-left:1px solid rgba(200,162,74,.36)!important;
+  border-top:1px solid rgba(200,162,74,.36)!important;
+  transform:rotate(45deg)!important;
+}
+.commArchiveHead{
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+  gap:10px!important;
+  margin-bottom:10px!important;
+  padding-bottom:9px!important;
+  border-bottom:1px solid rgba(185,199,219,.16)!important;
+}
+.commArchiveHead b{font-size:13px!important;color:#f3d27a!important}
+.commArchiveHead small{font-size:10px!important;color:#a7b0c0!important;font-weight:900!important}
+.commArchiveList{display:grid!important;gap:8px!important}
+.commArchiveCard{
+  border:1px solid rgba(185,199,219,.15)!important;
+  background:linear-gradient(180deg,#121f31,#0e1827)!important;
+  border-radius:14px!important;
+  padding:10px!important;
+}
+.commArchiveTop{
+  display:flex!important;
+  justify-content:space-between!important;
+  gap:8px!important;
+  align-items:flex-start!important;
+}
+.commArchiveTitle{
+  font-size:12px!important;
+  font-weight:900!important;
+  color:#edf2f7!important;
+  line-height:1.3!important;
+}
+.commArchiveIcon{
+  width:30px!important;
+  height:30px!important;
+  flex:0 0 30px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:10px!important;
+  background:rgba(200,162,74,.12)!important;
+  color:#f3d27a!important;
+}
+.commArchiveMeta{
+  margin-top:7px!important;
+  color:#a7b0c0!important;
+  font-size:10.5px!important;
+  line-height:1.55!important;
+}
+.commArchiveMeta b{color:#f3d27a!important}
+.commArchiveActions{
+  display:flex!important;
+  gap:6px!important;
+  flex-wrap:wrap!important;
+  margin-top:9px!important;
+}
+.commArchiveActions button{
+  border:1px solid rgba(185,199,219,.18)!important;
+  background:rgba(255,255,255,.04)!important;
+  color:#edf2f7!important;
+  border-radius:10px!important;
+  padding:7px 9px!important;
+  font-size:10.5px!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+}
+.commArchiveActions button:hover{
+  border-color:rgba(200,162,74,.48)!important;
+  background:rgba(200,162,74,.13)!important;
+  color:#f3d27a!important;
+}
+.commArchiveEmpty{
+  border:1px dashed rgba(200,162,74,.30)!important;
+  background:rgba(200,162,74,.06)!important;
+  border-radius:14px!important;
+  padding:18px 12px!important;
+  text-align:center!important;
+  color:#a7b0c0!important;
+  font-size:12px!important;
+  line-height:1.55!important;
+}
+@media(max-width:620px){
+  .commArchivePopover{
+    position:fixed!important;
+    left:14px!important;
+    right:14px!important;
+    top:92px!important;
+    width:auto!important;
+    max-height:calc(100vh - 135px)!important;
+  }
+  .commArchivePopover:before{display:none!important}
+}
+
+
+/* v137.15 — Lapidação: pastinha e fechar com mesmo tamanho visual */
+.commHeaderActions .close{
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  border-radius:14px!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  padding:0!important;
+  line-height:1!important;
+  font-size:20px!important;
+  font-weight:900!important;
+  background:linear-gradient(145deg,#0f1928,#15243a)!important;
+  color:#edf2f7!important;
+  border:1px solid rgba(185,199,219,.24)!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.14)!important;
+}
+.commHeaderActions .close:hover{
+  border-color:rgba(200,162,74,.58)!important;
+  background:linear-gradient(145deg,#111f34,#182940)!important;
+  color:#f3d27a!important;
+  transform:translateY(-1px)!important;
+}
+.commArchiveBtn{
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  padding:0!important;
+  line-height:1!important;
+  font-size:17px!important;
+}
+.commHeaderActions{
+  gap:9px!important;
+}
+
+
+/* v137.16 — Segurança de perfil: Arquivo e Arquivar somente Admin */
+body.role-portaria .commArchiveWrap,
+body.role-portaria .commArchiveBtn,
+body.role-portaria .commMenu .adminArchiveAction{
+  display:none!important;
+}
+body:not(.role-admin) .commArchiveWrap,
+body:not(.role-admin) .commArchiveBtn,
+body:not(.role-admin) .commMenu .adminArchiveAction{
+  display:none!important;
+}
+
+
+/* v137.17 — Insight pós-publicação estilo Gmail */
+.commPublishInsight{
+  position:fixed!important;
+  left:50%!important;
+  bottom:38px!important;
+  transform:translateX(-50%) translateY(14px)!important;
+  z-index:99999!important;
+  min-width:min(520px,calc(100vw - 28px))!important;
+  max-width:calc(100vw - 28px)!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  padding:12px 13px 12px 15px!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#0f1928,#15243a)!important;
+  border:1px solid rgba(200,162,74,.36)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.40)!important;
+  color:#edf2f7!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+.commPublishInsight.show{
+  display:flex!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  animation:commInsightIn .18s ease-out forwards!important;
+}
+@keyframes commInsightIn{
+  from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.985)}
+  to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+}
+.commPublishInsightText{
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  min-width:0!important;
+  font-size:12px!important;
+  line-height:1.35!important;
+  font-weight:900!important;
+}
+.commPublishInsightText span:first-child{
+  width:28px!important;
+  height:28px!important;
+  border-radius:10px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:rgba(200,162,74,.14)!important;
+  color:#f3d27a!important;
+  flex:0 0 28px!important;
+}
+.commPublishInsightText b{
+  color:#f3d27a!important;
+}
+.commPublishInsightText small{
+  display:block!important;
+  color:#a7b0c0!important;
+  font-size:10.5px!important;
+  font-weight:800!important;
+  margin-top:2px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.commPublishInsightActions{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  flex:0 0 auto!important;
+}
+.commPublishInsightActions button{
+  border:1px solid rgba(185,199,219,.18)!important;
+  background:rgba(255,255,255,.04)!important;
+  color:#edf2f7!important;
+  border-radius:12px!important;
+  padding:8px 10px!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+}
+.commPublishInsightActions button:hover{
+  border-color:rgba(200,162,74,.52)!important;
+  background:rgba(200,162,74,.13)!important;
+  color:#f3d27a!important;
+}
+.commPublishInsightActions button.danger:hover{
+  border-color:rgba(255,93,115,.55)!important;
+  background:rgba(255,93,115,.12)!important;
+  color:#ff9aa8!important;
+}
+@media(max-width:560px){
+  .commPublishInsight{
+    left:14px!important;
+    right:14px!important;
+    bottom:18px!important;
+    transform:translateY(14px)!important;
+    min-width:0!important;
+    width:auto!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+  }
+  .commPublishInsight.show{animation:commInsightInMobile .18s ease-out forwards!important}
+  @keyframes commInsightInMobile{
+    from{opacity:0;transform:translateY(14px) scale(.985)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+  }
+  .commPublishInsightActions{justify-content:flex-end!important}
+}
+
+
+/* v137.18 — Programar Comunicado */
+.commScheduleWrap{position:relative!important}
+.commScheduleBtn{
+  position:relative!important;
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  border-radius:14px!important;
+  border:1px solid rgba(200,162,74,.38)!important;
+  background:linear-gradient(145deg,#0f1928,#15243a)!important;
+  color:#f3d27a!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  font-size:18px!important;
+  cursor:pointer!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.14)!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+}
+.commScheduleBtn:hover{border-color:rgba(200,162,74,.72)!important;transform:translateY(-1px)!important;box-shadow:0 12px 24px rgba(0,0,0,.20)!important}
+.commScheduleBtn .scheduleCount{
+  position:absolute!important;
+  right:-5px!important;
+  top:-6px!important;
+  min-width:18px!important;
+  height:18px!important;
+  padding:0 5px!important;
+  border-radius:999px!important;
+  background:#d58a00!important;
+  color:#fff!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1px solid rgba(255,255,255,.45)!important;
+  box-shadow:0 6px 14px rgba(213,138,0,.30)!important;
+}
+.commScheduleBtn.hasItems .scheduleCount{display:flex!important}
+body.role-portaria .commScheduleWrap,
+body.role-portaria .commScheduleBtn,
+body:not(.role-admin) .commScheduleWrap,
+body:not(.role-admin) .commScheduleBtn{display:none!important}
+
+.commSchedulePopover{
+  position:absolute!important;
+  right:0!important;
+  top:52px!important;
+  width:min(410px,calc(100vw - 34px))!important;
+  max-height:440px!important;
+  overflow:auto!important;
+  display:none!important;
+  z-index:151!important;
+  background:#0f1928!important;
+  border:1px solid rgba(200,162,74,.36)!important;
+  border-radius:18px!important;
+  box-shadow:0 28px 75px rgba(0,0,0,.34)!important;
+  padding:12px!important;
+  color:#edf2f7!important;
+}
+.commSchedulePopover.open{display:block!important;animation:commArchivePop .16s ease-out!important}
+.commSchedulePopover:before{
+  content:''!important;
+  position:absolute!important;
+  right:17px!important;
+  top:-7px!important;
+  width:14px!important;
+  height:14px!important;
+  background:#0f1928!important;
+  border-left:1px solid rgba(200,162,74,.36)!important;
+  border-top:1px solid rgba(200,162,74,.36)!important;
+  transform:rotate(45deg)!important;
+}
+.commScheduleHead{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:10px!important;margin-bottom:10px!important;padding-bottom:9px!important;border-bottom:1px solid rgba(185,199,219,.16)!important}
+.commScheduleHead b{font-size:13px!important;color:#f3d27a!important}
+.commScheduleHead small{font-size:10px!important;color:#a7b0c0!important;font-weight:900!important}
+.commScheduleList{display:grid!important;gap:8px!important}
+.commScheduleCard{border:1px solid rgba(185,199,219,.15)!important;background:linear-gradient(180deg,#121f31,#0e1827)!important;border-radius:14px!important;padding:10px!important}
+.commScheduleTop{display:flex!important;justify-content:space-between!important;gap:8px!important;align-items:flex-start!important}
+.commScheduleTitle{font-size:12px!important;font-weight:900!important;color:#edf2f7!important;line-height:1.3!important}
+.commScheduleIcon{width:30px!important;height:30px!important;flex:0 0 30px!important;display:grid!important;place-items:center!important;border-radius:10px!important;background:rgba(213,138,0,.15)!important;color:#f3d27a!important}
+.commScheduleMeta{margin-top:7px!important;color:#a7b0c0!important;font-size:10.5px!important;line-height:1.55!important}
+.commScheduleMeta b{color:#f3d27a!important}
+.commScheduleActions{display:flex!important;gap:6px!important;flex-wrap:wrap!important;margin-top:9px!important}
+.commScheduleActions button{border:1px solid rgba(185,199,219,.18)!important;background:rgba(255,255,255,.04)!important;color:#edf2f7!important;border-radius:10px!important;padding:7px 9px!important;font-size:10.5px!important;font-weight:900!important;cursor:pointer!important;font-family:'Merriweather',Georgia,'Times New Roman',serif!important}
+.commScheduleActions button:hover{border-color:rgba(200,162,74,.48)!important;background:rgba(200,162,74,.13)!important;color:#f3d27a!important}
+.commScheduleEmpty{border:1px dashed rgba(200,162,74,.30)!important;background:rgba(200,162,74,.06)!important;border-radius:14px!important;padding:18px 12px!important;text-align:center!important;color:#a7b0c0!important;font-size:12px!important;line-height:1.55!important}
+.scheduleSheet{width:min(460px,100%)!important;align-self:center!important}
+.scheduleGrid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin-top:12px!important}
+.scheduleGrid label{font-size:11px!important;text-transform:uppercase!important;letter-spacing:.04em!important;font-weight:900!important;color:var(--muted)!important;margin:0 0 6px!important}
+.scheduleNote{margin-top:12px!important;border:1px solid rgba(200,162,74,.28)!important;background:rgba(200,162,74,.07)!important;border-radius:14px!important;padding:10px 12px!important;font-size:12px!important;color:var(--muted)!important;line-height:1.5!important}
+.commProgramBtn{border-color:rgba(200,162,74,.32)!important;color:#f3d27a!important;background:rgba(200,162,74,.08)!important}
+.commProgramBtn:hover{background:rgba(200,162,74,.16)!important}
+@media(max-width:620px){
+  .commSchedulePopover{position:fixed!important;left:14px!important;right:14px!important;top:92px!important;width:auto!important;max-height:calc(100vh - 135px)!important}
+  .commSchedulePopover:before{display:none!important}
+  .scheduleGrid{grid-template-columns:1fr!important}
+}
+
+
+/* v137.18.1 — Correção: modal de programação sempre acima da Central */
+#scheduleCommModal.show{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  z-index:100000!important;
+}
+#scheduleCommModal .scheduleSheet{
+  position:relative!important;
+  z-index:100001!important;
+}
+
+
+/* v137.18.2 — Refino premium do horário programado */
+.scheduleTimeRow{
+  display:grid!important;
+  grid-template-columns:1fr auto 1fr!important;
+  gap:8px!important;
+  align-items:center!important;
+}
+.scheduleTimeSep{
+  color:#f3d27a!important;
+  font-size:18px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  padding-top:2px!important;
+}
+.scheduleTimeSelect{
+  width:100%!important;
+  height:42px!important;
+  border-radius:14px!important;
+  border:1px solid rgba(185,199,219,.18)!important;
+  background:linear-gradient(180deg,#081120,#0b1524)!important;
+  color:#edf2f7!important;
+  padding:0 14px!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  outline:none!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+.scheduleTimeSelect:focus{
+  border-color:rgba(200,162,74,.55)!important;
+  box-shadow:0 0 0 3px rgba(200,162,74,.14)!important,inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+.scheduleTimeSelect option{
+  background:#0f1928!important;
+  color:#edf2f7!important;
+}
+
+
+/* v137.18.3 — Refino de cores e fontes nos seletores de hora */
+.scheduleTimeSelect{
+  color-scheme:dark!important;
+  background:linear-gradient(180deg,#0b1728,#0e1b2e)!important;
+  color:#f6f1e5!important;
+  border:1px solid rgba(200,162,74,.32)!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-size:17px!important;
+  font-weight:900!important;
+  letter-spacing:.02em!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.25)!important;
+}
+.scheduleTimeSelect:hover{
+  border-color:rgba(200,162,74,.56)!important;
+  background:linear-gradient(180deg,#0d1b30,#112039)!important;
+}
+.scheduleTimeSelect:focus{
+  border-color:rgba(200,162,74,.68)!important;
+  box-shadow:0 0 0 3px rgba(200,162,74,.16)!important,inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+.scheduleTimeSelect option{
+  background:#0f1928!important;
+  color:#f6f1e5!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-size:16px!important;
+  font-weight:800!important;
+}
+.scheduleTimeSelect option:checked,
+.scheduleTimeSelect option:hover{
+  background:#1a2a44!important;
+  color:#f3d27a!important;
+}
+.scheduleTimeSep{
+  color:#f3d27a!important;
+  font-size:20px!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.35)!important;
+}
+
+
+/* v137.19 — Programados: publicação e insight */
+.commScheduleWhen{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  margin-top:5px!important;
+  border-radius:999px!important;
+  padding:5px 8px!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  background:rgba(200,162,74,.12)!important;
+  color:#f3d27a!important;
+  border:1px solid rgba(200,162,74,.24)!important;
+}
+.commScheduleWhen.due{
+  background:rgba(255,93,115,.12)!important;
+  color:#ff9aa8!important;
+  border-color:rgba(255,93,115,.28)!important;
+}
+.commScheduleWhen.tomorrow{
+  background:rgba(47,128,237,.12)!important;
+  color:#9bc4ff!important;
+  border-color:rgba(47,128,237,.25)!important;
+}
+.commPublishInsight.programmed .commPublishInsightText span:first-child{
+  background:rgba(213,138,0,.18)!important;
+  color:#f3d27a!important;
+}
+.commPublishInsight.programmed{
+  border-color:rgba(213,138,0,.42)!important;
+}
+
+
+/* v138 — Painel de Ciência por Usuário */
+.commReadPanel{
+  display:grid!important;
+  gap:12px!important;
+  margin-top:4px!important;
+}
+.commReadSummary{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:9px!important;
+}
+.commReadSummaryCard{
+  border:1px solid rgba(200,162,74,.24)!important;
+  background:linear-gradient(180deg,#111c2c,#0d1727)!important;
+  border-radius:15px!important;
+  padding:11px!important;
+  color:#edf2f7!important;
+}
+.commReadSummaryCard b{
+  display:block!important;
+  font-size:10px!important;
+  text-transform:uppercase!important;
+  letter-spacing:.06em!important;
+  color:#a7b0c0!important;
+  margin-bottom:5px!important;
+}
+.commReadSummaryCard span{
+  display:block!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  color:#f3d27a!important;
+  line-height:1.25!important;
+}
+.commReadMessage{
+  border:1px solid rgba(185,199,219,.16)!important;
+  background:linear-gradient(180deg,#0f1928,#0c1524)!important;
+  border-radius:16px!important;
+  padding:13px!important;
+  color:#edf2f7!important;
+  line-height:1.65!important;
+  white-space:pre-wrap!important;
+  font-size:13px!important;
+}
+.commReadMessage b{
+  color:#f3d27a!important;
+}
+.commReadUsers{
+  border:1px solid rgba(185,199,219,.16)!important;
+  background:linear-gradient(180deg,#0f1928,#0c1524)!important;
+  border-radius:16px!important;
+  padding:10px!important;
+}
+.commReadUsersHead{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  padding:2px 2px 10px!important;
+  border-bottom:1px solid rgba(185,199,219,.14)!important;
+  margin-bottom:8px!important;
+}
+.commReadUsersHead b{
+  color:#f3d27a!important;
+  font-size:13px!important;
+}
+.commReadUsersHead small{
+  color:#a7b0c0!important;
+  font-weight:900!important;
+  font-size:10px!important;
+}
+.commReadUserList{
+  display:grid!important;
+  gap:7px!important;
+  max-height:260px!important;
+  overflow:auto!important;
+  padding-right:2px!important;
+}
+.commReadUser{
+  display:grid!important;
+  grid-template-columns:30px 1fr auto!important;
+  gap:9px!important;
+  align-items:center!important;
+  border:1px solid rgba(185,199,219,.12)!important;
+  background:rgba(255,255,255,.035)!important;
+  border-radius:13px!important;
+  padding:8px 9px!important;
+}
+.commReadUserIcon{
+  width:30px!important;
+  height:30px!important;
+  border-radius:11px!important;
+  display:grid!important;
+  place-items:center!important;
+  font-size:14px!important;
+  background:rgba(255,93,115,.12)!important;
+  color:#ff9aa8!important;
+  border:1px solid rgba(255,93,115,.22)!important;
+}
+.commReadUser.read .commReadUserIcon{
+  background:rgba(66,211,146,.12)!important;
+  color:#76e0ad!important;
+  border-color:rgba(66,211,146,.25)!important;
+}
+.commReadUserName{
+  min-width:0!important;
+}
+.commReadUserName b{
+  display:block!important;
+  color:#edf2f7!important;
+  font-size:12px!important;
+  line-height:1.25!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.commReadUserName small{
+  display:block!important;
+  color:#a7b0c0!important;
+  font-size:10px!important;
+  margin-top:2px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.commReadUserStatus{
+  border-radius:999px!important;
+  padding:6px 8px!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+  background:rgba(255,93,115,.12)!important;
+  color:#ff9aa8!important;
+  border:1px solid rgba(255,93,115,.22)!important;
+}
+.commReadUser.read .commReadUserStatus{
+  background:rgba(66,211,146,.12)!important;
+  color:#76e0ad!important;
+  border-color:rgba(66,211,146,.25)!important;
+}
+.commViewSheet{
+  width:min(680px,100%)!important;
+}
+@media(max-width:620px){
+  .commReadSummary{grid-template-columns:1fr!important}
+  .commReadUser{grid-template-columns:28px 1fr!important}
+  .commReadUserStatus{grid-column:2!important;width:max-content!important}
+}
+
 </style>
 </head>
 <body class="splashing">
@@ -4282,7 +5039,17 @@ body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145d
           <h2>Central Inteligente de Comunicados</h2>
           <p class="mini">Push LAB — avisos operacionais com leitura por usuário, equipe ou perfil.</p>
         </div>
-        <button class="close" onclick="closeCommunicationsCenter()">×</button>
+        <div class="commHeaderActions">
+          <div class="commScheduleWrap">
+            <button class="commScheduleBtn" id="commScheduleBtn" onclick="event.stopPropagation();toggleCommunicationsSchedule()" title="Comunicados programados">🕒<span class="scheduleCount" id="commScheduleCount">0</span></button>
+            <div class="commSchedulePopover" id="commSchedulePopover" onclick="event.stopPropagation()"></div>
+          </div>
+          <div class="commArchiveWrap">
+            <button class="commArchiveBtn" id="commArchiveBtn" onclick="event.stopPropagation();toggleCommunicationsArchive()" title="Arquivo de comunicados">🗂️<span class="archiveCount" id="commArchiveCount">0</span></button>
+            <div class="commArchivePopover" id="commArchivePopover" onclick="event.stopPropagation()"></div>
+          </div>
+          <button class="close" onclick="closeCommunicationsCenter()">×</button>
+        </div>
       </div>
       <div class="commHero">
         <b>Comunicação operacional sem depender da memória.</b>
@@ -4293,14 +5060,14 @@ body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145d
           <h3>Novo comunicado</h3>
           <div class="commFormGrid">
             <div class="commTitleField"><label>Título</label><input id="commTitle" placeholder="Ex.: Portão principal"></div>
-            <div><label>Tipo</label><select id="commType"><option value="manutencao">Manutenção</option><option value="emergencia">Emergência</option><option value="aviso">Aviso</option><option value="info">Informação</option><option value="concluido">Concluído</option></select></div>
+            <div><label>Tipo</label><select id="commType"><option value="aviso">✈️ Aviso</option><option value="manutencao">🛠️ Manutenção</option><option value="emergencia">⚠️ Emergência</option><option value="info">ℹ️ Informação</option><option value="agua">💧 Água</option><option value="energia">⚡ Energia</option><option value="dedetizacao">🪳 Dedetização</option><option value="portao">🚪 Portão</option><option value="concluido">✅ Concluído</option></select></div>
             <div><label>Destinatários</label><select id="commTarget" onchange="toggleCommTargetUser()"><option value="all">Todos</option><option value="portaria">Portaria</option><option value="admin">Administradores</option><option value="dia">Equipe do dia</option><option value="noite">Equipe da noite</option><option value="user">Usuário específico</option></select></div>
             <div class="commTargetUserWrap hide full" id="commTargetUserWrap"><label>Usuário específico</label><select id="commTargetUser"></select></div>
             <div><label>Validade</label><select id="commValidity"><option value="today">Hoje</option><option value="tomorrow">Até amanhã</option><option value="7">7 dias</option><option value="none">Sem validade</option></select></div>
             <div><label>Previsão / horário</label><input id="commEta" placeholder="Ex.: 17h ou 00/00 das 8h às 12h"></div>
             <div class="full"><label>Mensagem</label><textarea id="commMessage" placeholder="Ex.: Portão social em manutenção. Previsão de normalização às 17h."></textarea></div>
           </div>
-          <div class="actions"><button class="btn gold" onclick="saveCommunication()">Publicar comunicado</button><button class="btn ghost" onclick="clearCommunicationForm()">Limpar</button></div>
+          <div class="actions"><button class="btn gold" onclick="saveCommunication()">Publicar comunicado</button><button class="btn ghost commProgramBtn" onclick="openScheduleCommunicationModal()">🕒 Programar</button><button class="btn ghost" onclick="clearCommunicationForm()">Limpar</button></div>
           <div class="commUserHint">O ícone ficará vermelho apenas para quem ainda não confirmou leitura.</div>
         </div>
         <div class="commListPanel">
@@ -5310,6 +6077,49 @@ body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145d
 <!-- v137.7: Limpeza da Central, alerta vermelho e escudo de hierarquia -->
 <!-- v136.4: Atualização inteligente — mantém guia/rolagem e evita splash em refresh -->
 <!-- v136.3: Offset mobile dinâmico para guias ficarem abaixo do topbar -->
+
+
+<div class="modal center" id="scheduleCommModal">
+  <div class="sheet scheduleSheet">
+    <div class="sheetHead">
+      <div>
+        <h2>🕒 Programar comunicado</h2>
+        <p class="mini">Escolha data e hora para publicar automaticamente quando o app estiver em uso.</p>
+      </div>
+      <button class="close" onclick="closeScheduleCommunicationModal()">×</button>
+    </div>
+    <div class="scheduleGrid">
+      <div><label>Data</label><input type="date" id="commScheduleDate"></div>
+      <div><label>Hora</label>
+          <div class="scheduleTimeRow">
+            <select id="commScheduleHour" class="scheduleTimeSelect"></select>
+            <span class="scheduleTimeSep">:</span>
+            <select id="commScheduleMinute" class="scheduleTimeSelect"></select>
+          </div>
+        </div>
+    </div>
+    <div class="scheduleNote">O comunicado ficará guardado em <b>Programados</b> e será publicado quando o horário chegar. Se o app estiver fechado, ele publica assim que for aberto novamente.</div>
+    <div class="actions" style="justify-content:flex-end;margin-top:14px">
+      <button class="btn ghost" onclick="closeScheduleCommunicationModal()">Cancelar</button>
+      <button class="btn gold" onclick="scheduleCommunication()">Confirmar programação</button>
+    </div>
+  </div>
+</div>
+
+<div class="commPublishInsight" id="commPublishInsight" role="status" aria-live="polite">
+  <div class="commPublishInsightText">
+    <span>📣</span>
+    <div>
+      <b id="commPublishInsightTitle">Comunicado publicado.</b>
+      <small id="commPublishInsightSub">Você pode visualizar ou desfazer por alguns segundos.</small>
+    </div>
+  </div>
+  <div class="commPublishInsightActions">
+    <button onclick="viewLastPublishedCommunication()">👁️ Visualizar</button>
+    <button class="danger" onclick="undoLastPublishedCommunication()">↩️ Desfazer</button>
+  </div>
+</div>
+
 </body></html>`);
   w.document.close();
 }
@@ -5677,8 +6487,8 @@ function saveResident(oldId){
 }
 function clearUnit(id){openAppConfirm({title:'Limpar cadastro da unidade?',message:'Todos os moradores, telefones, veículos e dados dessa unidade serão removidos.',okText:'Limpar',onConfirm:()=>{const u=state.units[id]; delete state.units[id]; addLog('Limpou cadastro de unidade',`${u?.bloco||id} ${u?.apto||''}`,'moradores'); save();closeModal()}})}
 let pendingConfirm=null;
-function openAppConfirm({title='Confirmar ação',message='Deseja continuar?',okText='Confirmar',onConfirm=null}={}){pendingConfirm=onConfirm;document.getElementById('confirmTitle').textContent=title;document.getElementById('confirmMessage').innerHTML=message;document.getElementById('confirmOkBtn').textContent=okText;document.getElementById('confirmModal').classList.add('show')}
-function closeAppConfirm(ok){const fn=pendingConfirm;pendingConfirm=null;document.getElementById('confirmModal').classList.remove('show');if(ok&&typeof fn==='function')fn()}
+function openAppConfirm({title='Confirmar ação',message='Deseja continuar?',okText='Confirmar',onConfirm=null}={}){pendingConfirm=onConfirm;document.getElementById('confirmTitle').textContent=title;document.getElementById('confirmMessage').innerHTML=message;document.getElementById('confirmOkBtn').textContent=okText;const cancelBtn=document.querySelector('#confirmModal .confirmActions .btn.ghost');if(cancelBtn)cancelBtn.style.display=onConfirm?'inline-flex':'none';document.getElementById('confirmModal').classList.add('show')}
+function closeAppConfirm(ok){const fn=pendingConfirm;pendingConfirm=null;document.getElementById('confirmModal').classList.remove('show');document.querySelector('#confirmModal .sheet')?.classList.remove('commViewSheet');if(ok&&typeof fn==='function')fn()}
 
 /* ── BACKUP ROBUSTO v108 ────────────────────────────────────── */
 
@@ -7511,13 +8321,20 @@ function escapeHtml(v){
 /* v137 — Central Inteligente de Comunicados (Push LAB) */
 function ensureCommunications(){
   if(!Array.isArray(state.comunicados)) state.comunicados=[];
-  state.comunicados.forEach(c=>{ if(!c.id)c.id='comm-'+Date.now()+'-'+Math.random().toString(16).slice(2); if(!c.reads||typeof c.reads!=='object')c.reads={}; if(c.active===undefined)c.active=true; });
+  state.comunicados.forEach(c=>{
+    if(!c.id)c.id='comm-'+Date.now()+'-'+Math.random().toString(16).slice(2);
+    if(!c.reads||typeof c.reads!=='object')c.reads={};
+    if(c.archived)c.active=false;
+    if(c.active===undefined)c.active=true;
+  });
 }
 function commNowISO(){return new Date().toISOString()}
 function commCurrentUser(){try{return getCurrentUser&&getCurrentUser()}catch(e){return null}}
 function commUserKey(u=commCurrentUser()){return u?(u.id||u.login||u.nome):''}
 function commTargetLabel(t){return ({all:'Todos',portaria:'Portaria',admin:'Administradores',dia:'Equipe do dia',noite:'Equipe da noite',user:'Usuário específico'}[t]||'Todos')}
-function commTypeLabel(t){return ({emergencia:'Emergência',manutencao:'Manutenção',aviso:'Aviso',info:'Informação',concluido:'Concluído'}[t]||'Aviso')}
+function commTypeLabel(t){return ({emergencia:'Emergência',manutencao:'Manutenção',aviso:'Aviso',info:'Informação',agua:'Água',energia:'Energia',dedetizacao:'Dedetização',portao:'Portão',concluido:'Concluído'}[t]||'Aviso')}
+function commTypeIcon(t){return ({emergencia:'⚠️',manutencao:'🛠️',aviso:'✈️',info:'ℹ️',agua:'💧',energia:'⚡',dedetizacao:'🪳',portao:'🚪',concluido:'✅'}[t]||'✈️')}
+function commTypeClass(t){return 'type-'+String(t||'aviso').replace(/[^a-z0-9_-]/gi,'').toLowerCase()}
 function commValidityDate(kind){const d=new Date(); if(kind==='none')return ''; if(kind==='tomorrow')d.setDate(d.getDate()+1); else if(kind==='7')d.setDate(d.getDate()+7); d.setHours(23,59,59,999); return d.toISOString()}
 function isCommExpired(c){return c.validUntil && new Date(c.validUntil).getTime()<Date.now()}
 function isCommForCurrentUser(c){
@@ -7536,10 +8353,317 @@ function isCommVisibleInCenter(c){
   return isAdmin() || isCommForCurrentUser(c);
 }
 function isCommRead(c){const k=commUserKey(); return !!(k && c.reads && c.reads[k])}
-function getPendingComms(){ensureCommunications(); return state.comunicados.filter(c=>c.active!==false && !isCommExpired(c) && isCommForCurrentUser(c) && !isCommRead(c));}
+function getPendingComms(){ensureCommunications(); return state.comunicados.filter(c=>c.active!==false && !c.archived && c.scheduled!==true && !isCommExpired(c) && isCommForCurrentUser(c) && !isCommRead(c));}
 function toggleCommTargetUser(){const wrap=document.getElementById('commTargetUserWrap'); const target=document.getElementById('commTarget')?.value; if(wrap)wrap.classList.toggle('hide',target!=='user');}
 function fillCommUsers(){const sel=document.getElementById('commTargetUser'); if(!sel)return; sel.innerHTML=(state.users||[]).filter(u=>u.ativo!==false).map(u=>`<option value="${escapeHtml(u.id||u.login||u.nome)}">${escapeHtml(u.nome||u.login)} • ${u.perfil==='admin'?'Admin':'Portaria'}</option>`).join('');}
 function clearCommunicationForm(){['commTitle','commEta','commMessage'].forEach(id=>{const el=document.getElementById(id); if(el)el.value=''}); const t=document.getElementById('commType'); if(t)t.value='manutencao'; const target=document.getElementById('commTarget'); if(target)target.value='all'; const v=document.getElementById('commValidity'); if(v)v.value='today'; toggleCommTargetUser();}
+
+
+let lastPublishedCommunicationId=null;
+let commPublishInsightTimer=null;
+function closeCommPublishInsight(){
+  const box=document.getElementById('commPublishInsight');
+  if(box){box.classList.remove('show');box.classList.remove('programmed');}
+  if(commPublishInsightTimer){clearTimeout(commPublishInsightTimer);commPublishInsightTimer=null;}
+}
+function showCommPublishInsight(c,opts={}){
+  if(!c)return;
+  lastPublishedCommunicationId=c.id;
+  const box=document.getElementById('commPublishInsight');
+  const title=document.getElementById('commPublishInsightTitle');
+  const sub=document.getElementById('commPublishInsightSub');
+  if(!box||!title||!sub)return;
+  const programmed=!!opts.programmed;
+  box.classList.toggle('programmed',programmed);
+  title.textContent=opts.title || (programmed?'Comunicado programado publicado.':'Comunicado publicado.');
+  sub.textContent=(c.title||'Comunicado')+' • '+commTargetLabel(c.target||'all');
+  box.classList.add('show');
+  if(commPublishInsightTimer)clearTimeout(commPublishInsightTimer);
+  commPublishInsightTimer=setTimeout(()=>{box.classList.remove('show');box.classList.remove('programmed');},12000);
+}
+function viewLastPublishedCommunication(){
+  if(!lastPublishedCommunicationId)return;
+  closeCommPublishInsight();
+  viewCommunication(lastPublishedCommunicationId);
+}
+function undoLastPublishedCommunication(){
+  if(!lastPublishedCommunicationId)return;
+  ensureCommunications();
+  const id=lastPublishedCommunicationId;
+  const idx=(state.comunicados||[]).findIndex(c=>c.id===id);
+  if(idx<0){closeCommPublishInsight();return;}
+  const c=state.comunicados[idx];
+  const reads=c.reads||c.readBy||{};
+  if(reads&&Object.keys(reads).length){
+    openToast?.('Não foi possível desfazer: alguém já confirmou leitura.');
+    closeCommPublishInsight();
+    return;
+  }
+  state.comunicados.splice(idx,1);
+  save('desfazer-comunicado');
+  renderCommunications();
+  renderCommunicationsSchedule?.();
+  renderScheduleBadge?.();
+  closeCommPublishInsight();
+  openToast?.('Publicação desfeita.');
+}
+
+function scheduledComms(){
+  ensureCommunications();
+  return (state.comunicados||[]).filter(c=>c && c.scheduled===true && c.archived!==true).sort((a,b)=>String(a.scheduledAt||'').localeCompare(String(b.scheduledAt||'')));
+}
+function renderScheduleBadge(){
+  const btn=document.getElementById('commScheduleBtn');
+  const count=document.getElementById('commScheduleCount');
+  if(!btn||!count)return;
+  const allowed=canManageCommunications?.();
+  btn.closest('.commScheduleWrap')?.classList.toggle('hide',!allowed);
+  if(!allowed){
+    btn.classList.remove('hasItems');
+    count.textContent='0';
+    closeCommunicationsSchedule?.();
+    return;
+  }
+  const n=scheduledComms().length;
+  count.textContent=String(n);
+  btn.classList.toggle('hasItems',n>0);
+}
+
+function scheduleSmartLabel(iso){
+  if(!iso)return {text:'Sem horário',cls:''};
+  const when=new Date(iso);
+  if(isNaN(when.getTime()))return {text:'Horário inválido',cls:'due'};
+  const now=new Date();
+  const sameDay=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+  const tomorrow=new Date(now); tomorrow.setDate(now.getDate()+1);
+  const hh=when.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  if(when.getTime()<=now.getTime())return {text:'Atrasado — será publicado ao abrir o app',cls:'due'};
+  if(sameDay(when,now))return {text:'Publica hoje às '+hh,cls:'today'};
+  if(sameDay(when,tomorrow))return {text:'Publica amanhã às '+hh,cls:'tomorrow'};
+  return {text:'Publica em '+when.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})+' às '+hh,cls:''};
+}
+
+function renderCommunicationsSchedule(){
+  if(!canManageCommunications?.()){closeCommunicationsSchedule?.(); renderScheduleBadge?.(); return;}
+  const box=document.getElementById('commSchedulePopover');
+  if(!box)return;
+  const list=scheduledComms();
+  if(!list.length){
+    box.innerHTML=`<div class="commScheduleHead"><b>🕒 Programados</b><small>0 agendados</small></div><div class="commScheduleEmpty">Nenhum comunicado programado.<br>Use o botão <b>Programar</b> para deixar um aviso pronto.</div>`;
+    renderScheduleBadge();
+    return;
+  }
+  box.innerHTML=`<div class="commScheduleHead"><b>🕒 Comunicados Programados</b><small>${list.length} agendado${list.length>1?'s':''}</small></div><div class="commScheduleList">${
+    list.map(c=>{
+      const icon=commTypeIcon(c.type||'info');
+      const type=commTypeLabel(c.type||'info');
+      const smart=scheduleSmartLabel(c.scheduledAt||'');
+      const safeId=String(c.id).replace(/'/g,'\\\'');
+      return `<div class="commScheduleCard">
+        <div class="commScheduleTop">
+          <div>
+            <div class="commScheduleTitle">${escapeHtml(c.title||'Comunicado')}</div>
+            <div class="commScheduleMeta">
+              <b>${escapeHtml(type)}</b> • ${escapeHtml(commTargetLabel(c.target||'all'))}<br>
+              Programado para: ${escapeHtml(formatDateTimeBR(c.scheduledAt||''))}<br>
+              Criado por: ${escapeHtml(c.createdBy||'Admin')}<br>
+              <span class="commScheduleWhen ${escapeHtml(smart.cls)}">🕒 ${escapeHtml(smart.text)}</span>
+            </div>
+          </div>
+          <div class="commScheduleIcon">${icon}</div>
+        </div>
+        <div class="commScheduleActions">
+          <button onclick="viewCommunication('${safeId}')">👁️ Visualizar</button>
+          <button onclick="publishScheduledCommunicationNow('${safeId}')">📣 Publicar agora</button>
+          <button onclick="cancelScheduledCommunication('${safeId}')">Cancelar</button>
+        </div>
+      </div>`;
+    }).join('')
+  }</div>`;
+  renderScheduleBadge();
+}
+function toggleCommunicationsSchedule(){
+  if(!canManageCommunications?.())return;
+  const pop=document.getElementById('commSchedulePopover');
+  if(!pop)return;
+  closeAllCommMenus?.();
+  closeCommunicationsArchive?.();
+  const willOpen=!pop.classList.contains('open');
+  renderCommunicationsSchedule();
+  pop.classList.toggle('open',willOpen);
+}
+function closeCommunicationsSchedule(){
+  document.getElementById('commSchedulePopover')?.classList.remove('open');
+}
+function ensureScheduleModalElement(){
+  let modal=document.getElementById('scheduleCommModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.className='modal center';
+    modal.id='scheduleCommModal';
+    modal.innerHTML=`<div class="sheet scheduleSheet">
+      <div class="sheetHead">
+        <div>
+          <h2>🕒 Programar comunicado</h2>
+          <p class="mini">Escolha data e hora para publicar automaticamente quando o app estiver em uso.</p>
+        </div>
+        <button class="close" onclick="closeScheduleCommunicationModal()">×</button>
+      </div>
+      <div class="scheduleGrid">
+        <div><label>Data</label><input type="date" id="commScheduleDate"></div>
+        <div><label>Hora</label>
+          <div class="scheduleTimeRow">
+            <select id="commScheduleHour" class="scheduleTimeSelect"></select>
+            <span class="scheduleTimeSep">:</span>
+            <select id="commScheduleMinute" class="scheduleTimeSelect"></select>
+          </div>
+        </div>
+      </div>
+      <div class="scheduleNote">O comunicado ficará guardado em <b>Programados</b> e será publicado quando o horário chegar. Se o app estiver fechado, ele publica assim que for aberto novamente.</div>
+      <div class="actions" style="justify-content:flex-end;margin-top:14px">
+        <button class="btn ghost" onclick="closeScheduleCommunicationModal()">Cancelar</button>
+        <button class="btn gold" onclick="scheduleCommunication()">Confirmar programação</button>
+      </div>
+    </div>`;
+  }
+  if(modal.parentElement!==document.body)document.body.appendChild(modal);
+  return modal;
+}
+
+function populateScheduleTimeControls(){
+  const hour=document.getElementById('commScheduleHour');
+  const minute=document.getElementById('commScheduleMinute');
+  if(!hour||!minute)return;
+  if(!hour.options.length){
+    hour.innerHTML=Array.from({length:24},(_,i)=>`<option value="${String(i).padStart(2,'0')}">${String(i).padStart(2,'0')}</option>`).join('');
+  }
+  if(!minute.options.length){
+    minute.innerHTML=Array.from({length:60},(_,i)=>`<option value="${String(i).padStart(2,'0')}">${String(i).padStart(2,'0')}</option>`).join('');
+  }
+}
+
+function openScheduleCommunicationModal(){
+  if(!isAdmin()){openAppConfirm?.({title:'Área restrita',message:'Somente Admin pode programar comunicados.',okText:'OK'});return;}
+  const title=val('commTitle').trim(), message=val('commMessage').trim();
+  if(!title||!message){openAppConfirm?.({title:'Comunicado incompleto',message:'Informe título e mensagem antes de programar.',okText:'OK'});return;}
+  const modal=ensureScheduleModalElement();
+  populateScheduleTimeControls();
+  const d=document.getElementById('commScheduleDate');
+  const h=document.getElementById('commScheduleHour');
+  const m=document.getElementById('commScheduleMinute');
+  const now=new Date();
+  const next=new Date(now.getTime()+60*60*1000);
+  const pad=n=>String(n).padStart(2,'0');
+  if(d&&!d.value)d.value=`${next.getFullYear()}-${pad(next.getMonth()+1)}-${pad(next.getDate())}`;
+  if(h && !h.value)h.value=`${pad(next.getHours())}`;
+  if(m && !m.value)m.value=`${pad(next.getMinutes())}`;
+  modal.classList.add('show');
+  modal.style.setProperty('display','flex','important');
+}
+function closeScheduleCommunicationModal(){
+  const modal=document.getElementById('scheduleCommModal');
+  if(!modal)return;
+  modal.classList.remove('show');
+  modal.style.removeProperty('display');
+}
+function buildCommunicationFromForm({scheduled=false,scheduledAt=''}={}){
+  const target=val('commTarget')||'all';
+  const u=commCurrentUser();
+  return {
+    id:'comm-'+Date.now()+'-'+Math.random().toString(16).slice(2),
+    title:val('commTitle').trim(),
+    message:val('commMessage').trim(),
+    type:val('commType')||'aviso',
+    target,
+    targetUser:target==='user'?val('commTargetUser'):'',
+    eta:val('commEta'),
+    createdAt:commNowISO(),
+    createdBy:u?(u.nome||u.login):'Admin',
+    createdByKey:u?commUserKey(u):'',
+    validUntil:commValidityDate(val('commValidity')||'today'),
+    active:!scheduled,
+    scheduled:scheduled,
+    scheduledAt:scheduledAt||'',
+    reads:{}
+  };
+}
+function scheduleCommunication(){
+  if(!isAdmin())return;
+  ensureCommunications();
+  const title=val('commTitle').trim(), message=val('commMessage').trim();
+  if(!title||!message){openAppConfirm?.({title:'Comunicado incompleto',message:'Informe título e mensagem antes de programar.',okText:'OK'});return;}
+  const d=val('commScheduleDate'), h=val('commScheduleHour'), m=val('commScheduleMinute');
+  if(!d||!h||!m){openAppConfirm?.({title:'Data e hora',message:'Escolha data e hora para programar o comunicado.',okText:'OK'});return;}
+  const scheduledAt=new Date(`${d}T${h}:${m}:00`);
+  if(isNaN(scheduledAt.getTime())){openAppConfirm?.({title:'Data inválida',message:'Não consegui entender a data e hora escolhidas.',okText:'OK'});return;}
+  if(scheduledAt.getTime()<=Date.now()+15000){openAppConfirm?.({title:'Horário já passou ou está muito próximo',message:'Escolha uma data e hora futuras para programar o comunicado com segurança.',okText:'OK'});return;}
+  const c=buildCommunicationFromForm({scheduled:true,scheduledAt:scheduledAt.toISOString()});
+  state.comunicados.unshift(c);
+  addLog?.('Programou comunicado',`${title} • ${formatDateTimeBR(c.scheduledAt)} • ${commTargetLabel(c.target)}`,'sistema');
+  clearCommunicationForm();
+  closeScheduleCommunicationModal();
+  save('programar-comunicado');
+  renderCommunications();
+  renderCommunicationsSchedule();
+  renderScheduleBadge();
+  openToast?.('Comunicado programado.');
+}
+function publishScheduledCommunication(c,{silent=false}={}){
+  if(!c)return false;
+  c.scheduled=false;
+  c.active=true;
+  c.createdAt=commNowISO();
+  c.publishedAt=commNowISO();
+  c.publishedFromSchedule=true;
+  if(!c.reads||typeof c.reads!=='object')c.reads={};
+  addLog?.('Publicou comunicado programado',`${c.title} • ${commTargetLabel(c.target)}`,'sistema');
+  if(!silent)setTimeout(()=>showCommPublishInsight(c,{programmed:true,title:'Comunicado programado publicado.'}),120);
+  return true;
+}
+function publishScheduledCommunicationNow(id){
+  if(!canManageCommunications?.())return;
+  ensureCommunications();
+  const c=state.comunicados.find(x=>x.id===id);
+  if(!c)return;
+  publishScheduledCommunication(c);
+  closeCommunicationsSchedule();
+  save('publicar-programado-agora');
+  renderCommunications();
+  renderCommunicationsSchedule();
+  renderScheduleBadge();
+  openCommunicationsCenter?.();
+}
+function cancelScheduledCommunication(id){
+  if(!canManageCommunications?.())return;
+  ensureCommunications();
+  const idx=state.comunicados.findIndex(x=>x.id===id && x.scheduled===true);
+  if(idx<0)return;
+  const c=state.comunicados[idx];
+  const doCancel=()=>{
+    state.comunicados.splice(idx,1);
+    save('cancelar-programacao');
+    renderCommunications();
+    renderCommunicationsSchedule();
+    renderScheduleBadge();
+    openToast?.('Programação cancelada.');
+  };
+  if(typeof openAppConfirm==='function'){
+    openAppConfirm({title:'Cancelar programação?',message:`O comunicado <b>${escapeHtml(c.title||'')}</b> será removido dos programados.`,okText:'Cancelar programação',onConfirm:doCancel});
+  }else if(confirm('Cancelar esta programação?')) doCancel();
+}
+function promoteDueScheduledCommunications(){
+  ensureCommunications();
+  const due=(state.comunicados||[]).filter(c=>c && c.scheduled===true && c.archived!==true && c.scheduledAt && new Date(c.scheduledAt).getTime()<=Date.now());
+  if(!due.length)return false;
+  due.forEach(c=>publishScheduledCommunication(c,{silent:true}));
+  try{save('publicar-programado')}catch(e){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(_e){}}
+  renderScheduleBadge?.();
+  renderCommunicationsSchedule?.();
+  const last=due[0];
+  if(last)setTimeout(()=>showCommPublishInsight(last,{programmed:true,title:due.length>1?`${due.length} comunicados programados publicados.`:'Comunicado programado publicado.'}),180);
+  return true;
+}
+
 function saveCommunication(){
   if(!isAdmin()){openAppConfirm?.({title:'Área restrita',message:'Somente Admin pode publicar comunicados.',okText:'OK'});return;}
   ensureCommunications();
@@ -7555,6 +8679,7 @@ function saveCommunication(){
   save('comunicado');
   renderCommunications();
   openCommunicationsCenter();
+  setTimeout(()=>showCommPublishInsight(c),120);
 }
 function markCommunicationRead(id){
   ensureCommunications(); const c=state.comunicados.find(x=>x.id===id); const u=commCurrentUser(); if(!c||!u)return;
@@ -7563,11 +8688,38 @@ function markCommunicationRead(id){
   save('leitura-comunicado'); renderCommunications();
 }
 function archiveCommunication(id){
-  if(!isAdmin())return; const c=(state.comunicados||[]).find(x=>x.id===id); if(!c)return;
-  openAppConfirm?.({title:'Arquivar comunicado?',message:`O comunicado <b>${escapeHtml(c.title)}</b> deixará de aparecer para os usuários.`,okText:'Arquivar',onConfirm:()=>{c.active=false; addLog?.('Arquivou comunicado',c.title,'sistema'); save('arquivar-comunicado'); renderCommunications();}});
+  if(!canManageCommunications?.())return;
+  ensureCommunications();
+  const c=state.comunicados.find(x=>x.id===id);
+  if(!c)return;
+  const doArchive=()=>{
+    c.archived=true;
+    c.active=false;
+    c.archivedAt=new Date().toISOString();
+    c.archivedBy=commCurrentUser()?.nome||commCurrentUser()?.name||'Sistema';
+    closeAllCommMenus?.();
+    closeCommunicationsArchive?.();
+    save('arquivar-comunicado');
+    renderCommunications();
+    renderCommunicationsArchive?.();
+    renderArchiveBadge?.();
+    openToast?.('Comunicado movido para o Arquivo.');
+  };
+  if(typeof openAppConfirm==='function'){
+    openAppConfirm({
+      title:'Arquivar comunicado?',
+      message:'Este comunicado sairá dos ativos e ficará guardado na pastinha Arquivo. Você poderá visualizar ou reativar depois.',
+      okText:'Arquivar',
+      onConfirm:doArchive
+    });
+  }else if(confirm('Arquivar este comunicado? Ele sairá dos ativos e ficará no Arquivo.')){
+    doArchive();
+  }
 }
 function renderCommunications(){
-  ensureCommunications(); fillCommUsers(); toggleCommTargetUser();
+  ensureCommunications();
+  promoteDueScheduledCommunications?.();
+  renderScheduleBadge?.(); renderArchiveBadge?.(); fillCommUsers(); toggleCommTargetUser();
   const pending=getPendingComms();
   const btn=document.getElementById('commCenterBtn'), badge=document.getElementById('commBadge');
   if(btn){
@@ -7581,20 +8733,276 @@ function renderCommunications(){
   const list=document.getElementById('commList');
   const panelTitle=document.querySelector('.commListPanel h3');
   if(list){
-    const active=(state.comunicados||[]).filter(c=>c && c.active!==false && !isCommExpired(c) && isCommVisibleInCenter(c)).sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
+    const active=(state.comunicados||[]).filter(c=>c && c.active!==false && c.archived!==true && c.scheduled!==true && !isCommExpired(c) && isCommVisibleInCenter(c)).sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
     if(panelTitle)panelTitle.setAttribute('data-count',active.length?`${active.length} ativo(s)`: 'vazio');
     list.innerHTML=active.length?active.map(c=>{try{return renderCommunicationCard(c)}catch(e){console.warn('Falha ao renderizar comunicado',e,c);return `<div class="commCard"><div class="commTitle">Comunicado</div><div class="commMsg">Não foi possível exibir este comunicado. Ele permanece salvo.</div></div>`}}).join(''):'<div class="commEmpty">Nenhum comunicado ativo para o seu perfil no momento.</div>';
   }
   scheduleCommInsight();
 }
+function getCommMenuById(id){
+  return Array.from(document.querySelectorAll('.commMenu')).find(m=>String(m.dataset.id)===String(id));
+}
+function resetCommMenuPosition(menu){
+  if(!menu)return;
+  menu.style.removeProperty('position');
+  menu.style.removeProperty('left');
+  menu.style.removeProperty('right');
+  menu.style.removeProperty('top');
+  menu.style.removeProperty('bottom');
+}
+function positionCommMenu(menu,btn){
+  if(!menu||!btn)return;
+  const width=170;
+  const rect=btn.getBoundingClientRect();
+  const height=menu.offsetHeight||158;
+  let left=rect.right-width+6;
+  left=Math.max(10,Math.min(left,window.innerWidth-width-10));
+  let top=rect.bottom-height-4;
+  if(top<10) top=rect.bottom+8;
+  menu.style.setProperty('position','fixed','important');
+  menu.style.setProperty('left',left+'px','important');
+  menu.style.setProperty('right','auto','important');
+  menu.style.setProperty('top',top+'px','important');
+  menu.style.setProperty('bottom','auto','important');
+}
+function toggleCommCardMenu(id,btn){
+  const menu=getCommMenuById(id);
+  if(!menu)return;
+  const willOpen=!menu.classList.contains('open');
+  document.querySelectorAll('.commMenu.open').forEach(m=>{m.classList.remove('open'); resetCommMenuPosition(m);});
+  if(willOpen){
+    menu.classList.add('open');
+    positionCommMenu(menu,btn);
+  }
+}
+function closeAllCommMenus(){
+  document.querySelectorAll('.commMenu.open').forEach(m=>{m.classList.remove('open'); resetCommMenuPosition(m);});
+}
+
+
+function canManageCommunications(){
+  const u=commCurrentUser?.();
+  const role=String(u?.role||u?.profile||u?.tipo||'').toLowerCase();
+  return document.body.classList.contains('role-admin') || role.includes('admin') || role.includes('síndico') || role.includes('sindico');
+}
+
+
+function formatDateTimeBR(iso){
+  if(!iso)return '—';
+  try{return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});}
+  catch(e){return '—';}
+}
+
+function archivedComms(){
+  ensureCommunications();
+  return (state.comunicados||[]).filter(c=>c.archived).sort((a,b)=>String(b.archivedAt||b.createdAt||'').localeCompare(String(a.archivedAt||a.createdAt||'')));
+}
+function communicationReadStats(c){
+  ensureCommunications();
+  const users=(state.users||[]).filter(u=>u.active!==false && (typeof isCommForUser!=='function' || isCommForUser(c,u)));
+  const total=Math.max(users.length,1);
+  const readMap=c.reads||c.readBy||{}; const readCount=users.filter(u=>readMap[u.id]||readMap[u.login]||readMap[u.nome]).length;
+  return {readCount,total};
+}
+function renderArchiveBadge(){
+  const btn=document.getElementById('commArchiveBtn');
+  const count=document.getElementById('commArchiveCount');
+  if(!btn||!count)return;
+  const allowed=canManageCommunications?.();
+  btn.closest('.commArchiveWrap')?.classList.toggle('hide',!allowed);
+  if(!allowed){
+    btn.classList.remove('hasItems');
+    count.textContent='0';
+    closeCommunicationsArchive?.();
+    return;
+  }
+  const n=archivedComms().length;
+  count.textContent=String(n);
+  btn.classList.toggle('hasItems',n>0);
+}
+function renderCommunicationsArchive(){
+  if(!canManageCommunications?.()){closeCommunicationsArchive?.(); renderArchiveBadge?.(); return;}
+  const box=document.getElementById('commArchivePopover');
+  if(!box)return;
+  const list=archivedComms();
+  if(!list.length){
+    box.innerHTML=`<div class="commArchiveHead"><b>🗂️ Arquivo</b><small>0 arquivados</small></div><div class="commArchiveEmpty">Nenhum comunicado arquivado ainda.<br>Quando você arquivar um comunicado, ele aparecerá aqui.</div>`;
+    renderArchiveBadge();
+    return;
+  }
+  box.innerHTML=`<div class="commArchiveHead"><b>🗂️ Arquivo de Comunicados</b><small>${list.length} arquivado${list.length>1?'s':''}</small></div><div class="commArchiveList">${
+    list.map(c=>{
+      const icon=commTypeIcon(c.type||'info');
+      const type=commTypeLabel(c.type||'info');
+      const stats=communicationReadStats(c);
+      return `<div class="commArchiveCard">
+        <div class="commArchiveTop">
+          <div>
+            <div class="commArchiveTitle">${escapeHtml(c.title||'Comunicado')}</div>
+            <div class="commArchiveMeta">
+              <b>${escapeHtml(type)}</b> • ${escapeHtml(commTargetLabel(c.target||'all'))}<br>
+              Publicado: ${escapeHtml(formatDateTimeBR(c.createdAt||c.date||''))}<br>
+              Arquivado: ${escapeHtml(formatDateTimeBR(c.archivedAt||''))}<br>
+              Lido por ${stats.readCount} de ${stats.total}
+            </div>
+          </div>
+          <div class="commArchiveIcon">${icon}</div>
+        </div>
+        <div class="commArchiveActions">
+          <button onclick="viewCommunication('${String(c.id).replace(/'/g,'\\\'')}')">👁️ Visualizar</button>
+          <button onclick="reactivateCommunication('${String(c.id).replace(/'/g,'\\\'')}')">↩️ Reativar</button>
+        </div>
+      </div>`;
+    }).join('')
+  }</div>`;
+  renderArchiveBadge();
+}
+function toggleCommunicationsArchive(){
+  if(!canManageCommunications?.())return;
+  const pop=document.getElementById('commArchivePopover');
+  if(!pop)return;
+  closeAllCommMenus?.();
+  const willOpen=!pop.classList.contains('open');
+  renderCommunicationsArchive();
+  pop.classList.toggle('open',willOpen);
+}
+function closeCommunicationsArchive(){
+  document.getElementById('commArchivePopover')?.classList.remove('open');
+}
+function reactivateCommunication(id){
+  if(!canManageCommunications?.())return;
+  ensureCommunications();
+  const c=state.comunicados.find(x=>x.id===id);
+  if(!c)return;
+  c.archived=false;
+  c.active=true;
+  c.reactivatedAt=new Date().toISOString();
+  c.reactivatedBy=commCurrentUser()?.nome||commCurrentUser()?.name||'Sistema';
+  save('reativar-comunicado');
+  renderCommunications();
+  renderCommunicationsArchive();
+  renderArchiveBadge?.();
+  openToast?.('Comunicado reativado nos ativos.');
+}
+
+
+function commUserRoleLabel(u){
+  const p=String(u?.perfil||u?.role||u?.profile||'').toLowerCase();
+  if(p.includes('admin'))return 'Admin';
+  if(p.includes('portaria'))return 'Portaria';
+  return 'Usuário';
+}
+function isCommForUser(c,u){
+  if(!c||!u)return false;
+  const t=c.target||'all';
+  if(t==='all')return true;
+  if(t==='admin')return String(u.perfil||u.role||u.profile||'').toLowerCase().includes('admin');
+  if(t==='portaria')return String(u.perfil||u.role||u.profile||'').toLowerCase().includes('portaria');
+  if(t==='dia')return u.turno==='dia' || (String(u.perfil||'').toLowerCase().includes('portaria') && /dia|manh/i.test(u.nome||u.login||''));
+  if(t==='noite')return u.turno==='noite' || (String(u.perfil||'').toLowerCase().includes('portaria') && /noite|noturno/i.test(u.nome||u.login||''));
+  if(t==='user')return String(c.targetUser||'')===String(u.id||u.login||u.nome||'');
+  return true;
+}
+function commTargetUsers(c){
+  ensureCommunications();
+  const users=(state.users||[]).filter(u=>u && u.ativo!==false && u.active!==false);
+  const filtered=users.filter(u=>isCommForUser(c,u));
+  return filtered.length?filtered:users;
+}
+function commReadKeyForUser(u){
+  return u?(u.id||u.login||u.nome):'';
+}
+function commReadAtForUser(c,u){
+  const map=c?.reads||c?.readBy||{};
+  return map[commReadKeyForUser(u)]||map[u?.id]||map[u?.login]||map[u?.nome]||'';
+}
+function commReadStatsFull(c){
+  const users=commTargetUsers(c);
+  const read=users.filter(u=>!!commReadAtForUser(c,u));
+  return {users,readCount:read.length,total:users.length};
+}
+function renderCommunicationReadPanel(c){
+  const stats=commReadStatsFull(c);
+  const published=c.createdAt?formatDateTimeBR(c.createdAt):'—';
+  const archived=c.archivedAt?formatDateTimeBR(c.archivedAt):'—';
+  const scheduled=c.scheduledAt?formatDateTimeBR(c.scheduledAt):'—';
+  const rows=stats.users.map(u=>{
+    const at=commReadAtForUser(c,u);
+    const read=!!at;
+    const name=escapeHtml(u.nome||u.login||'Usuário');
+    const role=escapeHtml(commUserRoleLabel(u));
+    const when=read?('Lido em '+formatDateTimeBR(at)):'Aguardando ciência';
+    return `<div class="commReadUser ${read?'read':'pending'}">
+      <div class="commReadUserIcon">${read?'✓':'⏳'}</div>
+      <div class="commReadUserName"><b>${name}</b><small>${role}${u.turno?' • '+escapeHtml(u.turno):''}</small></div>
+      <div class="commReadUserStatus">${escapeHtml(when)}</div>
+    </div>`;
+  }).join('');
+  const statusText=c.archived?'Arquivado':(c.scheduled?'Programado':'Ativo');
+  const extra=c.archived?`<div class="commReadSummaryCard"><b>Arquivado em</b><span>${escapeHtml(archived)}</span></div>`:
+    (c.scheduled?`<div class="commReadSummaryCard"><b>Programado para</b><span>${escapeHtml(scheduled)}</span></div>`:
+    `<div class="commReadSummaryCard"><b>Status</b><span>${escapeHtml(statusText)}</span></div>`);
+  return `<div class="commReadPanel">
+    <div class="commReadSummary">
+      <div class="commReadSummaryCard"><b>Publicado por</b><span>${escapeHtml(c.createdBy||'Admin')}</span></div>
+      <div class="commReadSummaryCard"><b>Publicado em</b><span>${escapeHtml(published)}</span></div>
+      <div class="commReadSummaryCard"><b>Leitura</b><span>${stats.readCount} de ${stats.total}</span></div>
+      ${extra}
+    </div>
+    <div class="commReadMessage"><b>${escapeHtml(commTypeLabel(c.type||'aviso'))} • ${escapeHtml(commTargetLabel(c.target||'all'))}</b><br><br>${escapeHtml(c.message||'Sem mensagem.')}</div>
+    <div class="commReadUsers">
+      <div class="commReadUsersHead"><b>✅ Painel de ciência</b><small>${stats.total?Math.round((stats.readCount/stats.total)*100):0}% lido</small></div>
+      <div class="commReadUserList">${rows||'<div class="commArchiveEmpty">Nenhum usuário encontrado para este comunicado.</div>'}</div>
+    </div>
+  </div>`;
+}
+
+function viewCommunication(id){
+  ensureCommunications();
+  const c=state.comunicados.find(x=>x.id===id);
+  if(!c)return;
+  openAppConfirm?.({
+    title:escapeHtml(c.title||'Comunicado'),
+    message:renderCommunicationReadPanel(c),
+    okText:'Fechar'
+  });
+  setTimeout(()=>{document.querySelector('#confirmModal .sheet')?.classList.add('commViewSheet')},30);
+}
 function renderCommunicationCard(c){
-  const pending=isCommForCurrentUser(c)&&!isCommRead(c); const reads=Object.keys(c.reads||{});
-  const readers=reads.map(k=>{const u=(state.users||[]).find(x=>(x.id||x.login||x.nome)===k); return `${escapeHtml(u?.nome||k)} — ${new Date(c.reads[k]).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}`}).join('<br>')||'Ainda sem confirmações.';
+  const pending=isCommForCurrentUser(c)&&!isCommRead(c);
+  const current=getCurrentUser();
+  const uid=current?(current.id||current.login||current.nome):'anon';
   const published=c.createdAt?new Date(c.createdAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-  return `<div class="commCard ${pending?'pending':''}"><div class="commTop"><div><div class="commTitle">${escapeHtml(c.title)}</div>${pending?'<div class="commUnreadNote">Leitura pendente para sua ciência.</div>':''}</div><span class="commTag ${escapeHtml(c.type||'aviso')}">${commTypeLabel(c.type)}</span></div><div class="commMsg">${escapeHtml(c.message)}</div><div class="commMeta">Destino: <b>${commTargetLabel(c.target)}</b>${c.target==='user'&&c.targetUser?' • Usuário: <b>'+escapeHtml(c.targetUser)+'</b>':''}${c.eta?' • Previsão: <b>'+escapeHtml(c.eta)+'</b>':''}<br>Publicado por ${escapeHtml(c.createdBy||'Admin')}${published?' em '+published:''}</div><div class="commReads"><b>Confirmações:</b><br>${readers}</div><div class="commActions">${pending?`<button class="btn gold" onclick="markCommunicationRead('${c.id}')">Confirmar leitura</button>`:''}${isAdmin()?`<button class="btn ghost" onclick="archiveCommunication('${c.id}')">Arquivar</button>`:''}</div></div>`;
+  const readAt=(c.reads&&c.reads[uid])?new Date(c.reads[uid]).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+  const status=pending?'Aguarda sua leitura':(readAt?'Lido em '+readAt:'Sem pendência para você');
+  const type=c.type||'aviso';
+  const icon=commTypeIcon(type);
+  const typeClass=commTypeClass(type);
+  const safeId=String(c.id).replace(/'/g,'&#39;');
+  const canArchive=isAdmin() && !c.archived;
+  return `<div class="commCard ${pending?'pending':'read'} ${typeClass}" onclick="viewCommunication('${safeId}')" title="${escapeHtml(c.message||'Clique para consultar o comunicado')}">
+    <div class="commCardIcon ${typeClass}" aria-hidden="true">${icon}</div>
+    <div class="commCardMain">
+      <div class="commCardTitle">${escapeHtml(c.title||'Comunicado')}</div>
+      <div class="commCardLine"><span class="commCardDate">📅 ${published||'Publicado'}</span><span class="commCardStatus ${pending?'pending':'read'}">${pending?'●':'✓'} ${escapeHtml(status)}</span></div>
+    </div>
+    <button class="commMenuBtn" onclick="event.stopPropagation();toggleCommCardMenu('${safeId}', this)" title="Opções">⋮</button>
+    <div class="commMenu" data-id="${escapeHtml(c.id)}" onclick="event.stopPropagation()">
+      <button onclick="viewCommunication('${safeId}')">👁️ Visualizar</button>
+      ${pending?`<button onclick="markCommunicationRead('${safeId}')">✅ Li e estou ciente</button>`:''}
+      ${canArchive&&canManageCommunications?.()?`<button class="adminArchiveAction" onclick="archiveCommunication('${safeId}')">📦 Arquivar</button>`:''}
+    </div>
+  </div>`;
 }
 function openCommunicationsCenter(){ensureCommunications(); const m=document.getElementById('commModal'); if(m)m.classList.add('show'); renderCommunications();}
-function closeCommunicationsCenter(){document.getElementById('commModal')?.classList.remove('show')}
+function closeCommunicationsCenter(){document.getElementById('commModal')?.classList.remove('show'); closeAllCommMenus?.(); closeCommunicationsArchive?.(); closeCommunicationsSchedule?.()}
+document.addEventListener('click',function(ev){
+  const t=ev.target;
+  if(!(t instanceof Element)) return;
+  if(!t.closest('.commMenu') && !t.closest('.commMenuBtn')) closeAllCommMenus?.();
+    if(!t.closest('.commArchivePopover') && !t.closest('.commArchiveBtn')) closeCommunicationsArchive?.();
+    if(!t.closest('.commSchedulePopover') && !t.closest('.commScheduleBtn')) closeCommunicationsSchedule?.();
+});
 function hideCommInsight(minutes=10){document.getElementById('commInsight')?.classList.remove('show'); try{localStorage.setItem('pp_comm_snooze_until',String(Date.now()+minutes*60000))}catch(e){}}
 function scheduleCommInsight(){
   const box=document.getElementById('commInsight'); if(!box)return; const pending=getPendingComms(); if(!pending.length){box.classList.remove('show');return;}
@@ -7625,6 +9033,7 @@ ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isAr
 
 function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen','1')}catch(e){} const sp=document.getElementById('appSplash'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); document.body.classList.remove('splashing'); setTimeout(()=>sp.remove(),650)}
 window.addEventListener('load',()=>setTimeout(hideAppSplash,650));
+setInterval(()=>{promoteDueScheduledCommunications?.(); renderCommunications?.();},60000);
 setTimeout(hideAppSplash,2600);
 const iconSvg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#071121"/><stop offset=".58" stop-color="#173154"/><stop offset="1" stop-color="#2a2110"/></linearGradient><linearGradient id="gold" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fff1b8"/><stop offset="1" stop-color="#c8a24a"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#g)"/><circle cx="394" cy="116" r="92" fill="#f6d98a" opacity=".13"/><rect x="122" y="132" width="76" height="226" rx="18" fill="url(#gold)"/><rect x="306" y="88" width="76" height="270" rx="18" fill="url(#gold)"/><rect x="218" y="178" width="76" height="180" rx="18" fill="url(#gold)"/><g opacity=".36" fill="#0d1b2a"><rect x="145" y="165" width="16" height="16" rx="3"/><rect x="145" y="207" width="16" height="16" rx="3"/><rect x="145" y="249" width="16" height="16" rx="3"/><rect x="329" y="125" width="16" height="16" rx="3"/><rect x="329" y="167" width="16" height="16" rx="3"/><rect x="329" y="209" width="16" height="16" rx="3"/><rect x="241" y="214" width="16" height="16" rx="3"/><rect x="241" y="256" width="16" height="16" rx="3"/></g><text x="256" y="416" text-anchor="middle" font-family="Georgia,serif" font-size="62" font-weight="900" fill="#fff6ce">PP</text></svg>`;
 const iconUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(iconSvg);
