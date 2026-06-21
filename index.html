@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0d1b2a" />
   <meta name="description" content="Controle de portaria, visitantes, prestadores e moradores do Condomínio Edifício Primavera." />
-  <title>Portaria Primavera</title>
+  <title>Portaria Primavera v150</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -3667,7 +3667,7 @@ body.theme-light .loginRemember input{accent-color:#c8a24a}
 
 /* v100 — Relatórios Operacionais */
 .reportsHero{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(247,241,223,.9))}
-.reportsHero h2{margin:0 0 6px;color:var(--navy);font-size:24px}.reportsHero p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.reportsActions{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.reportsActions select{min-width:180px;height:46px}
+.reportsHero h2{margin:0 0 6px;color:var(--navy);font-size:24px}.reportsHero p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.reportsActions{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-left:auto}.reportsActions .btn{height:44px;padding-inline:18px}.reportsActions .reportPeriodSelect{min-width:150px;max-width:160px;height:44px;order:3;flex:0 0 160px}.reportsActions select{height:44px}
 .reportsBody{display:grid;gap:14px}.reportsMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.reportMetric{min-height:116px}.reportMetric .n{font-size:28px;font-weight:900;color:var(--navy);line-height:1}.reportMetric .l{margin-top:8px;color:var(--muted);font-size:12px}.reportMetric .s{display:inline-flex;margin-top:10px;border:1px solid rgba(200,162,74,.34);background:#fff5df;color:#7a5a12;border-radius:10px;padding:6px 9px;font-size:11px;font-weight:900}.reportsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.reportPanel h3{margin:0 0 12px;color:var(--navy);font-size:18px}.reportRows{display:grid;gap:8px}.reportRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:12px;padding:10px 12px;font-size:12px}.reportRow b{color:var(--navy)}.reportRow span{font-weight:900;color:#7a5a12}.reportEmpty{color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:12px;padding:14px;text-align:center}.reportMiniGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.reportMini{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.55)}.reportMini b{display:block;color:var(--navy);font-size:18px}.reportMini span{display:block;color:var(--muted);font-size:11px;margin-top:5px}.reportSectionNote{font-size:12px;color:var(--muted);line-height:1.55;margin-top:10px}
 body.theme-dark .reportsHero{background:linear-gradient(145deg,#111c2c,#181b23)}body.theme-dark .reportRow,body.theme-dark .reportMini{background:#0e1827;border-color:var(--line)}
 body:not(.theme-dark) .reportsHero,body:not(.theme-dark) .reportPanel,body:not(.theme-dark) .reportMetric{border-color:#b7c5d9!important;box-shadow:0 14px 34px rgba(15,35,65,.12)!important}body:not(.theme-dark) .reportRow,body:not(.theme-dark) .reportMini{border-color:#b8c6da!important}
@@ -5028,6 +5028,2444 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
   .commReadUserStatus{grid-column:2!important;width:max-content!important}
 }
 
+
+/* v138.1 — Emagrecimento do Painel de Ciência */
+#confirmModal.info-only .confirmActions{
+  display:none!important;
+}
+#confirmModal.info-only .confirmSheet{
+  padding-bottom:18px!important;
+}
+#confirmModal.info-only .confirmBody{
+  margin-bottom:0!important;
+}
+#confirmModal.info-only .confirmClose{
+  opacity:1!important;
+}
+
+
+/* v138.2 — X superior no painel de ciência */
+.confirmSheet{
+  position:relative!important;
+}
+.confirmCloseTop{
+  position:absolute!important;
+  top:16px!important;
+  right:16px!important;
+  width:40px!important;
+  height:40px!important;
+  border-radius:14px!important;
+  border:1px solid rgba(185,199,219,.18)!important;
+  background:linear-gradient(180deg,#0f1928,#0c1626)!important;
+  color:#edf2f7!important;
+  display:grid!important;
+  place-items:center!important;
+  font-size:24px!important;
+  line-height:1!important;
+  cursor:pointer!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.20)!important;
+  z-index:2!important;
+}
+.confirmCloseTop:hover{
+  border-color:rgba(200,162,74,.42)!important;
+  color:#f3d27a!important;
+  transform:translateY(-1px)!important;
+}
+#confirmModal.info-only .confirmCloseTop{
+  display:grid!important;
+}
+
+
+/* v138.4 — Filtros do Painel de Ciência */
+.commReadFilterBar{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  flex-wrap:wrap!important;
+  margin:0 0 10px!important;
+  padding:0 2px 10px!important;
+  border-bottom:1px solid rgba(185,199,219,.14)!important;
+}
+.commReadFilterText{
+  color:#a7b0c0!important;
+  font-size:11px!important;
+  line-height:1.45!important;
+  font-weight:800!important;
+}
+.commReadFilterText b{
+  color:#f3d27a!important;
+}
+.commReadFilters{
+  display:flex!important;
+  gap:6px!important;
+  flex-wrap:wrap!important;
+}
+.commReadFilterBtn{
+  border:1px solid rgba(185,199,219,.18)!important;
+  background:rgba(255,255,255,.035)!important;
+  color:#edf2f7!important;
+  border-radius:999px!important;
+  padding:7px 10px!important;
+  font-size:10.5px!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+}
+.commReadFilterBtn:hover{
+  border-color:rgba(200,162,74,.45)!important;
+  background:rgba(200,162,74,.11)!important;
+  color:#f3d27a!important;
+}
+.commReadFilterBtn.active{
+  border-color:rgba(200,162,74,.62)!important;
+  background:rgba(200,162,74,.18)!important;
+  color:#f3d27a!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.14)!important;
+}
+.commReadUser.hideByFilter{
+  display:none!important;
+}
+.commReadFilteredEmpty{
+  display:none!important;
+  border:1px dashed rgba(200,162,74,.30)!important;
+  background:rgba(200,162,74,.06)!important;
+  border-radius:14px!important;
+  padding:15px 12px!important;
+  text-align:center!important;
+  color:#a7b0c0!important;
+  font-size:12px!important;
+  line-height:1.55!important;
+}
+.commReadFilteredEmpty.show{
+  display:block!important;
+}
+@media(max-width:620px){
+  .commReadFilterBar{
+    align-items:flex-start!important;
+    flex-direction:column!important;
+  }
+  .commReadFilters{
+    width:100%!important;
+  }
+  .commReadFilterBtn{
+    flex:1!important;
+  }
+}
+
+
+/* v139 — Menu ⋯ de Auditoria no Painel de Ciência */
+.confirmMoreTop{
+  position:absolute!important;top:16px!important;right:62px!important;width:40px!important;height:40px!important;
+  border-radius:14px!important;border:1px solid rgba(185,199,219,.18)!important;
+  background:linear-gradient(180deg,#0f1928,#0c1626)!important;color:#edf2f7!important;
+  display:none!important;place-items:center!important;font-size:24px!important;line-height:1!important;cursor:pointer!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.20)!important;z-index:5!important;
+}
+.confirmCloseTop{z-index:5!important}
+.confirmMoreTop:hover{border-color:rgba(200,162,74,.42)!important;color:#f3d27a!important;transform:translateY(-1px)!important}
+#confirmModal.commAuditEnabled .confirmMoreTop{display:grid!important}
+#confirmModal.commAuditEnabled #confirmTitle{padding-right:92px!important}
+.commAuditPopover{
+  position:absolute!important;top:62px!important;right:16px!important;width:min(360px,calc(100% - 32px))!important;
+  max-height:min(420px,60vh)!important;overflow:auto!important;display:none!important;z-index:8!important;
+  border:1px solid rgba(200,162,74,.28)!important;background:linear-gradient(180deg,#111c2c,#0c1626)!important;color:#edf2f7!important;
+  border-radius:18px!important;box-shadow:0 22px 60px rgba(0,0,0,.38)!important;padding:12px!important;
+}
+.commAuditPopover.show{display:block!important}
+.commAuditHead{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;padding:2px 2px 10px!important;border-bottom:1px solid rgba(185,199,219,.14)!important;margin-bottom:10px!important}
+.commAuditHead b{color:#f3d27a!important;font-size:13px!important}.commAuditHead small{color:#a7b0c0!important;font-size:10px!important;font-weight:900!important}
+.commAuditList{display:grid!important;gap:8px!important}.commAuditItem{display:grid!important;grid-template-columns:30px 1fr!important;gap:9px!important;align-items:start!important;border:1px solid rgba(185,199,219,.12)!important;background:rgba(255,255,255,.035)!important;border-radius:14px!important;padding:9px!important}
+.commAuditIcon{width:30px!important;height:30px!important;border-radius:11px!important;display:grid!important;place-items:center!important;background:rgba(200,162,74,.12)!important;border:1px solid rgba(200,162,74,.22)!important}
+.commAuditText b{display:block!important;color:#edf2f7!important;font-size:12px!important;line-height:1.35!important}.commAuditText small{display:block!important;color:#a7b0c0!important;font-size:10px!important;line-height:1.45!important;margin-top:2px!important}
+.commAuditEmpty{border:1px dashed rgba(200,162,74,.30)!important;background:rgba(200,162,74,.06)!important;border-radius:14px!important;padding:14px!important;text-align:center!important;color:#a7b0c0!important;font-size:12px!important}
+@media(max-width:620px){.confirmMoreTop{right:58px!important}.confirmCloseTop,.confirmMoreTop{top:12px!important;width:36px!important;height:36px!important;border-radius:13px!important}#confirmModal.commAuditEnabled #confirmTitle{padding-right:86px!important}.commAuditPopover{top:56px!important}}
+
+
+/* v139.2 — Refino visual do menu ⋯ de auditoria */
+.commAuditPopover{
+  top:74px!important;
+  right:20px!important;
+  width:min(350px,calc(100% - 40px))!important;
+  padding:13px!important;
+}
+.commAuditHead{
+  padding:3px 2px 11px!important;
+}
+.commAuditHead b{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+}
+.commAuditHead b::before{
+  content:'⋯'!important;
+  width:24px!important;
+  height:24px!important;
+  border-radius:9px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid rgba(200,162,74,.25)!important;
+  background:rgba(200,162,74,.10)!important;
+  color:#f3d27a!important;
+  font-size:16px!important;
+  line-height:1!important;
+}
+.commAuditItem{
+  padding:10px!important;
+}
+.commAuditIcon{
+  font-size:14px!important;
+}
+@media(max-width:620px){
+  .commAuditPopover{
+    top:62px!important;
+    right:12px!important;
+    width:calc(100% - 24px)!important;
+  }
+}
+
+
+/* v140 — Usuários, Turnos e Identidade Operacional */
+.operatorIdentityPanel{
+  border:1px solid rgba(200,162,74,.28)!important;
+  background:linear-gradient(180deg,rgba(200,162,74,.08),rgba(255,255,255,.025))!important;
+  border-radius:18px!important;
+  padding:13px!important;
+  display:grid!important;
+  grid-template-columns:1fr auto!important;
+  gap:12px!important;
+  align-items:center!important;
+}
+.operatorIdentityMain{
+  display:flex!important;
+  gap:12px!important;
+  align-items:center!important;
+  min-width:0!important;
+}
+.operatorAvatar{
+  width:44px!important;
+  height:44px!important;
+  border-radius:16px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:linear-gradient(145deg,#0f1928,#0b1422)!important;
+  border:1px solid rgba(200,162,74,.35)!important;
+  color:#f3d27a!important;
+  font-size:20px!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.22)!important;
+  flex:0 0 auto!important;
+}
+.operatorIdentityText{
+  min-width:0!important;
+}
+.operatorIdentityText b{
+  display:block!important;
+  color:var(--ink)!important;
+  font-size:14px!important;
+  line-height:1.3!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.operatorIdentityText span{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  line-height:1.45!important;
+  margin-top:2px!important;
+}
+.operatorQuickSwitch{
+  display:flex!important;
+  gap:8px!important;
+  align-items:end!important;
+  min-width:290px!important;
+}
+.operatorQuickSwitch label{
+  margin:0!important;
+  min-width:180px!important;
+}
+.operatorQuickSwitch select{
+  min-height:42px!important;
+}
+.userCardMeta{
+  display:grid!important;
+  gap:4px!important;
+  margin-top:9px!important;
+}
+.userCardMeta small{
+  color:var(--muted)!important;
+  font-size:10.5px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.profileBadge.zelador{
+  background:rgba(79,172,254,.12)!important;
+  color:#93cfff!important;
+  border-color:rgba(79,172,254,.24)!important;
+}
+.profileBadge.portariaDia{
+  background:rgba(255,210,92,.12)!important;
+  color:#f3d27a!important;
+  border-color:rgba(255,210,92,.28)!important;
+}
+.profileBadge.portariaNoite{
+  background:rgba(151,123,255,.13)!important;
+  color:#c9bdff!important;
+  border-color:rgba(151,123,255,.28)!important;
+}
+.userOperationalStats{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:9px!important;
+}
+.userOperationalStat{
+  border:1px solid rgba(185,199,219,.14)!important;
+  background:rgba(255,255,255,.035)!important;
+  border-radius:14px!important;
+  padding:10px!important;
+}
+.userOperationalStat b{
+  display:block!important;
+  color:#f3d27a!important;
+  font-size:16px!important;
+}
+.userOperationalStat span{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  text-transform:uppercase!important;
+  letter-spacing:.04em!important;
+  margin-top:3px!important;
+}
+@media(max-width:900px){
+  .operatorIdentityPanel{grid-template-columns:1fr!important}
+  .operatorQuickSwitch{min-width:0!important;width:100%!important}
+  .operatorQuickSwitch label{flex:1!important;min-width:0!important}
+  .userOperationalStats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:560px){
+  .operatorQuickSwitch{display:grid!important;grid-template-columns:1fr!important}
+  .operatorQuickSwitch .btn{width:100%!important}
+  .userOperationalStats{grid-template-columns:1fr!important}
+}
+
+
+/* v141 — Histórico Geral por Operador */
+.operatorHistoryPanel{
+  border:1px solid rgba(200,162,74,.24)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02))!important;
+  border-radius:18px!important;
+  padding:13px!important;
+  display:grid!important;
+  gap:12px!important;
+}
+.operatorHistoryHead{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  flex-wrap:wrap!important;
+}
+.operatorHistoryHead b{
+  color:#f3d27a!important;
+  font-size:14px!important;
+}
+.operatorHistoryHead span{
+  color:var(--muted)!important;
+  font-size:11px!important;
+  font-weight:800!important;
+}
+.operatorHistoryFilters{
+  display:grid!important;
+  grid-template-columns:1fr 160px 160px auto!important;
+  gap:9px!important;
+  align-items:end!important;
+}
+.operatorHistoryFilters label{
+  margin:0!important;
+}
+.operatorHistoryFilters input,
+.operatorHistoryFilters select{
+  min-height:42px!important;
+}
+.operatorHistoryList{
+  display:grid!important;
+  gap:8px!important;
+  max-height:360px!important;
+  overflow:auto!important;
+  padding-right:2px!important;
+}
+.operatorHistoryRow{
+  display:grid!important;
+  grid-template-columns:34px 1fr auto!important;
+  gap:10px!important;
+  align-items:center!important;
+  border:1px solid rgba(185,199,219,.13)!important;
+  background:rgba(255,255,255,.035)!important;
+  border-radius:15px!important;
+  padding:9px 10px!important;
+}
+.operatorHistoryIcon{
+  width:34px!important;
+  height:34px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:rgba(200,162,74,.12)!important;
+  border:1px solid rgba(200,162,74,.20)!important;
+  color:#f3d27a!important;
+}
+.operatorHistoryText{
+  min-width:0!important;
+}
+.operatorHistoryText b{
+  display:block!important;
+  color:var(--ink)!important;
+  font-size:12px!important;
+  line-height:1.35!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.operatorHistoryText small{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:10.5px!important;
+  line-height:1.45!important;
+  margin-top:2px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.operatorHistoryTime{
+  color:#f3d27a!important;
+  font-size:10.5px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+  text-align:right!important;
+}
+.operatorHistoryEmpty{
+  border:1px dashed rgba(200,162,74,.28)!important;
+  background:rgba(200,162,74,.055)!important;
+  border-radius:15px!important;
+  padding:16px!important;
+  text-align:center!important;
+  color:var(--muted)!important;
+  font-size:12px!important;
+}
+@media(max-width:860px){
+  .operatorHistoryFilters{grid-template-columns:1fr 1fr!important}
+  .operatorHistoryFilters .btn{width:100%!important}
+}
+@media(max-width:560px){
+  .operatorHistoryFilters{grid-template-columns:1fr!important}
+  .operatorHistoryRow{grid-template-columns:34px 1fr!important}
+  .operatorHistoryTime{grid-column:2!important;text-align:left!important}
+}
+
+
+/* v141.1 — Histórico Geral ocupando a largura total */
+.operatorHistoryTool{
+  grid-column:1 / -1!important;
+}
+.operatorHistoryPanel{
+  min-height:auto!important;
+}
+.operatorHistoryFilters{
+  grid-template-columns:1.4fr 220px 180px auto!important;
+}
+.operatorHistoryList{
+  max-height:430px!important;
+}
+.operatorHistoryRow{
+  grid-template-columns:38px minmax(0,1fr) 120px!important;
+}
+.operatorHistoryIcon{
+  width:38px!important;
+  height:38px!important;
+}
+@media(max-width:900px){
+  .operatorHistoryFilters{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .operatorHistoryRow{
+    grid-template-columns:34px 1fr!important;
+  }
+  .operatorHistoryTime{
+    grid-column:2!important;
+    text-align:left!important;
+  }
+}
+
+
+/* v141.2 — Histórico geral em 2 cards por linha */
+.operatorHistoryList{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+  align-items:start!important;
+  max-height:520px!important;
+}
+.operatorHistoryRow{
+  grid-template-columns:38px minmax(0,1fr)!important;
+  align-items:start!important;
+  min-height:92px!important;
+  padding:11px 12px!important;
+}
+.operatorHistoryText{
+  display:grid!important;
+  gap:4px!important;
+}
+.operatorHistoryText b{
+  white-space:normal!important;
+}
+.operatorHistoryText small{
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+.operatorHistoryTime{
+  grid-column:2!important;
+  text-align:left!important;
+  margin-top:4px!important;
+  font-size:10px!important;
+}
+@media(max-width:980px){
+  .operatorHistoryList{
+    grid-template-columns:1fr!important;
+  }
+}
+
+
+/* v142 — Acordeões Premium na Central Administrativa desktop */
+.adminAccordion{
+  overflow:hidden!important;
+}
+.adminAccordionTop{
+  position:relative!important;
+  cursor:pointer!important;
+  border:1px solid rgba(200,162,74,.22)!important;
+  background:linear-gradient(180deg,rgba(200,162,74,.08),rgba(255,255,255,.025))!important;
+  border-radius:17px!important;
+  padding:13px 14px!important;
+}
+.adminAccordionTop:hover{
+  border-color:rgba(200,162,74,.38)!important;
+  background:linear-gradient(180deg,rgba(200,162,74,.12),rgba(255,255,255,.035))!important;
+}
+.adminAccordionTop .toolIcon{
+  width:42px!important;
+  height:42px!important;
+  border-radius:15px!important;
+}
+.adminAccChevron{
+  width:38px!important;
+  height:38px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(185,199,219,.18)!important;
+  background:rgba(255,255,255,.045)!important;
+  color:#f3d27a!important;
+  display:grid!important;
+  place-items:center!important;
+  font-size:18px!important;
+  font-weight:900!important;
+  cursor:pointer!important;
+  transition:.18s ease!important;
+}
+.adminAccordion.collapsed .adminAccChevron{
+  transform:rotate(-90deg)!important;
+  color:#a7b0c0!important;
+}
+.adminAccTitle{
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  min-width:0!important;
+}
+.adminAccTitle h3{
+  margin:0!important;
+}
+.adminAccTitle .mini{
+  margin-top:4px!important;
+}
+.adminAccordionSummary{
+  margin:10px 3px 0!important;
+  color:var(--muted)!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  line-height:1.45!important;
+}
+.adminAccordionSummary b{
+  color:#f3d27a!important;
+}
+.adminAccordionBody{
+  display:grid!important;
+  gap:13px!important;
+  padding-top:13px!important;
+}
+.adminAccordion.collapsed .adminAccordionBody{
+  display:none!important;
+}
+.adminAccordion.collapsed{
+  padding-bottom:14px!important;
+}
+.adminAccordion.collapsed .adminAccordionSummary{
+  margin-bottom:0!important;
+}
+.operatorHistoryTool .operatorHistoryHead{
+  display:none!important;
+}
+.logsTool .logsLegacyHead{
+  display:none!important;
+}
+@media(max-width:760px){
+  .adminAccordionTop{
+    cursor:default!important;
+  }
+  .adminAccordion.collapsed .adminAccordionBody{
+    display:grid!important;
+  }
+  .adminAccordion.collapsed .adminAccChevron{
+    transform:none!important;
+  }
+}
+
+
+/* v142.1 — Botão do acordeão no alto à direita */
+.adminAccordionTop{
+  display:grid!important;
+  grid-template-columns:1fr auto auto auto!important;
+  align-items:start!important;
+  gap:10px!important;
+  min-height:118px!important;
+}
+.adminAccordionTop .adminAccChevron{
+  grid-column:4!important;
+  grid-row:1!important;
+  align-self:start!important;
+  justify-self:end!important;
+  margin-top:0!important;
+}
+.adminAccordionTop > .btn{
+  align-self:start!important;
+}
+.operatorHistoryTool .adminAccordionTop,
+.logsTool .adminAccordionTop{
+  position:relative!important;
+}
+.operatorHistoryTool .adminAccordionTop .adminAccChevron,
+.logsTool .adminAccordionTop .adminAccChevron{
+  position:absolute!important;
+  top:14px!important;
+  right:14px!important;
+}
+.operatorHistoryTool .adminAccordionTop .btn,
+.logsTool .adminAccordionTop .btn{
+  margin-top:58px!important;
+}
+.operatorHistoryTool .adminAccTitle,
+.logsTool .adminAccTitle{
+  padding-right:58px!important;
+}
+@media(max-width:760px){
+  .adminAccordionTop{
+    grid-template-columns:1fr auto!important;
+    min-height:auto!important;
+  }
+  .operatorHistoryTool .adminAccordionTop .adminAccChevron,
+  .logsTool .adminAccordionTop .adminAccChevron{
+    position:static!important;
+  }
+  .operatorHistoryTool .adminAccordionTop .btn,
+  .logsTool .adminAccordionTop .btn{
+    margin-top:0!important;
+  }
+  .operatorHistoryTool .adminAccTitle,
+  .logsTool .adminAccTitle{
+    padding-right:0!important;
+  }
+}
+
+
+/* v143 — Memória dos acordeões + abrir/recolher tudo */
+.adminAccordionControls{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-end!important;
+}
+.adminAccordionControls .btn{
+  padding:9px 12px!important;
+  font-size:12px!important;
+  border-radius:12px!important;
+}
+.adminGroupTitle .adminAccordionControls{
+  margin-left:auto!important;
+}
+.adminAccordionTop.memoryRestored::after{
+  content:'memória ativa'!important;
+  position:absolute!important;
+  left:14px!important;
+  bottom:10px!important;
+  font-size:9px!important;
+  font-weight:900!important;
+  color:#a7b0c0!important;
+  opacity:.65!important;
+  letter-spacing:.04em!important;
+  text-transform:uppercase!important;
+  pointer-events:none!important;
+}
+.adminAccordion:not(.collapsed) .adminAccordionTop.memoryRestored::after{
+  display:none!important;
+}
+@media(max-width:760px){
+  .adminAccordionControls{
+    display:none!important;
+  }
+}
+
+
+/* v143.1 — Alinhamento dos botões do Histórico Geral */
+.operatorHistoryTool .adminAccordionTop{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto auto auto!important;
+  align-items:start!important;
+  gap:10px!important;
+  min-height:auto!important;
+}
+.operatorHistoryTool .adminAccordionTop .adminAccChevron{
+  position:static!important;
+  top:auto!important;
+  right:auto!important;
+  justify-self:end!important;
+  align-self:start!important;
+}
+.operatorHistoryTool .adminAccordionTop .btn{
+  margin-top:0!important;
+  align-self:start!important;
+}
+.operatorHistoryTool .adminAccTitle{
+  padding-right:0!important;
+}
+@media(max-width:760px){
+  .operatorHistoryTool .adminAccordionTop{
+    grid-template-columns:1fr auto!important;
+  }
+}
+
+
+/* v143.2 — Agenda operacional enxuta */
+#configuracoes .agendaTool{overflow:visible!important}
+#configuracoes .agendaFormSlim{
+  display:grid!important;
+  grid-template-columns:minmax(190px,1.15fr) 150px 160px minmax(190px,1.15fr) auto!important;
+  gap:12px 10px!important;
+  align-items:end!important;
+  margin-top:12px!important;
+}
+#configuracoes .agendaFormSlim > div{min-width:0!important}
+#configuracoes .agendaFormSlim .agendaBtnSlim{
+  display:flex!important;
+  align-items:end!important;
+  justify-content:flex-end!important;
+}
+#configuracoes .agendaFormSlim .agendaBtnSlim .btn{
+  width:auto!important;
+  min-width:170px!important;
+  height:46px!important;
+  padding:0 22px!important;
+  border-radius:14px!important;
+  font-size:16px!important;
+  font-weight:900!important;
+}
+#configuracoes .agendaList{
+  display:grid!important;
+  grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin-top:16px!important;
+  align-items:stretch!important;
+}
+#configuracoes .agendaHead{display:none!important}
+#configuracoes .agendaItem{
+  position:relative!important;
+  min-height:158px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(200,162,74,.22)!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02))!important;
+  padding:14px 14px 16px!important;
+  box-shadow:0 16px 32px rgba(0,0,0,.14)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  overflow:hidden!important;
+}
+#configuracoes .agendaItem:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(200,162,74,.48)!important;
+  box-shadow:0 20px 38px rgba(0,0,0,.18)!important;
+}
+#configuracoes .agendaItem .agendaType{
+  display:inline-flex!important;
+  align-items:center!important;
+  align-self:flex-start!important;
+  min-height:30px!important;
+  padding:0 12px!important;
+  border-radius:999px!important;
+  font-size:12px!important;
+  font-weight:900!important;
+  letter-spacing:.01em!important;
+  border:1px solid rgba(200,162,74,.48)!important;
+  background:rgba(200,162,74,.14)!important;
+  color:#e8c665!important;
+}
+#configuracoes .agendaItem .agendaType.mudanca{
+  border-color:rgba(94,154,255,.45)!important;
+  background:rgba(94,154,255,.14)!important;
+  color:#9fc4ff!important;
+}
+#configuracoes .agendaItem .agendaUnit{
+  display:block!important;
+  font-size:18px!important;
+  line-height:1.15!important;
+  font-weight:900!important;
+  color:#fff8e7!important;
+  margin-top:4px!important;
+}
+#configuracoes .agendaItem .agendaDate{
+  display:block!important;
+  margin-top:auto!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  color:#f1f4fb!important;
+  opacity:.95!important;
+}
+#configuracoes .agendaItem .agendaResp,
+#configuracoes .agendaItem .agendaRemove{display:none!important}
+#configuracoes .agendaRemoveX{
+  position:absolute!important;
+  top:10px!important;
+  right:10px!important;
+  width:28px!important;
+  height:28px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  background:rgba(255,255,255,.04)!important;
+  color:#e8eef9!important;
+  font-size:18px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  cursor:pointer!important;
+  transition:.16s ease!important;
+}
+#configuracoes .agendaRemoveX:hover{
+  color:#fff!important;
+  border-color:rgba(255,114,129,.55)!important;
+  background:rgba(255,114,129,.14)!important;
+  box-shadow:0 10px 22px rgba(255,114,129,.16)!important;
+}
+#configuracoes .agendaEmptyWide{
+  grid-column:1/-1!important;
+  border:1px dashed rgba(200,162,74,.28)!important;
+  border-radius:16px!important;
+  padding:18px!important;
+  color:#dbe5f5!important;
+  opacity:.92!important;
+  text-align:center!important;
+}
+@media (max-width:1450px){
+  #configuracoes .agendaList{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+}
+@media (max-width:1260px){
+  #configuracoes .agendaFormSlim{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #configuracoes .agendaFormSlim .agendaBtnSlim{grid-column:2!important}
+  #configuracoes .agendaList{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media (max-width:980px){
+  #configuracoes .agendaList{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media (max-width:760px){
+  #configuracoes .agendaFormSlim{grid-template-columns:1fr!important}
+  #configuracoes .agendaFormSlim .agendaBtnSlim{grid-column:auto!important;justify-content:stretch!important}
+  #configuracoes .agendaFormSlim .agendaBtnSlim .btn{width:100%!important}
+  #configuracoes .agendaList{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+
+
+/* v143.3 — Agenda com botão no topo à direita */
+#configuracoes .agendaHeaderRow{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:16px!important}
+#configuracoes .agendaTitleWrap{display:flex!important;align-items:flex-start!important;gap:14px!important;min-width:0!important;flex:1 1 auto!important}
+#configuracoes .agendaTitleWrap > div:last-child{min-width:0!important}
+#configuracoes .agendaActionDock{display:flex!important;align-items:flex-start!important;justify-content:flex-end!important;gap:10px!important;flex:0 0 auto!important;margin-left:auto!important}
+#configuracoes .agendaActionDock .btn{width:auto!important;min-width:170px!important;height:46px!important;padding:0 22px!important;border-radius:14px!important;font-size:16px!important;font-weight:900!important}
+#configuracoes .agendaFormSlim{grid-template-columns:minmax(210px,1.15fr) 150px 160px minmax(220px,1.2fr)!important;margin-top:10px!important}
+#configuracoes .agendaFormSlim .agendaBtnSlim{display:none!important}
+@media (max-width:1260px){#configuracoes .agendaFormSlim{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media (max-width:760px){#configuracoes .agendaHeaderRow{flex-direction:column!important;align-items:stretch!important}#configuracoes .agendaActionDock{justify-content:stretch!important}#configuracoes .agendaActionDock .btn{width:100%!important}#configuracoes .agendaFormSlim{grid-template-columns:1fr!important}}
+
+
+/* v143.4 — Refino fino da agenda operacional */
+#configuracoes .agendaFormSlim{
+  grid-template-columns:180px 150px 170px minmax(260px,1fr)!important;
+  gap:12px!important;
+  align-items:end!important;
+}
+#configuracoes .agendaFormSlim label{
+  display:block!important;
+  margin-bottom:6px!important;
+}
+#configuracoes .agendaFormSlim select,
+#configuracoes .agendaFormSlim input{
+  width:100%!important;
+  min-width:0!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+  box-sizing:border-box!important;
+  padding:0 14px!important;
+  border-radius:14px!important;
+  font-size:16px!important;
+  line-height:44px!important;
+}
+#configuracoes .agendaFormSlim #opUnidade.unitPickButton,
+#configuracoes .agendaFormSlim #opResp,
+#configuracoes .agendaFormSlim #opData,
+#configuracoes .agendaFormSlim #opTipo{
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+}
+#configuracoes .agendaFormSlim #opUnidade.unitPickButton{
+  font-size:16px!important;
+  padding:0 14px!important;
+}
+#configuracoes .agendaFormSlim #opResp{
+  width:100%!important;
+}
+#configuracoes .agendaActionDock .btn{
+  min-width:138px!important;
+  height:42px!important;
+  padding:0 18px!important;
+  border-radius:14px!important;
+  font-size:15px!important;
+}
+@media (max-width:1260px){
+  #configuracoes .agendaFormSlim{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media (max-width:760px){
+  #configuracoes .agendaFormSlim{
+    grid-template-columns:1fr!important;
+  }
+}
+
+
+/* v144 — Proteção dos Dados premium enxuta */
+.protectionTool{
+  grid-column:1/-1!important;
+}
+.protectionTool .recoveryCenter{
+  gap:12px!important;
+}
+.protectionTool .recoveryHero{
+  border-radius:20px!important;
+  padding:16px!important;
+  background:linear-gradient(135deg,rgba(216,178,95,.10),rgba(255,255,255,.035),rgba(47,128,237,.055))!important;
+}
+.protectionTool .recoveryHeroTitle{
+  font-size:17px!important;
+}
+.protectionTool .recoveryActions .btn{
+  height:42px!important;
+  border-radius:14px!important;
+  padding:0 16px!important;
+  font-size:13px!important;
+}
+.protectionTool .recoveryStatusGrid{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.protectionTool .recoveryStatusCard{
+  min-height:86px!important;
+  border-radius:17px!important;
+}
+.protectionDetails{
+  border:1px solid rgba(200,162,74,.22)!important;
+  border-radius:18px!important;
+  background:rgba(255,255,255,.025)!important;
+  overflow:hidden!important;
+}
+.protectionDetails summary{
+  list-style:none!important;
+  cursor:pointer!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  padding:13px 14px!important;
+  color:#f3d27a!important;
+  font-weight:900!important;
+  font-size:13px!important;
+}
+.protectionDetails summary::-webkit-details-marker{display:none!important}
+.protectionDetails summary::after{
+  content:'▾'!important;
+  width:34px!important;
+  height:34px!important;
+  border-radius:12px!important;
+  border:1px solid rgba(185,199,219,.18)!important;
+  background:rgba(255,255,255,.04)!important;
+  color:#f3d27a!important;
+  display:grid!important;
+  place-items:center!important;
+  transition:.18s ease!important;
+}
+.protectionDetails:not([open]) summary::after{
+  transform:rotate(-90deg)!important;
+  color:#a7b0c0!important;
+}
+.protectionDetailsBody{
+  padding:0 14px 14px!important;
+  display:grid!important;
+  gap:12px!important;
+}
+.protectionDetails .bkpGrid3{
+  margin-top:0!important;
+}
+.protectionStatusLine{
+  display:grid!important;
+  gap:8px!important;
+}
+.protectionStatusLine .importStatus{
+  margin:0!important;
+}
+@media(max-width:1050px){
+  .protectionTool .recoveryStatusGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:620px){
+  .protectionTool .recoveryStatusGrid{grid-template-columns:1fr!important}
+  .protectionTool .recoveryActions .btn{flex:1!important}
+}
+
+
+/* v144.1 — Proteção dos Dados mais enxuta */
+.protectionTool{
+  position:relative!important;
+}
+.protectionTool > div:first-of-type{
+  padding-right:560px!important;
+}
+.protectionTool .recoveryHeroCompact{
+  position:absolute!important;
+  top:18px!important;
+  right:18px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  z-index:2!important;
+}
+.protectionTool .recoveryActionsTop{
+  display:flex!important;
+  gap:8px!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  flex-wrap:nowrap!important;
+}
+.protectionTool .recoveryActionsTop .btn{
+  height:42px!important;
+  min-width:116px!important;
+  padding:0 16px!important;
+  border-radius:14px!important;
+  font-size:14px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+}
+.protectionTool .recoveryCenter{
+  margin-top:8px!important;
+}
+.protectionTool .recoveryStatusGrid{
+  margin-top:4px!important;
+}
+@media(max-width:1180px){
+  .protectionTool > div:first-of-type{
+    padding-right:0!important;
+  }
+  .protectionTool .recoveryHeroCompact{
+    position:static!important;
+    margin-top:10px!important;
+  }
+  .protectionTool .recoveryActionsTop{
+    justify-content:flex-start!important;
+    flex-wrap:wrap!important;
+  }
+}
+@media(max-width:620px){
+  .protectionTool .recoveryActionsTop .btn{
+    flex:1!important;
+    min-width:0!important;
+  }
+}
+
+
+/* v145 — Relatório visual da Agenda Operacional */
+.agendaReportPanel{
+  grid-column:1/-1!important;
+  overflow:hidden!important;
+}
+.agendaReportHead{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:14px!important;
+  margin-bottom:14px!important;
+}
+.agendaReportHead h3{
+  margin:0 0 5px!important;
+}
+.agendaReportHead p{
+  margin:0!important;
+  color:var(--muted)!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+}
+.agendaReportActions{
+  display:flex!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-end!important;
+}
+.agendaReportActions .btn{
+  height:38px!important;
+  border-radius:13px!important;
+  padding:0 14px!important;
+  font-size:12px!important;
+}
+.agendaReportMetrics{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:10px!important;
+  margin-bottom:13px!important;
+}
+.agendaReportMetric{
+  border:1px solid rgba(185,199,219,.14)!important;
+  background:rgba(255,255,255,.035)!important;
+  border-radius:16px!important;
+  padding:12px!important;
+  min-height:82px!important;
+}
+.agendaReportMetric b{
+  display:block!important;
+  font-size:23px!important;
+  line-height:1!important;
+  color:#f3d27a!important;
+}
+.agendaReportMetric span{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  line-height:1.35!important;
+  margin-top:7px!important;
+}
+.agendaReportGrid{
+  display:grid!important;
+  grid-template-columns:1.1fr .9fr!important;
+  gap:12px!important;
+}
+.agendaNextList,.agendaTopList{
+  display:grid!important;
+  gap:8px!important;
+}
+.agendaReportSub{
+  color:#f3d27a!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  margin:0 0 8px!important;
+}
+.agendaNextItem,.agendaTopItem{
+  border:1px solid rgba(185,199,219,.13)!important;
+  background:rgba(255,255,255,.032)!important;
+  border-radius:14px!important;
+  padding:10px 11px!important;
+  display:grid!important;
+  grid-template-columns:auto 1fr auto!important;
+  gap:10px!important;
+  align-items:center!important;
+}
+.agendaNextType{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:72px!important;
+  height:30px!important;
+  border-radius:999px!important;
+  border:1px solid rgba(200,162,74,.42)!important;
+  background:rgba(200,162,74,.14)!important;
+  color:#f3d27a!important;
+  font-size:11px!important;
+  font-weight:900!important;
+}
+.agendaNextType.mudanca{
+  border-color:rgba(94,154,255,.45)!important;
+  background:rgba(94,154,255,.13)!important;
+  color:#9fc4ff!important;
+}
+.agendaNextMain b,.agendaTopItem b{
+  color:var(--ink)!important;
+  display:block!important;
+  font-size:12.5px!important;
+  line-height:1.35!important;
+}
+.agendaNextMain small,.agendaTopItem small{
+  color:var(--muted)!important;
+  display:block!important;
+  font-size:10.5px!important;
+  line-height:1.35!important;
+  margin-top:2px!important;
+}
+.agendaNextDate,.agendaTopCount{
+  color:#f3d27a!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+}
+.agendaMonthlyMini{
+  display:grid!important;
+  grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  gap:6px!important;
+  margin-top:12px!important;
+}
+.agendaMonthChip{
+  border:1px solid rgba(185,199,219,.12)!important;
+  background:rgba(255,255,255,.025)!important;
+  border-radius:12px!important;
+  padding:8px 7px!important;
+  text-align:center!important;
+}
+.agendaMonthChip b{
+  display:block!important;
+  color:#f3d27a!important;
+  font-size:13px!important;
+}
+.agendaMonthChip span{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:9.5px!important;
+  font-weight:900!important;
+  margin-top:2px!important;
+}
+@media(max-width:1050px){
+  .agendaReportMetrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .agendaReportGrid{grid-template-columns:1fr!important}
+  .agendaMonthlyMini{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(max-width:620px){
+  .agendaReportHead{flex-direction:column!important}
+  .agendaReportActions{width:100%!important}
+  .agendaReportActions .btn{flex:1!important}
+  .agendaReportMetrics{grid-template-columns:1fr!important}
+  .agendaNextItem,.agendaTopItem{grid-template-columns:1fr!important}
+}
+
+
+/* v146 — Agenda mensal/anual: salão e mudanças */
+.agendaReportYearBlock{
+  margin-top:14px!important;
+  border:1px solid rgba(185,199,219,.12)!important;
+  background:rgba(255,255,255,.025)!important;
+  border-radius:16px!important;
+  padding:12px!important;
+}
+.agendaReportYearHead{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  margin-bottom:10px!important;
+}
+.agendaReportYearHead b{
+  color:#f3d27a!important;
+  font-size:13px!important;
+}
+.agendaReportYearHead span{
+  color:var(--muted)!important;
+  font-size:11px!important;
+  font-weight:900!important;
+}
+.agendaMonthlyMini.year{
+  grid-template-columns:repeat(12,minmax(0,1fr))!important;
+  margin-top:0!important;
+}
+.agendaMonthChip.year{
+  min-height:68px!important;
+  display:grid!important;
+  align-content:center!important;
+  gap:3px!important;
+}
+.agendaMonthChip.year small{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:9px!important;
+  line-height:1.25!important;
+  font-weight:900!important;
+}
+.agendaMonthChip.year small .salao{
+  color:#f3d27a!important;
+}
+.agendaMonthChip.year small .mudanca{
+  color:#9fc4ff!important;
+}
+.agendaReportMetric.year b{
+  color:#9fc4ff!important;
+}
+@media(max-width:1180px){
+  .agendaMonthlyMini.year{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+}
+@media(max-width:680px){
+  .agendaMonthlyMini.year{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+
+
+/* v147 — Relatórios em Acordeões Premium */
+.reportsAccordionStack{
+  display:grid!important;
+  gap:12px!important;
+}
+.reportAccordion{
+  border:1px solid rgba(185,199,219,.15)!important;
+  background:rgba(255,255,255,.026)!important;
+  border-radius:19px!important;
+  overflow:hidden!important;
+  box-shadow:0 14px 30px rgba(0,0,0,.10)!important;
+}
+.reportAccordionTop{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:14px!important;
+  padding:14px 15px!important;
+  cursor:pointer!important;
+}
+.reportAccordionTitle{
+  display:flex!important;
+  align-items:center!important;
+  gap:11px!important;
+  min-width:0!important;
+}
+.reportAccordionIcon{
+  width:38px!important;
+  height:38px!important;
+  border-radius:14px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid rgba(200,162,74,.34)!important;
+  background:rgba(200,162,74,.12)!important;
+  flex:0 0 auto!important;
+}
+.reportAccordionTitle h3{
+  margin:0!important;
+  color:var(--ink)!important;
+  font-size:16px!important;
+  line-height:1.2!important;
+}
+.reportAccordionTitle p{
+  margin:3px 0 0!important;
+  color:var(--muted)!important;
+  font-size:11.5px!important;
+  line-height:1.35!important;
+}
+.reportAccordionSummary{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-end!important;
+}
+.reportAccordionBadge{
+  border:1px solid rgba(200,162,74,.34)!important;
+  background:rgba(200,162,74,.11)!important;
+  color:#f3d27a!important;
+  border-radius:999px!important;
+  padding:6px 9px!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+}
+.reportAccordionChevron{
+  width:36px!important;
+  height:36px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(185,199,219,.16)!important;
+  background:rgba(255,255,255,.04)!important;
+  color:#f3d27a!important;
+  display:grid!important;
+  place-items:center!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  transition:.18s ease!important;
+}
+.reportAccordion.collapsed .reportAccordionChevron{
+  transform:rotate(-90deg)!important;
+  color:#a7b0c0!important;
+}
+.reportAccordionBody{
+  padding:0 15px 15px!important;
+}
+.reportAccordion.collapsed .reportAccordionBody{
+  display:none!important;
+}
+.reportAccordionBody .reportsGrid{
+  margin-top:0!important;
+}
+.reportAccordionBody .reportPanel{
+  margin:0!important;
+}
+.reportsMetricsAccordion{
+  margin-bottom:0!important;
+}
+@media(max-width:700px){
+  .reportAccordionTop{
+    align-items:flex-start!important;
+    flex-direction:column!important;
+  }
+  .reportAccordionSummary{
+    width:100%!important;
+    justify-content:space-between!important;
+  }
+}
+@media print{
+  .reportAccordion{border:0!important;box-shadow:none!important;background:#fff!important;break-inside:auto!important}
+  .reportAccordionTop{padding:0 0 6px!important}
+  .reportAccordionChevron{display:none!important}
+  .reportAccordion.collapsed .reportAccordionBody{display:block!important}
+  .reportAccordionBody{padding:0 0 8px!important}
+}
+
+
+@media(max-width:960px){.reportsHero{align-items:flex-start}.reportsActions{width:100%;justify-content:flex-end}.reportsActions .reportPeriodSelect{flex:1 1 160px;max-width:190px}}
+
+
+/* v148 — Central Premium de Exportação dos Relatórios */
+.reportsExportWrap{
+  position:relative!important;
+  display:inline-flex!important;
+}
+.reportsExportMenu{
+  position:absolute!important;
+  right:0!important;
+  top:calc(100% + 10px)!important;
+  width:min(340px,calc(100vw - 36px))!important;
+  border:1px solid rgba(200,162,74,.32)!important;
+  background:linear-gradient(180deg,#111c2c,#0b1320)!important;
+  border-radius:18px!important;
+  box-shadow:0 22px 50px rgba(0,0,0,.38)!important;
+  padding:10px!important;
+  z-index:60!important;
+  display:none!important;
+}
+.reportsExportMenu.open{
+  display:block!important;
+}
+.reportsExportMenu::before{
+  content:''!important;
+  position:absolute!important;
+  top:-7px!important;
+  right:22px!important;
+  width:12px!important;
+  height:12px!important;
+  transform:rotate(45deg)!important;
+  background:#111c2c!important;
+  border-left:1px solid rgba(200,162,74,.32)!important;
+  border-top:1px solid rgba(200,162,74,.32)!important;
+}
+.reportsExportTitle{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  padding:6px 6px 10px!important;
+  border-bottom:1px solid rgba(185,199,219,.12)!important;
+  margin-bottom:8px!important;
+}
+.reportsExportTitle b{
+  color:#f3d27a!important;
+  font-size:13px!important;
+}
+.reportsExportTitle span{
+  color:var(--muted)!important;
+  font-size:10.5px!important;
+  font-weight:900!important;
+}
+.reportsExportOption{
+  width:100%!important;
+  border:1px solid rgba(185,199,219,.12)!important;
+  background:rgba(255,255,255,.035)!important;
+  color:var(--ink)!important;
+  border-radius:14px!important;
+  padding:10px 11px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  text-align:left!important;
+  cursor:pointer!important;
+  margin-top:7px!important;
+  font-family:'Merriweather',Georgia,serif!important;
+}
+.reportsExportOption:hover{
+  border-color:rgba(200,162,74,.42)!important;
+  background:rgba(200,162,74,.09)!important;
+}
+.reportsExportOption .ico{
+  width:34px!important;
+  height:34px!important;
+  border-radius:12px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:rgba(200,162,74,.12)!important;
+  border:1px solid rgba(200,162,74,.28)!important;
+  flex:0 0 auto!important;
+}
+.reportsExportOption b{
+  display:block!important;
+  font-size:12.5px!important;
+  color:var(--ink)!important;
+  line-height:1.25!important;
+}
+.reportsExportOption small{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:10.5px!important;
+  line-height:1.35!important;
+  margin-top:2px!important;
+}
+.reportsExportMenu .soon{
+  opacity:.62!important;
+}
+@media(max-width:700px){
+  .reportsExportWrap{
+    width:100%!important;
+  }
+  .reportsExportWrap > .btn{
+    width:100%!important;
+  }
+  .reportsExportMenu{
+    left:0!important;
+    right:auto!important;
+    width:100%!important;
+  }
+}
+@media print{
+  .reportsExportMenu{display:none!important}
+}
+
+
+/* v149 — PDF Premium dos Relatórios com Merriweather */
+.pdfPremiumSheet{
+  width:min(680px,100%)!important;
+}
+.pdfPremiumHero{
+  border:1px solid rgba(200,162,74,.28)!important;
+  background:linear-gradient(135deg,rgba(200,162,74,.14),rgba(47,128,237,.07))!important;
+  border-radius:18px!important;
+  padding:14px!important;
+  margin:12px 0!important;
+}
+.pdfPremiumHero b{
+  display:block!important;
+  color:var(--navy)!important;
+  font-size:15px!important;
+  margin-bottom:5px!important;
+}
+.pdfPremiumHero p{
+  margin:0!important;
+  color:var(--muted)!important;
+  font-size:12px!important;
+  line-height:1.55!important;
+}
+.pdfPremiumOptions{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+  margin-top:12px!important;
+}
+.pdfPremiumOption{
+  border:1px solid rgba(185,199,219,.16)!important;
+  background:rgba(255,255,255,.035)!important;
+  border-radius:16px!important;
+  padding:12px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:11px!important;
+  text-align:left!important;
+  cursor:pointer!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  color:var(--ink)!important;
+}
+.pdfPremiumOption:hover{
+  border-color:rgba(200,162,74,.42)!important;
+  background:rgba(200,162,74,.09)!important;
+}
+.pdfPremiumOption .ico{
+  width:38px!important;
+  height:38px!important;
+  border-radius:14px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:rgba(200,162,74,.13)!important;
+  border:1px solid rgba(200,162,74,.28)!important;
+  flex:0 0 auto!important;
+}
+.pdfPremiumOption b{
+  display:block!important;
+  color:var(--ink)!important;
+  font-size:13px!important;
+  line-height:1.25!important;
+}
+.pdfPremiumOption small{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:10.5px!important;
+  line-height:1.35!important;
+  margin-top:3px!important;
+}
+body.theme-dark .pdfPremiumHero b{color:#f5f7fb!important}
+body.theme-dark .pdfPremiumOption{background:rgba(255,255,255,.035)!important;border-color:rgba(185,199,219,.14)!important}
+body.theme-dark .pdfPremiumOption b{color:#f5f7fb!important}
+@media(max-width:620px){
+  .pdfPremiumOptions{grid-template-columns:1fr!important}
+}
+@media print{
+  body.pdfPremiumMode, body.pdfPremiumMode *{
+    font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  }
+  body.pdfPremiumMode .printReportHeader{
+    padding-bottom:12px!important;
+    margin-bottom:12px!important;
+    border-bottom:2px solid #0d1b2a!important;
+  }
+  body.pdfPremiumMode .printReportHeader h1{
+    font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+    font-size:21px!important;
+    font-weight:900!important;
+    letter-spacing:.01em!important;
+  }
+  body.pdfPremiumMode .printReportHeader p{
+    font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+    font-size:10.5px!important;
+  }
+  body.pdfPremiumMode .reportsHero{
+    border:1.5px solid #0d1b2a!important;
+    border-radius:10px!important;
+    padding:12px!important;
+    background:#fff!important;
+  }
+  body.pdfPremiumMode .reportsHero h2{
+    font-size:18px!important;
+    font-weight:900!important;
+  }
+  body.pdfPremiumMode .reportAccordion{
+    border:1px solid #94a3b8!important;
+    border-radius:10px!important;
+    margin-bottom:10px!important;
+    overflow:hidden!important;
+  }
+  body.pdfPremiumMode .reportAccordionTop{
+    background:#f8fafc!important;
+    border-bottom:1px solid #cbd5e1!important;
+    padding:8px 9px!important;
+  }
+  body.pdfPremiumMode .reportAccordionIcon{
+    width:28px!important;
+    height:28px!important;
+    border-radius:8px!important;
+    background:#fff7ed!important;
+    border:1px solid #f0c36a!important;
+  }
+  body.pdfPremiumMode .reportAccordionTitle h3{
+    font-size:13px!important;
+    color:#0d1b2a!important;
+  }
+  body.pdfPremiumMode .reportAccordionTitle p,
+  body.pdfPremiumMode .reportAccordionBadge{
+    font-size:9px!important;
+  }
+  body.pdfPremiumMode .reportAccordionBody{
+    padding:8px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion:not([data-report-accordion="agenda"]),
+  body.pdfPremiumMode[data-pdf-report="acessos"] #relatorios .reportAccordion:not([data-report-accordion="acessos"]),
+  body.pdfPremiumMode[data-pdf-report="moradores"] #relatorios .reportAccordion:not([data-report-accordion="moradores"]),
+  body.pdfPremiumMode[data-pdf-report="auditoria"] #relatorios .reportAccordion:not([data-report-accordion="auditoria"]){
+    display:none!important;
+  }
+  body.pdfPremiumMode .reportsExportMenu,
+  body.pdfPremiumMode #premiumPdfModal{
+    display:none!important;
+  }
+}
+
+
+/* v149.1 — Ajustes dos painéis no PDF Premium */
+@media print{
+  body.pdfPremiumMode .reportsActions,
+  body.pdfPremiumMode .agendaReportActions{
+    display:none!important;
+  }
+
+  body.pdfPremiumMode .reportAccordion{
+    break-inside:auto!important;
+    page-break-inside:auto!important;
+    overflow:visible!important;
+    box-shadow:none!important;
+  }
+
+  body.pdfPremiumMode .reportAccordionTop{
+    break-after:avoid!important;
+    page-break-after:avoid!important;
+  }
+
+  body.pdfPremiumMode .reportAccordionBody{
+    break-before:avoid!important;
+    page-break-before:avoid!important;
+    overflow:visible!important;
+  }
+
+  body.pdfPremiumMode .agendaReportPanel,
+  body.pdfPremiumMode .agendaReportPanel.card,
+  body.pdfPremiumMode .agendaReportPanel.reportPanel{
+    break-inside:auto!important;
+    page-break-inside:auto!important;
+    overflow:visible!important;
+  }
+
+  body.pdfPremiumMode .agendaReportGrid{
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+
+  body.pdfPremiumMode .agendaReportMetrics{
+    grid-template-columns:repeat(4,1fr)!important;
+    gap:7px!important;
+  }
+
+  body.pdfPremiumMode .agendaReportMetric{
+    min-height:auto!important;
+    padding:7px 8px!important;
+    border-radius:8px!important;
+  }
+
+  body.pdfPremiumMode .agendaReportMetric b{
+    font-size:18px!important;
+  }
+
+  body.pdfPremiumMode .agendaReportMetric span{
+    font-size:8.8px!important;
+    margin-top:3px!important;
+  }
+
+  body.pdfPremiumMode .agendaReportYearBlock{
+    padding:8px!important;
+    border-radius:8px!important;
+    margin-top:8px!important;
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+  }
+
+  body.pdfPremiumMode .agendaMonthlyMini.year{
+    grid-template-columns:repeat(6,1fr)!important;
+    gap:4px!important;
+  }
+
+  body.pdfPremiumMode .agendaMonthChip.year{
+    min-height:auto!important;
+    padding:5px 4px!important;
+    border-radius:7px!important;
+  }
+
+  body.pdfPremiumMode .agendaMonthChip.year b{
+    font-size:12px!important;
+  }
+
+  body.pdfPremiumMode .agendaMonthChip.year span,
+  body.pdfPremiumMode .agendaMonthChip.year small{
+    font-size:7.5px!important;
+    line-height:1.15!important;
+  }
+
+  body.pdfPremiumMode .agendaNextItem,
+  body.pdfPremiumMode .agendaTopItem{
+    padding:6px 8px!important;
+    border-radius:7px!important;
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+  }
+
+  body.pdfPremiumMode .agendaNextType{
+    min-width:56px!important;
+    height:22px!important;
+    font-size:8px!important;
+  }
+
+  body.pdfPremiumMode .agendaNextMain b,
+  body.pdfPremiumMode .agendaTopItem b{
+    font-size:9.5px!important;
+  }
+
+  body.pdfPremiumMode .agendaNextMain small,
+  body.pdfPremiumMode .agendaTopItem small,
+  body.pdfPremiumMode .agendaNextDate,
+  body.pdfPremiumMode .agendaTopCount{
+    font-size:8px!important;
+  }
+
+  body.pdfPremiumMode .reportsGrid{
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+
+  body.pdfPremiumMode .reportPanel{
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+    overflow:visible!important;
+  }
+
+  body.pdfPremiumMode .reportRows{
+    gap:4px!important;
+  }
+
+  body.pdfPremiumMode .reportRow{
+    padding:5px 6px!important;
+    font-size:8.8px!important;
+    border-radius:5px!important;
+  }
+
+  body.pdfPremiumMode .reportMiniGrid{
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:5px!important;
+  }
+
+  body.pdfPremiumMode .reportMini{
+    padding:6px!important;
+    border-radius:6px!important;
+  }
+
+  body.pdfPremiumMode .reportMini b{
+    font-size:15px!important;
+  }
+
+  body.pdfPremiumMode .reportMini span{
+    font-size:8px!important;
+  }
+
+  body.pdfPremiumMode .reportSectionNote{
+    font-size:8.5px!important;
+    margin-top:6px!important;
+  }
+
+  body.pdfPremiumMode .reportAccordion[data-report-accordion="moradores"],
+  body.pdfPremiumMode .reportAccordion[data-report-accordion="auditoria"],
+  body.pdfPremiumMode .reportAccordion[data-report-accordion="passagens"]{
+    break-before:auto!important;
+    page-break-before:auto!important;
+    clear:both!important;
+  }
+}
+
+
+/* v149.2 — Paginação por tópicos no PDF Premium */
+@media print{
+  /* Relatório completo: cada tópico principal começa em uma nova página */
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"]{
+    break-before: page!important;
+    page-break-before: always!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"]{
+    break-before: page!important;
+    page-break-before: always!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="auditoria"]{
+    break-before: page!important;
+    page-break-before: always!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="passagens"]{
+    break-before: auto!important;
+    page-break-before: auto!important;
+  }
+
+  /* Página 2: agenda sobe inteira para o topo e fica mais compacta */
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .reportAccordionTop{
+    break-after: avoid!important;
+    page-break-after: avoid!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportPanel{
+    break-inside: avoid!important;
+    page-break-inside: avoid!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetrics{
+    gap:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportGrid{
+    grid-template-columns:1fr 1fr!important;
+    gap:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthlyMini{
+    grid-template-columns:repeat(6,1fr)!important;
+    gap:4px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip{
+    min-height:auto!important;
+    padding:5px 4px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip b{
+    font-size:11.5px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip span{
+    font-size:7.5px!important;
+  }
+
+  /* Página 3: acessos inicia na página 3 e moradores fica abaixo, sem sobreposição */
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"] .reportsGrid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px!important;
+    align-items:start!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"] .reportPanel{
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+    min-height:auto!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"] .reportPanel h3{
+    font-size:10.5px!important;
+    margin-bottom:4px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"] .reportRows{
+    gap:3px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"] .reportRow{
+    padding:4px 5px!important;
+    font-size:8.3px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="moradores"]{
+    break-before:auto!important;
+    page-break-before:auto!important;
+    clear:both!important;
+    margin-top:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="moradores"] .reportsGrid{
+    display:block!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="moradores"] .reportPanel{
+    display:block!important;
+    width:100%!important;
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+  }
+
+  /* Página 4: auditoria abre a página e passagens acompanha abaixo */
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="auditoria"] .reportsGrid,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="passagens"] .reportsGrid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:6px!important;
+  }
+}
+
+
+/* v149.3 — PDF Premium completo em 3 páginas */
+@media print{
+  /*
+    Relatório completo:
+    Página 1: Resumo geral + Agenda Operacional
+    Página 2: Acessos + Moradores
+    Página 3: Auditoria + Passagens de turno
+  */
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"]{
+    break-before:auto!important;
+    page-break-before:auto!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"]{
+    break-before:page!important;
+    page-break-before:always!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="auditoria"]{
+    break-before:page!important;
+    page-break-before:always!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="moradores"],
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="passagens"]{
+    break-before:auto!important;
+    page-break-before:auto!important;
+  }
+
+  /* Compactação controlada da página 1 para caber Resumo + Agenda */
+  body.pdfPremiumMode[data-pdf-report="completo"] .reportsHero{
+    margin-bottom:7px!important;
+    padding:9px 10px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] .reportsHero h2{
+    font-size:15.5px!important;
+    margin-bottom:3px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] .reportsHero p{
+    font-size:9px!important;
+    line-height:1.25!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion{
+    margin-bottom:7px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordionTop{
+    padding:6px 8px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordionIcon{
+    width:26px!important;
+    height:26px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordionTitle h3{
+    font-size:12.5px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordionTitle p{
+    font-size:8.2px!important;
+    line-height:1.2!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordionBadge{
+    font-size:7.8px!important;
+    padding:3px 6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordionBody{
+    padding:6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportsMetrics{
+    gap:6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportMetric{
+    padding:7px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportMetric .n{
+    font-size:17px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportMetric .l{
+    font-size:7.8px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportMetric .s{
+    font-size:7.3px!important;
+    padding:2px 5px!important;
+  }
+
+  /* Agenda executiva na página 1 */
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportPanel{
+    padding:7px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportHead{
+    margin-bottom:6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportHead h3{
+    font-size:10.5px!important;
+    margin-bottom:2px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportHead p{
+    font-size:8px!important;
+    line-height:1.2!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetrics{
+    grid-template-columns:repeat(4,1fr)!important;
+    gap:5px!important;
+    margin-bottom:6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetric{
+    padding:5px 6px!important;
+    border-radius:6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetric b{
+    font-size:14.5px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetric span{
+    font-size:7.3px!important;
+    margin-top:2px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportSub{
+    font-size:8.8px!important;
+    margin-bottom:4px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextItem,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopItem{
+    padding:4px 6px!important;
+    gap:5px!important;
+    border-radius:6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextType{
+    min-width:48px!important;
+    height:18px!important;
+    font-size:7px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextMain b,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopItem b{
+    font-size:8.2px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextMain small,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopItem small,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextDate,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopCount{
+    font-size:7.2px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearBlock{
+    padding:6px!important;
+    margin-top:6px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearHead{
+    margin-bottom:5px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearHead b,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearHead span{
+    font-size:8.2px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthlyMini.year{
+    grid-template-columns:repeat(12,1fr)!important;
+    gap:3px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year{
+    padding:3px 2px!important;
+    border-radius:5px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year b{
+    font-size:9.2px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year span,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year small{
+    font-size:6.2px!important;
+    line-height:1.05!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="agenda"] .reportSectionNote{
+    font-size:7.2px!important;
+    margin-top:5px!important;
+  }
+
+  /* Página 2 e 3: estabilidade sem sobreposição */
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="acessos"] .reportsGrid,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="auditoria"] .reportsGrid{
+    align-items:start!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="moradores"]{
+    clear:both!important;
+    display:block!important;
+    margin-top:7px!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="moradores"] .reportsGrid,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="passagens"] .reportsGrid{
+    display:block!important;
+    width:100%!important;
+  }
+
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="moradores"] .reportPanel,
+  body.pdfPremiumMode[data-pdf-report="completo"] #relatorios .reportAccordion[data-report-accordion="passagens"] .reportPanel{
+    width:100%!important;
+    display:block!important;
+    float:none!important;
+  }
+}
+
+
+/* v149.4 — Agenda Operacional subindo para a página 1 no PDF */
+@media print{
+  /* PDF específico da Agenda Operacional: manter o conteúdo principal já na primeira página */
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"]{
+    break-before:auto!important;
+    page-break-before:auto!important;
+    margin-top:4px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] .reportsHero{
+    margin-bottom:6px!important;
+    padding:9px 10px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] .reportsHero h2{
+    font-size:15px!important;
+    margin-bottom:3px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] .reportsHero p,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #printReportMeta{
+    font-size:9px!important;
+    line-height:1.22!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion{
+    margin-bottom:7px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordionTop{
+    padding:6px 8px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordionIcon{
+    width:26px!important;
+    height:26px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordionTitle h3{
+    font-size:12px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordionTitle p{
+    font-size:8px!important;
+    line-height:1.15!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordionBadge{
+    font-size:7.6px!important;
+    padding:3px 6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordionBody{
+    padding:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportPanel{
+    padding:6px!important;
+    break-inside:auto!important;
+    page-break-inside:auto!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportHead{
+    margin-bottom:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportHead h3{
+    font-size:10.2px!important;
+    margin-bottom:2px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportHead p{
+    font-size:7.9px!important;
+    line-height:1.16!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetrics{
+    grid-template-columns:repeat(4,1fr)!important;
+    gap:5px!important;
+    margin-bottom:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetric{
+    padding:5px 6px!important;
+    border-radius:6px!important;
+    min-height:auto!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetric b{
+    font-size:14px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportMetric span{
+    font-size:7.1px!important;
+    margin-top:2px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportGrid{
+    grid-template-columns:1fr 1fr!important;
+    gap:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportSub{
+    font-size:8.6px!important;
+    margin-bottom:4px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextItem,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopItem{
+    padding:4px 6px!important;
+    gap:5px!important;
+    border-radius:6px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextType{
+    min-width:48px!important;
+    height:18px!important;
+    font-size:7px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextMain b,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopItem b{
+    font-size:8.1px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextMain small,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopItem small,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaNextDate,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaTopCount{
+    font-size:7.1px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearBlock{
+    padding:6px!important;
+    margin-top:6px!important;
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearHead{
+    margin-bottom:5px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearHead b,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaReportYearHead span{
+    font-size:8.1px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthlyMini.year{
+    grid-template-columns:repeat(12,1fr)!important;
+    gap:3px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year{
+    min-height:auto!important;
+    padding:3px 2px!important;
+    border-radius:5px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year b{
+    font-size:9px!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year span,
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .agendaMonthChip.year small{
+    font-size:6.1px!important;
+    line-height:1.02!important;
+  }
+  body.pdfPremiumMode[data-pdf-report="agenda"] #relatorios .reportAccordion[data-report-accordion="agenda"] .reportSectionNote{
+    font-size:7.1px!important;
+    margin-top:5px!important;
+  }
+}
+
+
+/* v150 — Consolidação Premium / Revisão Geral */
+:root{
+  --pp-control-h:44px;
+  --pp-radius-control:14px;
+}
+.btn,
+.themeBtn,
+.reportAccordionChevron,
+.adminAccChevron{
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:focus-visible,
+.themeBtn:focus-visible,
+.tab:focus-visible,
+.close:focus-visible,
+.reportAccordionChevron:focus-visible,
+.adminAccChevron:focus-visible,
+.reportsExportOption:focus-visible,
+.pdfPremiumOption:focus-visible{
+  outline:2px solid rgba(243,210,122,.78)!important;
+  outline-offset:3px!important;
+}
+#configuracoes .toolRowActions .btn,
+#configuracoes .agendaActionDock .btn,
+#relatorios .reportsActions .btn,
+#relatorios .agendaReportActions .btn{
+  min-height:var(--pp-control-h)!important;
+  border-radius:var(--pp-radius-control)!important;
+  font-weight:900!important;
+}
+#configuracoes .adminAccordion,
+#relatorios .reportAccordion{
+  scroll-margin-top:128px!important;
+}
+#configuracoes .adminAccordionTop,
+#relatorios .reportAccordionTop{
+  min-height:66px!important;
+}
+#configuracoes .adminAccordionSummary,
+#relatorios .reportAccordionBadge{
+  user-select:none!important;
+}
+#relatorios .reportsHero,
+#configuracoes .configHero{
+  overflow:visible!important;
+}
+#relatorios .reportPanel,
+#configuracoes .toolCard{
+  min-width:0!important;
+}
+body.theme-dark #relatorios .reportAccordion,
+body.theme-dark #configuracoes .adminAccordion{
+  border-color:rgba(185,199,219,.15)!important;
+}
+
+/* v150 — regra mobile consolidada corrigida na v150.1 */
+body.mobileExperience .tabs{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+body.mobileExperience .tab[data-tab="acessos"]{
+  display:flex!important;
+}
+body.mobileExperience .tab[data-tab="relatorios"],
+body.mobileExperience .tab[data-tab="configuracoes"]{
+  display:none!important;
+}
+body.mobileExperience .tab[data-tab="dashboard"],
+body.mobileExperience .tab[data-tab="acessos"],
+body.mobileExperience .tab[data-tab="moradores"]{
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+/* v150 — pequenos ajustes de estabilidade visual */
+.condoPopMini b,
+.reportAccordionTitle h3,
+.adminAccTitle h3{
+  letter-spacing:.005em!important;
+}
+.importStatus,
+.reportSectionNote,
+.mini{
+  text-wrap:pretty;
+}
+@media(max-width:760px){
+  #relatorios .reportsActions,
+  #configuracoes .toolRowActions{
+    gap:8px!important;
+  }
+}
+
+
+/* v150.1 — Correção mobile: somente Resumo e Moradores */
+body.mobileExperience .tabs{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+body.mobileExperience .tab[data-tab="acessos"],
+body.mobileExperience .tab[data-tab="relatorios"],
+body.mobileExperience .tab[data-tab="configuracoes"]{
+  display:none!important;
+}
+body.mobileExperience .tab[data-tab="dashboard"],
+body.mobileExperience .tab[data-tab="moradores"]{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
 </style>
 </head>
 <body class="splashing">
@@ -5219,14 +7657,26 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
           <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
         </div>
         <div class="reportsActions">
-          <select id="reportPeriod" onchange="renderReports()">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
             <option value="7">Últimos 7 dias</option>
             <option value="30" selected>Últimos 30 dias</option>
             <option value="90">Últimos 90 dias</option>
             <option value="0">Tudo</option>
           </select>
-          <button class="btn gold" onclick="exportReports()">Exportar relatório</button>
-          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
         </div>
       </div>
       <div id="reportsBody" class="reportsBody"></div>
@@ -5288,25 +7738,22 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
       </div>
       <div class="configGrid">
         <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
-        <div class="card toolCard" style="grid-column:1/-1">
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
           <div style="display:flex;align-items:center;gap:12px">
             <div class="toolIcon">💾</div>
             <div>
-              <h3>Backup e restauração</h3>
-              <p class="mini">Exporte, importe e sincronize com o Google Drive. Backups com validação de integridade.</p>
+              <h3>Proteção dos dados</h3>
+              <p class="mini">Backup, restauração, snapshots e sincronização em uma área mais enxuta.</p>
             </div>
           </div>
 
           <div class="recoveryCenter">
-            <div class="recoveryHero">
-              <div>
-                <div class="recoveryHeroTitle">🛡️ Centro de Recuperação</div>
-                <div class="recoveryHeroText"><b>Sync não é backup.</b> Sincronização espalha alterações; backup guarda uma cópia para recuperar desastres.</div>
-              </div>
-              <div class="recoveryActions">
-                <button class="btn gold adminOnly" onclick="createLocalSnapshot('manual')">Criar snapshot</button>
-                <button class="btn ghost adminOnly" onclick="openLocalSnapshots()">Histórico local</button>
-                <button class="btn ghost" onclick="refreshBackupCenterStatus()">Atualizar status</button>
+            <div class="recoveryHero recoveryHeroCompact">
+              <div class="recoveryActions recoveryActionsTop">
+                <button class="btn gold adminOnly" onclick="exportData('completo')" title="Gera um arquivo JSON completo com checksum">Backup agora</button>
+                <button class="btn ghost adminOnly" onclick="document.getElementById('backupRestoreFile').click()">Restaurar</button>
+                <button class="btn ghost adminOnly" onclick="forceSyncNow()">Sincronizar</button>
+                <button class="btn ghost" onclick="refreshBackupCenterStatus()">Atualizar</button>
               </div>
             </div>
             <div class="recoveryStatusGrid">
@@ -5317,6 +7764,9 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
             </div>
           </div>
 
+          <details class="protectionDetails">
+            <summary>Detalhes técnicos, exportações e integrações</summary>
+            <div class="protectionDetailsBody">
           <!-- Grid 3 colunas: JSON · Supabase · Google Drive -->
           <div class="bkpGrid3">
 
@@ -5366,9 +7816,11 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
 
           </div><!-- /bkpGrid3 -->
 
-          <div class="importStatus" id="backupStatus">Nenhum backup restaurado nesta sessão.</div>
+          <div class="protectionStatusLine"><div class="importStatus" id="backupStatus">Nenhum backup restaurado nesta sessão.</div>
           <div class="importStatus" id="cloudStatus">☁️ Nuvem: inicializando conexão com Supabase...</div>
-          <div class="importStatus" id="driveStatus" style="display:none"></div>
+          <div class="importStatus" id="driveStatus" style="display:none"></div></div>
+            </div>
+          </details>
         </div>
         <div class="card toolCard toolCardRow syncTool adminOnly">
           <div class="toolIcon">🔄</div>
@@ -5412,37 +7864,93 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
         </div>
         <div class="adminGroupTitle"><div><h3>📅 Operação</h3><p>Eventos que aparecem no Resumo da portaria, como salão e mudanças.</p></div><span class="line"></span></div>
         <div class="card toolCard agendaTool">
-          <div class="toolIcon">📅</div>
-          <div>
-            <h3>Agenda operacional</h3>
-            <p class="mini">Cadastre locações do salão e mudanças para aparecerem no Resumo da portaria.</p>
+          <div class="agendaHeaderRow">
+            <div class="agendaTitleWrap">
+              <div class="toolIcon">📅</div>
+              <div>
+                <h3>Agenda operacional</h3>
+                <p class="mini">Cadastre locações do salão e mudanças para aparecerem no Resumo da portaria.</p>
+              </div>
+            </div>
+            <div class="agendaActionDock">
+              <button class="btn gold" onclick="addOperationalEvent()">Adicionar</button>
+            </div>
           </div>
-          <div class="agendaForm">
-            <div><label>Tipo</label><select id="opTipo"><option value="salao">Locação do salão</option><option value="mudanca">Mudança</option></select></div>
+          <div class="agendaForm agendaFormSlim">
+            <div><label>Tipo</label><select id="opTipo"><option value="">Selecione</option><option value="salao">Locação do salão</option><option value="mudanca">Mudança</option></select></div>
             <div><label>Data</label><input id="opData" type="date"></div>
-            <div><label>Unidade</label><input id="opUnidade" class="agendaUnitField" placeholder="Clique para selecionar" readonly onclick="openAgendaUnitPicker()"></div>
-            <div><label>Responsável</label><input id="opResp"></div>
-            <div class="agendaObs"><label>Observação</label><input id="opObs"></div>
-            <div class="agendaBtn"><button class="btn gold" onclick="addOperationalEvent()">Adicionar</button></div>
+            <div><label>Unidade</label><input id="opUnidade" class="unitPickButton" placeholder="Clique para selecionar" readonly onclick="openAgendaUnitPicker()"></div>
+            <div><label>Responsável</label><input id="opResp" placeholder="Nome do responsável"></div>
           </div>
           <div id="agendaList" class="agendaList"></div>
         </div>
 
-        <div class="adminGroupTitle adminOnly"><div><h3>👤 Administração</h3><p>Usuários, permissões, auditoria e saúde do armazenamento.</p></div><span class="line"></span></div>
-        <div class="card toolCard adminOnly usersTool">
-          <div class="usersHeader">
-            <div class="toolIcon">🔐</div>
-            <div class="usersIntro">
-              <h3>Usuários e perfis</h3>
-              <p class="mini">Gerencie os acessos de Administração e Portaria. Usuários permanecem ativos/inativos para preservar o histórico operacional.</p>
+        <div class="adminGroupTitle adminOnly"><div><h3>👤 Administração</h3><p>Usuários, permissões, auditoria e saúde do armazenamento.</p></div><span class="line"></span><div class="adminAccordionControls"><button class="btn ghost" onclick="openAllAdminAccordions()">Abrir tudo</button><button class="btn ghost" onclick="collapseAllAdminAccordions()">Recolher tudo</button></div></div>
+        <div class="card toolCard adminOnly usersTool adminAccordion open" data-accordion-key="users">
+          <div class="usersHeader adminAccordionTop" onclick="toggleAdminAccordion(this.closest('.adminAccordion'))">
+            <div class="adminAccTitle">
+              <div class="toolIcon">🔐</div>
+              <div class="usersIntro">
+                <h3>Usuários e perfis</h3>
+                <p class="mini">Gerencie acessos, perfis, turnos e a identidade operacional usada nos registros do sistema.</p>
+              </div>
             </div>
-            <button class="btn gold usersNewBtn" onclick="openUserModal()">+ Novo usuário</button>
+            <button class="btn gold usersNewBtn" onclick="event.stopPropagation();openUserModal()">+ Novo usuário</button>
+            <button class="adminAccChevron" type="button" onclick="event.stopPropagation();toggleAdminAccordion(this.closest('.adminAccordion'))">▾</button>
           </div>
-          <div id="usersList" class="userGrid usersGridPremium"></div>
+          <div class="adminAccordionSummary" id="usersAccordionSummary">Carregando usuários...</div>
+          <div class="adminAccordionBody">
+            <div id="operatorIdentityPanel" class="operatorIdentityPanel"></div>
+            <div id="userOperationalStats" class="userOperationalStats"></div>
+            <div id="usersList" class="userGrid usersGridPremium"></div>
+          </div>
         </div>
 
-        <div class="card toolCard adminOnly logsTool">
-          <div style="display:flex;align-items:center;gap:12px">
+        <div class="card toolCard adminOnly operatorHistoryTool adminAccordion collapsed" data-accordion-key="history">
+          <div class="adminAccordionTop" onclick="toggleAdminAccordion(this.closest('.adminAccordion'))">
+            <div class="adminAccTitle">
+              <div class="toolIcon">🧭</div>
+              <div>
+                <h3>Histórico geral por operador</h3>
+                <p class="mini">Consulta rápida de ações por operador, perfil e turno.</p>
+              </div>
+            </div>
+            <button class="btn ghost" onclick="event.stopPropagation();renderOperatorHistory()">Atualizar</button>
+            <button class="btn gold" onclick="event.stopPropagation();exportOperatorHistory()">Exportar</button>
+            <button class="adminAccChevron" type="button" onclick="event.stopPropagation();toggleAdminAccordion(this.closest('.adminAccordion'))">▾</button>
+          </div>
+          <div class="adminAccordionSummary" id="historyAccordionSummary">Histórico recolhido.</div>
+          <div class="adminAccordionBody">
+            <div class="operatorHistoryPanel">
+            <div class="operatorHistoryHead">
+              <div><b>🧭 Histórico geral por operador</b><br><span>Veja rapidamente quem fez o quê, em qual turno e quando.</span></div>
+              <button class="btn ghost" onclick="renderOperatorHistory()">Atualizar</button>
+            </div>
+            <div class="operatorHistoryFilters">
+              <label>Buscar<input id="operatorHistorySearch" oninput="renderOperatorHistory()" placeholder="Ação, usuário, detalhe..."></label>
+              <label>Operador<select id="operatorHistoryUser" onchange="renderOperatorHistory()"><option value="">Todos</option></select></label>
+              <label>Tipo<select id="operatorHistoryType" onchange="renderOperatorHistory()"><option value="">Todos</option></select></label>
+              <button class="btn gold" onclick="exportOperatorHistory()">Exportar</button>
+            </div>
+            <div id="operatorHistoryList" class="operatorHistoryList"></div>
+          </div>
+        </div>
+        </div>
+
+        <div class="card toolCard adminOnly logsTool adminAccordion collapsed" data-accordion-key="logs">
+          <div class="adminAccordionTop" onclick="toggleAdminAccordion(this.closest('.adminAccordion'))">
+            <div class="adminAccTitle">
+              <div class="toolIcon">🧾</div>
+              <div>
+                <h3>Logs do sistema</h3>
+                <p class="mini">Auditoria técnica, armazenamento, backups e ações detalhadas.</p>
+              </div>
+            </div>
+            <button class="adminAccChevron" type="button" onclick="event.stopPropagation();toggleAdminAccordion(this.closest('.adminAccordion'))">▾</button>
+          </div>
+          <div class="adminAccordionSummary" id="logsAccordionSummary">Logs recolhidos.</div>
+          <div class="adminAccordionBody">
+          <div class="logsLegacyHead" style="display:flex;align-items:center;gap:12px">
             <div class="toolIcon">🧾</div>
             <div>
               <h3>Logs do sistema</h3>
@@ -5472,12 +7980,37 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
             <button class="btn bad" onclick="clearOldLogs()">Limpar logs antigos</button>
           </div>
           <div id="logsList" class="logList"></div>
+          </div>
         </div>
       </div>
     </section>
   </main>
   <div class="modal" id="residentModal"><div class="sheet residentSheet"><div class="sheetHead"><div><h2 id="modalTitle">Unidade</h2><p class="mini" id="modalSub"></p></div><div class="sheetActions" id="modalActions"></div><button class="close" onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
   <div class="modal" id="unitPickerModal"><div class="sheet unitPickerSheet"><div class="sheetHead"><div><h2>Selecionar unidade visitada</h2><p class="mini">Consulte rapidamente o telefone fixo e os celulares antes de autorizar o acesso.</p></div><button class="close" onclick="closeUnitPicker()">×</button></div><div class="unitPickerTools"><input id="unitPickerSearch" oninput="renderUnitPicker()" placeholder="Buscar por apto, morador, telefone ou veículo"><button type="button" class="unitPickerClearBtn" onclick="clearUnitPickerFilters()">Limpar</button><select id="unitPickerBlock" onchange="renderUnitPicker()"><option value="">Todos os destinos</option><option>Administração</option><option>Bloco 1</option><option>Bloco 2</option><option>Bloco 3</option><option>Bloco 4</option></select><select id="unitPickerOnly" onchange="renderUnitPicker()"><option value="">Todas as unidades</option><option value="withPeople">Com morador cadastrado</option><option value="withoutPeople">Sem morador</option></select></div><div id="unitPickerGrid" class="unitPickerGrid"></div></div></div>
+
+  <div class="modal center" id="premiumPdfModal">
+    <div class="sheet pdfPremiumSheet">
+      <div class="sheetHead">
+        <div>
+          <h2>📄 PDF Premium dos Relatórios</h2>
+          <p class="mini">Escolha o conteúdo. O app abre a impressão executiva e você salva como PDF.</p>
+        </div>
+        <button class="close" onclick="closePremiumPdfModal()">×</button>
+      </div>
+      <div class="pdfPremiumHero">
+        <b>Documento administrativo com fonte Merriweather</b>
+        <p>Cabeçalho do Portaria Primavera, período selecionado, data de emissão e layout limpo para salvar em PDF pelo navegador.</p>
+      </div>
+      <div class="pdfPremiumOptions">
+        <button class="pdfPremiumOption" onclick="runPremiumPdf('completo')"><span class="ico">📊</span><span><b>Relatório completo</b><small>Resumo, agenda, acessos, moradores, auditoria e passagens.</small></span></button>
+        <button class="pdfPremiumOption" onclick="runPremiumPdf('agenda')"><span class="ico">📅</span><span><b>Agenda Operacional</b><small>Salão, mudanças, visão anual e próximos eventos.</small></span></button>
+        <button class="pdfPremiumOption" onclick="runPremiumPdf('acessos')"><span class="ico">🚪</span><span><b>Acessos</b><small>Entradas, saídas, empresas, unidades e autorizadores.</small></span></button>
+        <button class="pdfPremiumOption" onclick="runPremiumPdf('moradores')"><span class="ico">👥</span><span><b>Moradores</b><small>Base cadastral, app, biometria e veículos.</small></span></button>
+        <button class="pdfPremiumOption" onclick="runPremiumPdf('auditoria')"><span class="ico">🧭</span><span><b>Auditoria</b><small>Logs administrativos e ações do sistema.</small></span></button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal center" id="confirmModal"><div class="sheet confirmSheet"><div class="confirmIcon">!</div><h2 id="confirmTitle" style="margin:0;color:var(--navy)">Confirmar ação</h2><p class="confirmText" id="confirmMessage">Deseja continuar?</p><div class="confirmActions"><button class="btn ghost" onclick="closeAppConfirm(false)">Cancelar</button><button class="btn bad" id="confirmOkBtn" onclick="closeAppConfirm(true)">Excluir</button></div></div></div>
   <div class="modal center" id="syncCenterModal"><div class="sheet syncSheet"><div class="sheetHead"><div><h2>🔄 Centro de Sincronização</h2><div class="mini">Acompanhe Local, Supabase, Tempo Real e Google Drive em um só lugar.</div></div><button class="close" onclick="closeSyncCenter()">×</button></div>
     <div class="syncCenter">
@@ -5507,7 +8040,7 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
   <div class="modal center" id="accessEditModal"><div class="sheet accessDetailSheet"><div class="sheetHead"><div class="accessDetailTitle"><div class="accessDetailName">Editar acesso</div><span class="accessDetailDest" id="accessEditDestBadge">—</span></div><button class="close" onclick="closeAccessEdit()">×</button></div><div class="accessEditGrid"><div><label>Data</label><input id="editAccessData" type="date"></div><div><label>Entrada</label><input id="editAccessEntrada" type="time"></div><div class="full"><label>Nome completo</label><input id="editAccessNome"></div><div><label>Documento</label><input id="editAccessDocType" type="hidden" value="CPF"><input id="editAccessDoc" type="hidden"><button type="button" class="docPickButton empty" id="editAccessDocButton" onclick="openDocModal('edit')"><b id="editAccessDocDisplay">Selecionar documento</b><span>CPF, RG, CNH...</span></button></div><div><label>Empresa</label><input id="editAccessEmpresa"></div><div><label>Local de visitação</label><input id="editAccessDestino" placeholder="Ex: BL01 AP01"></div><div><label>Autorizado por</label><input id="editAccessAutorizado"></div><div class="full"><label>Serviço realizado</label><textarea id="editAccessServico"></textarea></div></div><div class="accessEditNote">Ao salvar, o registro será atualizado e a alteração ficará registrada nos logs de auditoria.</div><div class="accessActions"><button class="btn ghost" onclick="closeAccessEdit()">Cancelar</button><button class="btn gold" onclick="saveAccessEdit()">Salvar alterações</button></div></div></div>
   <div class="modal center" id="agendaUnitPickerModal"><div class="sheet agendaUnitSheet"><div class="sheetHead"><div><h2>Selecionar unidade</h2><p class="mini">Escolha rapidamente o bloco e apartamento para a agenda operacional.</p></div><button class="close" onclick="closeAgendaUnitPicker()">×</button></div><div id="agendaUnitGrid" class="agendaUnitGrid"></div></div></div>
   <div class="modal center" id="opListModal"><div class="sheet opListSheet"><div class="sheetHead"><div><h2 id="opListTitle">Agenda</h2><p class="mini" id="opListSub">Eventos do mês</p></div><button class="close" onclick="closeOperationalList()">×</button></div><div id="opListBody"></div></div></div>
-  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin</option></select></div></div><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o histórico permanece preservado.</p></div></div>
+  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div></div><div class="row"><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o histórico permanece preservado. O turno ajuda a identificar quem estava operando cada ação.</p></div></div>
 
 
   <!-- v105 — Ajuda flutuante / Tour Guiado Primavera -->
@@ -5567,7 +8100,7 @@ let localDeviceId=localStorage.getItem('pp_device_id')||'';
 if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
 const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
 let state=load();
-function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',ativo:true},{id:'u-portaria',nome:'Portaria',login:'portaria',senha:'1234',perfil:'portaria',ativo:true}]}
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
 function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
 function load(){
   try{
@@ -5581,7 +8114,7 @@ function load(){
     data.users=Array.isArray(data.users)&&data.users.length?data.users:defaultUsers();
     data.logs=Array.isArray(data.logs)?data.logs:[];
     data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
-    data.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true; if(!u.id)u.id='u-'+Date.now()+'-'+Math.random().toString(16).slice(2);});
+    data.users.forEach(u=>normalizeUserOperational(u));
     return data;
   }catch(e){console.warn('Falha ao carregar base local',e);return initial()}
 }
@@ -5608,22 +8141,256 @@ function goTab(id, opts={}){
   if(id==='configuracoes')setTimeout(renderStorageHealth,100);
 }
 document.querySelectorAll('.tab,.footerNav button').forEach(b=>b.onclick=()=>goTab(b.dataset.tab));
-function currentOperator(){const u=getCurrentUser&&getCurrentUser(); return u?{login:u.login,nome:u.nome||u.login,perfil:u.perfil}:{login:'',nome:'Sem usuário',perfil:''}}
+
+function normalizeUserOperational(u){
+  if(!u)return u;
+  if(u.ativo===undefined)u.ativo=true;
+  if(!u.id)u.id='u-'+Date.now()+'-'+Math.random().toString(16).slice(2);
+  if(!u.perfil)u.perfil='portaria';
+  if(u.perfil==='admin'&&!u.turno)u.turno='administracao';
+  if(u.perfil==='zelador'&&!u.turno)u.turno='zeladoria';
+  if(u.perfil==='portaria'&&!u.turno)u.turno='';
+  return u;
+}
+function userProfileLabel(u){
+  const p=String(u?.perfil||'portaria').toLowerCase();
+  const t=String(u?.turno||'').toLowerCase();
+  if(p==='admin')return 'Admin / Síndico';
+  if(p==='zelador')return 'Zelador';
+  if(t==='dia')return 'Portaria Dia';
+  if(t==='noite')return 'Portaria Noite';
+  return 'Portaria';
+}
+function userProfileBadgeClass(u){
+  const p=String(u?.perfil||'portaria').toLowerCase();
+  const t=String(u?.turno||'').toLowerCase();
+  if(p==='admin')return 'admin';
+  if(p==='zelador')return 'zelador';
+  if(t==='dia')return 'portariaDia';
+  if(t==='noite')return 'portariaNoite';
+  return 'portaria';
+}
+function userTurnoLabel(t){
+  return ({dia:'Portaria Dia',noite:'Portaria Noite',zeladoria:'Zeladoria',administracao:'Administração'}[t]||'Sem turno definido');
+}
+function userLastAccessLabel(u){
+  if(!u?.lastAccessAt)return 'Nunca acessou';
+  try{return 'Último acesso: '+new Date(u.lastAccessAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return 'Último acesso registrado'}
+}
+
+
+const ADMIN_ACCORDION_MEMORY_KEY='pp_admin_accordion_state_v1';
+function getAdminAccordionMemory(){
+  try{return JSON.parse(localStorage.getItem(ADMIN_ACCORDION_MEMORY_KEY)||'{}')||{}}catch(e){return{}}
+}
+function setAdminAccordionMemory(data){
+  try{localStorage.setItem(ADMIN_ACCORDION_MEMORY_KEY,JSON.stringify(data||{}))}catch(e){}
+}
+function saveAdminAccordionState(){
+  if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)return;
+  const data={};
+  document.querySelectorAll('.adminAccordion[data-accordion-key]').forEach(card=>{
+    data[card.dataset.accordionKey]=!card.classList.contains('collapsed');
+  });
+  setAdminAccordionMemory(data);
+}
+function applyAdminAccordionMemory(){
+  if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)return;
+  const data=getAdminAccordionMemory();
+  const keys=Object.keys(data);
+  if(!keys.length)return;
+  document.querySelectorAll('.adminAccordion[data-accordion-key]').forEach(card=>{
+    const key=card.dataset.accordionKey;
+    if(!(key in data))return;
+    const open=!!data[key];
+    card.classList.toggle('collapsed',!open);
+    card.classList.toggle('open',open);
+    card.querySelector('.adminAccordionTop')?.classList.add('memoryRestored');
+  });
+  updateAdminAccordionSummaries?.();
+}
+function toggleAdminAccordion(card){
+  if(!card)return;
+  if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)return;
+  card.classList.toggle('collapsed');
+  card.classList.toggle('open',!card.classList.contains('collapsed'));
+  saveAdminAccordionState();
+  updateAdminAccordionSummaries?.();
+}
+function openAllAdminAccordions(){
+  if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)return;
+  document.querySelectorAll('.adminAccordion[data-accordion-key]').forEach(card=>{
+    card.classList.remove('collapsed');
+    card.classList.add('open');
+  });
+  saveAdminAccordionState();
+  updateAdminAccordionSummaries?.();
+}
+function collapseAllAdminAccordions(){
+  if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)return;
+  document.querySelectorAll('.adminAccordion[data-accordion-key]').forEach(card=>{
+    card.classList.add('collapsed');
+    card.classList.remove('open');
+  });
+  saveAdminAccordionState();
+  updateAdminAccordionSummaries?.();
+}
+function updateAdminAccordionSummaries(){
+  const users=state.users||[];
+  const active=users.filter(u=>u.ativo!==false).length;
+  const admins=users.filter(u=>u.perfil==='admin'&&u.ativo!==false).length;
+  const portaria=users.filter(u=>u.perfil==='portaria'&&u.ativo!==false).length;
+  const zelador=users.filter(u=>u.perfil==='zelador'&&u.ativo!==false).length;
+  const us=document.getElementById('usersAccordionSummary');
+  if(us)us.innerHTML=`<b>${active}</b> ativos • <b>${admins}</b> admin • <b>${portaria}</b> portaria • <b>${zelador}</b> zelador`;
+  const logs=state.logs||[];
+  const last=logs[0];
+  const hs=document.getElementById('historyAccordionSummary');
+  if(hs)hs.innerHTML=last?`Último registro: <b>${esc(last.usuarioNome||last.usuario||'Sistema')}</b> — ${esc(last.acao||'Ação')} • ${esc(logWhenShort?.(last.criadoEm)||'')}`:'Nenhum registro ainda.';
+  const ls=document.getElementById('logsAccordionSummary');
+  if(ls)ls.innerHTML=logs.length?`<b>${logs.length}</b> registros técnicos • último em ${esc(logWhenShort?.(last?.criadoEm)||'—')}`:'Nenhum log técnico registrado.';
+}
+
+function renderOperationalIdentityPanel(){
+  const box=document.getElementById('operatorIdentityPanel');
+  if(!box)return;
+  const u=getCurrentUser?.();
+  const active=(state.users||[]).filter(x=>x.ativo!==false);
+  if(!u){box.innerHTML='<div class="mini">Nenhum operador conectado.</div>';return;}
+  const options=active.map(x=>`<option value="${escAttr(x.login)}" ${x.login===u.login?'selected':''}>${esc(x.nome||x.login)} — ${esc(userProfileLabel(x))}</option>`).join('');
+  box.innerHTML=`<div class="operatorIdentityMain">
+    <div class="operatorAvatar">🛡️</div>
+    <div class="operatorIdentityText">
+      <b>Operador atual: ${esc(u.nome||u.login)}</b>
+      <span>${esc(userProfileLabel(u))} • ${esc(userTurnoLabel(u.turno||''))} • ${esc(u.login||'')}</span>
+    </div>
+  </div>
+  <div class="operatorQuickSwitch">
+    <label>Troca rápida para teste<select id="quickOperatorSelect">${options}</select></label>
+    <button class="btn ghost" onclick="quickSwitchOperator()">Trocar</button>
+  </div>`;
+}
+function renderUserOperationalStats(){
+  const box=document.getElementById('userOperationalStats');
+  if(!box)return;
+  const users=state.users||[];
+  const active=users.filter(u=>u.ativo!==false).length;
+  const admins=users.filter(u=>u.perfil==='admin'&&u.ativo!==false).length;
+  const portaria=users.filter(u=>u.perfil==='portaria'&&u.ativo!==false).length;
+  const zelador=users.filter(u=>u.perfil==='zelador'&&u.ativo!==false).length;
+  box.innerHTML=`<div class="userOperationalStat"><b>${active}</b><span>Ativos</span></div>
+    <div class="userOperationalStat"><b>${admins}</b><span>Admin</span></div>
+    <div class="userOperationalStat"><b>${portaria}</b><span>Portaria</span></div>
+    <div class="userOperationalStat"><b>${zelador}</b><span>Zelador</span></div>`;
+}
+function quickSwitchOperator(){
+  if(!isAdmin())return;
+  const login=val('quickOperatorSelect');
+  const u=(state.users||[]).find(x=>x.login===login&&x.ativo!==false);
+  if(!u)return;
+  const before=getCurrentUser();
+  sessionStorage.setItem('pp_current_user',u.login);
+  u.lastAccessAt=new Date().toISOString();
+  addLog('Troca rápida de operador',`${before?(before.nome||before.login):'—'} → ${u.nome||u.login}`,'usuario');
+  localStorage.setItem(KEY,JSON.stringify(state));
+  applyPermissions();
+  renderAll();
+}
+
+function currentOperator(){const u=getCurrentUser&&getCurrentUser(); return u?{login:u.login,nome:u.nome||u.login,perfil:u.perfil,turno:u.turno||'',perfilLabel:userProfileLabel(u)}:{login:'',nome:'Sem usuário',perfil:'',turno:'',perfilLabel:''}}
 function operatorLabel(a,prefix){if(!a)return'—'; const nome=a[prefix+'ByName']||a[prefix+'By']||''; return nome||'—'}
 
 function addLog(acao,detalhes='',tipo='sistema'){
   try{
     if(!state.logs||!Array.isArray(state.logs))state.logs=[];
     const op=currentOperator();
-    state.logs.unshift({id:(crypto&&crypto.randomUUID)?crypto.randomUUID():'log-'+Date.now()+'-'+Math.random().toString(16).slice(2),tipo,acao,detalhes,usuario:op.login||'',usuarioNome:op.nome||'Sem usuário',perfil:op.perfil||'',criadoEm:new Date().toISOString()});
+    state.logs.unshift({id:(crypto&&crypto.randomUUID)?crypto.randomUUID():'log-'+Date.now()+'-'+Math.random().toString(16).slice(2),tipo,acao,detalhes,usuario:op.login||'',usuarioNome:op.nome||'Sem usuário',perfil:op.perfil||'',turno:op.turno||'',perfilLabel:op.perfilLabel||'',criadoEm:new Date().toISOString()});
     if(state.logs.length>1500)state.logs=state.logs.slice(0,1500);
   }catch(e){console.warn('Falha ao gerar log',e)}
 }
 function persistNoRender(syncReason='alteracao'){touchStateMeta(syncReason);localStorage.setItem(KEY,JSON.stringify(state));scheduleCloudAutoBackup();queueCloudSyncPush(syncReason);}
-function logTypeLabel(t){return ({acesso:'Acessos',moradores:'Moradores',agenda:'Agenda',usuario:'Usuários',backup:'Backup',sistema:'Sistema'}[t]||'Sistema')}
+function logTypeLabel(t){return ({acesso:'Acessos',moradores:'Moradores',agenda:'Agenda',usuario:'Usuários',backup:'Backup',sistema:'Sistema',comunicado:'Comunicados'}[t]||'Sistema')}
 let expandedLogId = null;
 function toggleLogCard(id){ expandedLogId = expandedLogId===id ? null : id; renderLogs(); }
+
+function logIconForType(t){
+  return ({acesso:'🚪',moradores:'🏠',agenda:'📅',usuario:'👤',backup:'💾',sistema:'⚙️',comunicado:'📣'}[t]||'•');
+}
+function logWhenShort(iso){
+  if(!iso)return '—';
+  try{return new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return '—'}
+}
+function operatorHistoryRows(){
+  if(!state.logs||!Array.isArray(state.logs))state.logs=[];
+  const q=(document.getElementById('operatorHistorySearch')?.value||'').toLowerCase();
+  const user=document.getElementById('operatorHistoryUser')?.value||'';
+  const type=document.getElementById('operatorHistoryType')?.value||'';
+  return state.logs.filter(l=>{
+    const hay=[l.tipo,l.acao,l.detalhes,l.usuario,l.usuarioNome,l.perfil,l.turno,l.perfilLabel].join(' ').toLowerCase();
+    return (!q||hay.includes(q))&&(!user||(l.usuario||l.usuarioNome)===user)&&(!type||l.tipo===type);
+  }).slice(0,120);
+}
+function fillOperatorHistoryFilters(){
+  const userSel=document.getElementById('operatorHistoryUser');
+  const typeSel=document.getElementById('operatorHistoryType');
+  if(userSel){
+    const current=userSel.value;
+    const ops=[...new Map((state.logs||[]).map(l=>[(l.usuario||l.usuarioNome||''),l.usuarioNome||l.usuario||'Sem usuário']).filter(x=>x[0])).entries()];
+    userSel.innerHTML='<option value="">Todos</option>'+ops.map(([v,n])=>`<option value="${escAttr(v)}">${esc(n)}</option>`).join('');
+    userSel.value=current;
+  }
+  if(typeSel){
+    const current=typeSel.value;
+    const types=[...new Set((state.logs||[]).map(l=>l.tipo).filter(Boolean))].sort();
+    typeSel.innerHTML='<option value="">Todos</option>'+types.map(t=>`<option value="${escAttr(t)}">${esc(logTypeLabel(t))}</option>`).join('');
+    typeSel.value=current;
+  }
+}
+function renderOperatorHistory(){
+  updateAdminAccordionSummaries?.();
+  const box=document.getElementById('operatorHistoryList');
+  if(!box)return;
+  fillOperatorHistoryFilters();
+  const rows=operatorHistoryRows();
+  if(!rows.length){
+    box.innerHTML='<div class="operatorHistoryEmpty">Nenhum registro encontrado para os filtros atuais.</div>';
+    return;
+  }
+  box.innerHTML=rows.map(l=>{
+    const perfil=l.perfilLabel||userProfileLabel?.({perfil:l.perfil,turno:l.turno})||l.perfil||'';
+    const turno=l.turno?(' • '+userTurnoLabel(l.turno)):'';
+    return `<div class="operatorHistoryRow">
+      <div class="operatorHistoryIcon">${logIconForType(l.tipo)}</div>
+      <div class="operatorHistoryText">
+        <b>${esc(l.acao||'Ação registrada')}</b>
+        <small>${esc(l.usuarioNome||l.usuario||'Sem usuário')} • ${esc(perfil)}${esc(turno)}${l.detalhes?' • '+esc(l.detalhes):''}</small>
+      </div>
+      <div class="operatorHistoryTime">${esc(logWhenShort(l.criadoEm))}</div>
+    </div>`;
+  }).join('');
+}
+function exportOperatorHistory(){
+  const rows=operatorHistoryRows();
+  const header=['Data','Usuário','Perfil','Turno','Tipo','Ação','Detalhes'];
+  const lines=[header.join(';')].concat(rows.map(l=>[
+    formatWhenBR(l.criadoEm),
+    l.usuarioNome||l.usuario||'',
+    l.perfilLabel||l.perfil||'',
+    userTurnoLabel(l.turno||''),
+    logTypeLabel(l.tipo),
+    l.acao||'',
+    String(l.detalhes||'').replace(/[\r\n;]+/g,' ')
+  ].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')));
+  const blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='portaria_primavera_historico_operadores.csv';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),500);
+}
+
 function renderLogs(){
+  updateAdminAccordionSummaries?.();
   const box=document.getElementById('logsList'); if(!box)return;
   if(!state.logs||!Array.isArray(state.logs))state.logs=[];
   const q=(document.getElementById('logSearch')?.value||'').toLowerCase();
@@ -6487,8 +9254,51 @@ function saveResident(oldId){
 }
 function clearUnit(id){openAppConfirm({title:'Limpar cadastro da unidade?',message:'Todos os moradores, telefones, veículos e dados dessa unidade serão removidos.',okText:'Limpar',onConfirm:()=>{const u=state.units[id]; delete state.units[id]; addLog('Limpou cadastro de unidade',`${u?.bloco||id} ${u?.apto||''}`,'moradores'); save();closeModal()}})}
 let pendingConfirm=null;
-function openAppConfirm({title='Confirmar ação',message='Deseja continuar?',okText='Confirmar',onConfirm=null}={}){pendingConfirm=onConfirm;document.getElementById('confirmTitle').textContent=title;document.getElementById('confirmMessage').innerHTML=message;document.getElementById('confirmOkBtn').textContent=okText;const cancelBtn=document.querySelector('#confirmModal .confirmActions .btn.ghost');if(cancelBtn)cancelBtn.style.display=onConfirm?'inline-flex':'none';document.getElementById('confirmModal').classList.add('show')}
-function closeAppConfirm(ok){const fn=pendingConfirm;pendingConfirm=null;document.getElementById('confirmModal').classList.remove('show');document.querySelector('#confirmModal .sheet')?.classList.remove('commViewSheet');if(ok&&typeof fn==='function')fn()}
+
+function ensureConfirmCloseButton(){
+  const sheet=document.querySelector('#confirmModal .confirmSheet');
+  if(!sheet)return;
+  let btn=sheet.querySelector('.confirmCloseTop');
+  if(!btn){
+    btn=document.createElement('button');
+    btn.className='confirmCloseTop';
+    btn.type='button';
+    btn.setAttribute('aria-label','Fechar');
+    btn.innerHTML='×';
+    btn.onclick=()=>closeAppConfirm(false);
+    sheet.appendChild(btn);
+  }
+}
+
+function syncConfirmModalMode({infoOnly=false,auditEnabled=false}={}){
+  const modal=document.getElementById('confirmModal'); if(!modal)return;
+  modal.classList.toggle('info-only',!!infoOnly);
+  modal.classList.toggle('commAuditEnabled',!!auditEnabled);
+  const actions=modal.querySelector('.confirmActions'); if(actions)actions.style.display=infoOnly?'none':'';
+  const cancelBtn=modal.querySelector('.confirmActions .btn.ghost'); const okBtn=document.getElementById('confirmOkBtn');
+  if(cancelBtn)cancelBtn.style.display=infoOnly?'none':''; if(okBtn)okBtn.style.display=infoOnly?'none':'';
+  if(!auditEnabled && typeof closeCommAuditPopover==='function')closeCommAuditPopover();
+}
+function openAppConfirm({title='Confirmar ação',message='Deseja continuar?',okText='Confirmar',onConfirm=null,auditCommId=null}={}){
+  pendingConfirm=onConfirm;
+  const modal=document.getElementById('confirmModal'); if(!modal)return;
+  if(typeof ensureConfirmCloseButton==='function')ensureConfirmCloseButton(); if(typeof ensureConfirmMoreButton==='function')ensureConfirmMoreButton();
+  const titleEl=document.getElementById('confirmTitle'); const messageEl=document.getElementById('confirmMessage'); const okBtn=document.getElementById('confirmOkBtn');
+  if(titleEl)titleEl.textContent=title; if(messageEl)messageEl.innerHTML=message; if(okBtn)okBtn.textContent=okText;
+  currentCommAuditId=auditCommId||currentCommAuditId||null;
+  const infoOnly=!onConfirm && String(okText||'').trim().toLowerCase()==='fechar';
+  syncConfirmModalMode({infoOnly,auditEnabled:infoOnly&&!!currentCommAuditId});
+  modal.classList.add('show');
+}
+function closeAppConfirm(ok){
+  const fn=pendingConfirm; pendingConfirm=null;
+  const modal=document.getElementById('confirmModal');
+  if(modal)modal.classList.remove('show','info-only','commAuditEnabled');
+  if(typeof closeCommAuditPopover==='function')closeCommAuditPopover(); currentCommAuditId=null;
+  syncConfirmModalMode({infoOnly:false,auditEnabled:false});
+  document.querySelector('#confirmModal .sheet')?.classList.remove('commViewSheet');
+  if(ok&&typeof fn==='function')fn();
+}
 
 /* ── BACKUP ROBUSTO v108 ────────────────────────────────────── */
 
@@ -6623,7 +9433,7 @@ function applyBackupData(parsed,file){
   }
   if(!Array.isArray(state.logs))state.logs=[];
   if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
-  state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
+  state.users.forEach(u=>normalizeUserOperational(u));
   ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
   localStorage.setItem(KEY,JSON.stringify(state));
   addLog('Restaurou backup','Arquivo: '+file.name+' (tipo: '+tipo+')','backup');
@@ -7001,7 +9811,7 @@ function cloudTargetLabel(d){return d.toLocaleTimeString('pt-BR',{hour:'2-digit'
 function cloudSnapshotPayload(reason='auto'){
   return {
     app:'Portaria Primavera',
-    version:'v116',
+    version:'v150',
     reason,
     saved_at:new Date().toISOString(),
     source:reason==='sync'?'pwa-sync':'pwa-localstorage',
@@ -7442,20 +10252,68 @@ function renderAgendaUnitPicker(){
   grid.innerHTML=html;
 }
 function selectAgendaUnit(bloco,apto){const el=document.getElementById('opUnidade'); if(el)el.value=unitAccessCode(bloco,apto); closeAgendaUnitPicker()}
-function addOperationalEvent(){ ensureOperational(); const tipo=val('opTipo'), data=val('opData'), unidade=val('opUnidade').toUpperCase(), resp=val('opResp'), obs=val('opObs'); if(!data){alert('Informe a data.');return} if(!unidade){alert('Informe a unidade.');return} state.operational.push({id:crypto.randomUUID(),tipo,data,unidade,resp,obs}); addLog('Adicionou agenda operacional',`${opTypeLabel(tipo)} • ${unidade} • ${dateBR(data)}${resp?' • '+resp:''}`,'agenda'); ['opUnidade','opResp','opObs'].forEach(id=>{const el=document.getElementById(id); if(el)el.value=''}); save(); }
-function removeOperationalEvent(id){ openAppConfirm({title:'Remover agenda?',message:'Este item será removido da agenda operacional.',okText:'Remover',onConfirm:()=>{ensureOperational(); const ev=state.operational.find(e=>e.id===id); state.operational=state.operational.filter(e=>e.id!==id); addLog('Removeu agenda operacional',`${opTypeLabel(ev?.tipo)} • ${ev?.unidade||'—'} • ${dateBR(ev?.data)}`,'agenda'); save();}}); }
+function addOperationalEvent(){
+  ensureOperational();
+  const tipo=(document.getElementById('opTipo')?.value||'').trim();
+  const data=(document.getElementById('opData')?.value||'').trim();
+  const unidade=(document.getElementById('opUnidade')?.value||'').trim();
+  const resp=(document.getElementById('opResp')?.value||'').trim();
+  if(!tipo){ alert('Selecione o tipo do agendamento.'); return; }
+  if(!data){ alert('Informe a data do agendamento.'); return; }
+  if(!unidade){ alert('Selecione a unidade.'); return; }
+  const item={
+    id:(crypto&&crypto.randomUUID)?crypto.randomUUID():('ag_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)),
+    tipo,
+    data,
+    unidade,
+    resp,
+    obs:'',
+    criadoEm:new Date().toISOString()
+  };
+  state.operational.unshift(item);
+  addLog?.('Cadastrou agenda operacional', `${opTypeLabel(tipo)} • ${unidade} • ${dateBR(data)}`,'agenda');
+  save();
+  document.getElementById('opData').value = new Date().toISOString().slice(0,10);
+  document.getElementById('opUnidade').value = '';
+  document.getElementById('opResp').value = '';
+  document.getElementById('opTipo').value = '';
+}
+function removeOperationalEvent(id){
+  ensureOperational();
+  const ev=(state.operational||[]).find(x=>x.id===id);
+  if(!ev)return;
+  openAppConfirm({
+    title:'Remover item da agenda',
+    message:`Deseja remover <b>${esc(opTypeLabel(ev.tipo))}</b> da unidade <b>${esc(ev.unidade||'—')}</b> em <b>${esc(dateBR(ev.data))}</b>?`,
+    confirmLabel:'Remover',
+    mode:'danger',
+    onConfirm(){
+      state.operational=(state.operational||[]).filter(x=>x.id!==id);
+      addLog?.('Removeu agenda operacional', `${opTypeLabel(ev.tipo)} • ${ev.unidade||'—'} • ${dateBR(ev.data)}`,'agenda');
+      save();
+    }
+  });
+}
 function renderOperationalTooltips(){ const s=document.getElementById('tipSalao'), m=document.getElementById('tipMudanca'); if(s) s.innerHTML=operationalTooltipHtml('salao'); if(m) m.innerHTML=operationalTooltipHtml('mudanca'); }
 function operationalTooltipHtml(tipo){ const arr=getOperationalEvents(tipo); if(!arr.length) return `<div class="opTipTitle">${opTypeLabel(tipo)} no mês</div><div class="mini">Nenhum registro neste mês.</div>`; return `<div class="opTipTitle">${opTypeLabel(tipo)} no mês</div>`+arr.map(e=>`<div class="opTipItem"><span class="opTipDate">${esc(dateBR(e.data))}</span><span><span class="opTipUnit">${esc(e.unidade||'—')}</span>${e.resp?`<br><span class="mini">${esc(e.resp)}</span>`:''}</span></div>`).join(''); }
 function renderAgendaList(){
   const box=document.getElementById('agendaList');
   if(!box)return;
   ensureOperational();
-  const arr=[...state.operational].sort((a,b)=>String(b.data).localeCompare(String(a.data))).slice(0,30);
-  if(!arr.length){ box.innerHTML='<div class="empty">Nenhum item cadastrado na agenda operacional.</div>'; return; }
-  box.innerHTML='<div class="agendaHead"><span>Tipo</span><span>Unidade</span><span>Responsável / observação</span><span>Data</span><span></span></div>'+arr.map(e=>{
-    const cls=String(e.tipo||'').toLowerCase()==='mudanca'?' mudanca':'';
-    const resp=[e.resp,e.obs].filter(Boolean).join(' • ') || '—';
-    return `<div class="agendaItem"><span class="agendaType${cls}">${esc(opTypeLabel(e.tipo))}</span><span class="agendaUnit">${esc(e.unidade||'—')}</span><span class="agendaResp">${esc(resp)}</span><span class="agendaDate">${esc(dateBR(e.data))}</span><button class="btn ghost agendaRemove" onclick="removeOperationalEvent('${e.id}')">Remover</button></div>`;
+  const arr=[...(state.operational||[])].sort((a,b)=>String(a.data||'').localeCompare(String(b.data||'')));
+  if(!arr.length){
+    box.innerHTML='<div class="agendaEmptyWide">Nenhum item cadastrado na agenda operacional.</div>';
+    return;
+  }
+  box.innerHTML=arr.map(e=>{
+    const isMudanca=String(e.tipo||'').toLowerCase()==='mudanca';
+    const tipoLabel=isMudanca?'Mudança':'Salão';
+    return `<div class="agendaItem">
+      <button class="agendaRemoveX" type="button" title="Remover" aria-label="Remover" onclick="event.stopPropagation();removeOperationalEvent('${escAttr(e.id)}')">×</button>
+      <span class="agendaType${isMudanca?' mudanca':''}">${tipoLabel}</span>
+      <span class="agendaUnit">${esc(e.unidade||'—')}</span>
+      <span class="agendaDate">${esc(dateBR(e.data))}</span>
+    </div>`;
   }).join('');
 }
 function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>t.style.display='none'); const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>`<div class="opListRow"><div class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>'; modal.classList.add('show'); }
@@ -7803,7 +10661,7 @@ document.addEventListener('keydown',(ev)=>{
 });
 
 function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill){pill.classList.remove('adminShield','portariaShield','hierarchyShield'); if(logged){const isAdm=u.perfil==='admin'; pill.classList.add('hierarchyShield',isAdm?'adminShield':'portariaShield'); pill.textContent='🛡️'; pill.title=(isAdm?'Administrador':'Portaria')+' • '+(u.nome||u.login); pill.setAttribute('aria-label',pill.title);}else{pill.textContent=''; pill.title='Não conectado'; pill.setAttribute('aria-label','Não conectado');}} document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.(); renderCommunications?.()}
-function loginUser(){const login=val('loginUser'), senha=val('loginPass'); const msg=document.getElementById('loginMsg'); const u=(state.users||[]).find(x=>x.login===login&&String(x.senha||'')===senha); if(!u){if(msg)msg.textContent='Usuário ou senha inválidos.';return;} if(u.ativo===false){if(msg)msg.textContent='Usuário inativo. Procure o administrador.';return;} sessionStorage.setItem('pp_current_user',u.login); const remember=document.getElementById('rememberLoginUser'); if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}else{localStorage.removeItem('pp_remember_user');localStorage.removeItem('pp_saved_login')} if(msg)msg.textContent=''; const pass=document.getElementById('loginPass'); if(pass)pass.value=''; applyPermissions(); renderAll(); maybeShowHelpTour();}
+function loginUser(){const login=val('loginUser'), senha=val('loginPass'); const msg=document.getElementById('loginMsg'); const u=(state.users||[]).find(x=>x.login===login&&String(x.senha||'')===senha); if(!u){if(msg)msg.textContent='Usuário ou senha inválidos.';return;} if(u.ativo===false){if(msg)msg.textContent='Usuário inativo. Procure o administrador.';return;} sessionStorage.setItem('pp_current_user',u.login); u.lastAccessAt=new Date().toISOString(); try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} const remember=document.getElementById('rememberLoginUser'); if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}else{localStorage.removeItem('pp_remember_user');localStorage.removeItem('pp_saved_login')} if(msg)msg.textContent=''; const pass=document.getElementById('loginPass'); if(pass)pass.value=''; applyPermissions(); renderAll(); maybeShowHelpTour();}
 function confirmLogoutUser(){
   openAppConfirm({
     title:'Encerrar sessão?',
@@ -7828,6 +10686,7 @@ function openUserModal(id=''){
     document.getElementById('uLogin').disabled=true;
     document.getElementById('uSenha').value='';
     document.getElementById('uPerfil').value=u.perfil||'portaria';
+    const turnoEl=document.getElementById('uTurno'); if(turnoEl)turnoEl.value=u.turno||'';
     document.getElementById('uAtivo').value=(u.ativo===false?'false':'true');
     if(title)title.textContent='Editar usuário';
   }else{
@@ -7840,13 +10699,14 @@ function clearUserForm(close=true){
   ['uEditId','uNome','uLogin','uSenha'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
   const p=document.getElementById('uPerfil'); if(p)p.value='portaria';
   const a=document.getElementById('uAtivo'); if(a)a.value='true';
+  const t=document.getElementById('uTurno'); if(t)t.value='';
   const l=document.getElementById('uLogin'); if(l)l.disabled=false;
   if(close)closeUserModal();
 }
 function editUser(id){openUserModal(id)}
 function saveUserForm(){
   if(!isAdmin())return;
-  const editId=val('uEditId'), nome=val('uNome'), login=val('uLogin'), senha=val('uSenha'), perfil=val('uPerfil')||'portaria';
+  const editId=val('uEditId'), nome=val('uNome'), login=val('uLogin'), senha=val('uSenha'), perfil=val('uPerfil')||'portaria', turno=val('uTurno')||'';
   const ativo=(val('uAtivo')!=='false');
   if(!nome||!login||(!editId&&!senha)){openAppConfirm({title:'Cadastro incompleto',message:'Informe nome, login e senha. Ao editar, a senha pode ficar em branco para manter a atual.',okText:'OK'});return;}
   state.users=state.users||defaultUsers();
@@ -7854,10 +10714,10 @@ function saveUserForm(){
     const u=state.users.find(x=>x.id===editId); if(!u)return;
     const activeAdmins=state.users.filter(x=>x.id!==editId&&x.perfil==='admin'&&x.ativo!==false).length + ((perfil==='admin'&&ativo)?1:0);
     if(activeAdmins<1){openAppConfirm({title:'Ação bloqueada',message:'É necessário manter pelo menos um usuário Admin ativo.',okText:'OK'});return;}
-    u.nome=nome; u.perfil=perfil; u.ativo=ativo; if(senha)u.senha=senha; addLog('Atualizou usuário',`${nome} • ${perfil} • ${ativo?'Ativo':'Inativo'}`,'usuario');
+    u.nome=nome; u.perfil=perfil; u.turno=turno; u.ativo=ativo; if(senha)u.senha=senha; normalizeUserOperational(u); addLog('Atualizou usuário',`${nome} • ${userProfileLabel(u)} • ${ativo?'Ativo':'Inativo'}`,'usuario');
   }else{
     if(state.users.some(u=>u.login===login)){openAppConfirm({title:'Login já existe',message:'Escolha outro login para este usuário.',okText:'OK'});return;}
-    state.users.push({id:'u-'+Date.now(),nome,login,senha,perfil,ativo}); addLog('Criou usuário',`${nome} • ${login} • ${perfil}`,'usuario');
+    const novo=normalizeUserOperational({id:'u-'+Date.now(),nome,login,senha,perfil,turno,ativo}); state.users.push(novo); addLog('Criou usuário',`${nome} • ${login} • ${userProfileLabel(novo)}`,'usuario');
   }
   clearUserForm(true); save(); renderUsers(); applyPermissions();
 }
@@ -7873,21 +10733,30 @@ function toggleUserActive(id){
   openAppConfirm({title:next?'Ativar usuário?':'Desativar usuário?',message:`${next?'Ativar':'Desativar'} ${esc(u.nome||u.login)}? O histórico será preservado.`,okText:next?'Ativar':'Desativar',onConfirm:()=>{u.ativo=next;addLog(next?'Ativou usuário':'Desativou usuário',`${u.nome||u.login} • ${u.login}`,'usuario');save();renderUsers();}})
 }
 function renderUsers(){
+  renderOperationalIdentityPanel?.();
+  renderUserOperationalStats?.();
+  updateAdminAccordionSummaries?.();
   const box=document.getElementById('usersList'); if(!box)return;
-  const users=state.users||[]; users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
+  const users=state.users||[]; users.forEach(u=>normalizeUserOperational(u));
   box.innerHTML=users.map(u=>{
-    const isAdmin=u.perfil==='admin';
     const ativo=u.ativo!==false;
-    const perfilLabel=isAdmin?'Admin':'Portaria';
+    const perfilLabel=userProfileLabel(u);
+    const badgeClass=userProfileBadgeClass(u);
     const nome=esc(u.nome||u.login);
     const login=esc(u.login||'—');
+    const turno=esc(userTurnoLabel(u.turno||''));
+    const last=esc(userLastAccessLabel(u));
     return `<button class="userCard userCardPremium ${ativo?'':'inactive'}" onclick="openUserModal('${escAttr(u.id)}')">
       <div class="userCardTop">
         <div>
           <div class="userCardName">${nome}</div>
           <div class="userCardLogin">${login}</div>
         </div>
-        <span class="profileBadge ${isAdmin?'admin':'portaria'}">${perfilLabel}</span>
+        <span class="profileBadge ${badgeClass}">${esc(perfilLabel)}</span>
+      </div>
+      <div class="userCardMeta">
+        <small>🕒 ${turno}</small>
+        <small>📍 ${last}</small>
       </div>
       <div class="userCardFooter">
         <span class="statusBadge ${ativo?'on':'off'}">${ativo?'Ativo':'Inativo'}</span>
@@ -8016,28 +10885,150 @@ function buildReportData(){
     byAgenda:topCounts(ops,o=>o.tipo==='salao'?'Locação do salão':(o.tipo==='mudanca'?'Mudança':o.tipo),5)
   };
 }
+
+function agendaReportPeriodLabel(monthStr){
+  if(!monthStr)return '—';
+  const [y,m]=String(monthStr).split('-').map(Number);
+  try{return new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase())}catch(e){return monthStr}
+}
+function agendaReportData(ops){
+  const today=new Date().toISOString().slice(0,10);
+  const month=new Date().toISOString().slice(0,7);
+  const inMonth=(ops||[]).filter(o=>String(o.data||'').slice(0,7)===month);
+  const salaos=inMonth.filter(o=>o.tipo==='salao');
+  const mudancas=inMonth.filter(o=>o.tipo==='mudanca');
+  const future=(ops||[]).filter(o=>String(o.data||'')>=today).sort((a,b)=>String(a.data).localeCompare(String(b.data))).slice(0,6);
+  const topUnits=topCounts(inMonth,o=>o.unidade||'',6);
+  const months=[];
+  for(let i=5;i>=0;i--){
+    const d=new Date(); d.setMonth(d.getMonth()-i);
+    const key=d.toISOString().slice(0,7);
+    const arr=(state.operational||[]).filter(o=>String(o.data||'').slice(0,7)===key);
+    months.push({key,label:d.toLocaleDateString('pt-BR',{month:'short'}).replace('.',''),total:arr.length});
+  }
+  return {month,label:agendaReportPeriodLabel(month),inMonth,salaos,mudancas,future,topUnits,months};
+}
+function renderAgendaReportPanel(r){
+  const a=agendaReportData(state.operational||[]);
+  const next=a.future[0];
+  const nextLabel=next?`${opTypeLabel(next.tipo)} • ${next.unidade||'—'} • ${dateBR(next.data)}`:'Sem próximos eventos';
+  const nextRows=a.future.length?a.future.map(e=>{
+    const isMudanca=e.tipo==='mudanca';
+    return `<div class="agendaNextItem">
+      <span class="agendaNextType${isMudanca?' mudanca':''}">${isMudanca?'Mudança':'Salão'}</span>
+      <div class="agendaNextMain"><b>${esc(e.unidade||'—')}</b><small>${e.resp?esc(e.resp):'Sem responsável informado'}</small></div>
+      <div class="agendaNextDate">${esc(dateBR(e.data))}</div>
+    </div>`;
+  }).join(''):'<div class="reportEmpty">Nenhum evento futuro cadastrado.</div>';
+  const topRows=a.topUnits.length?a.topUnits.map(([unit,count])=>`<div class="agendaTopItem"><div><b>${esc(unit)}</b><small>Eventos no mês atual</small></div><div class="agendaTopCount">${count}</div></div>`).join(''):'<div class="reportEmpty">Sem unidades no mês atual.</div>';
+  const monthChips=a.months.map(m=>`<div class="agendaMonthChip"><b>${m.total}</b><span>${esc(m.label)}</span></div>`).join('');
+  return `<div class="card reportPanel agendaReportPanel">
+    <div class="agendaReportHead">
+      <div>
+        <h3>📅 Relatório visual da Agenda Operacional</h3>
+        <p>${esc(a.label)} • Salão, mudanças, próximos eventos e unidades com mais registros.</p>
+      </div>
+      <div class="agendaReportActions">
+        <button class="btn ghost" onclick="exportAgendaReport()">Exportar agenda</button>
+      </div>
+    </div>
+    <div class="agendaReportMetrics">
+      <div class="agendaReportMetric"><b>${a.inMonth.length}</b><span>Eventos no mês</span></div>
+      <div class="agendaReportMetric"><b>${a.salaos.length}</b><span>Locações do salão</span></div>
+      <div class="agendaReportMetric"><b>${a.mudancas.length}</b><span>Mudanças</span></div>
+      <div class="agendaReportMetric"><b>${a.future.length}</b><span>Próximos eventos</span></div>
+    </div>
+    <div class="agendaReportGrid">
+      <div><div class="agendaReportSub">Próximos eventos</div><div class="agendaNextList">${nextRows}</div></div>
+      <div><div class="agendaReportSub">Unidades com mais registros</div><div class="agendaTopList">${topRows}</div></div>
+    </div>
+    <div class="agendaMonthlyMini">${monthChips}</div>
+    <p class="reportSectionNote">Próximo evento: <b>${esc(nextLabel)}</b>.</p>
+  </div>`;
+}
+function exportAgendaReport(){
+  const a=agendaReportData(state.operational||[]);
+  const rows=(state.operational||[]).slice().sort((x,y)=>String(x.data||'').localeCompare(String(y.data||'')));
+  const payload={geradoEm:new Date().toISOString(),mesAtual:a.label,resumo:{eventosMes:a.inMonth.length,salao:a.salaos.length,mudancas:a.mudancas.length,proximos:a.future.length},eventos:rows};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const link=document.createElement('a');
+  link.href=url; link.download='relatorio-agenda-operacional-portaria-primavera.json'; link.click(); URL.revokeObjectURL(url);
+  addLog?.('Exportou relatório da agenda',`${a.inMonth.length} evento(s) em ${a.label}`,'agenda');
+  persistNoRender?.();
+}
+
+
+/* v147 — Acordeões da guia Relatórios */
+const REPORT_ACCORDION_MEMORY_KEY='portaria_primavera_report_accordions_v147';
+function getReportAccordionMemory(){
+  try{return JSON.parse(localStorage.getItem(REPORT_ACCORDION_MEMORY_KEY)||'{}')||{}}catch(e){return {}}
+}
+function setReportAccordionMemory(data){
+  try{localStorage.setItem(REPORT_ACCORDION_MEMORY_KEY,JSON.stringify(data||{}))}catch(e){}
+}
+function reportAccordion(key, icon, title, desc, badges, body, openDefault=false){
+  const mem=getReportAccordionMemory();
+  const isOpen = Object.prototype.hasOwnProperty.call(mem,key) ? !!mem[key] : !!openDefault;
+  const badgeHtml=(badges||[]).filter(Boolean).map(b=>`<span class="reportAccordionBadge">${esc(b)}</span>`).join('');
+  return `<section class="reportAccordion ${isOpen?'open':'collapsed'}" data-report-accordion="${esc(key)}">
+    <div class="reportAccordionTop" onclick="toggleReportAccordion('${esc(key)}')">
+      <div class="reportAccordionTitle">
+        <div class="reportAccordionIcon">${icon}</div>
+        <div><h3>${esc(title)}</h3><p>${esc(desc)}</p></div>
+      </div>
+      <div class="reportAccordionSummary">${badgeHtml}<button class="reportAccordionChevron" type="button" onclick="event.stopPropagation();toggleReportAccordion('${esc(key)}')">▾</button></div>
+    </div>
+    <div class="reportAccordionBody">${body}</div>
+  </section>`;
+}
+function toggleReportAccordion(key){
+  const card=document.querySelector(`[data-report-accordion="${CSS.escape(key)}"]`);
+  if(!card)return;
+  card.classList.toggle('collapsed');
+  card.classList.toggle('open',!card.classList.contains('collapsed'));
+  const mem=getReportAccordionMemory();
+  mem[key]=!card.classList.contains('collapsed');
+  setReportAccordionMemory(mem);
+}
+
 function renderReports(){
   const el=document.getElementById('reportsBody'); if(!el)return;
   const r=buildReportData();
   const total=r.accesses.length, noLocal=r.inside.length, saidas=r.exits.length;
   const salaos=r.ops.filter(o=>o.tipo==='salao').length, mudancas=r.ops.filter(o=>o.tipo==='mudanca').length;
-  el.innerHTML=`
-    <div class="reportsMetrics">
+  const resumoBody=`
+    <div class="reportsMetrics reportsMetricsAccordion">
       <div class="card reportMetric"><div class="n">${total}</div><div class="l">Acessos no período</div><span class="s">${esc(r.range.label)}</span></div>
       <div class="card reportMetric"><div class="n">${noLocal}</div><div class="l">Ainda no condomínio</div><span class="s">aguardando saída</span></div>
       <div class="card reportMetric"><div class="n">${r.residents.totalPeople}</div><div class="l">Moradores cadastrados</div><span class="s">${r.residents.occupied} unidades ocupadas</span></div>
       <div class="card reportMetric"><div class="n">${salaos+mudancas}</div><div class="l">Eventos de agenda</div><span class="s">${salaos} salão • ${mudancas} mudança</span></div>
-    </div>
+    </div>`;
+  const acessosBody=`
     <div class="reportsGrid">
       <div class="card reportPanel"><h3>Top unidades por acesso</h3>${reportRowsHTML(r.topUnits)}</div>
       <div class="card reportPanel"><h3>Empresas / prestadores</h3>${reportRowsHTML(r.topCompanies)}</div>
       <div class="card reportPanel"><h3>Autorizado por</h3>${reportRowsHTML(r.topAuthorized,'Ainda sem dados suficientes.')}</div>
-      <div class="card reportPanel"><h3>Agenda operacional</h3>${reportRowsHTML(r.byAgenda,'Sem eventos no período selecionado.')}</div>
-      <div class="card reportPanel"><h3>Moradores e cadastros</h3><div class="reportMiniGrid"><div class="reportMini"><b>${r.residents.app}</b><span>usam aplicativo</span></div><div class="reportMini"><b>${r.residents.bio}</b><span>biometria facial</span></div><div class="reportMini"><b>${r.residents.vehicles}</b><span>veículos cadastrados</span></div></div><p class="reportSectionNote">Baseado nas unidades preenchidas na guia Moradores.</p></div>
-      <div class="card reportPanel"><h3>Auditoria resumida</h3>${reportRowsHTML(r.byLogType,'Sem logs no período selecionado.')}<p class="reportSectionNote">Total de logs no período: <b>${r.logs.length}</b>.</p></div>
-    </div>
-    ${renderPassagensPanel()}`;
+      <div class="card reportPanel"><h3>Saídas registradas</h3><div class="reportMiniGrid"><div class="reportMini"><b>${saidas}</b><span>saídas no período</span></div><div class="reportMini"><b>${noLocal}</b><span>sem saída registrada</span></div><div class="reportMini"><b>${total}</b><span>entradas analisadas</span></div></div></div>
+    </div>`;
+  const moradoresBody=`
+    <div class="reportsGrid">
+      <div class="card reportPanel" style="grid-column:1/-1"><h3>Moradores e cadastros</h3><div class="reportMiniGrid"><div class="reportMini"><b>${r.residents.app}</b><span>usam aplicativo</span></div><div class="reportMini"><b>${r.residents.bio}</b><span>biometria facial</span></div><div class="reportMini"><b>${r.residents.vehicles}</b><span>veículos cadastrados</span></div></div><p class="reportSectionNote">Baseado nas unidades preenchidas na guia Moradores.</p></div>
+    </div>`;
+  const auditoriaBody=`
+    <div class="reportsGrid">
+      <div class="card reportPanel" style="grid-column:1/-1"><h3>Auditoria resumida</h3>${reportRowsHTML(r.byLogType,'Sem logs no período selecionado.')}<p class="reportSectionNote">Total de logs no período: <b>${r.logs.length}</b>.</p></div>
+    </div>`;
+  el.innerHTML=`
+    <div class="reportsAccordionStack">
+      ${reportAccordion('resumo','📊','Resumo geral','Indicadores principais do período selecionado.',[r.range.label,`${total} acessos`,`${salaos+mudancas} eventos`],resumoBody,true)}
+      ${reportAccordion('agenda','📅','Agenda Operacional','Relatório mensal/anual de salão, mudanças e próximos eventos.',[`${salaos} salão`,`${mudancas} mudanças`],renderAgendaReportPanel(r),true)}
+      ${reportAccordion('acessos','🚪','Acessos','Unidades, empresas, autorizadores e saídas do período.',[`${total} entradas`,`${noLocal} dentro`],acessosBody,false)}
+      ${reportAccordion('moradores','👥','Moradores','Base cadastral, app, biometria e veículos.',[`${r.residents.totalPeople} moradores`,`${r.residents.vehicles} veículos`],moradoresBody,false)}
+      ${reportAccordion('auditoria','🧭','Auditoria','Resumo dos registros administrativos e eventos do sistema.',[`${r.logs.length} logs`],auditoriaBody,false)}
+      ${reportAccordion('passagens','⇄','Passagens de turno','Histórico operacional das trocas de turno da portaria.',[`${(state.passagens||[]).length} registros`],renderPassagensPanel(),false)}
+    </div>`;
 }
+
 function renderPassagensPanel(){
   const passagens = state.passagens||[];
   if(!passagens.length) return `
@@ -8085,9 +11076,238 @@ function renderPassagensPanel(){
     </div>`;
 }
 
+
+/* v146 — Relatório mensal/anual da Agenda Operacional */
+function agendaReportData(ops){
+  const today=new Date().toISOString().slice(0,10);
+  const now=new Date();
+  const month=now.toISOString().slice(0,7);
+  const year=String(now.getFullYear());
+  const all=(ops||[]).filter(o=>o&&o.data);
+  const inMonth=all.filter(o=>String(o.data||'').slice(0,7)===month);
+  const inYear=all.filter(o=>String(o.data||'').slice(0,4)===year);
+  const salaos=inMonth.filter(o=>o.tipo==='salao');
+  const mudancas=inMonth.filter(o=>o.tipo==='mudanca');
+  const salaosYear=inYear.filter(o=>o.tipo==='salao');
+  const mudancasYear=inYear.filter(o=>o.tipo==='mudanca');
+  const future=all.filter(o=>String(o.data||'')>=today).sort((a,b)=>String(a.data).localeCompare(String(b.data))).slice(0,6);
+  const topUnits=topCounts(inYear,o=>o.unidade||'',6);
+  const months=[];
+  for(let i=0;i<12;i++){
+    const d=new Date(Number(year),i,1);
+    const key=`${year}-${String(i+1).padStart(2,'0')}`;
+    const arr=all.filter(o=>String(o.data||'').slice(0,7)===key);
+    const s=arr.filter(o=>o.tipo==='salao').length;
+    const m=arr.filter(o=>o.tipo==='mudanca').length;
+    months.push({
+      key,
+      label:d.toLocaleDateString('pt-BR',{month:'short'}).replace('.',''),
+      total:arr.length,
+      salaos:s,
+      mudancas:m
+    });
+  }
+  return {month,year,label:agendaReportPeriodLabel(month),inMonth,inYear,salaos,mudancas,salaosYear,mudancasYear,future,topUnits,months};
+}
+function renderAgendaReportPanel(r){
+  const a=agendaReportData(state.operational||[]);
+  const next=a.future[0];
+  const nextLabel=next?`${opTypeLabel(next.tipo)} • ${next.unidade||'—'} • ${dateBR(next.data)}`:'Sem próximos eventos';
+  const nextRows=a.future.length?a.future.map(e=>{
+    const isMudanca=e.tipo==='mudanca';
+    return `<div class="agendaNextItem">
+      <span class="agendaNextType${isMudanca?' mudanca':''}">${isMudanca?'Mudança':'Salão'}</span>
+      <div class="agendaNextMain"><b>${esc(e.unidade||'—')}</b><small>${e.resp?esc(e.resp):'Sem responsável informado'}</small></div>
+      <div class="agendaNextDate">${esc(dateBR(e.data))}</div>
+    </div>`;
+  }).join(''):'<div class="reportEmpty">Nenhum evento futuro cadastrado.</div>';
+  const topRows=a.topUnits.length?a.topUnits.map(([unit,count])=>`<div class="agendaTopItem"><div><b>${esc(unit)}</b><small>Eventos no ano atual</small></div><div class="agendaTopCount">${count}</div></div>`).join(''):'<div class="reportEmpty">Sem unidades no ano atual.</div>';
+  const monthChips=a.months.map(m=>`<div class="agendaMonthChip year"><b>${m.total}</b><span>${esc(m.label)}</span><small><span class="salao">S ${m.salaos}</span> • <span class="mudanca">M ${m.mudancas}</span></small></div>`).join('');
+  return `<div class="card reportPanel agendaReportPanel">
+    <div class="agendaReportHead">
+      <div>
+        <h3>📅 Relatório visual da Agenda Operacional</h3>
+        <p>${esc(a.label)} e visão anual de ${esc(a.year)} • Salão, mudanças, próximos eventos e unidades com mais registros.</p>
+      </div>
+      <div class="agendaReportActions">
+        <button class="btn ghost" onclick="exportAgendaCsv()">Exportar CSV</button>
+        <button class="btn ghost" onclick="exportAgendaReport()">Exportar JSON</button>
+      </div>
+    </div>
+    <div class="agendaReportMetrics">
+      <div class="agendaReportMetric"><b>${a.inMonth.length}</b><span>Eventos no mês</span></div>
+      <div class="agendaReportMetric"><b>${a.salaos.length}</b><span>Salão no mês</span></div>
+      <div class="agendaReportMetric"><b>${a.mudancas.length}</b><span>Mudanças no mês</span></div>
+      <div class="agendaReportMetric year"><b>${a.inYear.length}</b><span>Total no ano</span></div>
+    </div>
+    <div class="agendaReportGrid">
+      <div><div class="agendaReportSub">Próximos eventos</div><div class="agendaNextList">${nextRows}</div></div>
+      <div><div class="agendaReportSub">Unidades com mais registros no ano</div><div class="agendaTopList">${topRows}</div></div>
+    </div>
+    <div class="agendaReportYearBlock">
+      <div class="agendaReportYearHead"><b>Visão anual — Salão x Mudanças</b><span>${a.salaosYear.length} salão • ${a.mudancasYear.length} mudanças</span></div>
+      <div class="agendaMonthlyMini year">${monthChips}</div>
+    </div>
+    <p class="reportSectionNote">Próximo evento: <b>${esc(nextLabel)}</b>.</p>
+  </div>`;
+}
+function exportAgendaCsv(){
+  const rows=(state.operational||[]).slice().sort((x,y)=>String(x.data||'').localeCompare(String(y.data||'')));
+  const header=['Data','Tipo','Unidade','Responsável'];
+  const lines=[header.join(';')].concat(rows.map(e=>[
+    dateBR(e.data),
+    opTypeLabel(e.tipo),
+    e.unidade||'',
+    e.resp||''
+  ].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')));
+  const blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='agenda-operacional-portaria-primavera.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  addLog?.('Exportou agenda em CSV',`${rows.length} evento(s)`,'agenda');
+  persistNoRender?.();
+}
+
+
+/* v148 — Central Premium de Exportação dos Relatórios */
+
+/* v149 — PDF Premium dos Relatórios */
+function openPremiumPdfModal(){
+  closeReportsExportMenu?.();
+  document.getElementById('premiumPdfModal')?.classList.add('show');
+}
+function closePremiumPdfModal(){
+  document.getElementById('premiumPdfModal')?.classList.remove('show');
+}
+function pdfReportLabel(mode){
+  return ({
+    completo:'Relatório completo',
+    agenda:'Agenda Operacional',
+    acessos:'Acessos',
+    moradores:'Moradores',
+    auditoria:'Auditoria'
+  })[mode] || 'Relatório completo';
+}
+function runPremiumPdf(mode='completo'){
+  closePremiumPdfModal();
+  renderReports();
+  const r=buildReportData();
+  const meta=document.getElementById('printReportMeta');
+  if(meta){
+    const now=new Date();
+    meta.textContent=`PDF Premium • ${pdfReportLabel(mode)} • Emitido em ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} • Período: ${r.range.label} • Fonte: Merriweather`;
+  }
+  document.body.classList.add('pdfPremiumMode');
+  document.body.setAttribute('data-pdf-report',mode);
+  addLog?.('Gerou PDF premium dos relatórios',`${pdfReportLabel(mode)} • Período: ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+  setTimeout(()=>window.print(),160);
+  setTimeout(()=>{
+    document.body.classList.remove('pdfPremiumMode');
+    document.body.removeAttribute('data-pdf-report');
+  },1200);
+}
+
+function toggleReportsExportMenu(ev){
+  if(ev)ev.stopPropagation();
+  const menu=document.getElementById('reportsExportMenu');
+  if(!menu)return;
+  menu.classList.toggle('open');
+}
+function closeReportsExportMenu(){
+  const menu=document.getElementById('reportsExportMenu');
+  if(menu)menu.classList.remove('open');
+}
+document.addEventListener('click',function(ev){
+  const menu=document.getElementById('reportsExportMenu');
+  if(!menu||!menu.classList.contains('open'))return;
+  if(!ev.target.closest('.reportsExportWrap')) closeReportsExportMenu();
+});
+function csvDownload(filename, rows){
+  const lines=(rows||[]).map(row=>row.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';'));
+  const blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function exportAccessesCsv(){
+  normalizeAccesses();
+  const r=buildReportData();
+  const rows=[['Data entrada','Hora entrada','Nome','CPF','Empresa/Tipo','Unidade visitada','Autorizado por','Serviço','Saída']];
+  r.accesses.slice().sort((a,b)=>accessMs(a)-accessMs(b)).forEach(a=>{
+    rows.push([
+      a.data||'',
+      a.entrada||'',
+      a.nome||'',
+      a.cpf||'',
+      a.empresa||a.tipo||'',
+      a.destino||(a.bloco&&a.apto?`${a.bloco} ${a.apto}`:''),
+      a.autorizado||'',
+      a.servico||'',
+      a.saida||''
+    ]);
+  });
+  csvDownload('relatorio-acessos-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de acessos em CSV',`${r.accesses.length} acesso(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportResidentsCsv(){
+  const rows=[['Bloco','Apto','Morador','Telefone','Vínculo','Usa app','Biometria','Placa','Cor','Modelo','Vaga']];
+  Object.values(state.units||{}).forEach(u=>{
+    const people=(u.people||[]).filter(p=>p&&p.nome);
+    const vehicles=(u.vehicles||[]).filter(v=>v&&(v.placa||v.cor||v.modelo||v.vaga));
+    if(!people.length&&!vehicles.length){
+      rows.push([u.bloco||'',u.apto||'','','','','','','','','','']);
+      return;
+    }
+    const max=Math.max(people.length,vehicles.length,1);
+    for(let i=0;i<max;i++){
+      const p=people[i]||{};
+      const v=vehicles[i]||{};
+      rows.push([u.bloco||'',u.apto||'',p.nome||'',p.tel||p.telefone||'',p.vinculo||'',p.app||'',p.bio||'',v.placa||'',v.cor||'',v.modelo||'',v.vaga||'']);
+    }
+  });
+  csvDownload('relatorio-moradores-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de moradores em CSV',`${rows.length-1} linha(s)`,'relatorios');
+  persistNoRender?.();
+}
+function exportAuditCsv(){
+  const r=buildReportData();
+  const rows=[['Data/hora','Tipo','Ação','Detalhes','Operador','Perfil','Turno']];
+  r.logs.slice().sort((a,b)=>parseDateMs(a.criadoEm)-parseDateMs(b.criadoEm)).forEach(l=>{
+    rows.push([
+      l.criadoEm||'',
+      logTypeLabel(l.tipo),
+      l.acao||l.titulo||'',
+      l.detalhes||l.desc||'',
+      l.operador||l.user||'',
+      l.perfil||'',
+      l.turno||''
+    ]);
+  });
+  csvDownload('relatorio-auditoria-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de auditoria em CSV',`${r.logs.length} log(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportReportsFromMenu(type){
+  closeReportsExportMenu();
+  if(type==='json') return exportReports();
+  if(type==='agendaCsv') return exportAgendaCsv();
+  if(type==='accessCsv') return exportAccessesCsv();
+  if(type==='residentsCsv') return exportResidentsCsv();
+  if(type==='auditCsv') return exportAuditCsv();
+  if(type==='print') return printReports();
+}
+
 function exportReports(){
   const r=buildReportData();
-  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:r.byAgenda,logs:r.byLogType};
+  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:{resumo:r.byAgenda,eventos:r.ops},logs:r.byLogType};
   addLog('Exportou relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
   persistNoRender();
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
@@ -8218,7 +11438,7 @@ function renderCondoPopover(){
     </div>
     <div class="condoPopSection"><div class="condoPopLabel">Sistema</div>
       <div class="condoPopSystem">
-        <div class="condoPopMini"><b>Portaria Primavera</b>Versão v135.1</div>
+        <div class="condoPopMini"><b>Portaria Primavera</b>Versão v150</div>
         <div class="condoPopMini"><b>Sincronização</b>${esc(syncText)}</div>
         <div class="condoPopMini"><b>Google Drive</b>${esc(driveText)}</div>
         <div class="condoPopMini"><b>Perfil atual</b>${esc((currentOperator&&currentOperator().perfil)||'—')}</div>
@@ -8598,8 +11818,9 @@ function scheduleCommunication(){
   if(isNaN(scheduledAt.getTime())){openAppConfirm?.({title:'Data inválida',message:'Não consegui entender a data e hora escolhidas.',okText:'OK'});return;}
   if(scheduledAt.getTime()<=Date.now()+15000){openAppConfirm?.({title:'Horário já passou ou está muito próximo',message:'Escolha uma data e hora futuras para programar o comunicado com segurança.',okText:'OK'});return;}
   const c=buildCommunicationFromForm({scheduled:true,scheduledAt:scheduledAt.toISOString()});
+  commAudit(c,'scheduled',`Programado por ${c.createdBy||'Admin'}`,'🕒',formatDateTimeBR(c.scheduledAt));
   state.comunicados.unshift(c);
-  addLog?.('Programou comunicado',`${title} • ${formatDateTimeBR(c.scheduledAt)} • ${commTargetLabel(c.target)}`,'sistema');
+  addLog?.('Programou comunicado',`${title} • ${formatDateTimeBR(c.scheduledAt)} • ${commTargetLabel(c.target)}`,'comunicado');
   clearCommunicationForm();
   closeScheduleCommunicationModal();
   save('programar-comunicado');
@@ -8615,8 +11836,9 @@ function publishScheduledCommunication(c,{silent=false}={}){
   c.createdAt=commNowISO();
   c.publishedAt=commNowISO();
   c.publishedFromSchedule=true;
+  commAudit(c,'published',c.publishedFromSchedule?'Publicado a partir de programação':'Publicado','📢','');
   if(!c.reads||typeof c.reads!=='object')c.reads={};
-  addLog?.('Publicou comunicado programado',`${c.title} • ${commTargetLabel(c.target)}`,'sistema');
+  addLog?.('Publicou comunicado programado',`${c.title} • ${commTargetLabel(c.target)}`,'comunicado');
   if(!silent)setTimeout(()=>showCommPublishInsight(c,{programmed:true,title:'Comunicado programado publicado.'}),120);
   return true;
 }
@@ -8672,9 +11894,10 @@ function saveCommunication(){
   const target=val('commTarget')||'all';
   const u=commCurrentUser();
   const c={id:'comm-'+Date.now()+'-'+Math.random().toString(16).slice(2),title,message,type:val('commType')||'aviso',target,targetUser:target==='user'?val('commTargetUser'):'',eta:val('commEta'),createdAt:commNowISO(),createdBy:u?(u.nome||u.login):'Admin',createdByKey:u?commUserKey(u):'',validUntil:commValidityDate(val('commValidity')||'today'),active:true,reads:{}};
+  commAudit(c,'published',`Publicado por ${c.createdBy||'Admin'}`,'📢',commTargetLabel(target));
   state.comunicados.unshift(c);
   try{localStorage.removeItem('pp_comm_snooze_until')}catch(e){}
-  addLog?.('Publicou comunicado',`${title} • ${commTargetLabel(target)}`,'sistema');
+  addLog?.('Publicou comunicado',`${title} • ${commTargetLabel(target)}`,'comunicado');
   clearCommunicationForm();
   save('comunicado');
   renderCommunications();
@@ -8684,7 +11907,8 @@ function saveCommunication(){
 function markCommunicationRead(id){
   ensureCommunications(); const c=state.comunicados.find(x=>x.id===id); const u=commCurrentUser(); if(!c||!u)return;
   const k=commUserKey(u); c.reads[k]=commNowISO();
-  addLog?.('Leu comunicado',`${c.title} • ${u.nome||u.login}`,'sistema');
+  commAudit(c,'read',`Lido por ${u.nome||u.login}`,'👁️','Ciência registrada');
+  addLog?.('Leu comunicado',`${c.title} • ${u.nome||u.login}`,'comunicado');
   save('leitura-comunicado'); renderCommunications();
 }
 function archiveCommunication(id){
@@ -8697,6 +11921,7 @@ function archiveCommunication(id){
     c.active=false;
     c.archivedAt=new Date().toISOString();
     c.archivedBy=commCurrentUser()?.nome||commCurrentUser()?.name||'Sistema';
+    commAudit(c,'archived',`Arquivado por ${c.archivedBy}`,'🗂️','Saiu dos ativos');
     closeAllCommMenus?.();
     closeCommunicationsArchive?.();
     save('arquivar-comunicado');
@@ -8878,6 +12103,7 @@ function reactivateCommunication(id){
   c.active=true;
   c.reactivatedAt=new Date().toISOString();
   c.reactivatedBy=commCurrentUser()?.nome||commCurrentUser()?.name||'Sistema';
+  commAudit(c,'reactivated',`Reativado por ${c.reactivatedBy}`,'↩️','Voltou para os ativos');
   save('reativar-comunicado');
   renderCommunications();
   renderCommunicationsArchive();
@@ -8921,27 +12147,86 @@ function commReadStatsFull(c){
   const read=users.filter(u=>!!commReadAtForUser(c,u));
   return {users,readCount:read.length,total:users.length};
 }
+
+
+/* v139 — Auditoria do comunicado no menu ⋯ */
+let currentCommAuditId=null;
+function commAuditActor(){const u=commCurrentUser?.()||getCurrentUser?.()||{};return u.nome||u.name||u.login||'Sistema'}
+function commEnsureAudit(c){if(!c)return[];if(!Array.isArray(c.audit))c.audit=[];return c.audit}
+function commAudit(c,type,label,icon='•',details=''){if(!c)return;commEnsureAudit(c).push({id:'aud-'+Date.now()+'-'+Math.random().toString(16).slice(2),type,label,icon,details,at:commNowISO?.()||new Date().toISOString(),by:commAuditActor()})}
+function commTimelineEntries(c){
+  if(!c)return[];
+  const entries=[], seen=new Set();
+  const push=(at,icon,label,details='',type='')=>{if(!at)return;const key=[type,at,label,details].join('|');if(seen.has(key))return;seen.add(key);entries.push({at,icon,label,details,type})};
+  push(c.createdAt,'📝',`Criado por ${c.createdBy||'Admin'}`,commTargetLabel?.(c.target||'all')||'','created');
+  if(c.scheduledAt)push(c.scheduledAt,'🕒',`Programado para ${formatDateTimeBR(c.scheduledAt)}`,c.createdBy?`Por ${c.createdBy}`:'','scheduled-ref');
+  if(c.publishedAt||(!c.scheduled&&c.active&&c.createdAt))push(c.publishedAt||c.createdAt,'📢',c.publishedFromSchedule?'Publicado a partir de programação':'Publicado',c.publishedFromSchedule?'Automático/manual programado':'Publicação imediata','published-ref');
+  Object.entries(c.reads||{}).forEach(([k,at])=>{const user=(state.users||[]).find(u=>String(commReadKeyForUser(u))===String(k)||String(u.id)===String(k)||String(u.login)===String(k)||String(u.nome)===String(k));push(at,'👁️',`Lido por ${user?(user.nome||user.login):k}`,'Ciência registrada','read-ref')});
+  if(c.archivedAt)push(c.archivedAt,'🗂️',`Arquivado por ${c.archivedBy||'Sistema'}`,'Saiu dos ativos','archived-ref');
+  if(c.reactivatedAt)push(c.reactivatedAt,'↩️',`Reativado por ${c.reactivatedBy||'Sistema'}`,'Voltou para os ativos','reactivated-ref');
+  (c.audit||[]).forEach(a=>push(a.at,a.icon||'•',a.label||a.type||'Registro',a.details||(a.by?`Por ${a.by}`:''),a.type||'audit'));
+  return entries.sort((a,b)=>new Date(a.at).getTime()-new Date(b.at).getTime());
+}
+function renderCommAuditTimeline(id){
+  ensureCommunications?.();
+  const c=(state.comunicados||[]).find(x=>x.id===id);
+  if(!c)return '<div class="commAuditEmpty">Comunicado não encontrado.</div>';
+  const entries=commTimelineEntries(c);
+  if(!entries.length)return '<div class="commAuditEmpty">Ainda não há registros de auditoria para este comunicado.</div>';
+  return `<div class="commAuditHead"><b>Histórico do comunicado</b><small>${entries.length} registro${entries.length>1?'s':''}</small></div><div class="commAuditList">${entries.map(e=>`<div class="commAuditItem"><div class="commAuditIcon">${e.icon}</div><div class="commAuditText"><b>${escapeHtml(e.label)}</b><small>${escapeHtml(formatDateTimeBR(e.at))}${e.details?' • '+escapeHtml(e.details):''}</small></div></div>`).join('')}</div>`;
+}
+function ensureConfirmMoreButton(){
+  const sheet=document.querySelector('#confirmModal .confirmSheet');
+  if(!sheet)return;
+  let more=sheet.querySelector('.confirmMoreTop');
+  if(!more){more=document.createElement('button');more.className='confirmMoreTop';more.type='button';more.setAttribute('aria-label','Mais opções');more.innerHTML='⋯';more.onclick=(ev)=>{ev.stopPropagation();toggleCommAuditPopover()};sheet.appendChild(more)}
+  let pop=sheet.querySelector('.commAuditPopover');
+  if(!pop){pop=document.createElement('div');pop.className='commAuditPopover';sheet.appendChild(pop)}
+}
+function toggleCommAuditPopover(){const pop=document.querySelector('#confirmModal .commAuditPopover');if(!pop||!currentCommAuditId)return;pop.innerHTML=renderCommAuditTimeline(currentCommAuditId);pop.classList.toggle('show')}
+function closeCommAuditPopover(){document.querySelector('#confirmModal .commAuditPopover')?.classList.remove('show')}
+
+function filterCommReadPanel(mode='all'){
+  const panel=document.querySelector('#confirmModal .commReadPanel');
+  if(!panel)return;
+  panel.querySelectorAll('.commReadFilterBtn').forEach(btn=>btn.classList.toggle('active',btn.dataset.filter===mode));
+  const rows=[...panel.querySelectorAll('.commReadUser')];
+  rows.forEach(row=>{
+    const isRead=row.classList.contains('read');
+    const hide=(mode==='read'&&!isRead)||(mode==='pending'&&isRead);
+    row.classList.toggle('hideByFilter',hide);
+  });
+  const visible=rows.filter(row=>!row.classList.contains('hideByFilter')).length;
+  const empty=panel.querySelector('.commReadFilteredEmpty');
+  if(empty){
+    const label=mode==='read'?'Nenhum usuário lido neste filtro.':(mode==='pending'?'Nenhum usuário pendente neste filtro.':'Nenhum usuário encontrado.');
+    empty.textContent=label;
+    empty.classList.toggle('show',visible===0);
+  }
+}
+
 function renderCommunicationReadPanel(c){
   const stats=commReadStatsFull(c);
   const published=c.createdAt?formatDateTimeBR(c.createdAt):'—';
   const archived=c.archivedAt?formatDateTimeBR(c.archivedAt):'—';
   const scheduled=c.scheduledAt?formatDateTimeBR(c.scheduledAt):'—';
+  const pendingCount=Math.max((stats.total||0)-(stats.readCount||0),0);
+  const readPhrase=`${stats.readCount} de ${stats.total} confirmaram ciência`;
+  const pendingPhrase=pendingCount?`${pendingCount} pendente${pendingCount>1?'s':''} de leitura`:'Todos confirmaram ciência';
   const rows=stats.users.map(u=>{
     const at=commReadAtForUser(c,u);
     const read=!!at;
     const name=escapeHtml(u.nome||u.login||'Usuário');
     const role=escapeHtml(commUserRoleLabel(u));
     const when=read?('Lido em '+formatDateTimeBR(at)):'Aguardando ciência';
-    return `<div class="commReadUser ${read?'read':'pending'}">
+    return `<div class="commReadUser ${read?'read':'pending'}" data-read="${read?'1':'0'}">
       <div class="commReadUserIcon">${read?'✓':'⏳'}</div>
       <div class="commReadUserName"><b>${name}</b><small>${role}${u.turno?' • '+escapeHtml(u.turno):''}</small></div>
       <div class="commReadUserStatus">${escapeHtml(when)}</div>
     </div>`;
   }).join('');
-  const statusText=c.archived?'Arquivado':(c.scheduled?'Programado':'Ativo');
   const extra=c.archived?`<div class="commReadSummaryCard"><b>Arquivado em</b><span>${escapeHtml(archived)}</span></div>`:
-    (c.scheduled?`<div class="commReadSummaryCard"><b>Programado para</b><span>${escapeHtml(scheduled)}</span></div>`:
-    `<div class="commReadSummaryCard"><b>Status</b><span>${escapeHtml(statusText)}</span></div>`);
+    (c.scheduled?`<div class="commReadSummaryCard"><b>Programado para</b><span>${escapeHtml(scheduled)}</span></div>`:'');
   return `<div class="commReadPanel">
     <div class="commReadSummary">
       <div class="commReadSummaryCard"><b>Publicado por</b><span>${escapeHtml(c.createdBy||'Admin')}</span></div>
@@ -8952,7 +12237,16 @@ function renderCommunicationReadPanel(c){
     <div class="commReadMessage"><b>${escapeHtml(commTypeLabel(c.type||'aviso'))} • ${escapeHtml(commTargetLabel(c.target||'all'))}</b><br><br>${escapeHtml(c.message||'Sem mensagem.')}</div>
     <div class="commReadUsers">
       <div class="commReadUsersHead"><b>✅ Painel de ciência</b><small>${stats.total?Math.round((stats.readCount/stats.total)*100):0}% lido</small></div>
+      <div class="commReadFilterBar">
+        <div class="commReadFilterText"><b>Leitura:</b> ${escapeHtml(readPhrase)}<br>${escapeHtml(pendingPhrase)}</div>
+        <div class="commReadFilters">
+          <button class="commReadFilterBtn active" data-filter="all" onclick="filterCommReadPanel('all')">Todos</button>
+          <button class="commReadFilterBtn" data-filter="read" onclick="filterCommReadPanel('read')">Lidos</button>
+          <button class="commReadFilterBtn" data-filter="pending" onclick="filterCommReadPanel('pending')">Pendentes</button>
+        </div>
+      </div>
       <div class="commReadUserList">${rows||'<div class="commArchiveEmpty">Nenhum usuário encontrado para este comunicado.</div>'}</div>
+      <div class="commReadFilteredEmpty"></div>
     </div>
   </div>`;
 }
@@ -8961,10 +12255,12 @@ function viewCommunication(id){
   ensureCommunications();
   const c=state.comunicados.find(x=>x.id===id);
   if(!c)return;
+  currentCommAuditId=id;
   openAppConfirm?.({
     title:escapeHtml(c.title||'Comunicado'),
     message:renderCommunicationReadPanel(c),
-    okText:'Fechar'
+    okText:'Fechar',
+    auditCommId:id
   });
   setTimeout(()=>{document.querySelector('#confirmModal .sheet')?.classList.add('commViewSheet')},30);
 }
@@ -9021,6 +12317,8 @@ function renderAll(){
   safeRender(applyTheme,'Tema');
   safeRender(renderUsers,'Usuários');
   safeRender(renderLogs,'Logs');
+  safeRender(renderOperatorHistory,'Histórico por operador');
+  safeRender(updateAdminAccordionSummaries,'Resumo dos acordeões');
   safeRender(renderReports,'Relatórios');
   safeRender(renderCommunications,'Comunicados');
   safeRender(applyPermissions,'Permissões');
@@ -9029,7 +12327,7 @@ initCloud();
 initInputMasks();
 initDocumentModal();
 initLoginPreferences();
-ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
+ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();applyAdminAccordionMemory?.();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
 
 function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen','1')}catch(e){} const sp=document.getElementById('appSplash'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); document.body.classList.remove('splashing'); setTimeout(()=>sp.remove(),650)}
 window.addEventListener('load',()=>setTimeout(hideAppSplash,650));
