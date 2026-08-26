@@ -1,0 +1,74 @@
+name: Portaria hardening one-time
+
+on:
+  push:
+    paths:
+      - '.github/workflows/portaria-hardening-once.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply surgical hardening patches
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          original = s
+
+          # 1) Fonte única de manifest: arquivo externo versionado.
+          old_manifest = '<link rel="manifest" id="manifest-placeholder">'
+          new_manifest = '<link rel="manifest" href="./manifest.webmanifest">'
+          if old_manifest not in s:
+              raise SystemExit('ERRO: marcador do manifest embutido não encontrado; nada foi alterado.')
+          s = s.replace(old_manifest, new_manifest, 1)
+
+          # 2) Remove manifest/data URL e SW Blob legados e registra apenas ./sw.js.
+          start_marker = 'const iconSvg=`<svg'
+          end_marker = 'try{updateTopbarClockGreeting();}catch(e){}'
+          start = s.find(start_marker)
+          end = s.find(end_marker, start)
+          if start < 0 or end < 0:
+              raise SystemExit('ERRO: bloco PWA legado não localizado; nada foi alterado.')
+          standard_sw = """// PWA oficial — manifest.webmanifest + sw.js\nif ('serviceWorker' in navigator) {\n  window.addEventListener('load', () => {\n    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Falha ao registrar Service Worker', err));\n  });\n}\n\n"""
+          s = s[:start] + standard_sw + s[end:]
+
+          # 3) Nunca envia senhas de usuários nos snapshots/sync do Supabase.
+          old_state = 'state:JSON.parse(JSON.stringify(state||{}))'
+          new_state = "state:(()=>{const safe=JSON.parse(JSON.stringify(state||{}));if(Array.isArray(safe.users))safe.users=safe.users.map(({senha,...u})=>u);return safe;})()"
+          if old_state not in s:
+              raise SystemExit('ERRO: campo state do cloudSnapshotPayload não encontrado; nada foi alterado.')
+          s = s.replace(old_state, new_state, 1)
+
+          if s == original:
+              raise SystemExit('ERRO: nenhuma alteração aplicada.')
+
+          # Verificações pós-patch.
+          assert '<link rel="manifest" href="./manifest.webmanifest">' in s
+          assert "navigator.serviceWorker.register('./sw.js')" in s
+          assert 'const iconSvg=`<svg' not in s
+          assert old_state not in s
+          assert 'safe.users=safe.users.map(({senha,...u})=>u)' in s
+
+          p.write_text(s, encoding='utf-8')
+          print('Patch aplicado e validado.')
+          PY
+
+      - name: Remove one-time workflow and commit
+        run: |
+          rm -f .github/workflows/portaria-hardening-once.yml
+          git config user.name "AquaControl"
+          git config user.email "c.edu.cunha@gmail.com"
+          git add index.html .github/workflows/portaria-hardening-once.yml
+          git diff --cached --check
+          git commit -m "Harden Portaria PWA and cloud snapshots"
+          git push
