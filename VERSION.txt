@@ -1,3 +1,4 @@
-Portaria Primavera v1.0
-Base: v105 Tour Guiado
-Pacote PWA definitivo para GitHub Pages
+Portaria Primavera v150
+PWA operacional do Condomínio Edifício Primavera
+GitHub Pages / escopo exclusivo: /Portaria/
+Revisão técnica: cache isolado entre PWAs
