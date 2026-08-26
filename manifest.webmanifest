@@ -1,9 +1,10 @@
 {
+  "id": "/Portaria/",
   "name": "Portaria Primavera",
   "short_name": "Portaria",
   "description": "Controle de acessos, moradores, agenda operacional, relatórios e apoio da portaria do Condomínio Edifício Primavera.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "/Portaria/",
+  "scope": "/Portaria/",
   "display": "standalone",
   "display_override": [
     "window-controls-overlay",
