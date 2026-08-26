@@ -1,0 +1,83 @@
+name: Portaria wheel fix one-time
+
+on:
+  push:
+    paths:
+      - '.github/workflows/wheel-fix-once.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply wheel fallback safely
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          marker="// PWA oficial — manifest.webmanifest + sw.js"
+          if marker not in s:
+              raise SystemExit('ERRO: marcador PWA não encontrado; nada alterado.')
+          if 'desktopWheelScrollFallback' in s:
+              raise SystemExit('Correção já aplicada.')
+          patch=r'''// desktopWheelScrollFallback — garante rolagem vertical pela rodinha no PWA instalado
+(function(){
+  function canScrollY(el,dy){
+    if(!el || el===document.body || el===document.documentElement) return false;
+    const cs=getComputedStyle(el);
+    if(!/(auto|scroll)/.test(cs.overflowY)) return false;
+    if(el.scrollHeight<=el.clientHeight+1) return false;
+    if(dy<0) return el.scrollTop>0;
+    if(dy>0) return el.scrollTop+el.clientHeight<el.scrollHeight-1;
+    return false;
+  }
+  document.addEventListener('wheel',function(ev){
+    if(ev.ctrlKey || !ev.deltaY) return;
+    let el=ev.target instanceof Element ? ev.target : null;
+    while(el && el!==document.body){
+      if(canScrollY(el,ev.deltaY)) return; // deixa listas/modais internos rolarem normalmente
+      el=el.parentElement;
+    }
+    const doc=document.scrollingElement||document.documentElement;
+    if(doc.scrollHeight<=doc.clientHeight+1) return;
+    ev.preventDefault();
+    window.scrollBy({top:ev.deltaY,left:0,behavior:'auto'});
+  },{passive:false});
+})();
+
+'''
+          s=s.replace(marker,patch+marker,1)
+          assert 'desktopWheelScrollFallback' in s
+          p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Bump PWA cache
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('sw.js')
+          s=p.read_text(encoding='utf-8')
+          old="const CACHE_NAME = 'portaria-primavera-v1-0-1';"
+          new="const CACHE_NAME = 'portaria-primavera-v1-0-2';"
+          if old not in s:
+              raise SystemExit('ERRO: versão esperada do cache não encontrada.')
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
+          PY
+
+      - name: Commit and remove one-time workflow
+        run: |
+          rm -f .github/workflows/wheel-fix-once.yml
+          git config user.name "AquaControl"
+          git config user.email "c.edu.cunha@gmail.com"
+          git add index.html sw.js .github/workflows/wheel-fix-once.yml
+          git diff --cached --check
+          git commit -m "Fix mouse wheel scrolling in Portaria PWA"
+          git push
