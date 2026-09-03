@@ -1,0 +1,47 @@
+name: Access type cycle 1
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/access-type-cycle1.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Backup
+        run: cp index.html backups/index_pre_tipo_acesso_2026-09-03.html
+      - name: Aplicar
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          a='<div><label>Empresa</label><input id="aEmpresa"></div>'
+          b='<div><label>Tipo de acesso</label><select id="aTipo"><option value="Visitante">Visitante</option><option value="Prestador">Prestador</option></select></div><div><label>Empresa</label><input id="aEmpresa"></div>'
+          if s.count(a)!=1: raise SystemExit('campo empresa divergente')
+          s=s.replace(a,b,1)
+          a="state.accesses.unshift({id,data,entradaHora:hora,nome,docType:val('aDocType')||'CPF',doc:val('aDoc'),empresa:val('aEmpresa'),destino,bloco,apto,autorizado:val('aAutorizado'),servico:val('aServico'),status:'Dentro'"
+          b="state.accesses.unshift({id,data,entradaHora:hora,nome,tipoAcesso:val('aTipo')||'Visitante',docType:val('aDocType')||'CPF',doc:val('aDoc'),empresa:val('aEmpresa'),destino,bloco,apto,autorizado:val('aAutorizado'),servico:val('aServico'),status:'Dentro'"
+          if a not in s: raise SystemExit('objeto addAccess divergente')
+          s=s.replace(a,b,1)
+          a="['aNome','aDoc','aEmpresa','aServico','aBloco','aApto','aDestino'].forEach(id=>{const el=document.getElementById(id); if(el)el.value=''}); setAccessDocFields('new','CPF','');"
+          b="['aNome','aDoc','aEmpresa','aServico','aBloco','aApto','aDestino'].forEach(id=>{const el=document.getElementById(id); if(el)el.value=''}); const tipoEl=document.getElementById('aTipo'); if(tipoEl)tipoEl.value='Visitante'; setAccessDocFields('new','CPF','');"
+          if a not in s: raise SystemExit('limpeza divergente')
+          s=s.replace(a,b,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Validar
+        run: |
+          grep -q 'id="aTipo"' index.html
+          grep -q "tipoAcesso:val('aTipo')" index.html
+          grep -q "tipoEl.value='Visitante'" index.html
+      - name: Commit
+        run: |
+          git config user.name "Portaria Primavera Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html backups/index_pre_tipo_acesso_2026-09-03.html
+          git commit -m "feat: adicionar tipo visitante ou prestador no acesso"
+          git push origin main
