@@ -1,11 +1,10 @@
-const CACHE_NAME = 'portaria-primavera-v1-0-12';
+const CACHE_NAME = 'portaria-primavera-v1-0-2';
 const CACHE_PREFIX = 'portaria-primavera-';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './favicon.png',
-  './passkey-auth.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/screenshots/desktop-dark.png',
