@@ -7490,14 +7490,6 @@ body.theme-dark .mobileHistoryShortcutBtn{border-color:rgba(214,178,95,.42)!impo
 .loginRecoverBtn:hover{color:#f3d27a}
 body.theme-light .loginRecoverBtn{color:#7a5a12}
 </style>
-<style>
-/* Auth 2.0 fase 2 — vínculo e verificação do e-mail */
-.recoveryAuthBox{margin-top:14px;padding:12px 13px;border:1px solid rgba(200,162,74,.34);border-radius:14px;background:rgba(247,241,223,.38);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.recoveryAuthBox b{display:block;color:var(--navy);font-size:12px;margin-bottom:4px}
-.recoveryAuthBox .btn{flex:0 0 auto;padding:9px 11px;font-size:11px}
-body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92,.34)}
-@media(max-width:620px){.recoveryAuthBox{align-items:stretch;flex-direction:column}.recoveryAuthBox .btn{width:100%}}
-</style>
 </head>
 <body class="splashing">
 
@@ -8074,7 +8066,7 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   <div class="modal center" id="agendaUnitPickerModal"><div class="sheet agendaUnitSheet"><div class="sheetHead"><div><h2>Selecionar unidade</h2><p class="mini">Escolha rapidamente o bloco e apartamento para a agenda operacional.</p></div><button class="close" onclick="closeAgendaUnitPicker()">×</button></div><div id="agendaUnitGrid" class="agendaUnitGrid"></div></div></div>
   <div class="modal center" id="opListModal"><div class="sheet opListSheet"><div class="sheetHead"><div><h2 id="opListTitle">Agenda</h2><p class="mini" id="opListSub">Eventos do mês</p></div><button class="close" onclick="closeOperationalList()">×</button></div><div id="opListBody"></div></div></div>
   <div class="modal center" id="passwordRecoveryModal"><div class="sheet" style="width:min(520px,100%)"><div class="sheetHead"><div><h2>Recuperar acesso</h2><p class="mini">Informe seu usuário. O Portaria verificará se existe um e-mail de recuperação vinculado.</p></div><button class="close" onclick="closePasswordRecovery()">×</button></div><label>Usuário</label><input id="recoveryLogin" autocomplete="username" placeholder="Ex.: admin"><div id="recoveryInfo" class="mini" style="margin-top:10px;line-height:1.55"></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="requestPasswordRecovery()">Continuar</button><button class="btn ghost" onclick="closePasswordRecovery()">Cancelar</button></div></div></div>
-  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>E-mail de recuperação</label><input id="uEmail" type="email" autocomplete="email" placeholder="nome@exemplo.com"></div><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div></div><div class="row"><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div></div><div class="row"><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div id="uRecoveryAuthBox" class="recoveryAuthBox" style="display:none"><div><b>Recuperação por e-mail</b><div id="uRecoveryAuthStatus" class="mini"></div></div><button type="button" id="uRecoveryAuthBtn" class="btn ghost" onclick="handleUserRecoveryAuth()">Ativar recuperação por e-mail</button></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o histórico permanece preservado. O turno ajuda a identificar quem estava operando cada ação.</p></div></div>
+  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>E-mail de recuperação</label><input id="uEmail" type="email" autocomplete="email" placeholder="nome@exemplo.com"></div><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div></div><div class="row"><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div></div><div class="row"><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o histórico permanece preservado. O turno ajuda a identificar quem estava operando cada ação.</p></div></div>
 
 
   <!-- v105 — Ajuda flutuante / Tour Guiado Primavera -->
@@ -8134,7 +8126,7 @@ let localDeviceId=localStorage.getItem('pp_device_id')||'';
 if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
 const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
 let state=load();
-function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',email:'c.edu.cunha1977@gmail.com',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true,authRecoveryEnabled:false,authRecoveryPending:false},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
 function repairLocalUserPasswords(users){
   const defaults=defaultUsers();
   const byId=new Map(defaults.map(u=>[u.id,u]));
@@ -8168,7 +8160,6 @@ function load(){
     data.settings={...base.settings,...(data.settings||{})};
     data.operational=Array.isArray(data.operational)?data.operational:[];
     data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
-    const migratedAdmin=data.users.find(u=>u&&(u.id==='u-admin'||u.login==='admin')); if(migratedAdmin&&!String(migratedAdmin.email||'').trim())migratedAdmin.email='c.edu.cunha1977@gmail.com';
     data.logs=Array.isArray(data.logs)?data.logs:[];
     data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
     data.users.forEach(u=>normalizeUserOperational(u));
@@ -10800,75 +10791,6 @@ async function requestPasswordRecovery(){
 }
 function logoutUser(){sessionStorage.removeItem('pp_current_user'); applyPermissions();}
 function lockModalIfPortaria(){if(isAdmin())return; const body=document.getElementById('modalBody'); if(!body)return; body.insertAdjacentHTML('afterbegin','<div class="lockedNotice">🔒 Consulta liberada. Alterações somente com usuário Admin.</div>'); body.querySelectorAll('input,select,textarea').forEach(el=>el.disabled=true); body.querySelectorAll('button').forEach(btn=>btn.style.display='none');}
-function renderUserRecoveryAuth(u){
-  const box=document.getElementById('uRecoveryAuthBox');
-  const status=document.getElementById('uRecoveryAuthStatus');
-  const btn=document.getElementById('uRecoveryAuthBtn');
-  if(!box||!status||!btn)return;
-  if(!u||!u.id){box.style.display='none';return;}
-  box.style.display='flex';
-  const email=String(u.email||'').trim();
-  if(!email){status.textContent='Cadastre e salve um e-mail para habilitar esta proteção.';btn.textContent='Ativar recuperação por e-mail';btn.disabled=true;return;}
-  btn.disabled=false;
-  if(u.authRecoveryEnabled===true){status.textContent='✓ Ativa para '+maskRecoveryEmail(email);btn.textContent='Verificar novamente';return;}
-  if(u.authRecoveryPending===true){status.textContent='Confirmação pendente em '+maskRecoveryEmail(email)+'. Após confirmar no e-mail, clique em verificar.';btn.textContent='Verificar ativação';return;}
-  status.textContent='E-mail cadastrado: '+maskRecoveryEmail(email)+'. Ainda não vinculado ao Supabase Auth.';btn.textContent='Ativar recuperação por e-mail';
-}
-async function handleUserRecoveryAuth(){
-  if(!isAdmin())return;
-  const id=val('uEditId');
-  const u=(state.users||[]).find(x=>x.id===id); if(!u)return;
-  const email=(val('uEmail')||u.email||'').trim().toLowerCase();
-  if(!email){openAppConfirm({title:'E-mail necessário',message:'Informe e salve um e-mail de recuperação antes de ativar.',okText:'OK'});return;}
-  if(email!==String(u.email||'').trim().toLowerCase()){
-    openAppConfirm({title:'Salve primeiro',message:'O e-mail foi alterado. Salve o usuário antes de ativar a recuperação.',okText:'OK'});return;
-  }
-  if(!String(u.senha||'')){
-    openAppConfirm({title:'Senha indisponível',message:'Defina uma senha local para este usuário antes de ativar a recuperação.',okText:'OK'});return;
-  }
-  if(u.authRecoveryPending===true||u.authRecoveryEnabled===true){
-    await verifyUserRecoveryAuth(u); return;
-  }
-  openAppConfirm({
-    title:'Ativar recuperação por e-mail',
-    message:'O Portaria enviará ao Supabase o e-mail '+maskRecoveryEmail(email)+' e a senha atual deste usuário somente para criar o vínculo de autenticação. O login local continuará funcionando normalmente.',
-    okText:'Ativar',cancelText:'Cancelar',
-    onConfirm:async()=>{
-      try{
-        if(!cloudReady&&!initCloud())throw new Error('Supabase indisponível');
-        const redirectTo=location.origin+location.pathname;
-        const {data,error}=await supabaseClient.auth.signUp({email,password:String(u.senha),options:{emailRedirectTo:redirectTo}});
-        if(error)throw error;
-        try{await supabaseClient.auth.signOut()}catch(e){}
-        u.authRecoveryPending=true;u.authRecoveryEnabled=false;u.authRecoveryEmail=email;
-        addLog('Ativou recuperação por e-mail',u.nome+' • confirmação pendente','usuario');
-        save();renderUserRecoveryAuth(u);
-        openAppConfirm({title:'Confirme seu e-mail',message:'Solicitação enviada. Abra a mensagem recebida em '+maskRecoveryEmail(email)+' e confirme o cadastro. Depois volte aqui e clique em “Verificar ativação”.',okText:'Entendi'});
-      }catch(e){
-        console.warn('Falha ao ativar recuperação',e);
-        openAppConfirm({title:'Não foi possível ativar',message:'O Supabase não concluiu a ativação. O login atual não foi alterado. Detalhe: '+(e?.message||'falha de autenticação'),okText:'OK'});
-      }
-    }
-  });
-}
-async function verifyUserRecoveryAuth(u){
-  try{
-    if(!cloudReady&&!initCloud())throw new Error('Supabase indisponível');
-    const email=String(u.email||'').trim().toLowerCase();
-    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password:String(u.senha||'')});
-    if(error)throw error;
-    try{await supabaseClient.auth.signOut()}catch(e){}
-    u.authRecoveryPending=false;u.authRecoveryEnabled=true;u.authRecoveryVerifiedAt=new Date().toISOString();
-    addLog('Verificou recuperação por e-mail',u.nome+' • '+maskRecoveryEmail(email),'usuario');
-    save();renderUserRecoveryAuth(u);
-    openAppConfirm({title:'Recuperação ativada',message:'✓ O e-mail foi validado. A opção “Esqueci minha senha” já pode solicitar uma redefinição segura para '+maskRecoveryEmail(email)+'.',okText:'OK'});
-  }catch(e){
-    console.warn('Verificação recuperação',e);
-    const msg=String(e?.message||'');
-    const pending=/confirm|confirmed|verification/i.test(msg);
-    openAppConfirm({title:pending?'Confirmação ainda pendente':'Não foi possível verificar',message:pending?'Confirme primeiro a mensagem recebida no e-mail e tente novamente.':'A conta ainda não pôde ser validada. O login local continua normal. Detalhe: '+(msg||'falha de autenticação'),okText:'OK'});
-  }
-}
 function openUserModal(id=''){
   if(!isAdmin())return;
   const modal=document.getElementById('userModal');
@@ -10887,11 +10809,9 @@ function openUserModal(id=''){
     const turnoEl=document.getElementById('uTurno'); if(turnoEl)turnoEl.value=u.turno||'';
     document.getElementById('uAtivo').value=(u.ativo===false?'false':'true');
     if(title)title.textContent='Editar usuário';
-    renderUserRecoveryAuth(u);
   }else{
     if(title)title.textContent='Novo usuário';
   }
-  if(!id){const rb=document.getElementById('uRecoveryAuthBox');if(rb)rb.style.display='none';}
   if(modal)modal.classList.add('show');
 }
 function closeUserModal(){document.getElementById('userModal')?.classList.remove('show')}
@@ -10914,7 +10834,7 @@ function saveUserForm(){
     const u=state.users.find(x=>x.id===editId); if(!u)return;
     const activeAdmins=state.users.filter(x=>x.id!==editId&&x.perfil==='admin'&&x.ativo!==false).length + ((perfil==='admin'&&ativo)?1:0);
     if(activeAdmins<1){openAppConfirm({title:'Ação bloqueada',message:'É necessário manter pelo menos um usuário Admin ativo.',okText:'OK'});return;}
-    const oldEmail=String(u.email||'').trim().toLowerCase(); u.nome=nome; u.email=email; if(email!==oldEmail){u.authRecoveryEnabled=false;u.authRecoveryPending=false;delete u.authRecoveryVerifiedAt;} u.perfil=perfil; u.turno=turno; u.ativo=ativo; if(senha)u.senha=senha; normalizeUserOperational(u); addLog('Atualizou usuário',`${nome} • ${userProfileLabel(u)} • ${ativo?'Ativo':'Inativo'}`,'usuario');
+    u.nome=nome; u.email=email; u.perfil=perfil; u.turno=turno; u.ativo=ativo; if(senha)u.senha=senha; normalizeUserOperational(u); addLog('Atualizou usuário',`${nome} • ${userProfileLabel(u)} • ${ativo?'Ativo':'Inativo'}`,'usuario');
   }else{
     if(state.users.some(u=>u.login===login)){openAppConfirm({title:'Login já existe',message:'Escolha outro login para este usuário.',okText:'OK'});return;}
     const novo=normalizeUserOperational({id:'u-'+Date.now(),nome,login,email,senha,perfil,turno,ativo}); state.users.push(novo); addLog('Criou usuário',`${nome} • ${login} • ${userProfileLabel(novo)}`,'usuario');
