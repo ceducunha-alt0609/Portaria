@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0d1b2a">
+  <title>Recuperar Admin • Portaria Primavera</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:#f4f6fb;color:#172033;font-family:Georgia,'Times New Roman',serif}.card{width:min(520px,100%);background:#fff;border:1px solid #e5e7ef;border-radius:20px;padding:26px;box-shadow:0 18px 50px rgba(13,27,42,.16)}h1{margin:0 0 10px;color:#0d1b2a;font-size:24px}p{line-height:1.55;color:#667085}.ok{margin-top:18px;padding:14px;border-radius:14px;background:#e8f7f1;color:#08734d;font-weight:700}.bad{margin-top:18px;padding:14px;border-radius:14px;background:#f6e9eb;color:#a32636;font-weight:700}a{display:inline-block;margin-top:18px;padding:12px 16px;border-radius:14px;background:#0d1b2a;color:#fff;text-decoration:none;font-weight:700}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Recuperação do administrador</h1>
+    <p>Esta página corrige somente a credencial local do administrador. Moradores, acessos, registros e demais dados do Portaria Primavera são preservados.</p>
+    <div id="status">Corrigindo credencial…</div>
+    <a id="voltar" href="./" style="display:none">Voltar ao Portaria Primavera</a>
+  </main>
+<script>
+(function(){
+  const KEY='portaria_primavera_v1';
+  const status=document.getElementById('status');
+  const voltar=document.getElementById('voltar');
+  try{
+    const raw=localStorage.getItem(KEY);
+    const data=raw?JSON.parse(raw):{};
+    data.users=Array.isArray(data.users)?data.users:[];
+    let admin=data.users.find(u=>u&&(u.id==='u-admin'||u.login==='admin'));
+    if(!admin){
+      admin={id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true};
+      data.users.push(admin);
+    }else{
+      admin.login='admin';
+      admin.senha='admin123';
+      admin.perfil='admin';
+      admin.ativo=true;
+      if(!admin.nome)admin.nome='Administrador';
+      if(!admin.turno)admin.turno='administracao';
+    }
+    localStorage.setItem(KEY,JSON.stringify(data));
+    sessionStorage.removeItem('pp_current_user');
+    status.className='ok';
+    status.textContent='✓ Credencial restaurada: admin / admin123';
+    voltar.style.display='inline-block';
+  }catch(e){
+    console.error(e);
+    status.className='bad';
+    status.textContent='Não foi possível reparar a credencial neste navegador.';
+    voltar.style.display='inline-block';
+  }
+})();
+</script>
+</body>
+</html>
