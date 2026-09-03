@@ -30,8 +30,8 @@ body.theme-dark .mobileHistoryShortcutBtn{border-color:rgba(214,178,95,.42)!impo
 '''
 
 head_marker = '</head>'
-if s.count(head_marker) != 1:
-    raise SystemExit(f'</head> encontrado {s.count(head_marker)}x')
+if head_marker not in s:
+    raise SystemExit('</head> não encontrado')
 s = s.replace(head_marker, f'<style>{css}</style>\n</head>', 1)
 
 p.write_text(s, encoding='utf-8')
