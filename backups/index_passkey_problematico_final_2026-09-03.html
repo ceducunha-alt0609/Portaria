@@ -7507,6 +7507,12 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
 /* Auth 2.0 — modais de recuperação acima da tela de login */
 #passwordRecoveryModal,#passwordResetModal{z-index:1205!important}
 </style>
+<style>
+/* Auth 2.1 — entrada por biometria / passkey */
+.loginPasskeyBtn{display:none;width:100%;margin-top:8px;border:1px solid rgba(216,184,92,.42);border-radius:14px;padding:11px 13px;background:rgba(216,184,92,.08);color:#f3d27a;font-family:inherit;font-weight:900;cursor:pointer}
+.loginPasskeyBtn:hover{background:rgba(216,184,92,.14)}
+body:not(.dark):not(.theme-dark) .loginPasskeyBtn{color:#7a5a12;background:rgba(200,162,74,.08)}
+</style>
 </head>
 <body class="splashing">
 
@@ -7573,6 +7579,7 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
       <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
       <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
       <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
+      <button type="button" id="loginPasskeyBtn" class="loginPasskeyBtn" onclick="loginWithPasskey()">🔐 Entrar com biometria / passkey</button>
       <button type="button" class="loginRecoverBtn" onclick="openPasswordRecovery()">Esqueci minha senha</button>
       <div class="loginMsg" id="loginMsg"></div>
       <div class="loginHint"><span class="loginHintTitle">Acesso inicial</span><span><b>Administrador</b> • admin / admin123</span><span><b>Portaria</b> • portaria / 1234</span><span class="loginHintFoot">Depois ajuste os usuários em Central Administrativa.</span></div>
@@ -8117,7 +8124,7 @@ try{updateTopbarClockGreeting();}catch(e){}
 setTimeout(()=>{try{loadIntegrationConfigs();}catch(e){}},800);
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.105.0">
 try{updateTopbarClockGreeting();}catch(e){}
 </script>
 <script>
@@ -8955,6 +8962,7 @@ body.theme-light .hierarchyShield.portariaShield{background:linear-gradient(145d
   </div>
 </div>
 
+<script src="./passkey-auth.js"></script>
 </body></html>`);
   w.document.close();
 }
@@ -9926,7 +9934,7 @@ function cloudSnapshotPayload(reason='auto'){
 function initCloud(){
   try{
     if(!window.supabase){setCloudStatus('☁️ Nuvem indisponível: biblioteca Supabase não carregou. O app segue local.');return false;}
-    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{experimental:{passkey:true}}}); window.portariaSupabaseClient=supabaseClient;
     cloudReady=true;
     setTimeout(setupSupabaseRecoveryListener,0);
     scheduleCloudAutoBackup(true);
@@ -10768,6 +10776,28 @@ document.addEventListener('keydown',(ev)=>{
 });
 
 function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill){pill.classList.remove('adminShield','portariaShield','hierarchyShield'); if(logged){const isAdm=u.perfil==='admin'; pill.classList.add('hierarchyShield',isAdm?'adminShield':'portariaShield'); pill.textContent='🛡️'; pill.title=(isAdm?'Administrador':'Portaria')+' • '+(u.nome||u.login); pill.setAttribute('aria-label',pill.title);}else{pill.textContent=''; pill.title='Não conectado'; pill.setAttribute('aria-label','Não conectado');}} document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.(); renderCommunications?.()}
+window.portariaEnsureCloud=function(){
+  try{
+    if(!cloudReady&&!initCloud())return false;
+    window.portariaSupabaseClient=supabaseClient;
+    return !!supabaseClient;
+  }catch(e){return false;}
+};
+window.portariaCompletePasskeyLogin=function(email){
+  const normalized=String(email||'').trim().toLowerCase();
+  const u=(state.users||[]).find(x=>String(x.email||'').trim().toLowerCase()===normalized);
+  if(!u)throw new Error('Esta passkey não está vinculada a um usuário do Portaria.');
+  if(u.ativo===false)throw new Error('Usuário inativo. Procure o administrador.');
+  sessionStorage.setItem('pp_current_user',u.login);
+  u.lastAccessAt=new Date().toISOString();
+  try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+  const remember=document.getElementById('rememberLoginUser');
+  if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}
+  const msg=document.getElementById('loginMsg');if(msg)msg.textContent='';
+  const pass=document.getElementById('loginPass');if(pass)pass.value='';
+  applyPermissions();renderAll();maybeShowHelpTour?.();
+  return u;
+};
 function loginUser(){const login=val('loginUser'), senha=val('loginPass'); const msg=document.getElementById('loginMsg'); const u=(state.users||[]).find(x=>x.login===login&&String(x.senha||'')===senha); if(!u){if(msg)msg.textContent='Usuário ou senha inválidos.';return;} if(u.ativo===false){if(msg)msg.textContent='Usuário inativo. Procure o administrador.';return;} sessionStorage.setItem('pp_current_user',u.login); u.lastAccessAt=new Date().toISOString(); try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} const remember=document.getElementById('rememberLoginUser'); if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}else{localStorage.removeItem('pp_remember_user');localStorage.removeItem('pp_saved_login')} if(msg)msg.textContent=''; const pass=document.getElementById('loginPass'); if(pass)pass.value=''; applyPermissions(); renderAll(); maybeShowHelpTour();}
 function confirmLogoutUser(){
   openAppConfirm({
