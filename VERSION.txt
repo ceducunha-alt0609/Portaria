@@ -1,4 +1,7 @@
 Portaria Primavera v150
 PWA operacional do Condomínio Edifício Primavera
 GitHub Pages / escopo exclusivo: /Portaria/
-Revisão técnica: cache isolado entre PWAs
+Baseline estável: 03/09/2026
+Autenticação 2.0: login + recuperação por e-mail + redefinição de senha
+Biometria/passkeys: adiada para ciclo futuro isolado
+Service Worker: versão estável restaurada
