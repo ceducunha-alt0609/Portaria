@@ -1,49 +1,50 @@
 # Portaria Primavera
 
-PWA de controle de portaria, moradores e operação da guarita do Condomínio Primavera.
+PWA operacional do Condomínio Edifício Primavera para controle de portaria, moradores, visitantes, prestadores e rotinas administrativas.
 
-## Versão
+## Versão atual
 
-**v1.0.1 — pacote GitHub corrigido**
+**v150 — baseline estável pós-Autenticação 2.0**
 
-Correção aplicada: o pacote anterior podia ficar preso na tela de splash por causa de um erro de script no `index.html` gerado para o GitHub. Esta versão usa o HTML íntegro da v105 e atualiza o cache do Service Worker.
+Estado validado em 03/09/2026:
+
+- splash e abertura do PWA funcionando normalmente;
+- login local estável;
+- recuperação de senha por e-mail via Supabase Auth;
+- redefinição de senha dentro do próprio Portaria;
+- contador regressivo para novas solicitações de recuperação;
+- preservação das credenciais locais durante a sincronização;
+- GitHub Pages publicado no escopo `/Portaria/`;
+- biometria/passkeys não fazem parte desta baseline e ficam adiadas para um ciclo futuro isolado.
 
 ## Arquivos principais
 
-- `index.html` — aplicativo completo
-- `sw.js` — Service Worker com cache PWA
-- `manifest.webmanifest` — instalação como PWA
-- `assets/icons/` — ícones do app
-- `assets/screenshots/` — espaço para screenshots do GitHub/PWA
+- `index.html` — aplicativo principal;
+- `sw.js` — Service Worker estável do PWA;
+- `manifest.webmanifest` — configuração de instalação;
+- `recuperar-admin.html` — recuperação administrativa de emergência;
+- `assets/icons/` — ícones do PWA;
+- `assets/screenshots/` — screenshots do projeto;
+- `backups/` — versões preservadas antes de alterações relevantes.
 
-## Como publicar no GitHub Pages
+## Publicação
 
-1. Envie todos os arquivos para o repositório.
-2. Em **Settings → Pages**, selecione a branch principal e a pasta raiz.
-3. Aguarde a publicação.
-4. Abra a URL publicada e use **Ctrl + F5** na primeira abertura após atualizar.
+Projeto publicado pelo GitHub Pages no escopo:
 
-## Observação sobre atualização do PWA instalado
+`/Portaria/`
 
-Se já instalou a versão anterior e ela ficou presa no splash:
+Após uma atualização de produção, feche e abra novamente o PWA para carregar a versão publicada mais recente.
 
-1. Feche o app instalado.
-2. No navegador, abra a URL do GitHub Pages.
-3. Pressione **Ctrl + F5**.
-4. Se ainda carregar a versão antiga, desinstale o PWA antigo e instale novamente.
+## Autenticação 2.0
 
-## Uso
+A versão atual mantém o login tradicional e adiciona recuperação segura por e-mail. O e-mail precisa estar previamente vinculado e validado no Supabase Auth para que a redefinição funcione.
 
-Perfis iniciais:
+Passkeys/biometria foram testadas em ciclo separado, mas retiradas desta baseline após afetarem a inicialização do PWA. Qualquer retomada futura deve ser feita primeiro em ambiente isolado, sem alterar o caminho crítico do splash/login.
 
-- Admin: `admin / admin123`
-- Portaria: `portaria / 1234`
+## Perfis iniciais
 
-Depois, ajuste os usuários em **Ferramentas → Usuários e perfis**.
+Os usuários e permissões devem ser administrados dentro do próprio Portaria em **Ferramentas → Usuários e perfis**.
 
+## Regra de manutenção
 
-## v108 — Correção mobile/PWA
-
-- Corrigida rolagem em PWA instalado no celular.
-- Botão de tema da topbar permanece visível ao alternar claro/escuro/automático.
-- Mantidos Kiosk, tour guiado e backup diário.
+Antes de qualquer alteração relevante no `index.html`, `sw.js` ou autenticação, preservar uma cópia em `backups/`. Mudanças de autenticação, service worker e splash devem ser feitas em ciclos pequenos e validados separadamente.
