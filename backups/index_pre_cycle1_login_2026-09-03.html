@@ -8119,28 +8119,6 @@ if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16
 const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
 let state=load();
 function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
-function repairLocalUserPasswords(users){
-  const defaults=defaultUsers();
-  const byId=new Map(defaults.map(u=>[u.id,u]));
-  const byLogin=new Map(defaults.map(u=>[u.login,u]));
-  return (Array.isArray(users)?users:[]).map(u=>{
-    if(u&&String(u.senha||'')!=='')return u;
-    const d=byId.get(u?.id)||byLogin.get(u?.login);
-    return d?{...u,senha:d.senha}:u;
-  });
-}
-function mergeUsersPreservingPasswords(localUsers,remoteUsers){
-  const local=Array.isArray(localUsers)?localUsers:[];
-  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
-  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
-  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
-  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
-  return repairLocalUserPasswords(remote.map(r=>{
-    const l=localById.get(r?.id)||localByLogin.get(r?.login);
-    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
-  }));
-}
-
 function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
 function load(){
   try{
@@ -8151,7 +8129,7 @@ function load(){
     data.units=data.units&&typeof data.units==='object'?data.units:{};
     data.settings={...base.settings,...(data.settings||{})};
     data.operational=Array.isArray(data.operational)?data.operational:[];
-    data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
+    data.users=Array.isArray(data.users)&&data.users.length?data.users:defaultUsers();
     data.logs=Array.isArray(data.logs)?data.logs:[];
     data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
     data.users.forEach(u=>normalizeUserOperational(u));
@@ -9965,7 +9943,6 @@ async function cloudSaveNow(reason='manual',silent=false){
   }catch(e){console.error('Erro ao salvar na nuvem',e);setCloudStatus('☁️ Erro ao salvar na nuvem. Dados locais preservados.');showCloudToast('Erro ao salvar backup na nuvem. Dados locais preservados.','err',8000);scheduleCloudAutoBackup(false);return false;}
 }
 async function cloudRestoreLatest(){
-  const localUsersBeforeRestore=Array.isArray(state?.users)?state.users.map(u=>({...u})):[];
   if(!isAdmin()){openAppConfirm({title:'Área restrita',message:'Restauração da nuvem é liberada apenas para Admin.',okText:'OK'});return;}
   if(!cloudReady&&!initCloud())return;
   try{
@@ -9979,7 +9956,6 @@ async function cloudRestoreLatest(){
     openAppConfirm({title:'Restaurar último backup da nuvem?',message:`Será restaurado: <b>${esc(snap.descricao||'Backup')}</b><br>${esc(new Date(snap.criado_em).toLocaleString('pt-BR'))}`,okText:'Restaurar',onConfirm:()=>{
       createLocalSnapshot('antes-restaurar-supabase',true);
       state=nextState;
-    state.users=mergeUsersPreservingPasswords(localUsersBeforeRestore,state.users);
       if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
       state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
       ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
@@ -10045,7 +10021,7 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
     merged.units=remoteState.units&&typeof remoteState.units==='object'?remoteState.units:(merged.units||{});
     merged.admin=remoteState.admin&&typeof remoteState.admin==='object'?remoteState.admin:merged.admin;
     merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
-    merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
+    merged.users=Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers());
     merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
     merged.passagens=mergeById(localState.passagens||[],remoteState.passagens||[],x=>new Date(x?.createdAt||x?.data||0).getTime()||0,500);
   }else if(localIsPortaria){
@@ -10054,7 +10030,7 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
     merged.units=remoteState.units&&typeof remoteState.units==='object'?remoteState.units:(merged.units||{});
     merged.admin=remoteState.admin&&typeof remoteState.admin==='object'?remoteState.admin:merged.admin;
     merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
-    merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
+    merged.users=Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers());
     merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
   }
   merged.meta={...(merged.meta||{}),lastSyncMergeAt:new Date().toISOString()};
