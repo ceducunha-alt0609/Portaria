@@ -1,11 +1,14 @@
 name: Fix login sync
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
       - '.github/workflows/fix-login-sync.yml'
+
 permissions:
   contents: write
+
 jobs:
   patch:
     runs-on: ubuntu-latest
@@ -13,21 +16,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Backup e correção
-        shell: bash
-        run: |
-          set -e
-          mkdir -p backups
-          cp index.html backups/index_pre_fix_login_sync_2026-09-03.html
-          python - <<'PY'
-          from pathlib import Path
-          p=Path('index.html')
-          s=p.read_text(encoding='utf-8')
 
-          old_load="""    data.users=Array.isArray(data.users)&&data.users.length?data.users:defaultUsers();
-    data.logs=Array.isArray(data.logs)?data.logs:[];"""
-          new_load="""    data.users=Array.isArray(data.users)&&data.users.length?data.users:defaultUsers();
-    // Recupera apenas credenciais padrão ausentes, mantendo senhas personalizadas já existentes.
+      - name: Apply fix
+        shell: python
+        run: |
+          from pathlib import Path
+          src = Path('index.html')
+          s = src.read_text(encoding='utf-8')
+          Path('backups').mkdir(exist_ok=True)
+          Path('backups/index_pre_fix_login_sync_2026-09-03.html').write_text(s, encoding='utf-8')
+
+          old_load = "    data.users=Array.isArray(data.users)&&data.users.length?data.users:defaultUsers();\n    data.logs=Array.isArray(data.logs)?data.logs:[];"
+          new_load = """    data.users=Array.isArray(data.users)&&data.users.length?data.users:defaultUsers();
+    // Recupera credenciais padrao ausentes sem sobrescrever senhas personalizadas.
     const _defaults=defaultUsers();
     data.users=data.users.map(u=>{
       if(String(u?.senha??'').length)return u;
@@ -35,12 +36,11 @@ jobs:
       return d?{...u,senha:d.senha}:u;
     });
     data.logs=Array.isArray(data.logs)?data.logs:[];"""
-          if s.count(old_load)!=1:
-              raise SystemExit(f'Bloco load esperado 1x, encontrado {s.count(old_load)}x')
-          s=s.replace(old_load,new_load,1)
+          assert s.count(old_load) == 1, s.count(old_load)
+          s = s.replace(old_load, new_load, 1)
 
-          marker="""function mergeStatesForSync(localState,remoteState,remoteMeta={}){"""
-          helper="""function mergeUsersPreserveLocalPasswords(localUsers,remoteUsers){
+          marker = 'function mergeStatesForSync(localState,remoteState,remoteMeta={}){'
+          helper = """function mergeUsersPreserveLocalPasswords(localUsers,remoteUsers){
   const local=Array.isArray(localUsers)?localUsers:[];
   const remote=Array.isArray(remoteUsers)?remoteUsers:[];
   if(!remote.length)return local.length?local:defaultUsers();
@@ -53,26 +53,22 @@ jobs:
   });
 }
 """
-          if s.count(marker)!=1:
-              raise SystemExit(f'mergeStatesForSync esperado 1x, encontrado {s.count(marker)}x')
-          s=s.replace(marker,helper+marker,1)
+          assert s.count(marker) == 1, s.count(marker)
+          s = s.replace(marker, helper + marker, 1)
 
-          old_users="""merged.users=Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers());"""
-          count=s.count(old_users)
-          if count!=2:
-              raise SystemExit(f'Atribuicao merged.users esperada 2x, encontrada {count}x')
-          s=s.replace(old_users,"merged.users=mergeUsersPreserveLocalPasswords(merged.users,remoteState.users);",2)
+          old_users = 'merged.users=Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers());'
+          assert s.count(old_users) == 2, s.count(old_users)
+          s = s.replace(old_users, 'merged.users=mergeUsersPreserveLocalPasswords(merged.users,remoteState.users);', 2)
+          src.write_text(s, encoding='utf-8')
 
-          p.write_text(s,encoding='utf-8')
-          PY
-      - name: Validar
+      - name: Validate
         shell: bash
         run: |
           test -s backups/index_pre_fix_login_sync_2026-09-03.html
           grep -q "mergeUsersPreserveLocalPasswords" index.html
-          grep -q "Recupera apenas credenciais padrão ausentes" index.html
-          test "$(grep -o "mergeUsersPreserveLocalPasswords(merged.users,remoteState.users)" index.html | wc -l)" -eq 2
-      - name: Gravar
+          grep -q "Recupera credenciais padrao ausentes" index.html
+
+      - name: Commit
         shell: bash
         run: |
           git config user.name "Portaria Primavera Fix Bot"
