@@ -1,0 +1,37 @@
+name: Auth 2 phase 2
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/auth2-phase2.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Backups
+        run: |
+          mkdir -p backups
+          cp index.html backups/index_pre_auth2_phase2_2026-09-03.html
+          cp sw.js backups/sw_pre_auth2_phase2_2026-09-03.js
+      - name: Aplicar
+        run: python .github/scripts/auth2_phase2.py
+      - name: Validar
+        run: |
+          grep -q "c.edu.cunha1977@gmail.com" index.html
+          grep -q "function handleUserRecoveryAuth()" index.html
+          grep -q "function verifyUserRecoveryAuth(u)" index.html
+          grep -q "uRecoveryAuthBox" index.html
+          grep -q "portaria-primavera-v1-0-7" sw.js
+          grep -q "mobileHistoryShortcut" index.html
+          grep -q "Consultar histórico de acessos" index.html
+      - name: Commit
+        run: |
+          git config user.name "Portaria Primavera Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html sw.js backups/index_pre_auth2_phase2_2026-09-03.html backups/sw_pre_auth2_phase2_2026-09-03.js
+          git rm .github/scripts/auth2_phase2.py .github/workflows/auth2-phase2.yml
+          git commit -m "feat: ativar vinculo seguro de recuperacao por email"
+          git push origin main
