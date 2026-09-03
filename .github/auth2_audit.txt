@@ -1,0 +1,2642 @@
+INDEX_BYTES=905686
+
+===== loginUser =====
+--- hit 1 @ 115790 ---
+nt;
+  box-shadow:0 18px 38px rgba(0,0,0,.36),0 0 0 1px rgba(216,184,92,.28)!important;
+}
+.loginCard h2{
+  color:#f5f7fb!important;
+  font-size:27px!important;
+  text-align:center!important;
+  margin:0!important;
+  letter-spacing:.01em;
+  text-shadow:0 2px 18px rgba(216,184,92,.14);
+}
+.loginCard p{
+  color:#aeb8c6!important;
+  text-align:center!important;
+  margin:8px auto 20px!important;
+  max-width:330px;
+  font-size:13px!important;
+  line-height:1.58!important;
+}
+.loginCard label{
+  color:#d8b85c!important;
+  font-size:11px!important;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:900!important;
+  margin:13px 0 7px!important;
+}
+.loginCard label[for], .loginCard label{}
+#loginUser,#loginPass{
+  height:52px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(216,184,92,.30)!important;
+  background:#08111f!important;
+  color:#f5f7fb!important;
+  font-weight:900!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease!important;
+}
+#loginUser:focus,#loginPass:focus{
+  border-color:rgba(216,184,92,.78)!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.11),0 10px 22px rgba(0,0,0,.16)!important;
+  transform:translateY(-1px);
+}
+.loginCard .btn.gold{
+  height:54px!important;
+  border-radius:13px!important;
+  margin-top:18px!important;
+  background:linear-gradient(145deg,#d8b85c,#a57c1f)!important;
+  color:#fff!important;
+  font-weight:900!important;
+  box-shadow:0 14px 28px rgba(216,184,92,.22)!important;
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
+}
+.loginCard .btn.gold:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+  box-shadow:0 18px 34px rgba(216,184,92,.30),0 0 0 1px rgba(255,255,255,.08) inset!important;
+}
+.loginMsg{
+  color:#ff7b8d!important;
+  text-align:center;
+  min-height:20px!important;
+  margin-top:12px!important;
+}
+.loginHint{
+  margin-top:16px!important;
+  border:1px dashed rgba(216,184,92,.42)!important;
+  background:rgba(216,184,92,.065)!important;
+  color:#aeb8c6!important;
+  borde
+--- hit 2 @ 116157 ---
+px auto 20px!important;
+  max-width:330px;
+  font-size:13px!important;
+  line-height:1.58!important;
+}
+.loginCard label{
+  color:#d8b85c!important;
+  font-size:11px!important;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:900!important;
+  margin:13px 0 7px!important;
+}
+.loginCard label[for], .loginCard label{}
+#loginUser,#loginPass{
+  height:52px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(216,184,92,.30)!important;
+  background:#08111f!important;
+  color:#f5f7fb!important;
+  font-weight:900!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease!important;
+}
+#loginUser:focus,#loginPass:focus{
+  border-color:rgba(216,184,92,.78)!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.11),0 10px 22px rgba(0,0,0,.16)!important;
+  transform:translateY(-1px);
+}
+.loginCard .btn.gold{
+  height:54px!important;
+  border-radius:13px!important;
+  margin-top:18px!important;
+  background:linear-gradient(145deg,#d8b85c,#a57c1f)!important;
+  color:#fff!important;
+  font-weight:900!important;
+  box-shadow:0 14px 28px rgba(216,184,92,.22)!important;
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
+}
+.loginCard .btn.gold:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+  box-shadow:0 18px 34px rgba(216,184,92,.30),0 0 0 1px rgba(255,255,255,.08) inset!important;
+}
+.loginMsg{
+  color:#ff7b8d!important;
+  text-align:center;
+  min-height:20px!important;
+  margin-top:12px!important;
+}
+.loginHint{
+  margin-top:16px!important;
+  border:1px dashed rgba(216,184,92,.42)!important;
+  background:rgba(216,184,92,.065)!important;
+  color:#aeb8c6!important;
+  border-radius:12px!important;
+  padding:12px 13px!important;
+  display:grid;
+  gap:5px;
+  text-align:left;
+}
+.loginHint b{color:#f3d27a!important}
+.loginHintTitle{color:#f3d27a;font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:10px;margin-bottom:2px}
+.loginHintFoot{font-size:10px;color:#8f9caf;margin-top:2px}
+@media(max-width:620px){
+  .loginCard{p
+--- hit 3 @ 118559 ---
+;
+  border-radius:22px!important;
+  padding:20px 24px 18px!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.035) inset!important;
+}
+.loginCard:before{
+  background:radial-gradient(circle at 50% -22%,rgba(216,184,92,.14),transparent 40%)!important;
+}
+.loginLogo{
+  width:58px!important;
+  height:58px!important;
+  border-radius:18px!important;
+  margin:0 auto 12px!important;
+}
+.loginCard h2{
+  font-size:24px!important;
+  line-height:1.15!important;
+}
+.loginCard p{
+  margin:6px auto 15px!important;
+  max-width:300px!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+}
+.loginCard label{
+  font-size:10px!important;
+  margin:10px 0 5px!important;
+}
+#loginUser,#loginPass{
+  height:44px!important;
+  border-radius:11px!important;
+  padding:10px 12px!important;
+}
+.loginCard .btn.gold{
+  height:46px!important;
+  border-radius:11px!important;
+  margin-top:14px!important;
+  box-shadow:0 12px 24px rgba(216,184,92,.18)!important;
+}
+.loginMsg{
+  min-height:16px!important;
+  margin-top:8px!important;
+  font-size:11px!important;
+}
+.loginHint{
+  margin-top:11px!important;
+  border-radius:12px!important;
+  padding:10px 12px!important;
+  gap:3px!important;
+  font-size:10.5px!important;
+  line-height:1.42!important;
+}
+.loginHintTitle{
+  font-size:9.5px!important;
+  margin-bottom:1px!important;
+}
+.loginHintFoot{
+  font-size:9.5px!important;
+  margin-top:1px!important;
+}
+@media(max-width:620px){
+  .loginCard{width:min(380px,calc(100vw - 28px))!important;padding:18px 18px 16px!important;border-radius:20px!important}
+  .loginLogo{width:54px!important;height:54px!important;border-radius:17px!important;margin-bottom:10px!important}
+  .loginCard h2{font-size:22px!important}
+  .loginCard p{font-size:11.5px!important;margin-bottom:12px!important}
+  #loginUser,#loginPass{height:42px!important}
+  .loginCard .btn.gold{height:44px!important}
+}
+
+
+
+/* v84 — Kiosk em botão-ícone compacto no padrão do topo */
+.kioskBtn{
+  border:1px solid rgba(243,210,122,.72)!important;
+  border-radius:12px!important;
+  background:linear-gradient(145deg,rgba(17,28,44,.96
+--- hit 4 @ 119656 ---
+-top:11px!important;
+  border-radius:12px!important;
+  padding:10px 12px!important;
+  gap:3px!important;
+  font-size:10.5px!important;
+  line-height:1.42!important;
+}
+.loginHintTitle{
+  font-size:9.5px!important;
+  margin-bottom:1px!important;
+}
+.loginHintFoot{
+  font-size:9.5px!important;
+  margin-top:1px!important;
+}
+@media(max-width:620px){
+  .loginCard{width:min(380px,calc(100vw - 28px))!important;padding:18px 18px 16px!important;border-radius:20px!important}
+  .loginLogo{width:54px!important;height:54px!important;border-radius:17px!important;margin-bottom:10px!important}
+  .loginCard h2{font-size:22px!important}
+  .loginCard p{font-size:11.5px!important;margin-bottom:12px!important}
+  #loginUser,#loginPass{height:42px!important}
+  .loginCard .btn.gold{height:44px!important}
+}
+
+
+
+/* v84 — Kiosk em botão-ícone compacto no padrão do topo */
+.kioskBtn{
+  border:1px solid rgba(243,210,122,.72)!important;
+  border-radius:12px!important;
+  background:linear-gradient(145deg,rgba(17,28,44,.96),rgba(13,27,42,.96))!important;
+  color:#f3d27a!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-weight:900!important;
+  cursor:pointer;
+  padding:0!important;
+  width:44px;
+  min-width:44px;
+  height:36px;
+  min-height:36px;
+  display:inline-grid!important;
+  place-items:center;
+  font-size:18px!important;
+  line-height:1;
+  box-shadow:0 6px 16px rgba(0,0,0,.05), inset 0 0 0 1px rgba(243,210,122,.10);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease,color .18s ease;
+}
+.kioskBtn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(243,210,122,.82)!important;
+  color:#ffe59b!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.10),0 12px 28px rgba(0,0,0,.22);
+}
+body.kiosk-mode{
+  user-select:none;
+  overscroll-behavior:none;
+}
+body.kiosk-mode .kioskBtn{
+  background:linear-gradient(145deg,#d8b85c,#9f7b25)!important;
+  color:#07111d!important;
+  border-color:rgba(243,210,122,.95)!important;
+  border-radius:12px!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.12),0 12px 28px rgba(0,0,0,.24
+--- hit 5 @ 136290 ---
+radient(145deg,#eef3fb,#ffffff 55%,#f7f1df)!important;
+}
+body.theme-light .loginCard{
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,250,252,.98))!important;
+  color:#142033!important;
+  border:1px solid rgba(200,162,74,.40)!important;
+  box-shadow:0 24px 70px rgba(13,27,42,.18),0 0 0 1px rgba(255,255,255,.70) inset!important;
+}
+body.theme-light .loginCard:before{background:radial-gradient(circle at 50% -22%,rgba(200,162,74,.14),transparent 40%)!important;}
+body.theme-light .loginCard h2{color:#10233d!important;text-shadow:none!important;}
+body.theme-light .loginCard p{color:#667085!important;}
+body.theme-light .loginCard label{color:#7a5a12!important;}
+body.theme-light #loginUser,
+body.theme-light #loginPass{
+  background:#ffffff!important;
+  color:#142033!important;
+  border-color:#d7dee9!important;
+}
+body.theme-light .loginHint{
+  background:#fffaf0!important;
+  color:#596579!important;
+  border-color:rgba(200,162,74,.42)!important;
+}
+body.theme-light .loginHint b,
+body.theme-light .loginHintTitle{color:#7a5a12!important;}
+body.theme-light .loginHintFoot{color:#7b8798!important;}
+body.theme-light .loginMsg{color:#a32636!important;}
+
+
+
+/* v88 — Tema claro: refino específico da guia Resumo
+   - aumenta contraste das bordas
+   - devolve força visual ao card "Ainda no condomínio"
+   - reforça tabela e badges do resumo */
+body.theme-light #resumo .card{
+  border-color:#c3ccda!important;
+  box-shadow:0 14px 32px rgba(13,27,42,.095)!important;
+}
+body.theme-light #resumo .metric{
+  background:linear-gradient(180deg,#ffffff,#fbfdff)!important;
+  border:1px solid #c3ccda!important;
+}
+body.theme-light #resumo .metric:hover{
+  border-color:rgba(200,162,74,.62)!important;
+  box-shadow:0 18px 38px rgba(13,27,42,.13),0 0 0 1px rgba(200,162,74,.08) inset!important;
+}
+
+@keyframes lightResumoAlertPulse{
+  0%,100%{outline-color:rgba(204,51,68,.35);filter:drop-shadow(0 0 0 rgba(204,51,68,0));}
+  50%{outline-color:rgba(204,51,68,.95);filter:drop-shadow(0 0 14px rgba(204,51,68,.26));}
+}
+@keyframes lightResumoWarnPulse{
+  0%,100%{outline-color:rgba(213,138,0,.32);
+--- hit 6 @ 178166 ---
+ct:none;line-height:1.2;text-transform:none!important;letter-spacing:0!important}
+.loginRemember input{width:16px;height:16px;margin:0;accent-color:#d8b85c;cursor:pointer;flex:0 0 auto}
+.loginRemember span{display:inline-block;color:inherit}
+body.theme-light .loginOverlay{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(200,162,74,.18),transparent 30%),
+    radial-gradient(circle at 82% 72%,rgba(47,128,237,.16),transparent 34%),
+    linear-gradient(145deg,#eef3fb,#ffffff 54%,#f7f1df)!important;
+}
+body.theme-light .loginCard{
+  border-color:rgba(200,162,74,.62)!important;
+  box-shadow:0 30px 82px rgba(13,27,42,.22),0 0 0 1px rgba(255,255,255,.78) inset!important;
+}
+body.theme-light #loginUser,
+body.theme-light #loginPass{
+  border-color:#b9c6d9!important;
+  background:#ffffff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 4px 12px rgba(13,27,42,.045)!important;
+}
+body.theme-light #loginUser:focus,
+body.theme-light #loginPass:focus{
+  border-color:rgba(22,58,99,.62)!important;
+  box-shadow:0 0 0 3px rgba(47,128,237,.10),0 10px 22px rgba(13,27,42,.10)!important;
+}
+body.theme-light .loginCard .btn.gold{
+  box-shadow:0 15px 28px rgba(166,124,31,.26)!important;
+}
+body.theme-light .loginHint{
+  border-color:rgba(200,162,74,.58)!important;
+  box-shadow:0 8px 20px rgba(13,27,42,.05)!important;
+}
+body.theme-light .loginEyeBtn{
+  color:#7a5a12;background:#fff8e8;border-color:rgba(200,162,74,.48);
+}
+body.theme-light .loginEyeBtn:hover{background:#fff1c9;border-color:rgba(200,162,74,.78);box-shadow:0 0 0 3px rgba(200,162,74,.12)}
+body.theme-light .loginRemember{color:#526175!important}
+body.theme-light .loginRemember input{accent-color:#c8a24a}
+
+
+
+/* v100 — Relatórios Operacionais */
+.reportsHero{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(247,241,223,.9))}
+.reportsHero h2{margin:0 0 6px;color:var(--navy);font-size:24px}.reportsHero p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.reportsActions{display:flex;gap:10px;align-items:center
+--- hit 7 @ 178382 ---
+line-block;color:inherit}
+body.theme-light .loginOverlay{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(200,162,74,.18),transparent 30%),
+    radial-gradient(circle at 82% 72%,rgba(47,128,237,.16),transparent 34%),
+    linear-gradient(145deg,#eef3fb,#ffffff 54%,#f7f1df)!important;
+}
+body.theme-light .loginCard{
+  border-color:rgba(200,162,74,.62)!important;
+  box-shadow:0 30px 82px rgba(13,27,42,.22),0 0 0 1px rgba(255,255,255,.78) inset!important;
+}
+body.theme-light #loginUser,
+body.theme-light #loginPass{
+  border-color:#b9c6d9!important;
+  background:#ffffff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 4px 12px rgba(13,27,42,.045)!important;
+}
+body.theme-light #loginUser:focus,
+body.theme-light #loginPass:focus{
+  border-color:rgba(22,58,99,.62)!important;
+  box-shadow:0 0 0 3px rgba(47,128,237,.10),0 10px 22px rgba(13,27,42,.10)!important;
+}
+body.theme-light .loginCard .btn.gold{
+  box-shadow:0 15px 28px rgba(166,124,31,.26)!important;
+}
+body.theme-light .loginHint{
+  border-color:rgba(200,162,74,.58)!important;
+  box-shadow:0 8px 20px rgba(13,27,42,.05)!important;
+}
+body.theme-light .loginEyeBtn{
+  color:#7a5a12;background:#fff8e8;border-color:rgba(200,162,74,.48);
+}
+body.theme-light .loginEyeBtn:hover{background:#fff1c9;border-color:rgba(200,162,74,.78);box-shadow:0 0 0 3px rgba(200,162,74,.12)}
+body.theme-light .loginRemember{color:#526175!important}
+body.theme-light .loginRemember input{accent-color:#c8a24a}
+
+
+
+/* v100 — Relatórios Operacionais */
+.reportsHero{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(247,241,223,.9))}
+.reportsHero h2{margin:0 0 6px;color:var(--navy);font-size:24px}.reportsHero p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.reportsActions{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-left:auto}.reportsActions .btn{height:44px;padding-inline:18px}.reportsActions .reportPeriodSelect{min-width:150px;max-width:160px;height:44px;order:3;flex:0 0 160px}.r
+--- hit 8 @ 491820 ---
+sg8KLbSjU9gieSS6BArxjVmZUVdsU05AVbDEpEfU1uMk2h+BSSVnmyjzVj0g8FmFvEqPu8+XECaTpfHbms7cECIhK8/24R0LzokFBfBqAnDp8UhSOtBmbWUR15N5V5rQIceYDfSlpvfgncQH9yU3gsSZyvoKnirwdhaBiou+1oSccK4VV72twyatFTapOxdCiy2+ZEYkkKiwp2kvTLzPFHPRPEEWVUlYMLZAS5nM5u95wkoK0u04R44rnpLalhQshrbA337SBJeA2SbiFXWCSIdwcL+A6USlXrr+M5GlUPUn4r5G+nIjJDII3LCTZ22mkrwHjbLs1TKYgs58VVQPih2BAuqv2YD9zt97WGJUL0T2HOAUxhVjPROWEgL4RrC8ryu8ZTJRCQ7iEFRbKZFtKlU9p2ZbL3nZW0XO2NpnYwyUC3XWMYG1qXWe/+pOEsGwdBK5eASqJhOJv8P7zjNk49wbqcAAAAASUVORK5CYII=" alt="Logo Portaria Primavera"></div>
+      <h2>Portaria Primavera</h2>
+      <p>Entre com seu usuário para liberar as funções conforme o perfil: Portaria ou Admin.</p>
+      <label>Usuário</label><input id="loginUser" autocomplete="username">
+      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
+      <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
+      <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
+      <div class="loginMsg" id="loginMsg"></div>
+      <div class="loginHint"><span class="loginHintTitle">Acesso inicial</span><span><b>Administrador</b> • admin / admin123</span><span><b>Portaria</b> • portaria / 1234</span><span class="loginHintFoot">Depois ajuste os usuários em Central Administrativa.</span></div>
+    </div>
+  </div>
+  <header class="v55Header"><div class="top v55Top"><div class="brand v55Brand"><div class="logo officialLogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANcAAADPCAIAAADpmtMUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAMzASURBVHhefL0H4C1XVe8/c+ac86u3JiEJpEAIvYko4gN9PFREUXiKioiKqIANFXyios/37FiwgoAgKgqKdEINJBAIoSSkE5KQdtNubr/3V0+d+X8/37X3nHOD779+c/asvdpee+01e++ZU37lwt5ziwxlUTQ+hERNULoCVaSy9Dkg0E4olYVYqCZ5lBOSJTMjgYlJxm2
+
+===== loginPass =====
+--- hit 1 @ 115801 ---
+hadow:0 18px 38px rgba(0,0,0,.36),0 0 0 1px rgba(216,184,92,.28)!important;
+}
+.loginCard h2{
+  color:#f5f7fb!important;
+  font-size:27px!important;
+  text-align:center!important;
+  margin:0!important;
+  letter-spacing:.01em;
+  text-shadow:0 2px 18px rgba(216,184,92,.14);
+}
+.loginCard p{
+  color:#aeb8c6!important;
+  text-align:center!important;
+  margin:8px auto 20px!important;
+  max-width:330px;
+  font-size:13px!important;
+  line-height:1.58!important;
+}
+.loginCard label{
+  color:#d8b85c!important;
+  font-size:11px!important;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:900!important;
+  margin:13px 0 7px!important;
+}
+.loginCard label[for], .loginCard label{}
+#loginUser,#loginPass{
+  height:52px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(216,184,92,.30)!important;
+  background:#08111f!important;
+  color:#f5f7fb!important;
+  font-weight:900!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease!important;
+}
+#loginUser:focus,#loginPass:focus{
+  border-color:rgba(216,184,92,.78)!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.11),0 10px 22px rgba(0,0,0,.16)!important;
+  transform:translateY(-1px);
+}
+.loginCard .btn.gold{
+  height:54px!important;
+  border-radius:13px!important;
+  margin-top:18px!important;
+  background:linear-gradient(145deg,#d8b85c,#a57c1f)!important;
+  color:#fff!important;
+  font-weight:900!important;
+  box-shadow:0 14px 28px rgba(216,184,92,.22)!important;
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
+}
+.loginCard .btn.gold:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+  box-shadow:0 18px 34px rgba(216,184,92,.30),0 0 0 1px rgba(255,255,255,.08) inset!important;
+}
+.loginMsg{
+  color:#ff7b8d!important;
+  text-align:center;
+  min-height:20px!important;
+  margin-top:12px!important;
+}
+.loginHint{
+  margin-top:16px!important;
+  border:1px dashed rgba(216,184,92,.42)!important;
+  background:rgba(216,184,92,.065)!important;
+  color:#aeb8c6!important;
+  border-radius:12
+--- hit 2 @ 116174 ---
+rtant;
+  max-width:330px;
+  font-size:13px!important;
+  line-height:1.58!important;
+}
+.loginCard label{
+  color:#d8b85c!important;
+  font-size:11px!important;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:900!important;
+  margin:13px 0 7px!important;
+}
+.loginCard label[for], .loginCard label{}
+#loginUser,#loginPass{
+  height:52px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(216,184,92,.30)!important;
+  background:#08111f!important;
+  color:#f5f7fb!important;
+  font-weight:900!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease!important;
+}
+#loginUser:focus,#loginPass:focus{
+  border-color:rgba(216,184,92,.78)!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.11),0 10px 22px rgba(0,0,0,.16)!important;
+  transform:translateY(-1px);
+}
+.loginCard .btn.gold{
+  height:54px!important;
+  border-radius:13px!important;
+  margin-top:18px!important;
+  background:linear-gradient(145deg,#d8b85c,#a57c1f)!important;
+  color:#fff!important;
+  font-weight:900!important;
+  box-shadow:0 14px 28px rgba(216,184,92,.22)!important;
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
+}
+.loginCard .btn.gold:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+  box-shadow:0 18px 34px rgba(216,184,92,.30),0 0 0 1px rgba(255,255,255,.08) inset!important;
+}
+.loginMsg{
+  color:#ff7b8d!important;
+  text-align:center;
+  min-height:20px!important;
+  margin-top:12px!important;
+}
+.loginHint{
+  margin-top:16px!important;
+  border:1px dashed rgba(216,184,92,.42)!important;
+  background:rgba(216,184,92,.065)!important;
+  color:#aeb8c6!important;
+  border-radius:12px!important;
+  padding:12px 13px!important;
+  display:grid;
+  gap:5px;
+  text-align:left;
+}
+.loginHint b{color:#f3d27a!important}
+.loginHintTitle{color:#f3d27a;font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:10px;margin-bottom:2px}
+.loginHintFoot{font-size:10px;color:#8f9caf;margin-top:2px}
+@media(max-width:620px){
+  .loginCard{padding:24px 20px 
+--- hit 3 @ 118570 ---
+radius:22px!important;
+  padding:20px 24px 18px!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.035) inset!important;
+}
+.loginCard:before{
+  background:radial-gradient(circle at 50% -22%,rgba(216,184,92,.14),transparent 40%)!important;
+}
+.loginLogo{
+  width:58px!important;
+  height:58px!important;
+  border-radius:18px!important;
+  margin:0 auto 12px!important;
+}
+.loginCard h2{
+  font-size:24px!important;
+  line-height:1.15!important;
+}
+.loginCard p{
+  margin:6px auto 15px!important;
+  max-width:300px!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+}
+.loginCard label{
+  font-size:10px!important;
+  margin:10px 0 5px!important;
+}
+#loginUser,#loginPass{
+  height:44px!important;
+  border-radius:11px!important;
+  padding:10px 12px!important;
+}
+.loginCard .btn.gold{
+  height:46px!important;
+  border-radius:11px!important;
+  margin-top:14px!important;
+  box-shadow:0 12px 24px rgba(216,184,92,.18)!important;
+}
+.loginMsg{
+  min-height:16px!important;
+  margin-top:8px!important;
+  font-size:11px!important;
+}
+.loginHint{
+  margin-top:11px!important;
+  border-radius:12px!important;
+  padding:10px 12px!important;
+  gap:3px!important;
+  font-size:10.5px!important;
+  line-height:1.42!important;
+}
+.loginHintTitle{
+  font-size:9.5px!important;
+  margin-bottom:1px!important;
+}
+.loginHintFoot{
+  font-size:9.5px!important;
+  margin-top:1px!important;
+}
+@media(max-width:620px){
+  .loginCard{width:min(380px,calc(100vw - 28px))!important;padding:18px 18px 16px!important;border-radius:20px!important}
+  .loginLogo{width:54px!important;height:54px!important;border-radius:17px!important;margin-bottom:10px!important}
+  .loginCard h2{font-size:22px!important}
+  .loginCard p{font-size:11.5px!important;margin-bottom:12px!important}
+  #loginUser,#loginPass{height:42px!important}
+  .loginCard .btn.gold{height:44px!important}
+}
+
+
+
+/* v84 — Kiosk em botão-ícone compacto no padrão do topo */
+.kioskBtn{
+  border:1px solid rgba(243,210,122,.72)!important;
+  border-radius:12px!important;
+  background:linear-gradient(145deg,rgba(17,28,44,.96),rgba(13,2
+--- hit 4 @ 119667 ---
+mportant;
+  border-radius:12px!important;
+  padding:10px 12px!important;
+  gap:3px!important;
+  font-size:10.5px!important;
+  line-height:1.42!important;
+}
+.loginHintTitle{
+  font-size:9.5px!important;
+  margin-bottom:1px!important;
+}
+.loginHintFoot{
+  font-size:9.5px!important;
+  margin-top:1px!important;
+}
+@media(max-width:620px){
+  .loginCard{width:min(380px,calc(100vw - 28px))!important;padding:18px 18px 16px!important;border-radius:20px!important}
+  .loginLogo{width:54px!important;height:54px!important;border-radius:17px!important;margin-bottom:10px!important}
+  .loginCard h2{font-size:22px!important}
+  .loginCard p{font-size:11.5px!important;margin-bottom:12px!important}
+  #loginUser,#loginPass{height:42px!important}
+  .loginCard .btn.gold{height:44px!important}
+}
+
+
+
+/* v84 — Kiosk em botão-ícone compacto no padrão do topo */
+.kioskBtn{
+  border:1px solid rgba(243,210,122,.72)!important;
+  border-radius:12px!important;
+  background:linear-gradient(145deg,rgba(17,28,44,.96),rgba(13,27,42,.96))!important;
+  color:#f3d27a!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-weight:900!important;
+  cursor:pointer;
+  padding:0!important;
+  width:44px;
+  min-width:44px;
+  height:36px;
+  min-height:36px;
+  display:inline-grid!important;
+  place-items:center;
+  font-size:18px!important;
+  line-height:1;
+  box-shadow:0 6px 16px rgba(0,0,0,.05), inset 0 0 0 1px rgba(243,210,122,.10);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease,color .18s ease;
+}
+.kioskBtn:hover{
+  transform:translateY(-1px);
+  border-color:rgba(243,210,122,.82)!important;
+  color:#ffe59b!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.10),0 12px 28px rgba(0,0,0,.22);
+}
+body.kiosk-mode{
+  user-select:none;
+  overscroll-behavior:none;
+}
+body.kiosk-mode .kioskBtn{
+  background:linear-gradient(145deg,#d8b85c,#9f7b25)!important;
+  color:#07111d!important;
+  border-color:rgba(243,210,122,.95)!important;
+  border-radius:12px!important;
+  box-shadow:0 0 0 3px rgba(216,184,92,.12),0 12px 28px rgba(0,0,0,.24);
+}
+body.k
+--- hit 5 @ 136319 ---
+f 55%,#f7f1df)!important;
+}
+body.theme-light .loginCard{
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,250,252,.98))!important;
+  color:#142033!important;
+  border:1px solid rgba(200,162,74,.40)!important;
+  box-shadow:0 24px 70px rgba(13,27,42,.18),0 0 0 1px rgba(255,255,255,.70) inset!important;
+}
+body.theme-light .loginCard:before{background:radial-gradient(circle at 50% -22%,rgba(200,162,74,.14),transparent 40%)!important;}
+body.theme-light .loginCard h2{color:#10233d!important;text-shadow:none!important;}
+body.theme-light .loginCard p{color:#667085!important;}
+body.theme-light .loginCard label{color:#7a5a12!important;}
+body.theme-light #loginUser,
+body.theme-light #loginPass{
+  background:#ffffff!important;
+  color:#142033!important;
+  border-color:#d7dee9!important;
+}
+body.theme-light .loginHint{
+  background:#fffaf0!important;
+  color:#596579!important;
+  border-color:rgba(200,162,74,.42)!important;
+}
+body.theme-light .loginHint b,
+body.theme-light .loginHintTitle{color:#7a5a12!important;}
+body.theme-light .loginHintFoot{color:#7b8798!important;}
+body.theme-light .loginMsg{color:#a32636!important;}
+
+
+
+/* v88 — Tema claro: refino específico da guia Resumo
+   - aumenta contraste das bordas
+   - devolve força visual ao card "Ainda no condomínio"
+   - reforça tabela e badges do resumo */
+body.theme-light #resumo .card{
+  border-color:#c3ccda!important;
+  box-shadow:0 14px 32px rgba(13,27,42,.095)!important;
+}
+body.theme-light #resumo .metric{
+  background:linear-gradient(180deg,#ffffff,#fbfdff)!important;
+  border:1px solid #c3ccda!important;
+}
+body.theme-light #resumo .metric:hover{
+  border-color:rgba(200,162,74,.62)!important;
+  box-shadow:0 18px 38px rgba(13,27,42,.13),0 0 0 1px rgba(200,162,74,.08) inset!important;
+}
+
+@keyframes lightResumoAlertPulse{
+  0%,100%{outline-color:rgba(204,51,68,.35);filter:drop-shadow(0 0 0 rgba(204,51,68,0));}
+  50%{outline-color:rgba(204,51,68,.95);filter:drop-shadow(0 0 14px rgba(204,51,68,.26));}
+}
+@keyframes lightResumoWarnPulse{
+  0%,100%{outline-color:rgba(213,138,0,.32);filter:drop-shadow(0 0 0 rgba
+--- hit 6 @ 176599 ---
+t .tab:hover:not(.active){
+  background:linear-gradient(180deg,#ffffff,#f8fafc)!important;
+  color:#10233d!important;
+  box-shadow:0 8px 18px rgba(13,27,42,.08), inset 0 -2px 0 rgba(200,162,74,.45)!important;
+}
+body.theme-light .tab.active{
+  border-color:rgba(200,162,74,.72)!important;
+  box-shadow:0 12px 28px rgba(13,27,42,.20),0 0 0 1px rgba(200,162,74,.15) inset!important;
+}
+@media(max-width:760px){
+  body.theme-light .statusGroup .themeCycleBtn,
+  body.theme-light .statusGroup .kioskBtn,
+  body.theme-light .statusGroup .doorLogoutBtn{
+    width:40px!important;min-width:40px!important;height:34px!important;min-height:34px!important;
+  }
+}
+
+
+/* v99 — Login claro premium + usabilidade */
+.loginPassWrap{position:relative;display:block;width:100%}
+.loginPassWrap #loginPass{padding-right:46px!important;width:100%}
+.loginEyeBtn{
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:10px;border:1px solid rgba(216,184,92,.32);
+  background:rgba(216,184,92,.08);color:#f3d27a;display:grid;place-items:center;
+  cursor:pointer;font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-size:15px;font-weight:900;line-height:1;transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.loginEyeBtn:hover{background:rgba(216,184,92,.16);border-color:rgba(216,184,92,.70);box-shadow:0 0 0 3px rgba(216,184,92,.08);}
+.loginRemember{display:flex;align-items:center;gap:9px;margin:10px 0 0;color:#aeb8c6;font-size:11px;font-weight:800;cursor:pointer;user-select:none;line-height:1.2;text-transform:none!important;letter-spacing:0!important}
+.loginRemember input{width:16px;height:16px;margin:0;accent-color:#d8b85c;cursor:pointer;flex:0 0 auto}
+.loginRemember span{display:inline-block;color:inherit}
+body.theme-light .loginOverlay{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(200,162,74,.18),transparent 30%),
+    radial-gradient(circle at 82% 72%,rgba(47,128,237,.16),transparent 34%),
+    linear-gradient(145deg,#eef3fb,#ffffff 54%,#f7f1df)!important;
+}
+body.theme-light .logi
+--- hit 7 @ 176658 ---
+deg,#ffffff,#f8fafc)!important;
+  color:#10233d!important;
+  box-shadow:0 8px 18px rgba(13,27,42,.08), inset 0 -2px 0 rgba(200,162,74,.45)!important;
+}
+body.theme-light .tab.active{
+  border-color:rgba(200,162,74,.72)!important;
+  box-shadow:0 12px 28px rgba(13,27,42,.20),0 0 0 1px rgba(200,162,74,.15) inset!important;
+}
+@media(max-width:760px){
+  body.theme-light .statusGroup .themeCycleBtn,
+  body.theme-light .statusGroup .kioskBtn,
+  body.theme-light .statusGroup .doorLogoutBtn{
+    width:40px!important;min-width:40px!important;height:34px!important;min-height:34px!important;
+  }
+}
+
+
+/* v99 — Login claro premium + usabilidade */
+.loginPassWrap{position:relative;display:block;width:100%}
+.loginPassWrap #loginPass{padding-right:46px!important;width:100%}
+.loginEyeBtn{
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:10px;border:1px solid rgba(216,184,92,.32);
+  background:rgba(216,184,92,.08);color:#f3d27a;display:grid;place-items:center;
+  cursor:pointer;font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-size:15px;font-weight:900;line-height:1;transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.loginEyeBtn:hover{background:rgba(216,184,92,.16);border-color:rgba(216,184,92,.70);box-shadow:0 0 0 3px rgba(216,184,92,.08);}
+.loginRemember{display:flex;align-items:center;gap:9px;margin:10px 0 0;color:#aeb8c6;font-size:11px;font-weight:800;cursor:pointer;user-select:none;line-height:1.2;text-transform:none!important;letter-spacing:0!important}
+.loginRemember input{width:16px;height:16px;margin:0;accent-color:#d8b85c;cursor:pointer;flex:0 0 auto}
+.loginRemember span{display:inline-block;color:inherit}
+body.theme-light .loginOverlay{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(200,162,74,.18),transparent 30%),
+    radial-gradient(circle at 82% 72%,rgba(47,128,237,.16),transparent 34%),
+    linear-gradient(145deg,#eef3fb,#ffffff 54%,#f7f1df)!important;
+}
+body.theme-light .loginCard{
+  border-color:rgba(200,162,74,.62)!important;
+  box
+--- hit 8 @ 176673 ---
+fafc)!important;
+  color:#10233d!important;
+  box-shadow:0 8px 18px rgba(13,27,42,.08), inset 0 -2px 0 rgba(200,162,74,.45)!important;
+}
+body.theme-light .tab.active{
+  border-color:rgba(200,162,74,.72)!important;
+  box-shadow:0 12px 28px rgba(13,27,42,.20),0 0 0 1px rgba(200,162,74,.15) inset!important;
+}
+@media(max-width:760px){
+  body.theme-light .statusGroup .themeCycleBtn,
+  body.theme-light .statusGroup .kioskBtn,
+  body.theme-light .statusGroup .doorLogoutBtn{
+    width:40px!important;min-width:40px!important;height:34px!important;min-height:34px!important;
+  }
+}
+
+
+/* v99 — Login claro premium + usabilidade */
+.loginPassWrap{position:relative;display:block;width:100%}
+.loginPassWrap #loginPass{padding-right:46px!important;width:100%}
+.loginEyeBtn{
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);
+  width:32px;height:32px;border-radius:10px;border:1px solid rgba(216,184,92,.32);
+  background:rgba(216,184,92,.08);color:#f3d27a;display:grid;place-items:center;
+  cursor:pointer;font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  font-size:15px;font-weight:900;line-height:1;transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.loginEyeBtn:hover{background:rgba(216,184,92,.16);border-color:rgba(216,184,92,.70);box-shadow:0 0 0 3px rgba(216,184,92,.08);}
+.loginRemember{display:flex;align-items:center;gap:9px;margin:10px 0 0;color:#aeb8c6;font-size:11px;font-weight:800;cursor:pointer;user-select:none;line-height:1.2;text-transform:none!important;letter-spacing:0!important}
+.loginRemember input{width:16px;height:16px;margin:0;accent-color:#d8b85c;cursor:pointer;flex:0 0 auto}
+.loginRemember span{display:inline-block;color:inherit}
+body.theme-light .loginOverlay{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(200,162,74,.18),transparent 30%),
+    radial-gradient(circle at 82% 72%,rgba(47,128,237,.16),transparent 34%),
+    linear-gradient(145deg,#eef3fb,#ffffff 54%,#f7f1df)!important;
+}
+body.theme-light .loginCard{
+  border-color:rgba(200,162,74,.62)!important;
+  box-shadow:0 30px 
+
+===== function loginUser =====
+--- hit 1 @ 797479 ---
+gged){const isAdm=u.perfil==='admin'; pill.classList.add('hierarchyShield',isAdm?'adminShield':'portariaShield'); pill.textContent='🛡️'; pill.title=(isAdm?'Administrador':'Portaria')+' • '+(u.nome||u.login); pill.setAttribute('aria-label',pill.title);}else{pill.textContent=''; pill.title='Não conectado'; pill.setAttribute('aria-label','Não conectado');}} document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.(); renderCommunications?.()}
+function loginUser(){const login=val('loginUser'), senha=val('loginPass'); const msg=document.getElementById('loginMsg'); const u=(state.users||[]).find(x=>x.login===login&&String(x.senha||'')===senha); if(!u){if(msg)msg.textContent='Usuário ou senha inválidos.';return;} if(u.ativo===false){if(msg)msg.textContent='Usuário inativo. Procure o administrador.';return;} sessionStorage.setItem('pp_current_user',u.login); u.lastAccessAt=new Date().toISOString(); try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} const remember=document.getElementById('rememberLoginUser'); if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}else{localStorage.removeItem('pp_remember_user');localStorage.removeItem('pp_saved_login')} if(msg)msg.textContent=''; const pass=document.getElementById('loginPass'); if(pass)pass.value=''; applyPermissions(); renderAll(); maybeShowHelpTour();}
+function confirmLogoutUser(){
+  openAppConfirm({
+    title:'Encerrar sessão?',
+    message:'Deseja realmente sair do Portaria Primavera?',
+    okText:'Sair',
+    onConfirm:logoutUser
+  });
+}
+function logoutUser(){sessionStorage.removeItem('pp_current_user'); applyPermissions();}
+function lockModalIfPortaria(){if(isAdmin())return; const body=document.getElementById('modalBody'); if(!body)return; body.insertAdjacentHTML('afterbegin','<div class=
+
+===== defaultUsers =====
+--- hit 1 @ 610334 ---
+nt=null;
+let cloudTimer=null;
+let cloudReady=false;
+let syncTimer=null;
+let syncPushTimer=null;
+let syncInProgress=false;
+let syncRealtimeChannel=null;
+let syncRealtimeReady=false;
+let lastRealtimeEventAt=0;
+let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||0)||0;
+let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&Stri
+--- hit 2 @ 610877 ---
+ocalDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data.units&&typeof data.units==='object'?data.units:{};
+    data.settings={...base.settings,...(data.settings||{})};
+    data
+--- hit 3 @ 611437 ---
+r',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data.units&&typeof data.units==='object'?data.units:{};
+    data.settings={...base.settings,...(data.settings||{})};
+    data.operational=Array.isArray(data.operational)?data.operational:[];
+    data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
+    data.logs=Array.isArray(data.logs)?data.logs:[];
+    data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
+    data.users.forEach(u=>normalizeUserOperational(u));
+    return data;
+  }catch(e){console.warn('Falha ao carregar base local',e);return initial()}
+}
+function save(syncReason='alteracao'){
+  normalizeAccesses();
+  touchStateMeta(syncReason);
+  localSto
+--- hit 4 @ 611879 ---
+;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data.units&&typeof data.units==='object'?data.units:{};
+    data.settings={...base.settings,...(data.settings||{})};
+    data.operational=Array.isArray(data.operational)?data.operational:[];
+    data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
+    data.logs=Array.isArray(data.logs)?data.logs:[];
+    data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
+    data.users.forEach(u=>normalizeUserOperational(u));
+    return data;
+  }catch(e){console.warn('Falha ao carregar base local',e);return initial()}
+}
+function save(syncReason='alteracao'){
+  normalizeAccesses();
+  touchStateMeta(syncReason);
+  localStorage.setItem(KEY,JSON.stringify(state));
+  const st=document.getElementById('saveStatus');
+  if(st)st.textContent='Salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  renderAll();
+  scheduleCloudAutoBackup();
+  queueCloudSyncPush(syncReason);
+}
+function unitId(bloco,apto){return bloco+'-'+apto}
+function getUnit(bloco,apto){const id=unitId(bloco,apto); if(!state.units[id]) state.units[id]={bloco,apto,fixo
+--- hit 5 @ 612439 ---
+senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data.units&&typeof data.units==='object'?data.units:{};
+    data.settings={...base.settings,...(data.settings||{})};
+    data.operational=Array.isArray(data.operational)?data.operational:[];
+    data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
+    data.logs=Array.isArray(data.logs)?data.logs:[];
+    data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
+    data.users.forEach(u=>normalizeUserOperational(u));
+    return data;
+  }catch(e){console.warn('Falha ao carregar base local',e);return initial()}
+}
+function save(syncReason='alteracao'){
+  normalizeAccesses();
+  touchStateMeta(syncReason);
+  localStorage.setItem(KEY,JSON.stringify(state));
+  const st=document.getElementById('saveStatus');
+  if(st)st.textContent='Salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  renderAll();
+  scheduleCloudAutoBackup();
+  queueCloudSyncPush(syncReason);
+}
+function unitId(bloco,apto){return bloco+'-'+apto}
+function getUnit(bloco,apto){const id=unitId(bloco,apto); if(!state.units[id]) state.units[id]={bloco,apto,fixo:'',app:false,bio:false,vehicles:[],people:[],vagaPropria:''}; return state.units[id]}
+function fillAptos(){updateDestinoOptions();updateUnitPickButton()}
+function goTab(id, opts={}){
+  if((id==='configuracoes'||id==='relatorios')&&!isAdmin()){openAppConfirm({title:'Área restrita',message:'Área liberada apenas para usuários Admin.',okText:'OK'});return;}
+  document.querySelectorAll('.tab,.footerNav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id
+--- hit 6 @ 703742 ---
+,msg:''};
+}
+
+/* Aplica dados importados ao state */
+function applyBackupData(parsed,file){
+  const status=document.getElementById('backupStatus');
+  let dados, tipo;
+  if(parsed._pp_backup){
+    dados=parsed.dados; tipo=parsed.tipo||'completo';
+  } else {
+    dados=parsed; tipo='completo'; // formato legado
+  }
+  if(tipo==='completo'){
+    state={...initial(),...dados};
+  } else if(tipo==='moradores'){
+    state.units={...dados.units||{}};
+  } else if(tipo==='acessos'){
+    state.accesses=[...dados.accesses||[]];
+  } else if(tipo==='logs'){
+    state.logs=[...dados.logs||[]];
+  }
+  if(!Array.isArray(state.logs))state.logs=[];
+  if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
+  state.users.forEach(u=>normalizeUserOperational(u));
+  ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
+  localStorage.setItem(KEY,JSON.stringify(state));
+  addLog('Restaurou backup','Arquivo: '+file.name+' (tipo: '+tipo+')','backup');
+  applyTheme(); renderAll(); applyPermissions();
+  const info=parsed._pp_backup?` — gerado em ${parsed.gerado_em_br}`:'';
+  if(status)status.textContent=`✅ Backup restaurado: ${file.name}${info}`;
+}
+
+function exportData(tipo='completo'){
+  const payload=buildBackupPayload(tipo);
+  const json=JSON.stringify(payload,null,2);
+  const now=new Date();
+  const dt=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const sufixo=tipo==='completo'?'':'-'+tipo;
+  const nome=`portaria-primavera${sufixo}-${dt}.json`;
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=nome; a.click();
+  URL.revokeObjectURL(url);
+  addLog('Exportou backup',`Arquivo: ${nome} | Tipo: ${tipo} | Checksum: ${payload.checksum}`,'backup');
+  persistNoRender(); renderLogs();
+  showCloudToast(`Backup exportado: ${nome}`,'ok',4000);
+  refreshBackupCenterStatus?.();
+}
+
+function restoreBackupFile(ev){
+  const file=ev.target.files?.[0]; if(!file)return;
+  const status=document.getElemen
+--- hit 7 @ 726947 ---
+false}).limit(1);
+    if(error)throw error;
+    if(!data||!data.length){setCloudStatus('☁️ Nenhum backup encontrado na nuvem.');return;}
+    const snap=data[0];
+    const payload=snap.dados||{};
+    const nextState=payload.state||payload;
+    openAppConfirm({title:'Restaurar último backup da nuvem?',message:`Será restaurado: <b>${esc(snap.descricao||'Backup')}</b><br>${esc(new Date(snap.criado_em).toLocaleString('pt-BR'))}`,okText:'Restaurar',onConfirm:()=>{
+      createLocalSnapshot('antes-restaurar-supabase',true);
+      state=nextState;
+    state.users=mergeUsersPreservingPasswords(localUsersBeforeRestore,state.users);
+      if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
+      state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
+      ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
+      localStorage.setItem(KEY,JSON.stringify(state));
+      applyTheme(); renderAll(); applyPermissions();
+      addLog('Restaurou backup da nuvem',snap.descricao||'Backup','backup');
+      setCloudStatus('☁️ Backup da nuvem restaurado com sucesso.');
+      const st=document.getElementById('backupStatus'); if(st)st.textContent='Restaurado da nuvem: '+(snap.descricao||'Backup');
+      scheduleCloudAutoBackup(false); refreshBackupCenterStatus?.();
+    }});
+  }catch(e){console.error('Erro ao restaurar da nuvem',e);setCloudStatus('☁️ Erro ao buscar/restaurar backup da nuvem.');}
+}
+
+
+/* v119 — Sincronização multi-dispositivo Supabase em tempo real com permissões preservadas
+   - Portaria: envia/recebe acessos e logs; recebe moradores/admin/agenda/configurações somente leitura.
+   - Admin: envia/recebe todos os módulos.
+   - Push após salvar, Realtime quando disponível e pull automático a cada 30s como segurança.
+*/
+function touchStateMeta(reason='alteracao'){
+  if(!state.meta||typeof state.meta!=='object')state.meta={};
+  const op=currentOperator();
+  state.meta.updatedAt=new Date().toISOString();
+  state.meta.updatedBy=op.login||'';
+  state.meta.updatedByName=op.nome||'';
+  state.meta.updatedByPerfil=op.perfil||'';
+  sta
+--- hit 8 @ 731008 ---
+eState.logs||[],x=>new Date(x?.criadoEm||0).getTime()||0,1500);
+
+  // Módulos administrativos: portaria nunca sobrepõe. Snapshot de portaria não manda autoridade sobre moradores/admin/config.
+  if(!remoteIsPortaria){
+    merged.units=remoteState.units&&typeof remoteState.units==='object'?remoteState.units:(merged.units||{});
+    merged.admin=remoteState.admin&&typeof remoteState.admin==='object'?remoteState.admin:merged.admin;
+    merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
+    merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
+    merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
+    merged.passagens=mergeById(localState.passagens||[],remoteState.passagens||[],x=>new Date(x?.createdAt||x?.data||0).getTime()||0,500);
+  }else if(localIsPortaria){
+    // Mesmo quando o último snapshot foi feito pela portaria, ela continua recebendo esses módulos do estado remoto se existirem,
+    // mas sem transformar isso em edição local; serve apenas para manter visualização consistente.
+    merged.units=remoteState.units&&typeof remoteState.units==='object'?remoteState.units:(merged.units||{});
+    merged.admin=remoteState.admin&&typeof remoteState.admin==='object'?remoteState.admin:merged.admin;
+    merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
+    merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
+    merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
+  }
+  merged.meta={...(merged.meta||{}),lastSyncMergeAt:new Date().toISOString()};
+  return merged;
+}
+function startCloudSync(){
+  if(!cloudReady||!supabaseClient)return;
+  clearInterval(syncTimer);
+  syncTimer=setInterval(()=>cloudSyncPullLatest(true),CLOUD_SYNC_INTERVAL_MS);
+  setupCloudRealtimeSync();
+  setTimeout(()=>clo
+
+===== supabaseClient =====
+--- hit 1 @ 609622 ---
+e){}
+</script>
+<script>
+const KEY='portaria_primavera_v1';
+const SUPABASE_URL='https://wfqxfgswdhnmmfjeajwn.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmcXhmZ3N3ZGhubW1mamVhanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwMzkzNjcsImV4cCI6MjA5NjYxNTM2N30.iFg7ou_Aog-zmuWtXNix0EbWIPgYdqNuNKpbCbDHCQ8';
+const CLOUD_DAILY_KEY='portaria_primavera_last_cloud_backup';
+const CLOUD_BACKUP_HOUR=2; // backup automático diário na nuvem às 02:00
+const CLOUD_BACKUP_MINUTE=0;
+const CLOUD_SYNC_INTERVAL_MS=30000; // sincronização multi-dispositivo a cada 30s
+const CLOUD_SYNC_DEBOUNCE_MS=3500;  // espera curta para agrupar alterações antes de enviar
+let supabaseClient=null;
+let cloudTimer=null;
+let cloudReady=false;
+let syncTimer=null;
+let syncPushTimer=null;
+let syncInProgress=false;
+let syncRealtimeChannel=null;
+let syncRealtimeReady=false;
+let lastRealtimeEventAt=0;
+let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||0)||0;
+let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(u
+--- hit 2 @ 658726 ---
+ed);margin-top:4px">Máx: ${ROTATION_LOGS_MAX} · Janela: ${ROTATION_LOGS_DAYS} dias</div>
+    </div>`;
+
+  if(label) label.textContent=`Última rotação: ${lastRotLabel}`;
+}
+
+/* Rotação de acessos: mantém todos "Dentro" + últimos N dias de concluídos */
+function rotateAccesses(){
+  const cutoff=Date.now()-ROTATION_ACCESSES_DAYS*86400000;
+  const antes=(state.accesses||[]).length;
+  const arquivados=(state.accesses||[]).filter(a=>{
+    if(!a.saida) return false; // sempre manter ativos
+    const ts=new Date(a.saida||a.createdAt||0).getTime();
+    return ts < cutoff;
+  });
+  if(!arquivados.length) return {removidos:0,antes};
+  // Arquivar no Supabase antes de remover (silencioso)
+  if(cloudReady&&supabaseClient&&arquivados.length){
+    const payload={tipo:'arquivo_acessos',gerado_em:new Date().toISOString(),quantidade:arquivados.length,dados:arquivados};
+    supabaseClient.from('snapshots').insert({descricao:`Arquivo acessos antigos (>${ROTATION_ACCESSES_DAYS}d) — ${arquivados.length} registros`,dados:payload}).then(({error})=>{
+      if(error)console.warn('Falha ao arquivar acessos no Supabase',error);
+    });
+  }
+  state.accesses=(state.accesses||[]).filter(a=>{
+    if(!a.saida) return true;
+    const ts=new Date(a.saida||a.createdAt||0).getTime();
+    return ts >= cutoff;
+  });
+  return {removidos:arquivados.length,antes};
+}
+
+/* Rotação de logs: cap por quantidade e por idade */
+function rotateLogs(){
+  const antes=(state.logs||[]).length;
+  const cutoff=Date.now()-ROTATION_LOGS_DAYS*86400000;
+  state.logs=(state.logs||[]).filter(l=>new Date(l.criadoEm||0).getTime()>=cutoff);
+  if(state.logs.length>ROTATION_LOGS_MAX) state.logs=state.logs.slice(0,ROTATION_LOGS_MAX);
+  return {removidos:antes-state.logs.length,antes};
+}
+
+/* Executa rotação completa */
+function runRotation(manual=false){
+  const ra=rotateAccesses();
+  const rl=rotateLogs();
+  const total=ra.removidos+rl.removidos;
+  localStorage.setItem(ROTATION_KEY,new Date().toISOString());
+  if(total>0||manual){
+    localStorage.setItem(KEY,JSON.stringify(state));
+    if(total>0) addLog('Rotação automática de dados'
+--- hit 3 @ 658891 ---
+`;
+}
+
+/* Rotação de acessos: mantém todos "Dentro" + últimos N dias de concluídos */
+function rotateAccesses(){
+  const cutoff=Date.now()-ROTATION_ACCESSES_DAYS*86400000;
+  const antes=(state.accesses||[]).length;
+  const arquivados=(state.accesses||[]).filter(a=>{
+    if(!a.saida) return false; // sempre manter ativos
+    const ts=new Date(a.saida||a.createdAt||0).getTime();
+    return ts < cutoff;
+  });
+  if(!arquivados.length) return {removidos:0,antes};
+  // Arquivar no Supabase antes de remover (silencioso)
+  if(cloudReady&&supabaseClient&&arquivados.length){
+    const payload={tipo:'arquivo_acessos',gerado_em:new Date().toISOString(),quantidade:arquivados.length,dados:arquivados};
+    supabaseClient.from('snapshots').insert({descricao:`Arquivo acessos antigos (>${ROTATION_ACCESSES_DAYS}d) — ${arquivados.length} registros`,dados:payload}).then(({error})=>{
+      if(error)console.warn('Falha ao arquivar acessos no Supabase',error);
+    });
+  }
+  state.accesses=(state.accesses||[]).filter(a=>{
+    if(!a.saida) return true;
+    const ts=new Date(a.saida||a.createdAt||0).getTime();
+    return ts >= cutoff;
+  });
+  return {removidos:arquivados.length,antes};
+}
+
+/* Rotação de logs: cap por quantidade e por idade */
+function rotateLogs(){
+  const antes=(state.logs||[]).length;
+  const cutoff=Date.now()-ROTATION_LOGS_DAYS*86400000;
+  state.logs=(state.logs||[]).filter(l=>new Date(l.criadoEm||0).getTime()>=cutoff);
+  if(state.logs.length>ROTATION_LOGS_MAX) state.logs=state.logs.slice(0,ROTATION_LOGS_MAX);
+  return {removidos:antes-state.logs.length,antes};
+}
+
+/* Executa rotação completa */
+function runRotation(manual=false){
+  const ra=rotateAccesses();
+  const rl=rotateLogs();
+  const total=ra.removidos+rl.removidos;
+  localStorage.setItem(ROTATION_KEY,new Date().toISOString());
+  if(total>0||manual){
+    localStorage.setItem(KEY,JSON.stringify(state));
+    if(total>0) addLog('Rotação automática de dados',
+      `Acessos removidos: ${ra.removidos} (>${ROTATION_ACCESSES_DAYS}d) · Logs removidos: ${rl.removidos} (>${ROTATION_LOGS_DAYS}d ou >${ROTATION_LOGS_MAX})`,
+    
+--- hit 4 @ 722251 ---
+digit'})}
+function cloudSnapshotPayload(reason='auto'){
+  return {
+    app:'Portaria Primavera',
+    version:'v150',
+    reason,
+    saved_at:new Date().toISOString(),
+    source:reason==='sync'?'pwa-sync':'pwa-localstorage',
+    syncMeta:{deviceId:localDeviceId,role:(currentOperator()?.perfil||''),user:(currentOperator()?.login||''),syncAt:new Date().toISOString()},
+    state:(()=>{const safe=JSON.parse(JSON.stringify(state||{}));if(Array.isArray(safe.users))safe.users=safe.users.map(({senha,...u})=>u);return safe;})()
+  };
+}
+function initCloud(){
+  try{
+    if(!window.supabase){setCloudStatus('☁️ Nuvem indisponível: biblioteca Supabase não carregou. O app segue local.');return false;}
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    cloudReady=true;
+    scheduleCloudAutoBackup(true);
+    startCloudSync();
+    return true;
+  }catch(e){console.warn('Falha Supabase',e);setCloudStatus('☁️ Falha ao conectar Supabase. O app segue local.');return false;}
+}
+function scheduleCloudAutoBackup(checkCatchUp=false){
+  if(!cloudReady||!supabaseClient)return;
+  clearTimeout(cloudTimer);
+  const today=cloudTodayKey();
+  const targetToday=cloudBackupTargetToday();
+  const now=new Date();
+  const last=localStorage.getItem(CLOUD_DAILY_KEY)||'';
+
+  // Se o app abriu depois das 02:00 e ainda não fez backup hoje, faz um catch-up rápido.
+  if(checkCatchUp && last!==today && now>=targetToday){
+    setCloudStatus('☁️ Supabase conectado. Backup diário pendente: enviando em instantes...');
+    cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),2500);
+    return;
+  }
+
+  const next=cloudNextTarget();
+  const delay=Math.max(1000,next.getTime()-Date.now());
+  setCloudStatus(`☁️ Supabase conectado. Backup automático diário agendado para ${cloudTargetLabel(next)}.`);
+  cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),delay);
+}
+async function cloudSaveDailyIfNeeded(){
+  if(!cloudReady||!supabaseClient)return;
+  const today=cloudTodayKey();
+  if(localStorage.getItem(CLOUD_DAILY_KEY)===today){scheduleCloudAutoBackup(false);return;}
+  const ok=await cloudSaveNow
+--- hit 5 @ 722626 ---
+tate:(()=>{const safe=JSON.parse(JSON.stringify(state||{}));if(Array.isArray(safe.users))safe.users=safe.users.map(({senha,...u})=>u);return safe;})()
+  };
+}
+function initCloud(){
+  try{
+    if(!window.supabase){setCloudStatus('☁️ Nuvem indisponível: biblioteca Supabase não carregou. O app segue local.');return false;}
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    cloudReady=true;
+    scheduleCloudAutoBackup(true);
+    startCloudSync();
+    return true;
+  }catch(e){console.warn('Falha Supabase',e);setCloudStatus('☁️ Falha ao conectar Supabase. O app segue local.');return false;}
+}
+function scheduleCloudAutoBackup(checkCatchUp=false){
+  if(!cloudReady||!supabaseClient)return;
+  clearTimeout(cloudTimer);
+  const today=cloudTodayKey();
+  const targetToday=cloudBackupTargetToday();
+  const now=new Date();
+  const last=localStorage.getItem(CLOUD_DAILY_KEY)||'';
+
+  // Se o app abriu depois das 02:00 e ainda não fez backup hoje, faz um catch-up rápido.
+  if(checkCatchUp && last!==today && now>=targetToday){
+    setCloudStatus('☁️ Supabase conectado. Backup diário pendente: enviando em instantes...');
+    cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),2500);
+    return;
+  }
+
+  const next=cloudNextTarget();
+  const delay=Math.max(1000,next.getTime()-Date.now());
+  setCloudStatus(`☁️ Supabase conectado. Backup automático diário agendado para ${cloudTargetLabel(next)}.`);
+  cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),delay);
+}
+async function cloudSaveDailyIfNeeded(){
+  if(!cloudReady||!supabaseClient)return;
+  const today=cloudTodayKey();
+  if(localStorage.getItem(CLOUD_DAILY_KEY)===today){scheduleCloudAutoBackup(false);return;}
+  const ok=await cloudSaveNow('auto-diario',true);
+  if(ok)localStorage.setItem(CLOUD_DAILY_KEY,today);
+  scheduleCloudAutoBackup(false);
+}
+/* v107 — Toast de feedback do backup cloud */
+let _cloudToastTimer=null;
+function showCloudToast(msg,type='ok',duration=5000){
+  const el=document.getElementById('cloudToast');
+  const icon=document.getElementById('cloudToastIcon');
+  const txt=document.getElemen
+--- hit 6 @ 723476 ---
+;
+  const last=localStorage.getItem(CLOUD_DAILY_KEY)||'';
+
+  // Se o app abriu depois das 02:00 e ainda não fez backup hoje, faz um catch-up rápido.
+  if(checkCatchUp && last!==today && now>=targetToday){
+    setCloudStatus('☁️ Supabase conectado. Backup diário pendente: enviando em instantes...');
+    cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),2500);
+    return;
+  }
+
+  const next=cloudNextTarget();
+  const delay=Math.max(1000,next.getTime()-Date.now());
+  setCloudStatus(`☁️ Supabase conectado. Backup automático diário agendado para ${cloudTargetLabel(next)}.`);
+  cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),delay);
+}
+async function cloudSaveDailyIfNeeded(){
+  if(!cloudReady||!supabaseClient)return;
+  const today=cloudTodayKey();
+  if(localStorage.getItem(CLOUD_DAILY_KEY)===today){scheduleCloudAutoBackup(false);return;}
+  const ok=await cloudSaveNow('auto-diario',true);
+  if(ok)localStorage.setItem(CLOUD_DAILY_KEY,today);
+  scheduleCloudAutoBackup(false);
+}
+/* v107 — Toast de feedback do backup cloud */
+let _cloudToastTimer=null;
+function showCloudToast(msg,type='ok',duration=5000){
+  const el=document.getElementById('cloudToast');
+  const icon=document.getElementById('cloudToastIcon');
+  const txt=document.getElementById('cloudToastMsg');
+  if(!el||!icon||!txt)return;
+  clearTimeout(_cloudToastTimer);
+  icon.textContent=type==='ok'?'✅':'❌';
+  txt.textContent=msg;
+  el.className='show '+(type==='ok'?'ok':'err');
+  _cloudToastTimer=setTimeout(()=>{el.className=el.className.replace('show','').trim()},duration);
+}
+
+async function cloudSaveNow(reason='manual',silent=false){
+  if(!cloudReady&&!initCloud())return false;
+  try{
+    if(!silent)setCloudStatus('☁️ Enviando backup para a nuvem...');
+    const isAuto=reason==='auto-diario';
+    const desc=(isAuto?'Auto diário 02:00 ':'Manual ')+new Date().toLocaleString('pt-BR');
+    addLog(isAuto?'Backup automático diário na nuvem':'Backup manual na nuvem',desc,'backup');
+    const {error}=await supabaseClient.from('snapshots').insert({descricao:desc,dados:cloudSnapshotPayload(reason)});
+    if(error)throw erro
+--- hit 7 @ 724759 ---
+|!icon||!txt)return;
+  clearTimeout(_cloudToastTimer);
+  icon.textContent=type==='ok'?'✅':'❌';
+  txt.textContent=msg;
+  el.className='show '+(type==='ok'?'ok':'err');
+  _cloudToastTimer=setTimeout(()=>{el.className=el.className.replace('show','').trim()},duration);
+}
+
+async function cloudSaveNow(reason='manual',silent=false){
+  if(!cloudReady&&!initCloud())return false;
+  try{
+    if(!silent)setCloudStatus('☁️ Enviando backup para a nuvem...');
+    const isAuto=reason==='auto-diario';
+    const desc=(isAuto?'Auto diário 02:00 ':'Manual ')+new Date().toLocaleString('pt-BR');
+    addLog(isAuto?'Backup automático diário na nuvem':'Backup manual na nuvem',desc,'backup');
+    const {error}=await supabaseClient.from('snapshots').insert({descricao:desc,dados:cloudSnapshotPayload(reason)});
+    if(error)throw error;
+    const msg=(isAuto?'☁️ Backup automático diário salvo às ':'☁️ Backup manual salvo às ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    setCloudStatus(msg+(isAuto?' • próximo às 02:00.':''));
+    const st=document.getElementById('backupStatus'); if(st&&!silent)st.textContent='Backup enviado para Supabase com sucesso.';
+    showCloudToast((isAuto?'Backup automático salvo às ':'Backup manual salvo às ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),'ok',isAuto?4000:6000);
+    if(!isAuto)scheduleCloudAutoBackup(false);
+    return true;
+  }catch(e){console.error('Erro ao salvar na nuvem',e);setCloudStatus('☁️ Erro ao salvar na nuvem. Dados locais preservados.');showCloudToast('Erro ao salvar backup na nuvem. Dados locais preservados.','err',8000);scheduleCloudAutoBackup(false);return false;}
+}
+async function cloudRestoreLatest(){
+  const localUsersBeforeRestore=Array.isArray(state?.users)?state.users.map(u=>({...u})):[];
+  if(!isAdmin()){openAppConfirm({title:'Área restrita',message:'Restauração da nuvem é liberada apenas para Admin.',okText:'OK'});return;}
+  if(!cloudReady&&!initCloud())return;
+  try{
+    setCloudStatus('☁️ Buscando último backup na nuvem...');
+    const {data,error}=await supabaseClien
+--- hit 8 @ 726146 ---
+oBackup(false);
+    return true;
+  }catch(e){console.error('Erro ao salvar na nuvem',e);setCloudStatus('☁️ Erro ao salvar na nuvem. Dados locais preservados.');showCloudToast('Erro ao salvar backup na nuvem. Dados locais preservados.','err',8000);scheduleCloudAutoBackup(false);return false;}
+}
+async function cloudRestoreLatest(){
+  const localUsersBeforeRestore=Array.isArray(state?.users)?state.users.map(u=>({...u})):[];
+  if(!isAdmin()){openAppConfirm({title:'Área restrita',message:'Restauração da nuvem é liberada apenas para Admin.',okText:'OK'});return;}
+  if(!cloudReady&&!initCloud())return;
+  try{
+    setCloudStatus('☁️ Buscando último backup na nuvem...');
+    const {data,error}=await supabaseClient.from('snapshots').select('id,descricao,dados,criado_em').order('criado_em',{ascending:false}).limit(1);
+    if(error)throw error;
+    if(!data||!data.length){setCloudStatus('☁️ Nenhum backup encontrado na nuvem.');return;}
+    const snap=data[0];
+    const payload=snap.dados||{};
+    const nextState=payload.state||payload;
+    openAppConfirm({title:'Restaurar último backup da nuvem?',message:`Será restaurado: <b>${esc(snap.descricao||'Backup')}</b><br>${esc(new Date(snap.criado_em).toLocaleString('pt-BR'))}`,okText:'Restaurar',onConfirm:()=>{
+      createLocalSnapshot('antes-restaurar-supabase',true);
+      state=nextState;
+    state.users=mergeUsersPreservingPasswords(localUsersBeforeRestore,state.users);
+      if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
+      state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
+      ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
+      localStorage.setItem(KEY,JSON.stringify(state));
+      applyTheme(); renderAll(); applyPermissions();
+      addLog('Restaurou backup da nuvem',snap.descricao||'Backup','backup');
+      setCloudStatus('☁️ Backup da nuvem restaurado com sucesso.');
+      const st=document.getElementById('backupStatus'); if(st)st.textContent='Restaurado da nuvem: '+(snap.descricao||'Backup');
+      scheduleCloudAutoBackup(false); refreshBackupCen
+
+===== createClient =====
+--- hit 1 @ 722282 ---
+tPayload(reason='auto'){
+  return {
+    app:'Portaria Primavera',
+    version:'v150',
+    reason,
+    saved_at:new Date().toISOString(),
+    source:reason==='sync'?'pwa-sync':'pwa-localstorage',
+    syncMeta:{deviceId:localDeviceId,role:(currentOperator()?.perfil||''),user:(currentOperator()?.login||''),syncAt:new Date().toISOString()},
+    state:(()=>{const safe=JSON.parse(JSON.stringify(state||{}));if(Array.isArray(safe.users))safe.users=safe.users.map(({senha,...u})=>u);return safe;})()
+  };
+}
+function initCloud(){
+  try{
+    if(!window.supabase){setCloudStatus('☁️ Nuvem indisponível: biblioteca Supabase não carregou. O app segue local.');return false;}
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    cloudReady=true;
+    scheduleCloudAutoBackup(true);
+    startCloudSync();
+    return true;
+  }catch(e){console.warn('Falha Supabase',e);setCloudStatus('☁️ Falha ao conectar Supabase. O app segue local.');return false;}
+}
+function scheduleCloudAutoBackup(checkCatchUp=false){
+  if(!cloudReady||!supabaseClient)return;
+  clearTimeout(cloudTimer);
+  const today=cloudTodayKey();
+  const targetToday=cloudBackupTargetToday();
+  const now=new Date();
+  const last=localStorage.getItem(CLOUD_DAILY_KEY)||'';
+
+  // Se o app abriu depois das 02:00 e ainda não fez backup hoje, faz um catch-up rápido.
+  if(checkCatchUp && last!==today && now>=targetToday){
+    setCloudStatus('☁️ Supabase conectado. Backup diário pendente: enviando em instantes...');
+    cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),2500);
+    return;
+  }
+
+  const next=cloudNextTarget();
+  const delay=Math.max(1000,next.getTime()-Date.now());
+  setCloudStatus(`☁️ Supabase conectado. Backup automático diário agendado para ${cloudTargetLabel(next)}.`);
+  cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),delay);
+}
+async function cloudSaveDailyIfNeeded(){
+  if(!cloudReady||!supabaseClient)return;
+  const today=cloudTodayKey();
+  if(localStorage.getItem(CLOUD_DAILY_KEY)===today){scheduleCloudAutoBackup(false);return;}
+  const ok=await cloudSaveNow('auto-diario',true);
+  if(ok)l
+
+===== resetPasswordForEmail =====
+(sem ocorrencias)
+
+===== users= =====
+--- hit 1 @ 612352 ---
+t l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data.units&&typeof data.units==='object'?data.units:{};
+    data.settings={...base.settings,...(data.settings||{})};
+    data.operational=Array.isArray(data.operational)?data.operational:[];
+    data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
+    data.logs=Array.isArray(data.logs)?data.logs:[];
+    data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
+    data.users.forEach(u=>normalizeUserOperational(u));
+    return data;
+  }catch(e){console.warn('Falha ao carregar base local',e);return initial()}
+}
+function save(syncReason='alteracao'){
+  normalizeAccesses();
+  touchStateMeta(syncReason);
+  localStorage.setItem(KEY,JSON.stringify(state));
+  const st=document.getElementById('saveStatus');
+  if(st)st.textContent='Salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  renderAll();
+  scheduleCloudAutoBackup();
+  queueCloudSyncPush(syncReason);
+}
+function unitId(bloco,apto){return bloco+'-'+apto}
+function getUnit(bloco,apto){const id=unitId(bloco,apto); if(!state.units[id]) state.units[id]={bloco,apto,fixo:'',app:false,bio:false,vehicles:[],people:[],vagaPropria:''}; return state.units[id]}
+function fillAptos(){updateDestinoOptions();updateUnitPickButton()}
+function goTab(id, opts={}){
+  if((id==='configuracoes'||id==='relatorios')&&!isAdmin()){openAppConfirm({title:'Área restrita',message:'Área liberada apenas para usuários Admin.',okText:'OK'});return;}
+  document.querySelectorAll('.tab,.footerNav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+ 
+--- hit 2 @ 617899 ---
+window.matchMedia&&window.matchMedia('(max-width:760px)').matches)return;
+  document.querySelectorAll('.adminAccordion[data-accordion-key]').forEach(card=>{
+    card.classList.remove('collapsed');
+    card.classList.add('open');
+  });
+  saveAdminAccordionState();
+  updateAdminAccordionSummaries?.();
+}
+function collapseAllAdminAccordions(){
+  if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)return;
+  document.querySelectorAll('.adminAccordion[data-accordion-key]').forEach(card=>{
+    card.classList.add('collapsed');
+    card.classList.remove('open');
+  });
+  saveAdminAccordionState();
+  updateAdminAccordionSummaries?.();
+}
+function updateAdminAccordionSummaries(){
+  const users=state.users||[];
+  const active=users.filter(u=>u.ativo!==false).length;
+  const admins=users.filter(u=>u.perfil==='admin'&&u.ativo!==false).length;
+  const portaria=users.filter(u=>u.perfil==='portaria'&&u.ativo!==false).length;
+  const zelador=users.filter(u=>u.perfil==='zelador'&&u.ativo!==false).length;
+  const us=document.getElementById('usersAccordionSummary');
+  if(us)us.innerHTML=`<b>${active}</b> ativos • <b>${admins}</b> admin • <b>${portaria}</b> portaria • <b>${zelador}</b> zelador`;
+  const logs=state.logs||[];
+  const last=logs[0];
+  const hs=document.getElementById('historyAccordionSummary');
+  if(hs)hs.innerHTML=last?`Último registro: <b>${esc(last.usuarioNome||last.usuario||'Sistema')}</b> — ${esc(last.acao||'Ação')} • ${esc(logWhenShort?.(last.criadoEm)||'')}`:'Nenhum registro ainda.';
+  const ls=document.getElementById('logsAccordionSummary');
+  if(ls)ls.innerHTML=logs.length?`<b>${logs.length}</b> registros técnicos • último em ${esc(logWhenShort?.(last?.criadoEm)||'—')}`:'Nenhum log técnico registrado.';
+}
+
+function renderOperationalIdentityPanel(){
+  const box=document.getElementById('operatorIdentityPanel');
+  if(!box)return;
+  const u=getCurrentUser?.();
+  const active=(state.users||[]).filter(x=>x.ativo!==false);
+  if(!u){box.innerHTML='<div class="mini">Nenhum operador conectado.</div>';return;}
+  const options=active.map(x=>`<option value="${esc
+--- hit 3 @ 620085 ---
+rProfileLabel(x))}</option>`).join('');
+  box.innerHTML=`<div class="operatorIdentityMain">
+    <div class="operatorAvatar">🛡️</div>
+    <div class="operatorIdentityText">
+      <b>Operador atual: ${esc(u.nome||u.login)}</b>
+      <span>${esc(userProfileLabel(u))} • ${esc(userTurnoLabel(u.turno||''))} • ${esc(u.login||'')}</span>
+    </div>
+  </div>
+  <div class="operatorQuickSwitch">
+    <label>Troca rápida para teste<select id="quickOperatorSelect">${options}</select></label>
+    <button class="btn ghost" onclick="quickSwitchOperator()">Trocar</button>
+  </div>`;
+}
+function renderUserOperationalStats(){
+  const box=document.getElementById('userOperationalStats');
+  if(!box)return;
+  const users=state.users||[];
+  const active=users.filter(u=>u.ativo!==false).length;
+  const admins=users.filter(u=>u.perfil==='admin'&&u.ativo!==false).length;
+  const portaria=users.filter(u=>u.perfil==='portaria'&&u.ativo!==false).length;
+  const zelador=users.filter(u=>u.perfil==='zelador'&&u.ativo!==false).length;
+  box.innerHTML=`<div class="userOperationalStat"><b>${active}</b><span>Ativos</span></div>
+    <div class="userOperationalStat"><b>${admins}</b><span>Admin</span></div>
+    <div class="userOperationalStat"><b>${portaria}</b><span>Portaria</span></div>
+    <div class="userOperationalStat"><b>${zelador}</b><span>Zelador</span></div>`;
+}
+function quickSwitchOperator(){
+  if(!isAdmin())return;
+  const login=val('quickOperatorSelect');
+  const u=(state.users||[]).find(x=>x.login===login&&x.ativo!==false);
+  if(!u)return;
+  const before=getCurrentUser();
+  sessionStorage.setItem('pp_current_user',u.login);
+  u.lastAccessAt=new Date().toISOString();
+  addLog('Troca rápida de operador',`${before?(before.nome||before.login):'—'} → ${u.nome||u.login}`,'usuario');
+  localStorage.setItem(KEY,JSON.stringify(state));
+  applyPermissions();
+  renderAll();
+}
+
+function currentOperator(){const u=getCurrentUser&&getCurrentUser(); return u?{login:u.login,nome:u.nome||u.login,perfil:u.perfil,turno:u.turno||'',perfilLabel:userProfileLabel(u)}:{login:'',nome:'Sem usuário',perfil:'',turno:'',
+--- hit 4 @ 703736 ---
+:false,msg:''};
+}
+
+/* Aplica dados importados ao state */
+function applyBackupData(parsed,file){
+  const status=document.getElementById('backupStatus');
+  let dados, tipo;
+  if(parsed._pp_backup){
+    dados=parsed.dados; tipo=parsed.tipo||'completo';
+  } else {
+    dados=parsed; tipo='completo'; // formato legado
+  }
+  if(tipo==='completo'){
+    state={...initial(),...dados};
+  } else if(tipo==='moradores'){
+    state.units={...dados.units||{}};
+  } else if(tipo==='acessos'){
+    state.accesses=[...dados.accesses||[]];
+  } else if(tipo==='logs'){
+    state.logs=[...dados.logs||[]];
+  }
+  if(!Array.isArray(state.logs))state.logs=[];
+  if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
+  state.users.forEach(u=>normalizeUserOperational(u));
+  ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
+  localStorage.setItem(KEY,JSON.stringify(state));
+  addLog('Restaurou backup','Arquivo: '+file.name+' (tipo: '+tipo+')','backup');
+  applyTheme(); renderAll(); applyPermissions();
+  const info=parsed._pp_backup?` — gerado em ${parsed.gerado_em_br}`:'';
+  if(status)status.textContent=`✅ Backup restaurado: ${file.name}${info}`;
+}
+
+function exportData(tipo='completo'){
+  const payload=buildBackupPayload(tipo);
+  const json=JSON.stringify(payload,null,2);
+  const now=new Date();
+  const dt=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const sufixo=tipo==='completo'?'':'-'+tipo;
+  const nome=`portaria-primavera${sufixo}-${dt}.json`;
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=nome; a.click();
+  URL.revokeObjectURL(url);
+  addLog('Exportou backup',`Arquivo: ${nome} | Tipo: ${tipo} | Checksum: ${payload.checksum}`,'backup');
+  persistNoRender(); renderLogs();
+  showCloudToast(`Backup exportado: ${nome}`,'ok',4000);
+  refreshBackupCenterStatus?.();
+}
+
+function restoreBackupFile(ev){
+  const file=ev.target.files?.[0]; if(!file)return;
+  const status=document.get
+--- hit 5 @ 722020 ---
+extTarget(){const now=new Date(); const target=cloudBackupTargetToday(); if(now>=target)target.setDate(target.getDate()+1); return target;}
+function cloudTargetLabel(d){return d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
+function cloudSnapshotPayload(reason='auto'){
+  return {
+    app:'Portaria Primavera',
+    version:'v150',
+    reason,
+    saved_at:new Date().toISOString(),
+    source:reason==='sync'?'pwa-sync':'pwa-localstorage',
+    syncMeta:{deviceId:localDeviceId,role:(currentOperator()?.perfil||''),user:(currentOperator()?.login||''),syncAt:new Date().toISOString()},
+    state:(()=>{const safe=JSON.parse(JSON.stringify(state||{}));if(Array.isArray(safe.users))safe.users=safe.users.map(({senha,...u})=>u);return safe;})()
+  };
+}
+function initCloud(){
+  try{
+    if(!window.supabase){setCloudStatus('☁️ Nuvem indisponível: biblioteca Supabase não carregou. O app segue local.');return false;}
+    supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    cloudReady=true;
+    scheduleCloudAutoBackup(true);
+    startCloudSync();
+    return true;
+  }catch(e){console.warn('Falha Supabase',e);setCloudStatus('☁️ Falha ao conectar Supabase. O app segue local.');return false;}
+}
+function scheduleCloudAutoBackup(checkCatchUp=false){
+  if(!cloudReady||!supabaseClient)return;
+  clearTimeout(cloudTimer);
+  const today=cloudTodayKey();
+  const targetToday=cloudBackupTargetToday();
+  const now=new Date();
+  const last=localStorage.getItem(CLOUD_DAILY_KEY)||'';
+
+  // Se o app abriu depois das 02:00 e ainda não fez backup hoje, faz um catch-up rápido.
+  if(checkCatchUp && last!==today && now>=targetToday){
+    setCloudStatus('☁️ Supabase conectado. Backup diário pendente: enviando em instantes...');
+    cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),2500);
+    return;
+  }
+
+  const next=cloudNextTarget();
+  const delay=Math.max(1000,next.getTime()-Date.now());
+  setCloudStatus(`☁️ Supabase conectado. Backup automático diário agendado para ${cloudTargetLabel(next)}.`);
+  cloudTimer=setTimeout(()=>cloudSaveDailyIfNeeded(),delay);
+}
+asyn
+--- hit 6 @ 726803 ---
+a nuvem...');
+    const {data,error}=await supabaseClient.from('snapshots').select('id,descricao,dados,criado_em').order('criado_em',{ascending:false}).limit(1);
+    if(error)throw error;
+    if(!data||!data.length){setCloudStatus('☁️ Nenhum backup encontrado na nuvem.');return;}
+    const snap=data[0];
+    const payload=snap.dados||{};
+    const nextState=payload.state||payload;
+    openAppConfirm({title:'Restaurar último backup da nuvem?',message:`Será restaurado: <b>${esc(snap.descricao||'Backup')}</b><br>${esc(new Date(snap.criado_em).toLocaleString('pt-BR'))}`,okText:'Restaurar',onConfirm:()=>{
+      createLocalSnapshot('antes-restaurar-supabase',true);
+      state=nextState;
+    state.users=mergeUsersPreservingPasswords(localUsersBeforeRestore,state.users);
+      if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
+      state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
+      ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
+      localStorage.setItem(KEY,JSON.stringify(state));
+      applyTheme(); renderAll(); applyPermissions();
+      addLog('Restaurou backup da nuvem',snap.descricao||'Backup','backup');
+      setCloudStatus('☁️ Backup da nuvem restaurado com sucesso.');
+      const st=document.getElementById('backupStatus'); if(st)st.textContent='Restaurado da nuvem: '+(snap.descricao||'Backup');
+      scheduleCloudAutoBackup(false); refreshBackupCenterStatus?.();
+    }});
+  }catch(e){console.error('Erro ao restaurar da nuvem',e);setCloudStatus('☁️ Erro ao buscar/restaurar backup da nuvem.');}
+}
+
+
+/* v119 — Sincronização multi-dispositivo Supabase em tempo real com permissões preservadas
+   - Portaria: envia/recebe acessos e logs; recebe moradores/admin/agenda/configurações somente leitura.
+   - Admin: envia/recebe todos os módulos.
+   - Push após salvar, Realtime quando disponível e pull automático a cada 30s como segurança.
+*/
+function touchStateMeta(reason='alteracao'){
+  if(!state.meta||typeof state.meta!=='object')state.meta={};
+  const op=currentOperator();
+  state.meta.updatedAt=new Date
+--- hit 7 @ 726941 ---
+nding:false}).limit(1);
+    if(error)throw error;
+    if(!data||!data.length){setCloudStatus('☁️ Nenhum backup encontrado na nuvem.');return;}
+    const snap=data[0];
+    const payload=snap.dados||{};
+    const nextState=payload.state||payload;
+    openAppConfirm({title:'Restaurar último backup da nuvem?',message:`Será restaurado: <b>${esc(snap.descricao||'Backup')}</b><br>${esc(new Date(snap.criado_em).toLocaleString('pt-BR'))}`,okText:'Restaurar',onConfirm:()=>{
+      createLocalSnapshot('antes-restaurar-supabase',true);
+      state=nextState;
+    state.users=mergeUsersPreservingPasswords(localUsersBeforeRestore,state.users);
+      if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
+      state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
+      ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
+      localStorage.setItem(KEY,JSON.stringify(state));
+      applyTheme(); renderAll(); applyPermissions();
+      addLog('Restaurou backup da nuvem',snap.descricao||'Backup','backup');
+      setCloudStatus('☁️ Backup da nuvem restaurado com sucesso.');
+      const st=document.getElementById('backupStatus'); if(st)st.textContent='Restaurado da nuvem: '+(snap.descricao||'Backup');
+      scheduleCloudAutoBackup(false); refreshBackupCenterStatus?.();
+    }});
+  }catch(e){console.error('Erro ao restaurar da nuvem',e);setCloudStatus('☁️ Erro ao buscar/restaurar backup da nuvem.');}
+}
+
+
+/* v119 — Sincronização multi-dispositivo Supabase em tempo real com permissões preservadas
+   - Portaria: envia/recebe acessos e logs; recebe moradores/admin/agenda/configurações somente leitura.
+   - Admin: envia/recebe todos os módulos.
+   - Push após salvar, Realtime quando disponível e pull automático a cada 30s como segurança.
+*/
+function touchStateMeta(reason='alteracao'){
+  if(!state.meta||typeof state.meta!=='object')state.meta={};
+  const op=currentOperator();
+  state.meta.updatedAt=new Date().toISOString();
+  state.meta.updatedBy=op.login||'';
+  state.meta.updatedByName=op.nome||'';
+  state.meta.updatedByPerfil=op.perfil||'';
+--- hit 8 @ 730862 ---
+2500).filter(a=>!deletedIds.has(a.id));
+
+  // Logs: todos podem gerar; admin visualiza completo.
+  merged.logs=mergeById(localState.logs||[],remoteState.logs||[],x=>new Date(x?.criadoEm||0).getTime()||0,1500);
+
+  // Módulos administrativos: portaria nunca sobrepõe. Snapshot de portaria não manda autoridade sobre moradores/admin/config.
+  if(!remoteIsPortaria){
+    merged.units=remoteState.units&&typeof remoteState.units==='object'?remoteState.units:(merged.units||{});
+    merged.admin=remoteState.admin&&typeof remoteState.admin==='object'?remoteState.admin:merged.admin;
+    merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
+    merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
+    merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
+    merged.passagens=mergeById(localState.passagens||[],remoteState.passagens||[],x=>new Date(x?.createdAt||x?.data||0).getTime()||0,500);
+  }else if(localIsPortaria){
+    // Mesmo quando o último snapshot foi feito pela portaria, ela continua recebendo esses módulos do estado remoto se existirem,
+    // mas sem transformar isso em edição local; serve apenas para manter visualização consistente.
+    merged.units=remoteState.units&&typeof remoteState.units==='object'?remoteState.units:(merged.units||{});
+    merged.admin=remoteState.admin&&typeof remoteState.admin==='object'?remoteState.admin:merged.admin;
+    merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
+    merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
+    merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
+  }
+  merged.meta={...(merged.meta||{}),lastSyncMergeAt:new Date().toISOString()};
+  return merged;
+}
+function startCloudSync(){
+  if(!cloudReady||!supabaseClient)return;
+  clearIn
+
+===== perfil =====
+--- hit 1 @ 249750 ---
+:20px!important;
+  font-weight:900!important;
+  background:linear-gradient(145deg,#0f1928,#15243a)!important;
+  color:#edf2f7!important;
+  border:1px solid rgba(185,199,219,.24)!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.14)!important;
+}
+.commHeaderActions .close:hover{
+  border-color:rgba(200,162,74,.58)!important;
+  background:linear-gradient(145deg,#111f34,#182940)!important;
+  color:#f3d27a!important;
+  transform:translateY(-1px)!important;
+}
+.commArchiveBtn{
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  padding:0!important;
+  line-height:1!important;
+  font-size:17px!important;
+}
+.commHeaderActions{
+  gap:9px!important;
+}
+
+
+/* v137.16 — Segurança de perfil: Arquivo e Arquivar somente Admin */
+body.role-portaria .commArchiveWrap,
+body.role-portaria .commArchiveBtn,
+body.role-portaria .commMenu .adminArchiveAction{
+  display:none!important;
+}
+body:not(.role-admin) .commArchiveWrap,
+body:not(.role-admin) .commArchiveBtn,
+body:not(.role-admin) .commMenu .adminArchiveAction{
+  display:none!important;
+}
+
+
+/* v137.17 — Insight pós-publicação estilo Gmail */
+.commPublishInsight{
+  position:fixed!important;
+  left:50%!important;
+  bottom:38px!important;
+  transform:translateX(-50%) translateY(14px)!important;
+  z-index:99999!important;
+  min-width:min(520px,calc(100vw - 28px))!important;
+  max-width:calc(100vw - 28px)!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  padding:12px 13px 12px 15px!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#0f1928,#15243a)!important;
+  border:1px solid rgba(200,162,74,.36)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.40)!important;
+  color:#edf2f7!important;
+  font-family:'Merriweather',Georgia,'Times New Roman',serif!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+.commPublishInsight.show{
+  display:flex!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  animation:commInsightIn .18s ease-out forwards!important;
+}
+@keyframes commInsightIn{
+
+--- hit 2 @ 346833 ---
+p:4px;font-size:10px;line-height:1.35;color:rgba(255,255,255,.67);font-weight:400}
+  .mobileHistoryShortcutArrow{font-size:28px;line-height:1;color:#f3d27a;text-align:right}
+}
+body.theme-light .mobileHistoryShortcutBtn{background:linear-gradient(145deg,#0d1b2a,#17314d)!important;color:#fff!important}
+body.theme-dark .mobileHistoryShortcutBtn{border-color:rgba(214,178,95,.42)!important}
+</style>
+</head>
+<body class="splashing">
+
+  <div class="modal center" id="commModal">
+    <div class="sheet commSheet">
+      <div class="sheetHead">
+        <div>
+          <h2>Central Inteligente de Comunicados</h2>
+          <p class="mini">Push LAB — avisos operacionais com leitura por usuário, equipe ou perfil.</p>
+        </div>
+        <div class="commHeaderActions">
+          <div class="commScheduleWrap">
+            <button class="commScheduleBtn" id="commScheduleBtn" onclick="event.stopPropagation();toggleCommunicationsSchedule()" title="Comunicados programados">🕒<span class="scheduleCount" id="commScheduleCount">0</span></button>
+            <div class="commSchedulePopover" id="commSchedulePopover" onclick="event.stopPropagation()"></div>
+          </div>
+          <div class="commArchiveWrap">
+            <button class="commArchiveBtn" id="commArchiveBtn" onclick="event.stopPropagation();toggleCommunicationsArchive()" title="Arquivo de comunicados">🗂️<span class="archiveCount" id="commArchiveCount">0</span></button>
+            <div class="commArchivePopover" id="commArchivePopover" onclick="event.stopPropagation()"></div>
+          </div>
+          <button class="close" onclick="closeCommunicationsCenter()">×</button>
+        </div>
+      </div>
+      <div class="commHero">
+        <b>Comunicação operacional sem depender da memória.</b>
+        <p>Use para portão, abastecimento, dedetização, manutenção, avisos de turno e qualquer orientação que a portaria precise ler e confirmar ciência.</p>
+      </div>
+      <div class="commGrid">
+        <div class="commComposer adminOnly">
+          <h3>Novo comunicado</h3>
+          <div class="commFormGrid">
+            <div cla
+--- hit 3 @ 491750 ---
+0TOPIuKVfzXLoJA0ACfqcKzOPcBwUp1xiLfF0/97rnP+VanOzvUPFihrPIm2oaYVPM6jhpsg8KLbSjU9gieSS6BArxjVmZUVdsU05AVbDEpEfU1uMk2h+BSSVnmyjzVj0g8FmFvEqPu8+XECaTpfHbms7cECIhK8/24R0LzokFBfBqAnDp8UhSOtBmbWUR15N5V5rQIceYDfSlpvfgncQH9yU3gsSZyvoKnirwdhaBiou+1oSccK4VV72twyatFTapOxdCiy2+ZEYkkKiwp2kvTLzPFHPRPEEWVUlYMLZAS5nM5u95wkoK0u04R44rnpLalhQshrbA337SBJeA2SbiFXWCSIdwcL+A6USlXrr+M5GlUPUn4r5G+nIjJDII3LCTZ22mkrwHjbLs1TKYgs58VVQPih2BAuqv2YD9zt97WGJUL0T2HOAUxhVjPROWEgL4RrC8ryu8ZTJRCQ7iEFRbKZFtKlU9p2ZbL3nZW0XO2NpnYwyUC3XWMYG1qXWe/+pOEsGwdBK5eASqJhOJv8P7zjNk49wbqcAAAAASUVORK5CYII=" alt="Logo Portaria Primavera"></div>
+      <h2>Portaria Primavera</h2>
+      <p>Entre com seu usuário para liberar as funções conforme o perfil: Portaria ou Admin.</p>
+      <label>Usuário</label><input id="loginUser" autocomplete="username">
+      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
+      <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
+      <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
+      <div class="loginMsg" id="loginMsg"></div>
+      <div class="loginHint"><span class="loginHintTitle">Acesso inicial</span><span><b>Administrador</b> • admin / admin123</span><span><b>Portaria</b> • portaria / 1234</span><span class="loginHintFoot">Depois ajuste os usuários em Central Administrativa.</span></div>
+    </div>
+  </div>
+  <header class="v55Header"><div class="top v55Top"><div class="brand v55Brand"><div class="logo officialLogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANcAAADPCAIAAADpmtMUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAMzASURBVHhefL0H4C1XVe8/c+ac86u3JiEJpEAIvYko4gN9PFREUXiKioiKqIANFXyios/37FiwgoAgKgqKdEINJBAIoSSkE5KQdtNubr/3V0+d+X8/37X3nHOD779+c/asv
+--- hit 4 @ 591185 ---
+operatorIdentityPanel" class="operatorIdentityPanel"></div>
+            <div id="userOperationalStats" class="userOperationalStats"></div>
+            <div id="usersList" class="userGrid usersGridPremium"></div>
+          </div>
+        </div>
+
+        <div class="card toolCard adminOnly operatorHistoryTool adminAccordion collapsed" data-accordion-key="history">
+          <div class="adminAccordionTop" onclick="toggleAdminAccordion(this.closest('.adminAccordion'))">
+            <div class="adminAccTitle">
+              <div class="toolIcon">🧭</div>
+              <div>
+                <h3>Histórico geral por operador</h3>
+                <p class="mini">Consulta rápida de ações por operador, perfil e turno.</p>
+              </div>
+            </div>
+            <button class="btn ghost" onclick="event.stopPropagation();renderOperatorHistory()">Atualizar</button>
+            <button class="btn gold" onclick="event.stopPropagation();exportOperatorHistory()">Exportar</button>
+            <button class="adminAccChevron" type="button" onclick="event.stopPropagation();toggleAdminAccordion(this.closest('.adminAccordion'))">▾</button>
+          </div>
+          <div class="adminAccordionSummary" id="historyAccordionSummary">Histórico recolhido.</div>
+          <div class="adminAccordionBody">
+            <div class="operatorHistoryPanel">
+            <div class="operatorHistoryHead">
+              <div><b>🧭 Histórico geral por operador</b><br><span>Veja rapidamente quem fez o quê, em qual turno e quando.</span></div>
+              <button class="btn ghost" onclick="renderOperatorHistory()">Atualizar</button>
+            </div>
+            <div class="operatorHistoryFilters">
+              <label>Buscar<input id="operatorHistorySearch" oninput="renderOperatorHistory()" placeholder="Ação, usuário, detalhe..."></label>
+              <label>Operador<select id="operatorHistoryUser" onchange="renderOperatorHistory()"><option value="">Todos</option></select></label>
+              <label>Tipo<select id="operatorHistoryType" onchange="renderOperatorHistory()"><option value="">Todo
+--- hit 5 @ 605800 ---
+colha rapidamente o bloco e apartamento para a agenda operacional.</p></div><button class="close" onclick="closeAgendaUnitPicker()">×</button></div><div id="agendaUnitGrid" class="agendaUnitGrid"></div></div></div>
+  <div class="modal center" id="opListModal"><div class="sheet opListSheet"><div class="sheetHead"><div><h2 id="opListTitle">Agenda</h2><p class="mini" id="opListSub">Eventos do mês</p></div><button class="close" onclick="closeOperationalList()">×</button></div><div id="opListBody"></div></div></div>
+  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div></div><div class="row"><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o históric
+--- hit 6 @ 610422 ---
+r=null;
+let syncInProgress=false;
+let syncRealtimeChannel=null;
+let syncRealtimeReady=false;
+let lastRealtimeEventAt=0;
+let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||0)||0;
+let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:
+--- hit 7 @ 610542 ---
+let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||0)||0;
+let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function l
+--- hit 8 @ 610665 ---
+'pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,..
+
+===== senha =====
+--- hit 1 @ 492132 ---
+3LCTZ22mkrwHjbLs1TKYgs58VVQPih2BAuqv2YD9zt97WGJUL0T2HOAUxhVjPROWEgL4RrC8ryu8ZTJRCQ7iEFRbKZFtKlU9p2ZbL3nZW0XO2NpnYwyUC3XWMYG1qXWe/+pOEsGwdBK5eASqJhOJv8P7zjNk49wbqcAAAAASUVORK5CYII=" alt="Logo Portaria Primavera"></div>
+      <h2>Portaria Primavera</h2>
+      <p>Entre com seu usuário para liberar as funções conforme o perfil: Portaria ou Admin.</p>
+      <label>Usuário</label><input id="loginUser" autocomplete="username">
+      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
+      <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
+      <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
+      <div class="loginMsg" id="loginMsg"></div>
+      <div class="loginHint"><span class="loginHintTitle">Acesso inicial</span><span><b>Administrador</b> • admin / admin123</span><span><b>Portaria</b> • portaria / 1234</span><span class="loginHintFoot">Depois ajuste os usuários em Central Administrativa.</span></div>
+    </div>
+  </div>
+  <header class="v55Header"><div class="top v55Top"><div class="brand v55Brand"><div class="logo officialLogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANcAAADPCAIAAADpmtMUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAMzASURBVHhefL0H4C1XVe8/c+ac86u3JiEJpEAIvYko4gN9PFREUXiKioiKqIANFXyios/37FiwgoAgKgqKdEINJBAIoSSkE5KQdtNubr/3V0+d+X8/37X3nHOD779+c/asvdpee+01e++ZU37lwt5ziwxlUTQ+hERNULoCVaSy9Dkg0E4olYVYqCZ5lBOSJTMjgYlJxm21YlFL4GrAzEyQskZuVDWf7YkwOZUlBAjBUI9m6rDVFgRe6m/CEiQLWEY7NEF5WV0U+j7TCaOBzRtoYSYa5jBC/EI1qycpPAoUsVCYh1mgQkV27Bllst/aEmSKzd6PG6ZMjTjoHNEPRjqf7N+MPAfRC7uinpmdm0uUk1RK5VBrbx6zmayaVOjXDHIfBMLubzh6kRXn7BpSJ1WYM6c7kzSJaiJlEatGxd0EWvUZNLUasWgKaGiaAg1yMGbe6ZKLs0vBfKfa6zEgy2YIw3Ma6Qwtk+hKmdttiRmlnCMGMJYJTm7P0FpOvLmTOeb
+--- hit 2 @ 492159 ---
+Pih2BAuqv2YD9zt97WGJUL0T2HOAUxhVjPROWEgL4RrC8ryu8ZTJRCQ7iEFRbKZFtKlU9p2ZbL3nZW0XO2NpnYwyUC3XWMYG1qXWe/+pOEsGwdBK5eASqJhOJv8P7zjNk49wbqcAAAAASUVORK5CYII=" alt="Logo Portaria Primavera"></div>
+      <h2>Portaria Primavera</h2>
+      <p>Entre com seu usuário para liberar as funções conforme o perfil: Portaria ou Admin.</p>
+      <label>Usuário</label><input id="loginUser" autocomplete="username">
+      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
+      <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
+      <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
+      <div class="loginMsg" id="loginMsg"></div>
+      <div class="loginHint"><span class="loginHintTitle">Acesso inicial</span><span><b>Administrador</b> • admin / admin123</span><span><b>Portaria</b> • portaria / 1234</span><span class="loginHintFoot">Depois ajuste os usuários em Central Administrativa.</span></div>
+    </div>
+  </div>
+  <header class="v55Header"><div class="top v55Top"><div class="brand v55Brand"><div class="logo officialLogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANcAAADPCAIAAADpmtMUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAMzASURBVHhefL0H4C1XVe8/c+ac86u3JiEJpEAIvYko4gN9PFREUXiKioiKqIANFXyios/37FiwgoAgKgqKdEINJBAIoSSkE5KQdtNubr/3V0+d+X8/37X3nHOD779+c/asvdpee+01e++ZU37lwt5ziwxlUTQ+hERNULoCVaSy9Dkg0E4olYVYqCZ5lBOSJTMjgYlJxm21YlFL4GrAzEyQskZuVDWf7YkwOZUlBAjBUI9m6rDVFgRe6m/CEiQLWEY7NEF5WV0U+j7TCaOBzRtoYSYa5jBC/EI1qycpPAoUsVCYh1mgQkV27Bllst/aEmSKzd6PG6ZMjTjoHNEPRjqf7N+MPAfRC7uinpmdm0uUk1RK5VBrbx6zmayaVOjXDHIfBMLubzh6kRXn7BpSJ1WYM6c7kzSJaiJlEatGxd0EWvUZNLUasWgKaGiaAg1yMGbe6ZKLs0vBfKfa6zEgy2YIw3Ma6Qwtk+hKmdttiRmlnCMGMJYJTm7P0FpOvLmTOeb/V3oiqjf3b20m2WLzEcjQMoV83d
+--- hit 3 @ 605793 ---
+ini">Escolha rapidamente o bloco e apartamento para a agenda operacional.</p></div><button class="close" onclick="closeAgendaUnitPicker()">×</button></div><div id="agendaUnitGrid" class="agendaUnitGrid"></div></div></div>
+  <div class="modal center" id="opListModal"><div class="sheet opListSheet"><div class="sheetHead"><div><h2 id="opListTitle">Agenda</h2><p class="mini" id="opListSub">Eventos do mês</p></div><button class="close" onclick="closeOperationalList()">×</button></div><div id="opListBody"></div></div></div>
+  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div></div><div class="row"><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o h
+--- hit 4 @ 610405 ---
+
+let syncPushTimer=null;
+let syncInProgress=false;
+let syncRealtimeChannel=null;
+let syncRealtimeReady=false;
+let lastRealtimeEventAt=0;
+let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||0)||0;
+let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial()
+--- hit 5 @ 610529 ---
+meEventAt=0;
+let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||0)||0;
+let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]
+--- hit 6 @ 610652 ---
+rage.getItem('pp_last_sync_at')||'';
+let localDeviceId=localStorage.getItem('pp_device_id')||'';
+if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const dat
+--- hit 7 @ 610756 ---
+alDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
+const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
+let state=load();
+function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data
+--- hit 8 @ 611066 ---
+in',nome:'Administrador',login:'admin',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data.units&&typeof data.units==='object'?data.units:{};
+    data.settings={...base.settings,...(data.settings||{})};
+    data.operational=Array.isArray(data.operational)?data.operational:[];
+    data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
+    data.l
+
+===== email =====
+--- hit 1 @ 713308 ---
+ken')){
+        clearInterval(check); popup.close();
+        const p=new URLSearchParams(hash.slice(1));
+        _gdriveToken=p.get('access_token');
+        if(_gdriveToken){
+          localStorage.setItem('pp_gdrive_token',_gdriveToken);
+          gdriveUpdateUI(true);
+          setDriveStatus('✅ Conectado ao Google Drive','ok');
+          gdriveGetUserInfo();
+        }
+      }
+    }catch(e){}
+  },500);
+}
+
+async function gdriveGetUserInfo(){
+  if(!_gdriveToken)return;
+  try{
+    const r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+_gdriveToken}});
+    const u=await r.json();
+    const el=document.getElementById('driveUserInfo');
+    if(el&&u.email){el.textContent='🟢 '+u.email; el.style.display='inline';}
+  }catch(e){}
+}
+
+function gdriveUpdateUI(connected){
+  const connectBtn=document.getElementById('driveConnectBtn');
+  const saveBtn=document.getElementById('driveSaveBtn');
+  const listBtn=document.getElementById('driveListBtn');
+  const disconnectBtn=document.getElementById('driveDisconnectBtn');
+  const userInfo=document.getElementById('driveUserInfo');
+  if(connectBtn)connectBtn.style.display=connected?'none':'';
+  if(userInfo)userInfo.style.display=connected?'inline':'none';
+  if(saveBtn){saveBtn.disabled=!connected; saveBtn.style.opacity=connected?'1':'.5';}
+  if(listBtn){listBtn.disabled=!connected; listBtn.style.opacity=connected?'1':'.5';}
+  if(disconnectBtn)disconnectBtn.style.display=connected?'':'none';
+}
+
+function gdriveDisconnect(){
+  _gdriveToken=null;
+  localStorage.removeItem('pp_gdrive_token');
+  gdriveUpdateUI(false);
+  const el=document.getElementById('driveUserInfo'); if(el)el.style.display='none';
+  setDriveStatus('Desconectado do Google Drive.');
+  refreshBackupCenterStatus?.();
+}
+
+async function gdriveFindOrCreateFolder(){
+  // Buscar pasta existente
+  const q=encodeURIComponent(`name='${GDRIVE_FOLDER}' and mimeType='application/vnd.google-apps.folder' and trashed=false`);
+  const r=await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`,{headers:{Authorization:'B
+--- hit 2 @ 713337 ---
+(check); popup.close();
+        const p=new URLSearchParams(hash.slice(1));
+        _gdriveToken=p.get('access_token');
+        if(_gdriveToken){
+          localStorage.setItem('pp_gdrive_token',_gdriveToken);
+          gdriveUpdateUI(true);
+          setDriveStatus('✅ Conectado ao Google Drive','ok');
+          gdriveGetUserInfo();
+        }
+      }
+    }catch(e){}
+  },500);
+}
+
+async function gdriveGetUserInfo(){
+  if(!_gdriveToken)return;
+  try{
+    const r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+_gdriveToken}});
+    const u=await r.json();
+    const el=document.getElementById('driveUserInfo');
+    if(el&&u.email){el.textContent='🟢 '+u.email; el.style.display='inline';}
+  }catch(e){}
+}
+
+function gdriveUpdateUI(connected){
+  const connectBtn=document.getElementById('driveConnectBtn');
+  const saveBtn=document.getElementById('driveSaveBtn');
+  const listBtn=document.getElementById('driveListBtn');
+  const disconnectBtn=document.getElementById('driveDisconnectBtn');
+  const userInfo=document.getElementById('driveUserInfo');
+  if(connectBtn)connectBtn.style.display=connected?'none':'';
+  if(userInfo)userInfo.style.display=connected?'inline':'none';
+  if(saveBtn){saveBtn.disabled=!connected; saveBtn.style.opacity=connected?'1':'.5';}
+  if(listBtn){listBtn.disabled=!connected; listBtn.style.opacity=connected?'1':'.5';}
+  if(disconnectBtn)disconnectBtn.style.display=connected?'':'none';
+}
+
+function gdriveDisconnect(){
+  _gdriveToken=null;
+  localStorage.removeItem('pp_gdrive_token');
+  gdriveUpdateUI(false);
+  const el=document.getElementById('driveUserInfo'); if(el)el.style.display='none';
+  setDriveStatus('Desconectado do Google Drive.');
+  refreshBackupCenterStatus?.();
+}
+
+async function gdriveFindOrCreateFolder(){
+  // Buscar pasta existente
+  const q=encodeURIComponent(`name='${GDRIVE_FOLDER}' and mimeType='application/vnd.google-apps.folder' and trashed=false`);
+  const r=await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`,{headers:{Authorization:'Bearer '+_gdriveToken}});
+  co
+--- hit 3 @ 760560 ---
+v class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>'; modal.classList.add('show'); }
+function closeOperationalList(){document.getElementById('opListModal')?.classList.remove('show')}
+
+// ===== v15: Administração fixa + importação de moradores do Excel =====
+function getAdmin(){
+  if(!state.admin){state.admin={condominio:'Condomínio Edifício Primavera',endereco:'',bairro:'',cidade:'São Paulo',uf:'SP',cep:'',referencia:'',fixo:'',email:'',obs:'',people:[{nome:'Carlos Cunha',funcao:'Síndico',cel:''},{nome:'Olinda',funcao:'Subsíndica',cel:''},{nome:'',funcao:'Zelador',cel:''},{nome:'Administração',funcao:'Administração',cel:''}]}}
+  state.admin.condominio=state.admin.condominio||'Condomínio Edifício Primavera';
+  state.admin.cidade=state.admin.cidade||''; state.admin.uf=state.admin.uf||'';
+  state.admin.people=state.admin.people||[];
+  if(!Array.isArray(state.admin.emergencias))state.admin.emergencias=[
+    {tipo:'SAMU',telefone:'192',obs:'Emergência médica'},
+    {tipo:'Polícia Militar',telefone:'190',obs:'Emergência policial'},
+    {tipo:'Bombeiros',telefone:'193',obs:'Incêndio, resgate e vazamentos'},
+    {tipo:'Defesa Civil',telefone:'199',obs:'Risco estrutural, queda de árvore e enchentes'}
+  ];
+  if(!Array.isArray(state.admin.prestadores))state.admin.prestadores=[
+    {categoria:'Administradora',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'Jurídico',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'Bombas',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'CFTV',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'Eletricista',empresa:'',contato:'',telefone:'',plantao:'',obs:''}
+  ];
+  return state.admin;
+}
+function adminSearchText(){const a=getAdmin();return ('administração condominio condomínio '+(a.condominio||'')+' 
+--- hit 4 @ 762095 ---
+admin.prestadores=[
+    {categoria:'Administradora',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'Jurídico',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'Bombas',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'CFTV',empresa:'',contato:'',telefone:'',plantao:'',obs:''},
+    {categoria:'Eletricista',empresa:'',contato:'',telefone:'',plantao:'',obs:''}
+  ];
+  return state.admin;
+}
+function adminSearchText(){const a=getAdmin();return ('administração condominio condomínio '+(a.condominio||'')+' '+(a.endereco||'')+' '+(a.bairro||'')+' '+(a.cidade||'')+' '+(a.uf||'')+' '+(a.cep||'')+' '+(a.referencia||'')+' '+(a.fixo||'')+' '+(a.email||'')+' '+(a.obs||'')+' '+(a.people||[]).map(p=>[p.nome,p.funcao,p.cel].join(' ')).join(' ')+' '+(a.emergencias||[]).map(e=>[e.tipo,e.telefone,e.obs].join(' ')).join(' ')+' '+(a.prestadores||[]).map(p=>[p.categoria,p.empresa,p.contato,p.telefone,p.plantao,p.obs].join(' ')).join(' ')).toLowerCase()}
+function adminQuickCard(adm){
+  const people=(adm.people||[]).filter(p=>p.nome||p.funcao||p.cel);
+  const getByRole=(role)=>people.find(p=>String(p.funcao||'').toLowerCase().includes(role));
+  const sindico=getByRole('síndico')||getByRole('sindico')||{};
+  const subsindico=getByRole('subsíndica')||getByRole('subsindica')||getByRole('subsíndico')||getByRole('subsindico')||{};
+  const card=(label,name,phone,icon='👤')=>`<div class="adminContactCard ${phone?'':'empty'}"><div class="adminLabel">${icon} ${esc(label)}</div>${name?`<div class="adminName">${esc(name)}</div>`:''}<div class="adminPhone">${esc(phone||'sem telefone')}</div></div>`;
+  const endereco=[adm.endereco,adm.bairro,adm.cidade,adm.uf].filter(Boolean).join(' • ');
+  const cep=adm.cep||'CEP não cadastrado';
+  const ref=adm.referencia||adm.obs||'Sem referência cadastrada';
+  return `<div class="adminQuickCard"><div class="adminQuickHead"><h3>🏢 Administração / Condomínio</h3><button class="btn gold adminOnly" onclick="openAdminModal()">Editar administração</button></div><div class="adminContactGrid">${card('Portaria','',a
+--- hit 5 @ 768169 ---
+document.getElementById('modalSub').textContent=isAdmin()?'Unidade fixa para prestadores e visitas do condomínio. Pode editar, mas não pode excluir.':'Consulta rápida da Administração.';document.getElementById('modalBody').innerHTML=adminForm(a);lockModalIfPortaria();document.getElementById('residentModal').classList.add('show')}
+function adminForm(a){return `<div class="adminFormGrid"><div><label>Nome do condomínio</label><input id="admCondominio" value="${escAttr(a.condominio||'Condomínio Edifício Primavera')}"></div><div><label>Telefone principal</label><input id="admFixo" value="${escAttr(a.fixo||'')}"></div><div><label>E-mail do condomínio</label><input id="admEmail" value="${escAttr(a.email||'')}" placeholder="contato@condominio.com.br"></div><div><label>Endereço</label><input id="admEndereco" value="${escAttr(a.endereco||'')}" placeholder="Rua, número"></div><div><label>Bairro</label><input id="admBairro" value="${escAttr(a.bairro||'')}"></div><div><label>Cidade</label><input id="admCidade" value="${escAttr(a.cidade||'')}"></div><div><label>UF</label><input id="admUf" value="${escAttr(a.uf||'')}" maxlength="2"></div><div><label>CEP</label><input id="admCep" value="${escAttr(a.cep||'')}" placeholder="00000-000"></div><div><label>Referência rápida</label><input id="admReferencia" value="${escAttr(a.referencia||'')}" placeholder="Ex.: próximo a... / portão pela rua..."></div><div style="grid-column:1/-1"><label>Observações internas</label><input id="admObs" value="${escAttr(a.obs||'')}"></div></div><h3 style="font-family:'Merriweather',Georgia;margin:18px 0 8px;color:var(--navy)">Contatos autorizadores</h3><div id="adminPeopleBox">${(a.people||[]).map(p=>adminPersonRow(p)).join('')}</div><div class="actions"><button class="btn ghost" onclick="addAdminPersonRow()">+ Adicionar contato</button></div><div class="opsAdminBlock"><h3>🚨 Contatos de emergência</h3><div class="opsMiniNote">Visível para Portaria e Admin. Use para SAMU, Polícia, Bombeiros, Defesa Civil e concessionárias.</div><div id="adminEmergencyBox">${(a.emergencias||[]).map(e=>adminEmergencyRow(e)).j
+--- hit 6 @ 774114 ---
+tegoria:el.querySelector('[data-apr="categoria"]').value.trim(),empresa:el.querySelector('[data-apr="empresa"]').value.trim(),contato:el.querySelector('[data-apr="contato"]').value.trim(),telefone:el.querySelector('[data-apr="telefone"]').value.trim(),plantao:el.querySelector('[data-apr="plantao"]').value.trim(),obs:el.querySelector('[data-apr="obs"]').value.trim()})).filter(p=>p.categoria||p.empresa||p.contato||p.telefone||p.plantao||p.obs);state.admin={condominio:val('admCondominio')||'Condomínio Edifício Primavera',endereco:val('admEndereco'),bairro:val('admBairro'),cidade:val('admCidade'),uf:val('admUf').toUpperCase(),cep:val('admCep'),referencia:val('admReferencia'),fixo:val('admFixo'),email:val('admEmail'),obs:val('admObs'),people,emergencias,prestadores};addLog('Atualizou Administração',`${people.length} contato(s) • ${emergencias.length} emergência(s) • ${prestadores.length} prestador(es).`,'moradores');save();closeModal()}
+function updateDestinoOptions(){
+  const bloco=val('aBloco'), apto=val('aApto'); const sel=document.getElementById('aAutorizado'); if(!sel)return; const old=sel.value; let opts=[];
+  if(bloco==='ADM'){opts=(getAdmin().people||[]).filter(p=>p.nome||p.funcao).map(p=>(p.nome||'Administração')+(p.funcao?' ('+p.funcao+')':'')); sel.disabled=false; if(!opts.length)opts=['Administração'];}
+  else if(bloco&&apto){let nomeBloco='Bloco '+Number(bloco.replace('BL','')); let ap=apto.replace('AP',''); let u=getUnit(nomeBloco,ap); opts=(u.people||[]).map(p=>p.nome).filter(Boolean); sel.disabled=false; if(!opts.length)opts=['Portaria / sem morador cadastrado'];}
+  else{sel.disabled=true; sel.innerHTML='<option value="">Selecione o morador</option>'; return;}
+  sel.innerHTML='<option value="">Selecione</option>'+opts.map(x=>`<option value="${escAttr(x)}">${esc(x)}</option>`).join(''); if(old&&opts.includes(old))sel.value=old; else if(opts.length===1)sel.value=opts[0]; else sel.value='';
+}
+function updateSelectedUnitContacts(){const box=document.getElementById('selectedUnitContacts'); if(!box)return; const bloco=val('aBloco'), apto=val('aApto'); if(!blo
+--- hit 7 @ 843914 ---
+ondomínio Edifício Primavera')}</div><div class="condoPopSub">Ficha rápida do condomínio</div></div>
+    </div>
+    <div class="condoPopSection"><div class="condoPopLabel">Identificação</div>
+      <div class="condoPopItem copyable" onclick="copyPopoverValue('Endereço','${escAttr(endereco)}')"><div class="ico">📍</div><div><b>Endereço</b><span>${esc(fmtPop(endereco))}</span></div></div>
+      <div class="condoPopItem copyable" onclick="copyPopoverValue('Telefone','${escAttr((a&&a.fixo)||'')}')"><div class="ico">☎️</div><div><b>Telefone da portaria</b><span>${esc(fmtPop(a&&a.fixo))}</span></div></div>
+      <div class="condoPopItem copyable" onclick="copyPopoverValue('E-mail','${escAttr((a&&a.email)||'')}')"><div class="ico">✉️</div><div><b>E-mail</b><span>${esc(fmtPop(a&&a.email))}</span></div></div>
+    </div>
+    <div class="condoPopSection"><div class="condoPopLabel">Administração</div>
+      <div class="condoPopItem"><div class="ico">👤</div><div><b>Síndico</b><span>${esc(fmtPop(sindico.nome||'Carlos Cunha'))}${sindico.cel?' • '+esc(sindico.cel):''}</span></div></div>
+      <div class="condoPopItem"><div class="ico">👥</div><div><b>Subsíndica</b><span>${esc(fmtPop(subs.nome||'Olinda'))}${subs.cel?' • '+esc(subs.cel):''}</span></div></div>
+    </div>
+    <div class="condoPopSection"><div class="condoPopLabel">Sistema</div>
+      <div class="condoPopSystem">
+        <div class="condoPopMini"><b>Portaria Primavera</b>Versão v150</div>
+        <div class="condoPopMini"><b>Sincronização</b>${esc(syncText)}</div>
+        <div class="condoPopMini"><b>Google Drive</b>${esc(driveText)}</div>
+        <div class="condoPopMini"><b>Perfil atual</b>${esc((currentOperator&&currentOperator().perfil)||'—')}</div>
+      </div>
+    </div>
+    <div class="condoPopHint">Clique nos dados para copiar. Clique fora para fechar.</div>`;
+  return pop;
+}
+let _condoPopoverHold=false;
+function positionCondoPopover(){
+  const brand=document.querySelector('.brand.v55Brand')||document.querySelector('.brand');
+  const pop=document.getElementById('condoIdentityPopover');
+  if(!brand||!pop)return;
+
+--- hit 8 @ 843997 ---
+mínio</div></div>
+    </div>
+    <div class="condoPopSection"><div class="condoPopLabel">Identificação</div>
+      <div class="condoPopItem copyable" onclick="copyPopoverValue('Endereço','${escAttr(endereco)}')"><div class="ico">📍</div><div><b>Endereço</b><span>${esc(fmtPop(endereco))}</span></div></div>
+      <div class="condoPopItem copyable" onclick="copyPopoverValue('Telefone','${escAttr((a&&a.fixo)||'')}')"><div class="ico">☎️</div><div><b>Telefone da portaria</b><span>${esc(fmtPop(a&&a.fixo))}</span></div></div>
+      <div class="condoPopItem copyable" onclick="copyPopoverValue('E-mail','${escAttr((a&&a.email)||'')}')"><div class="ico">✉️</div><div><b>E-mail</b><span>${esc(fmtPop(a&&a.email))}</span></div></div>
+    </div>
+    <div class="condoPopSection"><div class="condoPopLabel">Administração</div>
+      <div class="condoPopItem"><div class="ico">👤</div><div><b>Síndico</b><span>${esc(fmtPop(sindico.nome||'Carlos Cunha'))}${sindico.cel?' • '+esc(sindico.cel):''}</span></div></div>
+      <div class="condoPopItem"><div class="ico">👥</div><div><b>Subsíndica</b><span>${esc(fmtPop(subs.nome||'Olinda'))}${subs.cel?' • '+esc(subs.cel):''}</span></div></div>
+    </div>
+    <div class="condoPopSection"><div class="condoPopLabel">Sistema</div>
+      <div class="condoPopSystem">
+        <div class="condoPopMini"><b>Portaria Primavera</b>Versão v150</div>
+        <div class="condoPopMini"><b>Sincronização</b>${esc(syncText)}</div>
+        <div class="condoPopMini"><b>Google Drive</b>${esc(driveText)}</div>
+        <div class="condoPopMini"><b>Perfil atual</b>${esc((currentOperator&&currentOperator().perfil)||'—')}</div>
+      </div>
+    </div>
+    <div class="condoPopHint">Clique nos dados para copiar. Clique fora para fechar.</div>`;
+  return pop;
+}
+let _condoPopoverHold=false;
+function positionCondoPopover(){
+  const brand=document.querySelector('.brand.v55Brand')||document.querySelector('.brand');
+  const pop=document.getElementById('condoIdentityPopover');
+  if(!brand||!pop)return;
+  const r=brand.getBoundingClientRect();
+  const w=Math.min(420,window.innerWidth-2
