@@ -7466,8 +7466,6 @@ body.mobileExperience .tab[data-tab="moradores"]{
   justify-content:center!important;
 }
 
-@media(max-width:900px){#accessHistoryModal .historyFilters{grid-template-columns:1fr 1fr!important}}
-@media(max-width:620px){#accessHistoryModal .historyFilters{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body class="splashing">
@@ -7635,7 +7633,7 @@ body.mobileExperience .tab[data-tab="moradores"]{
           <div class="registerRow"><button class="btn registerAlert" onclick="addAccess()">Registrar acesso</button></div>
         </div>
         <div class="card">
-          <div class="panelHead"><div class="title" style="margin:0"><h2>Controle em andamento</h2></div><div class="actions" style="margin:0"><button class="btn ghost" onclick="openAccessHistory()">Histórico de acessos</button><button class="btn ghost adminOnly" onclick="exportData()">Exportar backup</button></div></div>
+          <div class="panelHead"><div class="title" style="margin:0"><h2>Controle em andamento</h2></div><button class="btn ghost adminOnly" onclick="exportData()">Exportar backup</button></div>
           <div class="searchbar accessSearchRow" style="margin-top:12px"><input id="accessSearch" oninput="renderAccess()" placeholder="Buscar por nome, doc, bloco ou apto"><button type="button" class="accessSearchClearBtn" onclick="clearAccessSearch()">Limpar</button></div>
           <div id="accessTable"></div>
         </div>
@@ -9074,42 +9072,6 @@ function markOut(id){const a=state.accesses.find(x=>x.id===id); if(a&&!a.saida){
 function removeAccess(id){const a=state.accesses.find(x=>x.id===id); openAppConfirm({title:'Excluir registro?',message:`Deseja apagar o acesso de ${esc(a?.nome||'visitante')}? Esta ação não poderá ser desfeita.`,okText:'Excluir',onConfirm:()=>{if(!Array.isArray(state.deletedAccessIds))state.deletedAccessIds=[];state.deletedAccessIds.unshift({id,deletedAt:new Date().toISOString(),deletedBy:(currentOperator().login||'')});state.deletedAccessIds=state.deletedAccessIds.slice(0,800);state.accesses=state.accesses.filter(a=>a.id!==id);addLog('Excluiu acesso',`${a?.nome||'Visitante'} • ${a?.destino||'sem destino'}`,'acesso');save()}})}
 function val(id){const el=document.getElementById(id); return el&&el.value!=null?String(el.value).trim():''}
 function fmt(iso){return iso?new Date(iso).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'—'}
-function openAccessHistory(){
-  let modal=document.getElementById('accessHistoryModal');
-  if(!modal){
-    modal=document.createElement('div'); modal.id='accessHistoryModal'; modal.className='modal';
-    modal.innerHTML=`<div class="sheet" style="width:min(1180px,100%);max-height:92vh"><div class="sheetHead"><div><h2 style="margin:0">Histórico de acessos</h2><div class="mini">Consulte visitantes e prestadores já finalizados ou ainda no condomínio.</div></div><button class="close" onclick="closeAccessHistory()">×</button></div><div class="historyFilters" style="display:grid;grid-template-columns:1.4fr repeat(4,minmax(130px,.7fr));gap:10px;margin-bottom:12px"><label>Buscar<input id="histAccessSearch" placeholder="Nome, documento, empresa, unidade..." oninput="renderAccessHistory()"></label><label>De<input type="date" id="histAccessFrom" onchange="renderAccessHistory()"></label><label>Até<input type="date" id="histAccessTo" onchange="renderAccessHistory()"></label><label>Status<select id="histAccessStatus" onchange="renderAccessHistory()"><option value="">Todos</option><option value="dentro">Dentro</option><option value="saiu">Saiu</option></select></label><label>Unidade<input id="histAccessUnit" placeholder="Ex: Bloco 2 31" oninput="renderAccessHistory()"></label></div><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px"><div id="histAccessSummary" class="mini"></div><button class="btn ghost" onclick="clearAccessHistoryFilters()">Limpar filtros</button></div><div id="histAccessList"></div></div>`;
-    document.body.appendChild(modal);
-  }
-  const to=document.getElementById('histAccessTo'),from=document.getElementById('histAccessFrom');
-  if(to&&!to.value){const d=new Date();to.value=d.toISOString().slice(0,10)}
-  if(from&&!from.value){const d=new Date();d.setDate(d.getDate()-30);from.value=d.toISOString().slice(0,10)}
-  modal.classList.add('show'); renderAccessHistory();
-}
-function closeAccessHistory(){document.getElementById('accessHistoryModal')?.classList.remove('show')}
-function clearAccessHistoryFilters(){['histAccessSearch','histAccessUnit'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});const st=document.getElementById('histAccessStatus');if(st)st.value='';const to=document.getElementById('histAccessTo'),from=document.getElementById('histAccessFrom');const d=new Date();if(to)to.value=d.toISOString().slice(0,10);d.setDate(d.getDate()-30);if(from)from.value=d.toISOString().slice(0,10);renderAccessHistory()}
-function renderAccessHistory(){
-  normalizeAccesses();
-  const q=(document.getElementById('histAccessSearch')?.value||'').trim().toLowerCase();
-  const unit=(document.getElementById('histAccessUnit')?.value||'').trim().toLowerCase();
-  const status=document.getElementById('histAccessStatus')?.value||'';
-  const from=document.getElementById('histAccessFrom')?.value||'';
-  const to=document.getElementById('histAccessTo')?.value||'';
-  let arr=(state.accesses||[]).filter(a=>{
-    const dt=(a.data||String(a.entrada||'').slice(0,10));
-    if(from&&dt<from)return false;if(to&&dt>to)return false;
-    if(status==='dentro'&&a.saida)return false;if(status==='saiu'&&!a.saida)return false;
-    const blob=[a.nome,a.docType,a.doc,a.empresa,a.destino,a.autorizado,a.servico,a.bloco,a.apto,a.tipo].join(' ').toLowerCase();
-    if(q&&!blob.includes(q))return false;
-    const ub=[a.destino,a.bloco,a.apto].join(' ').toLowerCase(); if(unit&&!ub.includes(unit))return false;
-    return true;
-  }).sort((a,b)=>new Date(b.entrada||b.createdAt||0)-new Date(a.entrada||a.createdAt||0));
-  const summary=document.getElementById('histAccessSummary');if(summary)summary.textContent=`${arr.length} registro${arr.length===1?'':'s'} encontrado${arr.length===1?'':'s'}`;
-  const box=document.getElementById('histAccessList');if(!box)return;
-  if(!arr.length){box.innerHTML='<div class="empty">Nenhum acesso encontrado para os filtros selecionados.</div>';return;}
-  box.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Data</th><th>Entrada</th><th>Saída</th><th>Nome</th><th>Documento</th><th>Empresa</th><th>Unidade</th><th>Autorizado por</th><th>Serviço</th><th>Status</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${esc(a.data||String(a.entrada||'').slice(0,10)||'—')}</td><td>${esc(a.entradaHora||timeOnly(a.entrada)||'—')}</td><td>${esc(a.saidaHora||timeOnly(a.saida)||'—')}</td><td><b>${esc(a.nome||'—')}</b></td><td>${esc(formatAccessDoc(a)||'—')}</td><td>${esc(a.empresa||'—')}</td><td>${esc(a.destino||[a.bloco,a.apto].filter(Boolean).join(' ')||'—')}</td><td>${esc(a.autorizado||'—')}</td><td>${esc(a.servico||'—')}</td><td><span class="badge ${a.saida?'out':'in'}">${a.saida?'Saiu':'Dentro'}</span></td></tr>`).join('')}</tbody></table></div>`;
-}
-
 function clearAccessSearch(){
   const input=document.getElementById('accessSearch');
   if(input){input.value=''; input.focus();}
