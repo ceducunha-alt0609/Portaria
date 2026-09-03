@@ -7666,7 +7666,7 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
             <div><label>Entrada</label><input id="aEntrada" type="time"></div>
             <div class="wide"><label>Nome completo</label><input id="aNome"></div>
             <div><label>Documento</label><input id="aDocType" type="hidden" value="CPF"><input id="aDoc" type="hidden"><button type="button" class="docPickButton empty" id="aDocButton" onclick="openDocModal('new')"><b id="aDocDisplay">Selecionar documento</b><span>CPF, RG, CNH...</span></button></div>
-            <div><label>Tipo de acesso</label><select id="aTipo"><option value="Visitante">Visitante</option><option value="Prestador">Prestador</option></select></div><div><label>Empresa</label><input id="aEmpresa"></div>
+            <div><label>Empresa</label><input id="aEmpresa"></div>
             <div class="unitField"><label>Apto visitado</label><button class="unitPickButton" id="unitPickBtn" onclick="openUnitPicker()"><span class="unitPickContent"><b id="unitPickText">Selecionar unidade</b><span>Clique para escolher o apartamento</span></span></button><input id="aBloco" type="hidden"><input id="aApto" type="hidden"><input id="aDestino" type="hidden"></div>
             <div class="authField"><label>Autorizado por</label><select id="aAutorizado" class="authSelect" disabled><option value="">Selecione o morador</option></select><div class="mini" style="margin-top:8px">Selecione primeiro a unidade visitada</div></div>
             <div class="serviceField"><label>Serviço realizado</label><input id="aServico"></div>
@@ -9130,9 +9130,9 @@ function addAccess(){
   const id=(crypto&&crypto.randomUUID)?crypto.randomUUID():('acesso-'+Date.now()+'-'+Math.random().toString(16).slice(2));
   const op=currentOperator();
   if(!Array.isArray(state.accesses))state.accesses=[];
-  state.accesses.unshift({id,data,entradaHora:hora,nome,tipoAcesso:val('aTipo')||'Visitante',docType:val('aDocType')||'CPF',doc:val('aDoc'),empresa:val('aEmpresa'),destino,bloco,apto,autorizado:val('aAutorizado'),servico:val('aServico'),status:'Dentro',entrada:entradaIso,saida:null,saidaHora:'',createdBy:op.login,createdByName:op.nome,createdByPerfil:op.perfil,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+  state.accesses.unshift({id,data,entradaHora:hora,nome,docType:val('aDocType')||'CPF',doc:val('aDoc'),empresa:val('aEmpresa'),destino,bloco,apto,autorizado:val('aAutorizado'),servico:val('aServico'),status:'Dentro',entrada:entradaIso,saida:null,saidaHora:'',createdBy:op.login,createdByName:op.nome,createdByPerfil:op.perfil,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
   addLog('Registrou entrada',`${nome} • ${destino||'sem destino'} • ${hora}`,'acesso');
-  ['aNome','aDoc','aEmpresa','aServico','aBloco','aApto','aDestino'].forEach(id=>{const el=document.getElementById(id); if(el)el.value=''}); const tipoEl=document.getElementById('aTipo'); if(tipoEl)tipoEl.value='Visitante'; setAccessDocFields('new','CPF','');
+  ['aNome','aDoc','aEmpresa','aServico','aBloco','aApto','aDestino'].forEach(id=>{const el=document.getElementById(id); if(el)el.value=''}); setAccessDocFields('new','CPF','');
   const auth=document.getElementById('aAutorizado'); if(auth){auth.innerHTML='<option value="">Selecione a unidade</option>'; auth.disabled=true;}
   updateDestinoOptions(); updateUnitPickButton(); setNowFields(true); save();
 }
