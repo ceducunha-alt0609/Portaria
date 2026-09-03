@@ -7483,19 +7483,6 @@ body.mobileExperience .tab[data-tab="moradores"]{
 }
 body.theme-light .mobileHistoryShortcutBtn{background:linear-gradient(145deg,#0d1b2a,#17314d)!important;color:#fff!important}
 body.theme-dark .mobileHistoryShortcutBtn{border-color:rgba(214,178,95,.42)!important}
-
-/* v152 — refino do cadastro: Tipo de acesso + Empresa em linha 50/50 */
-.accessLine.sheetModel .accessTypeCompanyRow{
-  grid-column:1/-1;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:16px;
-  align-items:end;
-}
-.accessLine.sheetModel .accessTypeCompanyRow>div{min-width:0}
-@media(max-width:760px){
-  .accessLine.sheetModel .accessTypeCompanyRow{grid-template-columns:1fr;gap:8px}
-}
 </style>
 <style>
 /* Auth 2.0 fase 1 — recuperação segura preparada */
@@ -7679,7 +7666,7 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
             <div><label>Entrada</label><input id="aEntrada" type="time"></div>
             <div class="wide"><label>Nome completo</label><input id="aNome"></div>
             <div><label>Documento</label><input id="aDocType" type="hidden" value="CPF"><input id="aDoc" type="hidden"><button type="button" class="docPickButton empty" id="aDocButton" onclick="openDocModal('new')"><b id="aDocDisplay">Selecionar documento</b><span>CPF, RG, CNH...</span></button></div>
-            <div class="accessTypeCompanyRow"><div><label>Tipo de acesso</label><select id="aTipo"><option value="Visitante">Visitante</option><option value="Prestador">Prestador</option></select></div><div><label>Empresa</label><input id="aEmpresa"></div></div>
+            <div><label>Tipo de acesso</label><select id="aTipo"><option value="Visitante">Visitante</option><option value="Prestador">Prestador</option></select></div><div><label>Empresa</label><input id="aEmpresa"></div>
             <div class="unitField"><label>Apto visitado</label><button class="unitPickButton" id="unitPickBtn" onclick="openUnitPicker()"><span class="unitPickContent"><b id="unitPickText">Selecionar unidade</b><span>Clique para escolher o apartamento</span></span></button><input id="aBloco" type="hidden"><input id="aApto" type="hidden"><input id="aDestino" type="hidden"></div>
             <div class="authField"><label>Autorizado por</label><select id="aAutorizado" class="authSelect" disabled><option value="">Selecione o morador</option></select><div class="mini" style="margin-top:8px">Selecione primeiro a unidade visitada</div></div>
             <div class="serviceField"><label>Serviço realizado</label><input id="aServico"></div>
