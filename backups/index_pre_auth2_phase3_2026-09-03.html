@@ -7498,11 +7498,6 @@ body.theme-light .loginRecoverBtn{color:#7a5a12}
 body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92,.34)}
 @media(max-width:620px){.recoveryAuthBox{align-items:stretch;flex-direction:column}.recoveryAuthBox .btn{width:100%}}
 </style>
-<style>
-/* Auth 2.0 fase 3 — redefinição de senha */
-#passwordResetModal .sheet{border:1px solid rgba(216,184,92,.30)}
-#passwordResetModal input{margin-bottom:4px}
-</style>
 </head>
 <body class="splashing">
 
@@ -8078,7 +8073,6 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   <div class="modal center" id="accessEditModal"><div class="sheet accessDetailSheet"><div class="sheetHead"><div class="accessDetailTitle"><div class="accessDetailName">Editar acesso</div><span class="accessDetailDest" id="accessEditDestBadge">—</span></div><button class="close" onclick="closeAccessEdit()">×</button></div><div class="accessEditGrid"><div><label>Data</label><input id="editAccessData" type="date"></div><div><label>Entrada</label><input id="editAccessEntrada" type="time"></div><div class="full"><label>Nome completo</label><input id="editAccessNome"></div><div><label>Documento</label><input id="editAccessDocType" type="hidden" value="CPF"><input id="editAccessDoc" type="hidden"><button type="button" class="docPickButton empty" id="editAccessDocButton" onclick="openDocModal('edit')"><b id="editAccessDocDisplay">Selecionar documento</b><span>CPF, RG, CNH...</span></button></div><div><label>Empresa</label><input id="editAccessEmpresa"></div><div><label>Local de visitação</label><input id="editAccessDestino" placeholder="Ex: BL01 AP01"></div><div><label>Autorizado por</label><input id="editAccessAutorizado"></div><div class="full"><label>Serviço realizado</label><textarea id="editAccessServico"></textarea></div></div><div class="accessEditNote">Ao salvar, o registro será atualizado e a alteração ficará registrada nos logs de auditoria.</div><div class="accessActions"><button class="btn ghost" onclick="closeAccessEdit()">Cancelar</button><button class="btn gold" onclick="saveAccessEdit()">Salvar alterações</button></div></div></div>
   <div class="modal center" id="agendaUnitPickerModal"><div class="sheet agendaUnitSheet"><div class="sheetHead"><div><h2>Selecionar unidade</h2><p class="mini">Escolha rapidamente o bloco e apartamento para a agenda operacional.</p></div><button class="close" onclick="closeAgendaUnitPicker()">×</button></div><div id="agendaUnitGrid" class="agendaUnitGrid"></div></div></div>
   <div class="modal center" id="opListModal"><div class="sheet opListSheet"><div class="sheetHead"><div><h2 id="opListTitle">Agenda</h2><p class="mini" id="opListSub">Eventos do mês</p></div><button class="close" onclick="closeOperationalList()">×</button></div><div id="opListBody"></div></div></div>
-  <div class="modal center" id="passwordResetModal"><div class="sheet" style="width:min(520px,100%)"><div class="sheetHead"><div><h2>Definir nova senha</h2><p class="mini">Crie uma nova senha para o acesso ao Portaria.</p></div></div><label>Nova senha</label><input id="resetNewPassword" type="password" autocomplete="new-password" placeholder="Digite a nova senha"><label>Confirmar nova senha</label><input id="resetNewPassword2" type="password" autocomplete="new-password" placeholder="Repita a nova senha"><div id="resetPasswordInfo" class="mini" style="margin-top:10px;line-height:1.55"></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="completePasswordReset()">Salvar nova senha</button></div></div></div>
   <div class="modal center" id="passwordRecoveryModal"><div class="sheet" style="width:min(520px,100%)"><div class="sheetHead"><div><h2>Recuperar acesso</h2><p class="mini">Informe seu usuário. O Portaria verificará se existe um e-mail de recuperação vinculado.</p></div><button class="close" onclick="closePasswordRecovery()">×</button></div><label>Usuário</label><input id="recoveryLogin" autocomplete="username" placeholder="Ex.: admin"><div id="recoveryInfo" class="mini" style="margin-top:10px;line-height:1.55"></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="requestPasswordRecovery()">Continuar</button><button class="btn ghost" onclick="closePasswordRecovery()">Cancelar</button></div></div></div>
   <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>E-mail de recuperação</label><input id="uEmail" type="email" autocomplete="email" placeholder="nome@exemplo.com"></div><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div></div><div class="row"><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div></div><div class="row"><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div id="uRecoveryAuthBox" class="recoveryAuthBox" style="display:none"><div><b>Recuperação por e-mail</b><div id="uRecoveryAuthStatus" class="mini"></div></div><button type="button" id="uRecoveryAuthBtn" class="btn ghost" onclick="handleUserRecoveryAuth()">Ativar recuperação por e-mail</button></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o histórico permanece preservado. O turno ajuda a identificar quem estava operando cada ação.</p></div></div>
 
@@ -8119,7 +8113,6 @@ try{updateTopbarClockGreeting();}catch(e){}
 <script>
 const KEY='portaria_primavera_v1';
 const SUPABASE_URL='https://wfqxfgswdhnmmfjeajwn.supabase.co';
-const APP_PUBLIC_URL='https://ceducunha-alt0609.github.io/Portaria/';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmcXhmZ3N3ZGhubW1mamVhanduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwMzkzNjcsImV4cCI6MjA5NjYxNTM2N30.iFg7ou_Aog-zmuWtXNix0EbWIPgYdqNuNKpbCbDHCQ8';
 const CLOUD_DAILY_KEY='portaria_primavera_last_cloud_backup';
 const CLOUD_BACKUP_HOUR=2; // backup automático diário na nuvem às 02:00
@@ -9924,7 +9917,6 @@ function initCloud(){
     if(!window.supabase){setCloudStatus('☁️ Nuvem indisponível: biblioteca Supabase não carregou. O app segue local.');return false;}
     supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
     cloudReady=true;
-    setTimeout(setupSupabaseRecoveryListener,0);
     scheduleCloudAutoBackup(true);
     startCloudSync();
     return true;
@@ -10773,54 +10765,6 @@ function confirmLogoutUser(){
     onConfirm:logoutUser
   });
 }
-let passwordRecoverySessionEmail='';
-function openPasswordResetFromRecovery(session){
-  passwordRecoverySessionEmail=String(session?.user?.email||'').trim().toLowerCase();
-  const info=document.getElementById('resetPasswordInfo'); if(info)info.textContent='';
-  const a=document.getElementById('resetNewPassword'), b=document.getElementById('resetNewPassword2');
-  if(a)a.value=''; if(b)b.value='';
-  document.getElementById('passwordResetModal')?.classList.add('show');
-  setTimeout(()=>a?.focus(),80);
-}
-async function completePasswordReset(){
-  const p1=document.getElementById('resetNewPassword')?.value||'';
-  const p2=document.getElementById('resetNewPassword2')?.value||'';
-  const info=document.getElementById('resetPasswordInfo');
-  if(p1.length<6){if(info)info.textContent='Use pelo menos 6 caracteres.';return;}
-  if(p1!==p2){if(info)info.textContent='As senhas não coincidem.';return;}
-  try{
-    if(!cloudReady&&!initCloud())throw new Error('Supabase indisponível');
-    const {error}=await supabaseClient.auth.updateUser({password:p1});
-    if(error)throw error;
-    const email=passwordRecoverySessionEmail;
-    const u=(state.users||[]).find(x=>String(x.email||'').trim().toLowerCase()===email);
-    if(!u)throw new Error('Usuário local não encontrado para este e-mail');
-    u.senha=p1;u.authRecoveryEnabled=true;u.authRecoveryPending=false;u.authRecoveryVerifiedAt=new Date().toISOString();
-    addLog('Redefiniu senha por e-mail',u.nome+' • '+maskRecoveryEmail(email),'usuario');
-    save();
-    try{await supabaseClient.auth.signOut()}catch(e){}
-    try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
-    document.getElementById('passwordResetModal')?.classList.remove('show');
-    const lu=document.getElementById('loginUser'); if(lu)lu.value=u.login||'';
-    const lp=document.getElementById('loginPass'); if(lp)lp.value='';
-    openAppConfirm({title:'Senha atualizada',message:'✓ Sua senha foi redefinida com sucesso. Use a nova senha para entrar no Portaria.',okText:'OK'});
-  }catch(e){
-    console.warn('Falha ao concluir redefinição',e);
-    if(info)info.textContent='Não foi possível salvar a nova senha. '+(e?.message||'Tente novamente.');
-  }
-}
-function setupSupabaseRecoveryListener(){
-  try{
-    if(!supabaseClient)return;
-    supabaseClient.auth.onAuthStateChange((event,session)=>{
-      if(event==='PASSWORD_RECOVERY'&&session)openPasswordResetFromRecovery(session);
-    });
-    supabaseClient.auth.getSession().then(({data})=>{
-      const hash=String(location.hash||'');
-      if(data?.session&&(/type=recovery/i.test(hash)||/access_token=/i.test(hash)))openPasswordResetFromRecovery(data.session);
-    }).catch(()=>{});
-  }catch(e){console.warn('Falha listener recuperação',e)}
-}
 function openPasswordRecovery(){
   const modal=document.getElementById('passwordRecoveryModal');
   const login=document.getElementById('recoveryLogin');
@@ -10845,7 +10789,7 @@ async function requestPasswordRecovery(){
   if(u.authRecoveryEnabled!==true){if(info)info.textContent='E-mail cadastrado: '+maskRecoveryEmail(u.email)+'. O vínculo de recuperação segura ainda precisa ser ativado no Supabase Auth para esta conta.';return;}
   try{
     if(!cloudReady&&!initCloud())throw new Error('Supabase indisponível');
-    const redirectTo=APP_PUBLIC_URL;
+    const redirectTo=location.origin+location.pathname;
     const {error}=await supabaseClient.auth.resetPasswordForEmail(u.email,{redirectTo});
     if(error)throw error;
     if(info)info.textContent='Se a conta estiver ativa no serviço de autenticação, enviaremos as instruções para '+maskRecoveryEmail(u.email)+'.';
@@ -10892,7 +10836,7 @@ async function handleUserRecoveryAuth(){
     onConfirm:async()=>{
       try{
         if(!cloudReady&&!initCloud())throw new Error('Supabase indisponível');
-        const redirectTo=APP_PUBLIC_URL;
+        const redirectTo=location.origin+location.pathname;
         const {data,error}=await supabaseClient.auth.signUp({email,password:String(u.senha),options:{emailRedirectTo:redirectTo}});
         if(error)throw error;
         try{await supabaseClient.auth.signOut()}catch(e){}
