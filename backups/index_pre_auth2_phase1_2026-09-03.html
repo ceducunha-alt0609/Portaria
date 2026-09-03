@@ -7484,12 +7484,6 @@ body.mobileExperience .tab[data-tab="moradores"]{
 body.theme-light .mobileHistoryShortcutBtn{background:linear-gradient(145deg,#0d1b2a,#17314d)!important;color:#fff!important}
 body.theme-dark .mobileHistoryShortcutBtn{border-color:rgba(214,178,95,.42)!important}
 </style>
-<style>
-/* Auth 2.0 fase 1 — recuperação segura preparada */
-.loginRecoverBtn{display:block;width:100%;margin:8px 0 0;border:0;background:transparent;color:#d8b85c;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer;text-align:center;text-decoration:underline;text-underline-offset:3px}
-.loginRecoverBtn:hover{color:#f3d27a}
-body.theme-light .loginRecoverBtn{color:#7a5a12}
-</style>
 </head>
 <body class="splashing">
 
@@ -7556,7 +7550,6 @@ body.theme-light .loginRecoverBtn{color:#7a5a12}
       <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
       <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
       <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
-      <button type="button" class="loginRecoverBtn" onclick="openPasswordRecovery()">Esqueci minha senha</button>
       <div class="loginMsg" id="loginMsg"></div>
       <div class="loginHint"><span class="loginHintTitle">Acesso inicial</span><span><b>Administrador</b> • admin / admin123</span><span><b>Portaria</b> • portaria / 1234</span><span class="loginHintFoot">Depois ajuste os usuários em Central Administrativa.</span></div>
     </div>
@@ -8065,8 +8058,7 @@ body.theme-light .loginRecoverBtn{color:#7a5a12}
   <div class="modal center" id="accessEditModal"><div class="sheet accessDetailSheet"><div class="sheetHead"><div class="accessDetailTitle"><div class="accessDetailName">Editar acesso</div><span class="accessDetailDest" id="accessEditDestBadge">—</span></div><button class="close" onclick="closeAccessEdit()">×</button></div><div class="accessEditGrid"><div><label>Data</label><input id="editAccessData" type="date"></div><div><label>Entrada</label><input id="editAccessEntrada" type="time"></div><div class="full"><label>Nome completo</label><input id="editAccessNome"></div><div><label>Documento</label><input id="editAccessDocType" type="hidden" value="CPF"><input id="editAccessDoc" type="hidden"><button type="button" class="docPickButton empty" id="editAccessDocButton" onclick="openDocModal('edit')"><b id="editAccessDocDisplay">Selecionar documento</b><span>CPF, RG, CNH...</span></button></div><div><label>Empresa</label><input id="editAccessEmpresa"></div><div><label>Local de visitação</label><input id="editAccessDestino" placeholder="Ex: BL01 AP01"></div><div><label>Autorizado por</label><input id="editAccessAutorizado"></div><div class="full"><label>Serviço realizado</label><textarea id="editAccessServico"></textarea></div></div><div class="accessEditNote">Ao salvar, o registro será atualizado e a alteração ficará registrada nos logs de auditoria.</div><div class="accessActions"><button class="btn ghost" onclick="closeAccessEdit()">Cancelar</button><button class="btn gold" onclick="saveAccessEdit()">Salvar alterações</button></div></div></div>
   <div class="modal center" id="agendaUnitPickerModal"><div class="sheet agendaUnitSheet"><div class="sheetHead"><div><h2>Selecionar unidade</h2><p class="mini">Escolha rapidamente o bloco e apartamento para a agenda operacional.</p></div><button class="close" onclick="closeAgendaUnitPicker()">×</button></div><div id="agendaUnitGrid" class="agendaUnitGrid"></div></div></div>
   <div class="modal center" id="opListModal"><div class="sheet opListSheet"><div class="sheetHead"><div><h2 id="opListTitle">Agenda</h2><p class="mini" id="opListSub">Eventos do mês</p></div><button class="close" onclick="closeOperationalList()">×</button></div><div id="opListBody"></div></div></div>
-  <div class="modal center" id="passwordRecoveryModal"><div class="sheet" style="width:min(520px,100%)"><div class="sheetHead"><div><h2>Recuperar acesso</h2><p class="mini">Informe seu usuário. O Portaria verificará se existe um e-mail de recuperação vinculado.</p></div><button class="close" onclick="closePasswordRecovery()">×</button></div><label>Usuário</label><input id="recoveryLogin" autocomplete="username" placeholder="Ex.: admin"><div id="recoveryInfo" class="mini" style="margin-top:10px;line-height:1.55"></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="requestPasswordRecovery()">Continuar</button><button class="btn ghost" onclick="closePasswordRecovery()">Cancelar</button></div></div></div>
-  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>E-mail de recuperação</label><input id="uEmail" type="email" autocomplete="email" placeholder="nome@exemplo.com"></div><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div></div><div class="row"><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div></div><div class="row"><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o histórico permanece preservado. O turno ajuda a identificar quem estava operando cada ação.</p></div></div>
+  <div class="modal center" id="userModal"><div class="sheet userModalSheet"><div class="sheetHead"><div><h2 id="userModalTitle">Novo usuário</h2><p class="mini">Defina login, senha, perfil, turno e status de acesso.</p></div><button class="close" onclick="closeUserModal()">×</button></div><input id="uEditId" type="hidden"><div class="row"><div><label>Nome</label><input id="uNome" placeholder="Ex.: Portaria Noturna"></div><div><label>Login</label><input id="uLogin" placeholder="Ex.: portaria2"></div></div><div class="row"><div><label>Senha</label><input id="uSenha" type="password" placeholder="Deixe em branco para manter ao editar"></div><div><label>Perfil</label><select id="uPerfil"><option value="portaria">Portaria</option><option value="admin">Admin / Síndico</option><option value="zelador">Zelador</option></select></div></div><div class="row"><div><label>Turno / função operacional</label><select id="uTurno"><option value="">Sem turno definido</option><option value="dia">Portaria Dia</option><option value="noite">Portaria Noite</option><option value="zeladoria">Zeladoria</option><option value="administracao">Administração</option></select></div><div><label>Status</label><select id="uAtivo"><option value="true">Ativo</option><option value="false">Inativo</option></select></div></div><div class="userModalActions" style="margin-top:14px"><button class="btn gold" onclick="saveUserForm()">Salvar usuário</button><button class="btn ghost" onclick="closeUserModal()">Cancelar</button></div><p class="mini" style="margin-top:12px">Ao inativar um usuário, o histórico permanece preservado. O turno ajuda a identificar quem estava operando cada ação.</p></div></div>
 
 
   <!-- v105 — Ajuda flutuante / Tour Guiado Primavera -->
@@ -10756,39 +10748,6 @@ function confirmLogoutUser(){
     onConfirm:logoutUser
   });
 }
-function openPasswordRecovery(){
-  const modal=document.getElementById('passwordRecoveryModal');
-  const login=document.getElementById('recoveryLogin');
-  const typed=(document.getElementById('loginUser')?.value||'').trim();
-  if(login)login.value=typed;
-  const info=document.getElementById('recoveryInfo'); if(info)info.textContent='';
-  modal?.classList.add('show');
-  setTimeout(()=>login?.focus(),80);
-}
-function closePasswordRecovery(){document.getElementById('passwordRecoveryModal')?.classList.remove('show')}
-function maskRecoveryEmail(email=''){
-  const [name,domain]=String(email).split('@'); if(!domain)return '';
-  const shown=name.length<=2?name[0]||'*':name.slice(0,2);
-  return shown+'***@'+domain;
-}
-async function requestPasswordRecovery(){
-  const login=(document.getElementById('recoveryLogin')?.value||'').trim();
-  const info=document.getElementById('recoveryInfo');
-  if(!login){if(info)info.textContent='Informe o usuário para continuar.';return;}
-  const u=(state.users||[]).find(x=>String(x.login||'').toLowerCase()===login.toLowerCase()&&x.ativo!==false);
-  if(!u||!u.email){if(info)info.textContent='Este usuário ainda não possui e-mail de recuperação cadastrado. Entre com um administrador para vincular um e-mail.';return;}
-  if(u.authRecoveryEnabled!==true){if(info)info.textContent='E-mail cadastrado: '+maskRecoveryEmail(u.email)+'. O vínculo de recuperação segura ainda precisa ser ativado no Supabase Auth para esta conta.';return;}
-  try{
-    if(!cloudReady&&!initCloud())throw new Error('Supabase indisponível');
-    const redirectTo=location.origin+location.pathname;
-    const {error}=await supabaseClient.auth.resetPasswordForEmail(u.email,{redirectTo});
-    if(error)throw error;
-    if(info)info.textContent='Se a conta estiver ativa no serviço de autenticação, enviaremos as instruções para '+maskRecoveryEmail(u.email)+'.';
-  }catch(e){
-    console.warn('Falha recuperação de senha',e);
-    if(info)info.textContent='Não foi possível iniciar a recuperação agora. O login atual continua funcionando normalmente.';
-  }
-}
 function logoutUser(){sessionStorage.removeItem('pp_current_user'); applyPermissions();}
 function lockModalIfPortaria(){if(isAdmin())return; const body=document.getElementById('modalBody'); if(!body)return; body.insertAdjacentHTML('afterbegin','<div class="lockedNotice">🔒 Consulta liberada. Alterações somente com usuário Admin.</div>'); body.querySelectorAll('input,select,textarea').forEach(el=>el.disabled=true); body.querySelectorAll('button').forEach(btn=>btn.style.display='none');}
 function openUserModal(id=''){
@@ -10803,7 +10762,6 @@ function openUserModal(id=''){
     document.getElementById('uNome').value=u.nome||'';
     document.getElementById('uLogin').value=u.login||'';
     document.getElementById('uLogin').disabled=true;
-    const emailEl=document.getElementById('uEmail'); if(emailEl)emailEl.value=u.email||'';
     document.getElementById('uSenha').value='';
     document.getElementById('uPerfil').value=u.perfil||'portaria';
     const turnoEl=document.getElementById('uTurno'); if(turnoEl)turnoEl.value=u.turno||'';
@@ -10816,7 +10774,7 @@ function openUserModal(id=''){
 }
 function closeUserModal(){document.getElementById('userModal')?.classList.remove('show')}
 function clearUserForm(close=true){
-  ['uEditId','uNome','uLogin','uEmail','uSenha'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
+  ['uEditId','uNome','uLogin','uSenha'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
   const p=document.getElementById('uPerfil'); if(p)p.value='portaria';
   const a=document.getElementById('uAtivo'); if(a)a.value='true';
   const t=document.getElementById('uTurno'); if(t)t.value='';
@@ -10826,7 +10784,7 @@ function clearUserForm(close=true){
 function editUser(id){openUserModal(id)}
 function saveUserForm(){
   if(!isAdmin())return;
-  const editId=val('uEditId'), nome=val('uNome'), login=val('uLogin'), email=val('uEmail').trim().toLowerCase(), senha=val('uSenha'), perfil=val('uPerfil')||'portaria', turno=val('uTurno')||'';
+  const editId=val('uEditId'), nome=val('uNome'), login=val('uLogin'), senha=val('uSenha'), perfil=val('uPerfil')||'portaria', turno=val('uTurno')||'';
   const ativo=(val('uAtivo')!=='false');
   if(!nome||!login||(!editId&&!senha)){openAppConfirm({title:'Cadastro incompleto',message:'Informe nome, login e senha. Ao editar, a senha pode ficar em branco para manter a atual.',okText:'OK'});return;}
   state.users=state.users||defaultUsers();
@@ -10834,10 +10792,10 @@ function saveUserForm(){
     const u=state.users.find(x=>x.id===editId); if(!u)return;
     const activeAdmins=state.users.filter(x=>x.id!==editId&&x.perfil==='admin'&&x.ativo!==false).length + ((perfil==='admin'&&ativo)?1:0);
     if(activeAdmins<1){openAppConfirm({title:'Ação bloqueada',message:'É necessário manter pelo menos um usuário Admin ativo.',okText:'OK'});return;}
-    u.nome=nome; u.email=email; u.perfil=perfil; u.turno=turno; u.ativo=ativo; if(senha)u.senha=senha; normalizeUserOperational(u); addLog('Atualizou usuário',`${nome} • ${userProfileLabel(u)} • ${ativo?'Ativo':'Inativo'}`,'usuario');
+    u.nome=nome; u.perfil=perfil; u.turno=turno; u.ativo=ativo; if(senha)u.senha=senha; normalizeUserOperational(u); addLog('Atualizou usuário',`${nome} • ${userProfileLabel(u)} • ${ativo?'Ativo':'Inativo'}`,'usuario');
   }else{
     if(state.users.some(u=>u.login===login)){openAppConfirm({title:'Login já existe',message:'Escolha outro login para este usuário.',okText:'OK'});return;}
-    const novo=normalizeUserOperational({id:'u-'+Date.now(),nome,login,email,senha,perfil,turno,ativo}); state.users.push(novo); addLog('Criou usuário',`${nome} • ${login} • ${userProfileLabel(novo)}`,'usuario');
+    const novo=normalizeUserOperational({id:'u-'+Date.now(),nome,login,senha,perfil,turno,ativo}); state.users.push(novo); addLog('Criou usuário',`${nome} • ${login} • ${userProfileLabel(novo)}`,'usuario');
   }
   clearUserForm(true); save(); renderUsers(); applyPermissions();
 }
