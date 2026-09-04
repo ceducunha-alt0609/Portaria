@@ -10254,7 +10254,6 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
     merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
     merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
     merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
-    merged.settings.theme=getLocalThemeMode();
     merged.passagens=mergeById(localState.passagens||[],remoteState.passagens||[],x=>new Date(x?.createdAt||x?.data||0).getTime()||0,500);
   }else if(localIsPortaria){
     // Mesmo quando o último snapshot foi feito pela portaria, ela continua recebendo esses módulos do estado remoto se existirem,
@@ -10264,7 +10263,6 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
     merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
     merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
     merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
-    merged.settings.theme=getLocalThemeMode();
   }
   merged.meta={...(merged.meta||{}),lastSyncMergeAt:new Date().toISOString()};
   return merged;
@@ -11245,18 +11243,9 @@ function updateThemeCycleButton(mode,resolved){
   btn.title=`Tema: ${nome}. Clique para alternar.`;
   btn.setAttribute('aria-label',btn.title);
 }
-const LOCAL_THEME_KEY='pp_local_theme_v1';
-function getLocalThemeMode(){
-  const local=localStorage.getItem(LOCAL_THEME_KEY)||'';
-  if(['dark','light','auto'].includes(local))return local;
-  ensureSettings();
-  const migrated=['dark','light','auto'].includes(state.settings.theme)?state.settings.theme:'auto';
-  localStorage.setItem(LOCAL_THEME_KEY,migrated);
-  return migrated;
-}
-function applyTheme(){ensureSettings(); const mode=getLocalThemeMode(); state.settings.theme=mode; const resolved=resolveTheme(mode); document.body.classList.toggle('theme-dark',resolved==='dark'); document.body.classList.toggle('theme-light',resolved==='light'); document.querySelectorAll('[data-theme-choice]').forEach(b=>b.classList.toggle('active',b.dataset.themeChoice===mode)); const st=document.getElementById('themeStatus'); if(st){st.textContent=mode==='auto'?`Automático ativo: tema ${resolved==='dark'?'escuro':'claro'} agora.`:`Tema ${mode==='dark'?'escuro':'claro'} ativo.`} updateThemeCycleButton(mode,resolved)}
-function setThemeMode(mode){ensureSettings(); if(!['dark','light','auto'].includes(mode))mode='auto'; localStorage.setItem(LOCAL_THEME_KEY,mode); state.settings.theme=mode; localStorage.setItem(KEY,JSON.stringify(state)); applyTheme(); const ss=document.getElementById('saveStatus'); if(ss)ss.textContent='Tema salvo neste dispositivo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
-function cycleThemeMode(){const ordem=['dark','light','auto']; const atual=getLocalThemeMode(); const proximo=ordem[(ordem.indexOf(atual)+1+ordem.length)%ordem.length]; setThemeMode(proximo)}
+function applyTheme(){ensureSettings(); const mode=state.settings.theme||'auto'; const resolved=resolveTheme(mode); document.body.classList.toggle('theme-dark',resolved==='dark'); document.body.classList.toggle('theme-light',resolved==='light'); document.querySelectorAll('[data-theme-choice]').forEach(b=>b.classList.toggle('active',b.dataset.themeChoice===mode)); const st=document.getElementById('themeStatus'); if(st){st.textContent=mode==='auto'?`Automático ativo: tema ${resolved==='dark'?'escuro':'claro'} agora.`:`Tema ${mode==='dark'?'escuro':'claro'} ativo.`} updateThemeCycleButton(mode,resolved)}
+function setThemeMode(mode){ensureSettings(); state.settings.theme=mode; localStorage.setItem(KEY,JSON.stringify(state)); applyTheme(); const ss=document.getElementById('saveStatus'); if(ss)ss.textContent='Tema salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
+function cycleThemeMode(){ensureSettings(); const ordem=['dark','light','auto']; const atual=state.settings.theme||'auto'; const proximo=ordem[(ordem.indexOf(atual)+1+ordem.length)%ordem.length]; setThemeMode(proximo)}
 /* restoreBackupFile — implementado no bloco BACKUP ROBUSTO v108 acima */
 function showComingSoon(name){openAppConfirm({title:name,message:'Essa importação ficará preparada em uma próxima etapa. Por enquanto, a importação de moradores já está funcional.',okText:'OK'});}
 
