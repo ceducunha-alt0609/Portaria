@@ -1,0 +1,418 @@
+### function buildBackupPayload @ 713421
+);
+  const drvStatus=document.getElementById('backupDriveStatus'), drvDetail=document.getElementById('backupDriveDetail');
+  if(drvStatus)drvStatus.textContent=_gdriveToken?'Drive conectado':'Drive não conectado';
+  const lastDrive=localStorage.getItem('pp_last_gdrive_backup_at')||'';
+  if(drvDetail)drvDetail.textContent=lastDrive?`Último Drive: ${formatWhenBR(lastDrive)}`:'Conecte para backup externo';
+  setRecoveryCard('backupDriveCard',_gdriveToken?'ok':'warn');
+  const health=document.getElementById('backupHealthStatus'), healthDetail=document.getElementById('backupHealthDetail');
+  const lastSnap=localStorage.getItem('pp_last_local_snapshot_at')||'';
+  if(health)health.textContent='Protegido';
+  if(healthDetail)healthDetail.textContent=lastSnap?`Último snapshot: ${formatWhenBR(lastSnap)}`:'Crie snapshot antes de mudanças grandes';
+  setRecoveryCard('backupHealthCard',lastSnap?'ok':'warn');
+}
+function crc32(str){
+  let crc=0xFFFFFFFF;
+  for(let i=0;i<str.length;i++){
+    crc^=str.charCodeAt(i);
+    for(let j=0;j<8;j++) crc=(crc>>>1)^(crc&1?0xEDB88320:0);
+  }
+  return((crc^0xFFFFFFFF)>>>0).toString(16).padStart(8,'0');
+}
+
+/* Gera o envelope de backup com metadados e checksum */
+function buildBackupPayload(tipo='completo'){
+  const now=new Date();
+  let dados={};
+  if(tipo==='completo')      dados={accesses:state.accesses,units:state.units,settings:state.settings,operational:state.operational,users:state.users.map(u=>({...u,senha:undefined})),logs:state.logs};
+  else if(tipo==='moradores') dados={units:state.units};
+  else if(tipo==='acessos')   dados={accesses:state.accesses};
+  else if(tipo==='logs')      dados={logs:state.logs};
+
+  const dadosStr=JSON.stringify(dados);
+  return {
+    _pp_backup:true,
+    versao:'1.0',
+    tipo,
+    app:'Portaria Primavera',
+    gerado_em:now.toISOString(),
+    gerado_em_br:now.toLocaleString('pt-BR'),
+    stats:{
+      unidades:Object.keys(state.units||{}).length,
+      acessos:(state.accesses||[]).length,
+      logs:(state.logs||[]).length,
+      usuarios:(state.users||[]).length,
+    },
+    checksum:crc32(dadosStr),
+    dados
+  };
+}
+
+/* Valida envelope de backup na importação */
+
+### function applyBackupData @ 715216
+  gerado_em:now.toISOString(),
+    gerado_em_br:now.toLocaleString('pt-BR'),
+    stats:{
+      unidades:Object.keys(state.units||{}).length,
+      acessos:(state.accesses||[]).length,
+      logs:(state.logs||[]).length,
+      usuarios:(state.users||[]).length,
+    },
+    checksum:crc32(dadosStr),
+    dados
+  };
+}
+
+/* Valida envelope de backup na importação */
+function validateBackup(parsed){
+  if(!parsed||typeof parsed!=='object') return {ok:false,msg:'Arquivo não é um JSON válido.'};
+  // Formato antigo (state direto) — aceitar com aviso
+  if(!parsed._pp_backup){
+    if(parsed.accesses!==undefined||parsed.units!==undefined)
+      return {ok:true,legado:true,msg:'Backup no formato antigo (sem metadados). Será importado com compatibilidade.'};
+    return {ok:false,msg:'Arquivo não reconhecido como backup do Portaria Primavera.'};
+  }
+  // Formato novo — validar checksum
+  const dadosStr=JSON.stringify(parsed.dados);
+  const calc=crc32(dadosStr);
+  if(calc!==parsed.checksum)
+    return {ok:false,msg:`Checksum inválido — arquivo pode estar corrompido.\nEsperado: ${parsed.checksum}\nCalculado: ${calc}`};
+  return {ok:true,legado:false,msg:''};
+}
+
+/* Aplica dados importados ao state */
+function applyBackupData(parsed,file){
+  const status=document.getElementById('backupStatus');
+  let dados, tipo;
+  if(parsed._pp_backup){
+    dados=parsed.dados; tipo=parsed.tipo||'completo';
+  } else {
+    dados=parsed; tipo='completo'; // formato legado
+  }
+  if(tipo==='completo'){
+    state={...initial(),...dados};
+  } else if(tipo==='moradores'){
+    state.units={...dados.units||{}};
+  } else if(tipo==='acessos'){
+    state.accesses=[...dados.accesses||[]];
+  } else if(tipo==='logs'){
+    state.logs=[...dados.logs||[]];
+  }
+  if(!Array.isArray(state.logs))state.logs=[];
+  if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
+  state.users.forEach(u=>normalizeUserOperational(u));
+  ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
+  localStorage.setItem(KEY,JSON.stringify(state));
+  addLog('Restaurou backup','Arquivo: '+file.name+' (tipo: '+tipo+')','backup');
+  applyTheme(); renderAll(); applyPermissions();
+  const info=parsed._pp_backup?` — gerado em ${parsed.gerado_em_br}`:'';
+  if(status)status.textContent=`✅ Backup restaurado: ${file.name}${info}`;
+}
+
+
+### function initial(){ @ 619678
+:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+
+### function load() @ 619823
+elador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
+function repairLocalUserPasswords(users){
+  const defaults=defaultUsers();
+  const byId=new Map(defaults.map(u=>[u.id,u]));
+  const byLogin=new Map(defaults.map(u=>[u.login,u]));
+  return (Array.isArray(users)?users:[]).map(u=>{
+    if(u&&String(u.senha||'')!=='')return u;
+    const d=byId.get(u?.id)||byLogin.get(u?.login);
+    return d?{...u,senha:d.senha}:u;
+  });
+}
+function mergeUsersPreservingPasswords(localUsers,remoteUsers){
+  const local=Array.isArray(localUsers)?localUsers:[];
+  const remote=Array.isArray(remoteUsers)?remoteUsers:[];
+  if(!remote.length)return repairLocalUserPasswords(local.length?local:defaultUsers());
+  const localById=new Map(local.filter(Boolean).map(u=>[u.id,u]));
+  const localByLogin=new Map(local.filter(Boolean).map(u=>[u.login,u]));
+  return repairLocalUserPasswords(remote.map(r=>{
+    const l=localById.get(r?.id)||localByLogin.get(r?.login);
+    return {...r,...(l&&String(l.senha||'')!==''?{senha:l.senha}:{})};
+  }));
+}
+
+function initial(){return{accesses:[],units:{},settings:{theme:'auto'},operational:[],users:defaultUsers(),logs:[],passagens:[],comunicados:[]}}
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY))||{};
+    const base=initial();
+    const data={...base,...raw};
+    data.accesses=Array.isArray(data.accesses)?data.accesses:[];
+    data.units=data.units&&typeof data.units==='object'?data.units:{};
+    data.settings={...base.settings,...(data.settings||{})};
+    data.operational=Array.isArray(data.operational)?data.operational:[];
+    data.users=repairLocalUserPasswords(Array.isArray(data.users)&&data.users.length?data.users:defaultUsers());
+    const migratedAdmin=data.users.find(u=>u&&(u.id==='u-admin'||u.login==='admin')); if(migratedAdmin&&!String(migratedAdmin.email||'').trim())migratedAdmin.email='c.edu.cunha1977@gmail.com';
+    data.logs=Array.isArray(data.logs)?data.logs:[];
+    data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
+    data.users.forEach(u=>normalizeUserOperational(u));
+    return data;
+  }catch(e){console.warn('Falha ao carregar base local',e);return initial()}
+}
+
+### function saveGDriveIntegrationConfig @ 720540
+length<=14)return v;
+  return v.slice(0,8)+'••••••'+v.slice(-6);
+}
+function loadIntegrationConfigs(){
+  const cid=document.getElementById('gdriveClientIdConfig');
+  const key=document.getElementById('gdriveApiKeyConfig');
+  if(cid)cid.value=localStorage.getItem('pp_gdrive_client_id')||'';
+  if(key)key.value=localStorage.getItem('pp_gdrive_api_key')||'';
+  const sbUrl=document.getElementById('supabaseUrlConfig');
+  const sbKey=document.getElementById('supabaseKeyConfig');
+  if(sbUrl)sbUrl.value=typeof SUPABASE_URL!=='undefined'?SUPABASE_URL:'';
+  if(sbKey)sbKey.value=typeof SUPABASE_KEY!=='undefined'?maskCredential(SUPABASE_KEY):'';
+  updateIntegrationStatus();
+}
+function updateIntegrationStatus(){
+  const st=document.getElementById('gdriveIntegrationStatus');
+  const hasClient=!!gdriveClientId();
+  const hasKey=!!gdriveApiKey();
+  if(st){
+    st.className='integrationStatus '+(hasClient&&hasKey?'ok':hasClient?'warn':'warn');
+    st.textContent=hasClient&&hasKey?'Configurado':hasClient?'Client ID salvo; falta API Key':'Não configurado';
+  }
+  const hint=document.getElementById('driveClientIdHint');
+  if(hint)hint.style.display=hasClient?'none':'';
+  refreshBackupCenterStatus?.();
+}
+function saveGDriveIntegrationConfig(){
+  const cid=(document.getElementById('gdriveClientIdConfig')?.value||'').trim();
+  const key=(document.getElementById('gdriveApiKeyConfig')?.value||'').trim();
+  if(!cid || !cid.includes('.apps.googleusercontent.com')){
+    showCloudToast?.('Informe um OAuth Client ID válido do Google','err',5000);
+    return;
+  }
+  if(!key || !key.startsWith('AIza')){
+    showCloudToast?.('Informe uma API Key válida do Google','err',5000);
+    return;
+  }
+  localStorage.setItem('pp_gdrive_client_id',cid);
+  localStorage.setItem('pp_gdrive_api_key',key);
+  addLog?.('Integração Google Drive','Credenciais salvas em Central Administrativa → Integrações','sistema');
+  updateIntegrationStatus();
+  setDriveStatus('✅ Google Drive configurado. Clique em Conectar ao Google Drive.','ok');
+  showCloudToast?.('Integração Google Drive salva ✅','ok',4000);
+}
+async function testGDriveIntegrationConfig(){
+  const cid=(document.getElementById('gdriveClientIdConfig')?.value||gdriveClientId()||'').trim();
+  const key=(document.getElementById('gdriveApiKeyConfig')?.value||gdriveApiKey()||'').trim();
+  if(!cid || !key){showCloudToast?.('Preencha Client ID e API Key antes de testar','err',5000);return;}
+  setDriveStatus('⏳ Testando configuração do Google Drive...');
+  try{
+    const r=await fetch('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest?key='+encodeURIComponent(key));
+    if(!r.ok)throw new Error('API Key recusada pelo Google ('+r.status+')');
+    const j=await r.json();
+    if(!j || !j.name)throw new Error('Resposta inesperada do Google Drive API');
+    setDriveStatus('✅ Configuração válida. Agora conecte ao Google Drive.','ok');
+    const st=document.getElementById('gdriveIntegrationStatus');
+    if(st){st.className='integrationStatus ok';st.textContent='Configuração OK';}
+    showCloudToast?.('Google Drive API validada ✅','ok',4000);
+  }catch(e){
+    setDriveStatus('❌ Falha no teste: '+e.message,'err');
+    const st=document.getElementById('gdriveIntegrationStatus');
+    if(st){st.className='integrationStatus err';st.textContent='Teste falhou';}
+  }
+}
+
+### function updateIntegrationStatus @ 720011
+imavera';
+const GDRIVE_MAX_BACKUPS=5;
+let _gdriveToken=null;
+
+function setDriveStatus(msg,type='info'){
+  const el=document.getElementById('driveStatus');
+  if(!el)return;
+  el.style.display='block';
+  el.textContent=msg;
+  el.style.color=type==='ok'?'#08734d':type==='err'?'#a32636':'var(--muted)';
+}
+
+function gdriveClientId(){
+  return localStorage.getItem('pp_gdrive_client_id')||'';
+}
+function gdriveApiKey(){
+  return localStorage.getItem('pp_gdrive_api_key')||'';
+}
+
+
+function maskCredential(v){
+  if(!v)return '';
+  if(v.length<=14)return v;
+  return v.slice(0,8)+'••••••'+v.slice(-6);
+}
+function loadIntegrationConfigs(){
+  const cid=document.getElementById('gdriveClientIdConfig');
+  const key=document.getElementById('gdriveApiKeyConfig');
+  if(cid)cid.value=localStorage.getItem('pp_gdrive_client_id')||'';
+  if(key)key.value=localStorage.getItem('pp_gdrive_api_key')||'';
+  const sbUrl=document.getElementById('supabaseUrlConfig');
+  const sbKey=document.getElementById('supabaseKeyConfig');
+  if(sbUrl)sbUrl.value=typeof SUPABASE_URL!=='undefined'?SUPABASE_URL:'';
+  if(sbKey)sbKey.value=typeof SUPABASE_KEY!=='undefined'?maskCredential(SUPABASE_KEY):'';
+  updateIntegrationStatus();
+}
+function updateIntegrationStatus(){
+  const st=document.getElementById('gdriveIntegrationStatus');
+  const hasClient=!!gdriveClientId();
+  const hasKey=!!gdriveApiKey();
+  if(st){
+    st.className='integrationStatus '+(hasClient&&hasKey?'ok':hasClient?'warn':'warn');
+    st.textContent=hasClient&&hasKey?'Configurado':hasClient?'Client ID salvo; falta API Key':'Não configurado';
+  }
+  const hint=document.getElementById('driveClientIdHint');
+  if(hint)hint.style.display=hasClient?'none':'';
+  refreshBackupCenterStatus?.();
+}
+
+### function clearGDriveIntegrationConfig @ 722651
+ationConfig(){
+  const cid=(document.getElementById('gdriveClientIdConfig')?.value||gdriveClientId()||'').trim();
+  const key=(document.getElementById('gdriveApiKeyConfig')?.value||gdriveApiKey()||'').trim();
+  if(!cid || !key){showCloudToast?.('Preencha Client ID e API Key antes de testar','err',5000);return;}
+  setDriveStatus('⏳ Testando configuração do Google Drive...');
+  try{
+    const r=await fetch('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest?key='+encodeURIComponent(key));
+    if(!r.ok)throw new Error('API Key recusada pelo Google ('+r.status+')');
+    const j=await r.json();
+    if(!j || !j.name)throw new Error('Resposta inesperada do Google Drive API');
+    setDriveStatus('✅ Configuração válida. Agora conecte ao Google Drive.','ok');
+    const st=document.getElementById('gdriveIntegrationStatus');
+    if(st){st.className='integrationStatus ok';st.textContent='Configuração OK';}
+    showCloudToast?.('Google Drive API validada ✅','ok',4000);
+  }catch(e){
+    setDriveStatus('❌ Falha no teste: '+e.message,'err');
+    const st=document.getElementById('gdriveIntegrationStatus');
+    if(st){st.className='integrationStatus err';st.textContent='Teste falhou';}
+  }
+}
+function clearGDriveIntegrationConfig(){
+  openAppConfirm({
+    title:'Limpar integração Google Drive?',
+    message:'Isso remove o Client ID, API Key e token salvo neste navegador. Os backups já criados no Drive não serão apagados.',
+    okText:'Limpar',
+    onConfirm:()=>{
+      localStorage.removeItem('pp_gdrive_client_id');
+      localStorage.removeItem('pp_gdrive_api_key');
+      localStorage.removeItem('pp_gdrive_token');
+      _gdriveToken=null;
+      loadIntegrationConfigs();
+      gdriveUpdateUI?.(false);
+      setDriveStatus('Google Drive desconectado e configuração removida.');
+    }
+  });
+}
+async function testSupabaseIntegrationConfig(){
+  setCloudStatus?.('☁️ Testando Supabase...');
+  try{
+    await cloudSaveNow?.('teste-conexao');
+    showCloudToast?.('Supabase respondeu ao teste ✅','ok',4000);
+  }catch(e){
+    showCloudToast?.('Erro ao testar Supabase','err',6000);
+  }
+}
+
+
+### function gdriveClientId @ 719114
+     openAppConfirm({
+        title:'Restaurar backup?',
+        message:`${info}<br><br>A base atual será substituída. Deseja continuar?`,
+        okText:'Restaurar',
+        onConfirm:()=>{createLocalSnapshot('antes-restaurar-json',true); applyBackupData(parsed,file); refreshBackupCenterStatus?.();}
+      });
+    }catch(err){
+      if(status)status.textContent='❌ Erro ao ler o arquivo JSON.';
+      openAppConfirm({title:'Erro ao ler backup',message:'O arquivo não é um JSON válido ou está corrompido.',okText:'OK'});
+    }finally{ev.target.value='';}
+  };
+  reader.readAsText(file);
+}
+
+/* ── GOOGLE DRIVE v108 ──────────────────────────────────────── */
+const GDRIVE_CLIENT_ID=localStorage.getItem('pp_gdrive_client_id')||'';
+const GDRIVE_API_KEY=localStorage.getItem('pp_gdrive_api_key')||'';
+const GDRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
+const GDRIVE_FOLDER='Portaria Primavera';
+const GDRIVE_MAX_BACKUPS=5;
+let _gdriveToken=null;
+
+function setDriveStatus(msg,type='info'){
+  const el=document.getElementById('driveStatus');
+  if(!el)return;
+  el.style.display='block';
+  el.textContent=msg;
+  el.style.color=type==='ok'?'#08734d':type==='err'?'#a32636':'var(--muted)';
+}
+
+function gdriveClientId(){
+  return localStorage.getItem('pp_gdrive_client_id')||'';
+}
+
+### function gdriveApiKey @ 719201
+r>A base atual será substituída. Deseja continuar?`,
+        okText:'Restaurar',
+        onConfirm:()=>{createLocalSnapshot('antes-restaurar-json',true); applyBackupData(parsed,file); refreshBackupCenterStatus?.();}
+      });
+    }catch(err){
+      if(status)status.textContent='❌ Erro ao ler o arquivo JSON.';
+      openAppConfirm({title:'Erro ao ler backup',message:'O arquivo não é um JSON válido ou está corrompido.',okText:'OK'});
+    }finally{ev.target.value='';}
+  };
+  reader.readAsText(file);
+}
+
+/* ── GOOGLE DRIVE v108 ──────────────────────────────────────── */
+const GDRIVE_CLIENT_ID=localStorage.getItem('pp_gdrive_client_id')||'';
+const GDRIVE_API_KEY=localStorage.getItem('pp_gdrive_api_key')||'';
+const GDRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
+const GDRIVE_FOLDER='Portaria Primavera';
+const GDRIVE_MAX_BACKUPS=5;
+let _gdriveToken=null;
+
+function setDriveStatus(msg,type='info'){
+  const el=document.getElementById('driveStatus');
+  if(!el)return;
+  el.style.display='block';
+  el.textContent=msg;
+  el.style.color=type==='ok'?'#08734d':type==='err'?'#a32636':'var(--muted)';
+}
+
+function gdriveClientId(){
+  return localStorage.getItem('pp_gdrive_client_id')||'';
+}
+function gdriveApiKey(){
+  return localStorage.getItem('pp_gdrive_api_key')||'';
+}
+
+
