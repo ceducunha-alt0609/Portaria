@@ -1,0 +1,21 @@
+function exportAccessesCsv(){
+  normalizeAccesses();
+  const r=buildReportData();
+  const rows=[['Data entrada','Hora entrada','Nome','CPF','Empresa/Tipo','Unidade visitada','Autorizado por','Serviço','Saída']];
+  r.accesses.slice().sort((a,b)=>accessMs(a)-accessMs(b)).forEach(a=>{
+    rows.push([
+      a.data||'',
+      a.entrada||'',
+      a.nome||'',
+      a.cpf||'',
+      a.empresa||a.tipo||'',
+      a.destino||(a.bloco&&a.apto?`${a.bloco} ${a.apto}`:''),
+      a.autorizado||'',
+      a.servico||'',
+      a.saida||''
+    ]);
+  });
+  csvDownload('relatorio-acessos-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de acessos em CSV',`${r.accesses.length} acesso(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
