@@ -30,3 +30,4 @@ jobs:
           git add index.html sw.js backups/index_pre_gdrive_persistente_2026-09-03.html backups/sw_pre_gdrive_persistente_2026-09-03.js
           git commit -m "feat: preservar configuracao do google drive"
           git push origin main
+      # retry 2: ajuste da limpeza incluindo pp_gdrive_token
