@@ -67,21 +67,21 @@ new="""  const cfg=ensureGDriveSettings();
 if s.count(old)!=1: raise SystemExit('saveGDrive config divergente')
 s=s.replace(old,new,1)
 
-# clear function body exact targeted lines
-old="""  localStorage.removeItem('pp_gdrive_client_id');
-  localStorage.removeItem('pp_gdrive_api_key');
-  _gdriveToken=null;"""
-new="""  const cfg=ensureGDriveSettings();
-  cfg.clientId='';
-  cfg.apiKey='';
-  localStorage.removeItem('pp_gdrive_client_id');
-  localStorage.removeItem('pp_gdrive_api_key');
-  _gdriveToken=null;
-  save('limpeza-configuracao-google-drive');"""
+old="""      localStorage.removeItem('pp_gdrive_client_id');
+      localStorage.removeItem('pp_gdrive_api_key');
+      localStorage.removeItem('pp_gdrive_token');
+      _gdriveToken=null;"""
+new="""      const cfg=ensureGDriveSettings();
+      cfg.clientId='';
+      cfg.apiKey='';
+      localStorage.removeItem('pp_gdrive_client_id');
+      localStorage.removeItem('pp_gdrive_api_key');
+      localStorage.removeItem('pp_gdrive_token');
+      _gdriveToken=null;
+      save('limpeza-configuracao-google-drive');"""
 if s.count(old)!=1: raise SystemExit('clearGDrive config divergente')
 s=s.replace(old,new,1)
 
-# after imported state settings normalization, mirror gdrive stores
 old="""  ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
   localStorage.setItem(KEY,JSON.stringify(state));"""
 new="""  ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
@@ -90,7 +90,6 @@ new="""  ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
 if s.count(old)!=1: raise SystemExit('applyBackupData ponto divergente')
 s=s.replace(old,new,1)
 
-# migrate during initial state load before return
 old="""    data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
     data.users.forEach(u=>normalizeUserOperational(u));
     return data;"""
