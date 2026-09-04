@@ -1,0 +1,1773 @@
+### exportReportsFromMenu @ 579584
+QuickFilters" id="accessQuickFilters" aria-label="Filtrar acessos em andamento por tipo">
+            <button type="button" class="accessQuickFilter active" data-access-type="" onclick="setAccessQuickFilter('')">Todos</button>
+            <button type="button" class="accessQuickFilter" data-access-type="Visitante" onclick="setAccessQuickFilter('Visitante')">Visitantes</button>
+            <button type="button" class="accessQuickFilter" data-access-type="Prestador" onclick="setAccessQuickFilter('Prestador')">Prestadores</button>
+          </div>
+          <div id="accessTable"></div>
+        </div>
+      </div>
+    </section>
+    <section id="moradores" class="section">
+      <div class="moradoresPanels">
+        <div class="card"><div class="title"><h2>Unidades por bloco</h2></div><div class="blocks" id="blocks"></div></div>
+        <div class="card"><div id="adminSlot"></div></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><
+
+### exportReportsFromMenu @ 579817
+      <button type="button" class="accessQuickFilter" data-access-type="Visitante" onclick="setAccessQuickFilter('Visitante')">Visitantes</button>
+            <button type="button" class="accessQuickFilter" data-access-type="Prestador" onclick="setAccessQuickFilter('Prestador')">Prestadores</button>
+          </div>
+          <div id="accessTable"></div>
+        </div>
+      </div>
+    </section>
+    <section id="moradores" class="section">
+      <div class="moradoresPanels">
+        <div class="card"><div class="title"><h2>Unidades por bloco</h2></div><div class="blocks" id="blocks"></div></div>
+        <div class="card"><div id="adminSlot"></div></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="toolIcon">💾</div>
+            <div>
+
+
+### exportReportsFromMenu @ 580041
+"Prestador" onclick="setAccessQuickFilter('Prestador')">Prestadores</button>
+          </div>
+          <div id="accessTable"></div>
+        </div>
+      </div>
+    </section>
+    <section id="moradores" class="section">
+      <div class="moradoresPanels">
+        <div class="card"><div class="title"><h2>Unidades por bloco</h2></div><div class="blocks" id="blocks"></div></div>
+        <div class="card"><div id="adminSlot"></div></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="toolIcon">💾</div>
+            <div>
+              <h3>Proteção dos dados</h3>
+              <p class="mini">Backup, restauração, snapshots e sincronização em uma área mais enxuta.</p>
+            </div>
+          </div>
+
+          <div class="recoveryCenter">
+
+
+### exportReportsFromMenu @ 580270
+iv class="moradoresPanels">
+        <div class="card"><div class="title"><h2>Unidades por bloco</h2></div><div class="blocks" id="blocks"></div></div>
+        <div class="card"><div id="adminSlot"></div></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="toolIcon">💾</div>
+            <div>
+              <h3>Proteção dos dados</h3>
+              <p class="mini">Backup, restauração, snapshots e sincronização em uma área mais enxuta.</p>
+            </div>
+          </div>
+
+          <div class="recoveryCenter">
+            <div class="recoveryHero recoveryHeroCompact">
+              <div class="recoveryActions recoveryActionsTop">
+                <button class="btn gold adminOnly" onclick="exportData('completo')" title="Gera um arquivo 
+
+### exportReportsFromMenu @ 580512
+ <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="toolIcon">💾</div>
+            <div>
+              <h3>Proteção dos dados</h3>
+              <p class="mini">Backup, restauração, snapshots e sincronização em uma área mais enxuta.</p>
+            </div>
+          </div>
+
+          <div class="recoveryCenter">
+            <div class="recoveryHero recoveryHeroCompact">
+              <div class="recoveryActions recoveryActionsTop">
+                <button class="btn gold adminOnly" onclick="exportData('completo')" title="Gera um arquivo JSON completo com checksum">Backup agora</button>
+                <button class="btn ghost adminOnly" onclick="document.getElementById('backupRestoreFile').click()">Restaurar</button>
+                <button class="btn ghost adminOnly" onclic
+
+### exportReportsFromMenu @ 580739
+>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="toolIcon">💾</div>
+            <div>
+              <h3>Proteção dos dados</h3>
+              <p class="mini">Backup, restauração, snapshots e sincronização em uma área mais enxuta.</p>
+            </div>
+          </div>
+
+          <div class="recoveryCenter">
+            <div class="recoveryHero recoveryHeroCompact">
+              <div class="recoveryActions recoveryActionsTop">
+                <button class="btn gold adminOnly" onclick="exportData('completo')" title="Gera um arquivo JSON completo com checksum">Backup agora</button>
+                <button class="btn ghost adminOnly" onclick="document.getElementById('backupRestoreFile').click()">Restaurar</button>
+                <button class="btn ghost adminOnly" onclick="forceSyncNow()">Sincronizar</button>
+                <button class="btn ghost" onclick="refreshBackupCenterStatus()">Atualizar</button>
+              </div>
+            </div>
+            <div class="recoveryStatusGrid">
+   
+
+### exportReportsFromMenu @ 855939
+taria-primavera.csv',rows);
+  addLog?.('Exportou relatório de acessos em CSV',`${r.accesses.length} acesso(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportResidentsCsv(){
+  const rows=[['Bloco','Apto','Morador','Telefone','Vínculo','Usa app','Biometria','Placa','Cor','Modelo','Vaga']];
+  Object.values(state.units||{}).forEach(u=>{
+    const people=(u.people||[]).filter(p=>p&&p.nome);
+    const vehicles=(u.vehicles||[]).filter(v=>v&&(v.placa||v.cor||v.modelo||v.vaga));
+    if(!people.length&&!vehicles.length){
+      rows.push([u.bloco||'',u.apto||'','','','','','','','','','']);
+      return;
+    }
+    const max=Math.max(people.length,vehicles.length,1);
+    for(let i=0;i<max;i++){
+      const p=people[i]||{};
+      const v=vehicles[i]||{};
+      rows.push([u.bloco||'',u.apto||'',p.nome||'',p.tel||p.telefone||'',p.vinculo||'',p.app||'',p.bio||'',v.placa||'',v.cor||'',v.modelo||'',v.vaga||'']);
+    }
+  });
+  csvDownload('relatorio-moradores-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de moradores em CSV',`${rows.length-1} linha(s)`,'relatorios');
+  persistNoRender?.();
+}
+function exportAuditCsv(){
+  const r=buildReportData();
+  const rows=[['Data/hora','Tipo','Ação','Detalhes','Operador','Perfil','Turno']];
+  r.logs.slice().sort((a,b)=>parseDateMs(a.criadoEm)-parseDateMs(b.criadoEm)).forEach(l=>{
+    rows.push([
+      l.criadoEm||'',
+      logTypeLabel(l.tipo),
+      l.acao||l.titulo||'',
+      l.detalhes||l.desc||'',
+      l.operador||l.user||'',
+      l.perfil||'',
+      l.turno||''
+    ]);
+  });
+  csvDownload('relatorio-auditoria-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de auditoria em CSV',`${r.logs.length} log(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportReportsFromMenu(type){
+  closeReportsExportMenu();
+  if(type==='json') return exportReports();
+  if(type==='agendaCsv') return exportAgendaCsv();
+  if(type==='accessCsv') return exportAccessesCsv();
+  if(type==='residentsCsv') return exportResidentsCsv();
+  if(type==='auditCsv') return exportAuditCsv();
+  if(type==='print') return printReports();
+}
+
+function exportReports(){
+  const r=buildReportData();
+  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:{resumo:r.byAgenda,eventos:r.ops},logs:r.byLogType};
+  addLog('Exportou relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='relatorio-portaria-primavera.json'; a.click(); URL.revokeObjectURL(url); renderReports();
+}
+
+function printReports(){
+  renderReports();
+  const r=buildReportData();
+  const meta=document.getElementById('printReportMeta');
+  if(meta){
+    const now=new Date();
+    meta.textContent=`Emitido em ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} • Período: ${r.range.label}`;
+  }
+  addLog('Imprimiu relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  setTimeout(()=>window.print(),120);
+}
+
+
+/* v105 — Tour Guiado Primavera */
+let helpTourIndex=0;
+let helpTourManual=false;
+function helpTourSlides(){
+  const slides=[
+    {icon:'🏢',title:'Resumo',selector:'.tab[data-tab="dashboard"]',tab:'dashboard',text:'Acompanhe em uma única tela os acessos do dia, quem ainda está no condomínio, mudanças e reservas do salão.',items:['Use os cards superiores para bater o olho na situação do dia.','Clique nos acessos recentes para consultar detalhes e registrar saída quando necessário.']},
+    {icon:'🚪',title:'Entrada / Saída',selector:'.tab[data-tab="acessos"]',tab:'acessos',text:'É a área principal da portaria para registrar visitantes, prestadores e controlar quem ainda está no local.',items:['Registre a entrada no painel Novo Acesso.','A baixa da saída é feita no Controle em Andamento ou pelo Resumo.']},
+    {icon:'👥',title:'Moradores',selector:'.tab[data-tab="moradores"]',tab:'moradores',text:'Consulte unidades, moradores, telefones, veículos, identificação do condomínio, emergências e prestadores.',items:['Use a busca global quando souber nome, telefone, placa ou unidade.','Em emergência, confira endereço e contatos rápidos nesta guia.']},
+    {icon:'🔎',title:'Busca Global',selector:'.globalSearchBox',text:'A busca global localiza rapidamente moradores, unidades, telefones e placas sem precisar entrar em cada bloco.',items:['Digite parte do nome, placa, telefone ou unidade.','Clique no resultado para abrir a unidade correspondente.']},
+    {icon:'⛶',title:'Operação da Portaria',selector:'#kioskBtn',text:'O botão Kiosk coloca o sistema em modo tela cheia, ideal para deixar aberto no computador da portaria.',items:['Use o botão de tema para alternar entre claro, escuro e automático.','Use o ícone da porta para encerrar a sessão com confirmação.']}
+  ];
+  if(isAdmin())slides.push({icon:'📊',title:'Relatórios e Ferramentas',selector:'.tab[data-tab="relatorios"]',tab:'relatorios',text:'Usuários Admin também acessam relatórios, backups, logs, agenda operacional e configurações.',items:['Imprima relatórios para conferência ou prestação de contas.','Use a Central Administrativa para backup, usuários, logs e ajustes administrativos.']});
+  slides.push({icon:'✅',title:'Pronto para usar',selector:'#helpFloatBtn',text:'Este botão de ajuda fica sempre no canto inferior direito. Clique nele sempre que quiser rever este guia rápido.',items:['O guia é geral e rápido, sem explicar campo por campo.','A operação do dia a dia acontece principalmente em Resumo, Entrada/Saída e Moradores.']});
+  return slides;
+}
+function clearTourSpotlight(){document.querySelectorAll('.tourSpotlight').forEach(el=>el.classList.remove('tourSpotlight'))}
+function renderHelpTourStep(){
+  const slides=helpTourSlides();
+  if(helpTourIndex<0)helpTourIndex=0;if(helpTourIndex>=slides.length)helpTourIndex=slides.length-1;
+  const s=slides[helpTourIndex];
+  if(s.tab){try{goTab(s.tab)}catch(e){}}
+  clearTourSpotlight();
+  setTimeout(()=>{try{const target=document.querySelector(s.selector); if(target)target.classList.add('tourSpotlight')}catch(e){}},40);
+  const body=document.getElementById('helpTourBody');
+  if(body){body.innerHTML=`<div class="helpTourIcon">${s.icon}</div><p class="helpTourText"><b>${esc(s.title)}</b><br>${esc(s.text)}</p><div class="helpTourList">${(s.items||[]).map(item=>`<div><span>•</span><span>${esc(item)}</span></div>`).join('')}</div>`}
+  const prog=document.getElementById('helpTourProgress');
+  if(prog){prog.innerHTML=slides.map((_,i)=>`<span class="helpTourDot ${i===helpTourIndex?'active':''}"></span>`).j
+
+### accessCsv @ 580064
+tAccessQuickFilter('Prestador')">Prestadores</button>
+          </div>
+          <div id="accessTable"></div>
+        </div>
+      </div>
+    </section>
+    <section id="moradores" class="section">
+      <div class="moradoresPanels">
+        <div class="card"><div class="title"><h2>Unidades por bloco</h2></div><div class="blocks" id="blocks"></div></div>
+        <div class="card"><div id="adminSlot"></div></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="toolIcon">💾</div>
+            <div>
+              <h3>Proteção dos dados</h3>
+              <p class="mini">Backup, restauração, snapshots e sincronização em uma área mais enxuta.</p>
+            </div>
+          </div>
+
+          <div class="recoveryCenter">
+            <div class=
+
+### accessCsv @ 856104
+Render?.();
+}
+function exportResidentsCsv(){
+  const rows=[['Bloco','Apto','Morador','Telefone','Vínculo','Usa app','Biometria','Placa','Cor','Modelo','Vaga']];
+  Object.values(state.units||{}).forEach(u=>{
+    const people=(u.people||[]).filter(p=>p&&p.nome);
+    const vehicles=(u.vehicles||[]).filter(v=>v&&(v.placa||v.cor||v.modelo||v.vaga));
+    if(!people.length&&!vehicles.length){
+      rows.push([u.bloco||'',u.apto||'','','','','','','','','','']);
+      return;
+    }
+    const max=Math.max(people.length,vehicles.length,1);
+    for(let i=0;i<max;i++){
+      const p=people[i]||{};
+      const v=vehicles[i]||{};
+      rows.push([u.bloco||'',u.apto||'',p.nome||'',p.tel||p.telefone||'',p.vinculo||'',p.app||'',p.bio||'',v.placa||'',v.cor||'',v.modelo||'',v.vaga||'']);
+    }
+  });
+  csvDownload('relatorio-moradores-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de moradores em CSV',`${rows.length-1} linha(s)`,'relatorios');
+  persistNoRender?.();
+}
+function exportAuditCsv(){
+  const r=buildReportData();
+  const rows=[['Data/hora','Tipo','Ação','Detalhes','Operador','Perfil','Turno']];
+  r.logs.slice().sort((a,b)=>parseDateMs(a.criadoEm)-parseDateMs(b.criadoEm)).forEach(l=>{
+    rows.push([
+      l.criadoEm||'',
+      logTypeLabel(l.tipo),
+      l.acao||l.titulo||'',
+      l.detalhes||l.desc||'',
+      l.operador||l.user||'',
+      l.perfil||'',
+      l.turno||''
+    ]);
+  });
+  csvDownload('relatorio-auditoria-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de auditoria em CSV',`${r.logs.length} log(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportReportsFromMenu(type){
+  closeReportsExportMenu();
+  if(type==='json') return exportReports();
+  if(type==='agendaCsv') return exportAgendaCsv();
+  if(type==='accessCsv') return exportAccessesCsv();
+  if(type==='residentsCsv') return exportResidentsCsv();
+  if(type==='auditCsv') return exportAuditCsv();
+  if(type==='print') return printReports();
+}
+
+function exportReports(){
+  const r=buildReportData();
+  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:{resumo:r.byAgenda,eventos:r.ops},logs:r.byLogType};
+  addLog('Exportou relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='relatorio-portaria-primavera.json'; a.click(); URL.revokeObjectURL(url); renderReports();
+}
+
+function printReports(){
+  renderReports();
+  const r=buildReportData();
+  const meta=document.getElementById('printReportMeta');
+  if(meta){
+    const now=new Date();
+    meta.textContent=`Emitido em ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} • Período: ${r.range.label}`;
+  }
+  addLog('Imprimiu relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  setTimeout(()=>window.print(),120);
+}
+
+
+/* v105 — Tour Guiado Primavera */
+let helpTourIndex=0;
+let helpTourManual=false;
+function helpTourSlides(){
+  const slides=[
+    {icon:'🏢',title:'Resumo',selector:'.tab[data-tab="dashboard"]',tab:'dashboard',text:'Acompanhe em uma única tela os acessos do dia, quem ainda está no condomínio, mudanças e reservas do salão.',items:['Use os cards superiores para bater o olho na situação do dia.','Clique nos acessos recentes para consultar detalhes e registrar saída quando necessário.']},
+    {icon:'🚪',title:'Entrada / Saída',selector:'.tab[data-tab="acessos"]',tab:'acessos',text:'É a área principal da portaria para registrar visitantes, prestadores e controlar quem ainda está no local.',items:['Registre a entrada no painel Novo Acesso.','A baixa da saída é feita no Controle em Andamento ou pelo Resumo.']},
+    {icon:'👥',title:'Moradores',selector:'.tab[data-tab="moradores"]',tab:'moradores',text:'Consulte unidades, moradores, telefones, veículos, identificação do condomínio, emergências e prestadores.',items:['Use a busca global quando souber nome, telefone, placa ou unidade.','Em emergência, confira endereço e contatos rápidos nesta guia.']},
+    {icon:'🔎',title:'Busca Global',selector:'.globalSearchBox',text:'A busca global localiza rapidamente moradores, unidades, telefones e placas sem precisar entrar em cada bloco.',items:['Digite parte do nome, placa, telefone ou unidade.','Clique no resultado para abrir a unidade correspondente.']},
+    {icon:'⛶',title:'Operação da Portaria',selector:'#kioskBtn',text:'O botão Kiosk coloca o sistema em modo tela cheia, ideal para deixar aberto no computador da portaria.',items:['Use o botão de tema para alternar entre claro, escuro e automático.','Use o ícone da porta para encerrar a sessão com confirmação.']}
+  ];
+  if(isAdmin())slides.push({icon:'📊',title:'Relatórios e Ferramentas',selector:'.tab[data-tab="relatorios"]',tab:'relatorios',text:'Usuários Admin também acessam relatórios, backups, logs, agenda operacional e configurações.',items:['Imprima relatórios para conferência ou prestação de contas.','Use a Central Administrativa para backup, usuários, logs e ajustes administrativos.']});
+  slides.push({icon:'✅',title:'Pronto para usar',selector:'#helpFloatBtn',text:'Este botão de ajuda fica sempre no canto inferior direito. Clique nele sempre que quiser rever este guia rápido.',items:['O guia é geral e rápido, sem explicar campo por campo.','A operação do dia a dia acontece principalmente em Resumo, Entrada/Saída e Moradores.']});
+  return slides;
+}
+function clearTourSpotlight(){document.querySelectorAll('.tourSpotlight').forEach(el=>el.classList.remove('tourSpotlight'))}
+function renderHelpTourStep(){
+  const slides=helpTourSlides();
+  if(helpTourIndex<0)helpTourIndex=0;if(helpTourIndex>=slides.length)helpTourIndex=slides.length-1;
+  const s=slides[helpTourIndex];
+  if(s.tab){try{goTab(s.tab)}catch(e){}}
+  clearTourSpotlight();
+  setTimeout(()=>{try{const target=document.querySelector(s.selector); if(target)target.classList.add('tourSpotlight')}catch(e){}},40);
+  const body=document.getElementById('helpTourBody');
+  if(body){body.innerHTML=`<div class="helpTourIcon">${s.icon}</div><p class="helpTourText"><b>${esc(s.title)}</b><br>${esc(s.text)}</p><div class="helpTourList">${(s.items||[]).map(item=>`<div><span>•</span><span>${esc(item)}</span></div>`).join('')}</div>`}
+  const prog=document.getElementById('helpTourProgress');
+  if(prog){prog.innerHTML=slides.map((_,i)=>`<span class="helpTourDot ${i===helpTourIndex?'active':''}"></span>`).join('')}
+  const prev=document.getElementById('helpTourPrev'); if(prev)prev.style.visibility=helpTourIndex===0?'hidden':'visible';
+  const next=document.getElementBy
+
+### function renderReports @ 839525
+m ${a.label}`,'agenda');
+  persistNoRender?.();
+}
+
+
+/* v147 — Acordeões da guia Relatórios */
+const REPORT_ACCORDION_MEMORY_KEY='portaria_primavera_report_accordions_v147';
+function getReportAccordionMemory(){
+  try{return JSON.parse(localStorage.getItem(REPORT_ACCORDION_MEMORY_KEY)||'{}')||{}}catch(e){return {}}
+}
+function setReportAccordionMemory(data){
+  try{localStorage.setItem(REPORT_ACCORDION_MEMORY_KEY,JSON.stringify(data||{}))}catch(e){}
+}
+function reportAccordion(key, icon, title, desc, badges, body, openDefault=false){
+  const mem=getReportAccordionMemory();
+  const isOpen = Object.prototype.hasOwnProperty.call(mem,key) ? !!mem[key] : !!openDefault;
+  const badgeHtml=(badges||[]).filter(Boolean).map(b=>`<span class="reportAccordionBadge">${esc(b)}</span>`).join('');
+  return `<section class="reportAccordion ${isOpen?'open':'collapsed'}" data-report-accordion="${esc(key)}">
+    <div class="reportAccordionTop" onclick="toggleReportAccordion('${esc(key)}')">
+      <div class="reportAccordionTitle">
+        <div class="reportAccordionIcon">${icon}</div>
+        <div><h3>${esc(title)}</h3><p>${esc(desc)}</p></div>
+      </div>
+      <div class="reportAccordionSummary">${badgeHtml}<button class="reportAccordionChevron" type="button" onclick="event.stopPropagation();toggleReportAccordion('${esc(key)}')">▾</button></div>
+    </div>
+    <div class="reportAccordionBody">${body}</div>
+  </section>`;
+}
+function toggleReportAccordion(key){
+  const card=document.querySelector(`[data-report-accordion="${CSS.escape(key)}"]`);
+  if(!card)return;
+  card.classList.toggle('collapsed');
+  card.classList.toggle('open',!card.classList.contains('collapsed'));
+  const mem=getReportAccordionMemory();
+  mem[key]=!card.classList.contains('collapsed');
+  setReportAccordionMemory(mem);
+}
+
+function renderReports(){
+  const el=document.getElementById('reportsBody'); if(!el)return;
+  const r=buildReportData();
+  const total=r.accesses.length, noLocal=r.inside.length, saidas=r.exits.length;
+  const salaos=r.ops.filter(o=>o.tipo==='salao').length, mudancas=r.ops.filter(o=>o.tipo==='mudanca').length;
+  const resumoBody=`
+    <div class="reportsMetrics reportsMetricsAccordion">
+      <div class="card reportMetric"><div class="n">${total}</div><div class="l">Acessos no período</div><span class="s">${esc(r.range.label)}</span></div>
+      <div class="card reportMetric"><div class="n">${noLocal}</div><div class="l">Ainda no condomínio</div><span class="s">aguardando saída</span></div>
+      <div class="card reportMetric"><div class="n">${r.residents.totalPeople}</div><div class="l">Moradores cadastrados</div><span class="s">${r.residents.occupied} unidades ocupadas</span></div>
+      <div class="card reportMetric"><div class="n">${salaos+mudancas}</div><div class="l">Eventos de agenda</div><span class="s">${salaos} salão • ${mudancas} mudança</span></div>
+    </div>`;
+  const acessosBody=`
+    <div class="reportsGrid">
+      <div class="card reportPanel"><h3>Top unidades por acesso</h3>${reportRowsHTML(r.topUnits)}</div>
+      <div class="card reportPanel"><h3>Empresas / prestadores</h3>${reportRowsHTML(r.topCompanies)}</div>
+      <div class="card reportPanel"><h3>Autorizado por</h3>${reportRowsHTML(r.topAuthorized,'Ainda sem dados suficientes.')}</div>
+      <div class="card reportPanel"><h3>Saídas registradas</h3><div class="reportMiniGrid"><div class="reportMini"><b>${saidas}</b><span>saídas no período</span></div><div class="reportMini"><b>${noLocal}</b><span>sem saída registrada</span></div><div class="reportMini"><b>${total}</b><span>entradas analisadas</span></div></div></div>
+    </div>`;
+  const moradoresBody=`
+    <div class="reportsGrid">
+      <div class="card reportPanel" style="grid-column:1/-1"><h3>Moradores e cadastros</h3><div class="reportMiniGrid"><div class="reportMini"><b>${r.residents.app}</b><span>usam aplicativo</span></div><div class="reportMini"><b>${r.residents.bio}</b><span>biometria facial</span></div><div class="reportMini"><b>${r.residents.vehicles}</b><span>veículos cadastrados</span></div></div><p class="reportSectionNote">Baseado nas unidades preenchidas na guia Moradores.</p></div>
+    </div>`;
+  const auditoriaBody=`
+    <div class="reportsGrid">
+      <div class="card reportPanel" style="grid-column:1/-1"><h3>Auditoria resumida</h3>${reportRowsHTML(r.byLogType,'Sem logs no período selecionado.')}<p class="reportSectionNote">Total de logs no período: <b>${r.logs.length}</b>.</p></div>
+    </div>`;
+  el.innerHTML=`
+    <div class="reportsAccordionStack">
+      ${reportAccordion('resumo','📊','Resumo geral','Indicadores principais do período selecionado.',[r.range.label,`${total} acessos`,`${salaos+mudancas} eventos`],resumoBody,true)}
+      ${reportAccordion('agenda','📅','Agenda Operacional','Relatório mensal/anual de salão, mudanças e próximos eventos.',[`${salaos} salão`,`${mudancas} mudanças`],renderAgendaReportPanel(r),true)}
+      ${reportAccordion('acessos','🚪','Acessos','Unidades, empresas, autorizadores e saídas do período.',[`${total} entradas`,`${noLocal} dentro`],acessosBody,false)}
+      ${reportAccordion('moradores','👥','Moradores','Base cadastral, app, biometria e veículos.',[`${r.residents.totalPeople} moradores`,`${r.residents.vehicles} veículos`],moradoresBody,false)}
+      ${reportAccordion('auditoria','🧭','Auditoria','Resumo dos registros administrativos e eventos do sistema.',[`${r.logs.length} logs`],auditoriaBody,false)}
+      ${reportAccordion('passagens','⇄','Passagens de turno','Histórico operacional das trocas de turno da portaria.',[`${(state.passagens||[]).length} registros`],renderPassagensPanel(),false)}
+    </div>`;
+}
+
+function renderPassagensPanel(){
+  const passagens = state.passagens||[];
+  if(!passagens.length) return `
+    <div class="card reportPanel" style="grid-column:1/-1">
+      <h3>⇄ Histórico de passagens de turno</h3>
+      <div class="reportEmpty">Nenhuma passagem de turno registrada ainda.</div>
+    </div>`;
+  const rows = passagens.slice(0,20).map(p=>{
+    const dt = new Date(p.registradaEm);
+    const dtStr = dt.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const obs = p.obs ? `<div style="font-size:11px;color:var(--muted);margin-top:3px;font-style:italic">${esc(p.obs)}</div>` : '';
+    const dentro = p.dentroCount>0
+      ? `<span style="font-size:11px;color:#a32636;font-weight:900;background:#f6e9eb;border-radius:999px;padding:2px 8px">${p.dentroCount} dentro</span>`
+      : `<span style="font-size:11px;color:#08734d;font-weight:900;background:#e8f7f1;border-radius:999px;padding:2px 8px">ninguém dentro</span>`;
+    return `<div style="border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card);margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+ 
+
+### Relatórios Operacionais @ 179162
+ems:center;gap:9px;margin:10px 0 0;color:#aeb8c6;font-size:11px;font-weight:800;cursor:pointer;user-select:none;line-height:1.2;text-transform:none!important;letter-spacing:0!important}
+.loginRemember input{width:16px;height:16px;margin:0;accent-color:#d8b85c;cursor:pointer;flex:0 0 auto}
+.loginRemember span{display:inline-block;color:inherit}
+body.theme-light .loginOverlay{
+  background:
+    radial-gradient(circle at 18% 18%,rgba(200,162,74,.18),transparent 30%),
+    radial-gradient(circle at 82% 72%,rgba(47,128,237,.16),transparent 34%),
+    linear-gradient(145deg,#eef3fb,#ffffff 54%,#f7f1df)!important;
+}
+body.theme-light .loginCard{
+  border-color:rgba(200,162,74,.62)!important;
+  box-shadow:0 30px 82px rgba(13,27,42,.22),0 0 0 1px rgba(255,255,255,.78) inset!important;
+}
+body.theme-light #loginUser,
+body.theme-light #loginPass{
+  border-color:#b9c6d9!important;
+  background:#ffffff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 4px 12px rgba(13,27,42,.045)!important;
+}
+body.theme-light #loginUser:focus,
+body.theme-light #loginPass:focus{
+  border-color:rgba(22,58,99,.62)!important;
+  box-shadow:0 0 0 3px rgba(47,128,237,.10),0 10px 22px rgba(13,27,42,.10)!important;
+}
+body.theme-light .loginCard .btn.gold{
+  box-shadow:0 15px 28px rgba(166,124,31,.26)!important;
+}
+body.theme-light .loginHint{
+  border-color:rgba(200,162,74,.58)!important;
+  box-shadow:0 8px 20px rgba(13,27,42,.05)!important;
+}
+body.theme-light .loginEyeBtn{
+  color:#7a5a12;background:#fff8e8;border-color:rgba(200,162,74,.48);
+}
+body.theme-light .loginEyeBtn:hover{background:#fff1c9;border-color:rgba(200,162,74,.78);box-shadow:0 0 0 3px rgba(200,162,74,.12)}
+body.theme-light .loginRemember{color:#526175!important}
+body.theme-light .loginRemember input{accent-color:#c8a24a}
+
+
+
+/* v100 — Relatórios Operacionais */
+.reportsHero{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:14px;background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(247,241,223,.9))}
+.reportsHero h2{margin:0 0 6px;color:var(--navy);font-size:24px}.reportsHero p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.reportsActions{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-left:auto}.reportsActions .btn{height:44px;padding-inline:18px}.reportsActions .reportPeriodSelect{min-width:150px;max-width:160px;height:44px;order:3;flex:0 0 160px}.reportsActions select{height:44px}
+.reportsBody{display:grid;gap:14px}.reportsMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.reportMetric{min-height:116px}.reportMetric .n{font-size:28px;font-weight:900;color:var(--navy);line-height:1}.reportMetric .l{margin-top:8px;color:var(--muted);font-size:12px}.reportMetric .s{display:inline-flex;margin-top:10px;border:1px solid rgba(200,162,74,.34);background:#fff5df;color:#7a5a12;border-radius:10px;padding:6px 9px;font-size:11px;font-weight:900}.reportsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.reportPanel h3{margin:0 0 12px;color:var(--navy);font-size:18px}.reportRows{display:grid;gap:8px}.reportRow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.65);border-radius:12px;padding:10px 12px;font-size:12px}.reportRow b{color:var(--navy)}.reportRow span{font-weight:900;color:#7a5a12}.reportEmpty{color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:12px;padding:14px;text-align:center}.reportMiniGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.reportMini{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.55)}.reportMini b{display:block;color:var(--navy);font-size:18px}.reportMini span{display:block;color:var(--muted);font-size:11px;margin-top:5px}.reportSectionNote{font-size:12px;color:var(--muted);line-height:1.55;margin-top:10px}
+body.theme-dark .reportsHero{background:linear-gradient(145deg,#111c2c,#181b23)}body.theme-dark .reportRow,body.theme-dark .reportMini{background:#0e1827;border-color:var(--line)}
+body:not(.theme-dark) .reportsHero,body:not(.theme-dark) .reportPanel,body:not(.theme-dark) .reportMetric{border-color:#b7c5d9!important;box-shadow:0 14px 34px rgba(15,35,65,.12)!important}body:not(.theme-dark) .reportRow,body:not(.theme-dark) .reportMini{border-color:#b8c6da!important}
+@media(max-width:1050px){.reportsMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.reportsGrid{grid-template-columns:1fr}.reportsHero{align-items:flex-start;flex-direction:column}.reportMiniGrid{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:620px){.reportsMetrics{grid-template-columns:1fr}.reportMiniGrid{grid-template-columns:1fr}.reportsActions{width:100%}.reportsActions select,.reportsActions .btn{width:100%}}
+
+
+/* v101 — Impressão dos Relatórios */
+.printReportHeader{display:none}
+.printReportFooter{display:none}
+@media print{
+  @page{size:A4;margin:12mm}
+  html,body{background:#fff!important;color:#111827!important;min-height:auto!important}
+  body *{visibility:hidden!important}
+  #relatorios,#relatorios *{visibility:visible!important}
+  #relatorios{display:block!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;margin:0!important;padding:0!important}
+  header,.subbar,.appSplash,.modal,.globalResults,.reportsActions,.top,.statusGroup{display:none!important}
+  main.app{padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
+  .printReportHeader{display:block!important;visibility:visible!important;margin:0 0 12px!important;padding:0 0 10px!important;border-bottom:2px solid #0d1b2a!important;color:#0d1b2a!important}
+  .printReportHeader h1{font-family:'Merriweather',Georgia,serif!important;font-size:20px!important;margin:0 0 4px!important;color:#0d1b2a!important}
+  .printReportHeader p{font-size:10.5px!important;margin:0!important;color:#4b5563!important;line-height:1.35!important}
+  .printReportFooter{display:block!important;visibility:visible!important;margin-top:12px!important;padding-top:8px!important;border-top:1px solid #cbd5e1!important;font-size:10px!important;color:#64748b!important;text-align:center!important}
+  .reportsHero{background:#fff!important;border:1px solid #94a3b8!important;box-shadow:none!important;border-radius:8px!important;padding:10px!important;margin:0 0 10px!important;break-inside:avoid!important}
+  .reportsHero h2{font-size:16px!important;margin:0 0 4px!important;color:#0d1b2a!important}
+  .reportsHero p{font-size:10.5px!important;color:#475569!important}
+  .reportsBody{gap:10px!important}
+  .reportsMetrics{grid-template-columns:repeat(4,1fr)!important;gap:8px!important;margin-bottom:8px!important}
+  .reportsGrid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}
+  .card,.reportMetric,.reportPanel{background:#fff!important;border:1px solid #94a3b8!important;box-shadow:none!important;border-radius:8px!important;padding:9px!
+
+### Relatórios Operacionais @ 579019
+in:0"><h2>Controle em andamento</h2></div><div class="actions" style="margin:0"><button class="btn ghost" onclick="openAccessHistory()">Histórico de acessos</button><button class="btn ghost adminOnly" onclick="exportData()">Exportar backup</button></div></div>
+          <div class="searchbar accessSearchRow" style="margin-top:12px"><input id="accessSearch" oninput="renderAccess()" placeholder="Buscar por nome, doc, bloco ou apto"><button type="button" class="accessSearchClearBtn" onclick="clearAccessSearch()">Limpar</button></div>
+          <div class="accessQuickFilters" id="accessQuickFilters" aria-label="Filtrar acessos em andamento por tipo">
+            <button type="button" class="accessQuickFilter active" data-access-type="" onclick="setAccessQuickFilter('')">Todos</button>
+            <button type="button" class="accessQuickFilter" data-access-type="Visitante" onclick="setAccessQuickFilter('Visitante')">Visitantes</button>
+            <button type="button" class="accessQuickFilter" data-access-type="Prestador" onclick="setAccessQuickFilter('Prestador')">Prestadores</button>
+          </div>
+          <div id="accessTable"></div>
+        </div>
+      </div>
+    </section>
+    <section id="moradores" class="section">
+      <div class="moradoresPanels">
+        <div class="card"><div class="title"><h2>Unidades por bloco</h2></div><div class="blocks" id="blocks"></div></div>
+        <div class="card"><div id="adminSlot"></div></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input i
+
+### Relatórios Operacionais @ 830585
+d.replace(/(\d{2})(\d+)/,'($1) $2');
+  if(d.length<=10)return d.replace(/(\d{2})(\d{4})(\d+)/,'($1) $2-$3');
+  return d.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3');
+}
+function isPhoneMaskField(el){
+  if(!el||el.tagName!=='INPUT')return false;
+  const id=(el.id||'').toLowerCase();
+  const data=(el.dataset?.p||'').toLowerCase();
+  return data==='cel'||id.includes('fixo')||id.includes('telefone')||id.includes('phone')||id.includes('celular');
+}
+function applyInputMasks(ev){
+  const el=ev.target;
+  if(!el||el.tagName!=='INPUT')return;
+  if(isPhoneMaskField(el)){
+    el.value=maskPhone(el.value);
+    try{el.setSelectionRange(el.value.length,el.value.length)}catch(e){}
+  }
+}
+function initInputMasks(){
+  document.addEventListener('input',applyInputMasks,true);
+  document.querySelectorAll('input[id*="Fixo"], input[id*="Telefone"], input[data-p="cel"]').forEach(el=>{el.setAttribute('inputmode','tel');el.setAttribute('autocomplete','tel');});
+}
+
+
+function toggleLoginPassword(){
+  const pass=document.getElementById('loginPass');
+  const btn=document.getElementById('loginEyeBtn');
+  if(!pass)return;
+  const showing=pass.type==='text';
+  pass.type=showing?'password':'text';
+  if(btn){btn.textContent=showing?'👁':'🙈';btn.title=showing?'Mostrar senha':'Ocultar senha';btn.setAttribute('aria-label',btn.title)}
+}
+function initLoginPreferences(){
+  const input=document.getElementById('loginUser');
+  const remember=document.getElementById('rememberLoginUser');
+  const saved=localStorage.getItem('pp_saved_login')||'';
+  const enabled=localStorage.getItem('pp_remember_user')==='1'&&!!saved;
+  if(input&&enabled&&!input.value)input.value=saved;
+  if(remember)remember.checked=enabled;
+}
+
+function safeRender(fn,name){try{fn()}catch(e){console.error('Erro ao renderizar '+name,e)}}
+
+
+/* v100 — Relatórios Operacionais */
+function reportPeriodRange(){
+  const days=Number(document.getElementById('reportPeriod')?.value||30);
+  if(!days)return {days:0,since:0,label:'Todo o histórico'};
+  return {days,since:Date.now()-days*86400000,label:`Últimos ${days} dias`};
+}
+function parseDateMs(v){const d=new Date(v||0); return isNaN(d.getTime())?0:d.getTime()}
+function accessMs(a){return parseDateMs(a?.entrada||((a?.data||'')+'T'+(a?.entradaHora||'00:00')))}
+function opMs(o){return parseDateMs((o?.data||'')+'T00:00:00')}
+function inReportRange(ms,since){return !since || ms>=since}
+function topCounts(items,getKey,limit=5){
+  const map=new Map();
+  items.forEach(item=>{const key=(getKey(item)||'').trim(); if(!key||key==='—')return; map.set(key,(map.get(key)||0)+1)});
+  return [...map.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,limit);
+}
+function countResidents(){
+  const units=Object.values(state.units||{});
+  const people=units.flatMap(u=>Array.isArray(u.people)?u.people:[]).filter(p=>p&&p.nome);
+  const app=people.filter(p=>String(p.app||'').toLowerCase()==='sim'||p.app===true).length;
+  const bio=people.filter(p=>String(p.bio||'').toLowerCase()==='sim'||p.bio===true).length;
+  const vehicles=units.flatMap(u=>Array.isArray(u.vehicles)?u.vehicles:[]).filter(v=>v&&(v.placa||v.modelo||v.cor||v.vaga));
+  return {units,people,totalPeople:people.length,app,bio,vehicles:vehicles.length,occupied:units.filter(u=>(u.people||[]).some(p=>p.nome)).length};
+}
+function reportRowsHTML(rows,empty='Sem dados para o período.'){return rows.length?`<div class="reportRows">${rows.map(([k,v])=>`<div class="reportRow"><b>${esc(k)}</b><span>${esc(String(v))}</span></div>`).join('')}</div>`:`<div class="reportEmpty">${esc(empty)}</div>`}
+function buildReportData(){
+  normalizeAccesses();
+  const range=reportPeriodRange();
+  const accesses=(state.accesses||[]).filter(a=>inReportRange(accessMs(a),range.since));
+  const inside=(state.accesses||[]).filter(a=>!a.saida);
+  const exits=accesses.filter(a=>a.saida);
+  const ops=(state.operational||[]).filter(o=>inReportRange(opMs(o),range.since));
+  const logs=(state.logs||[]).filter(l=>inReportRange(parseDateMs(l.criadoEm),range.since));
+  const residents=countResidents();
+  return {range,accesses,inside,exits,ops,logs,residents,
+    topUnits:topCounts(accesses,a=>a.destino||(a.bloco&&a.apto?`${a.bloco} ${a.apto}`:'')),
+    topCompanies:topCounts(accesses,a=>a.empresa||a.tipo||'Visitante'),
+    topAuthorized:topCounts(accesses,a=>a.autorizado||''),
+    byLogType:topCounts(logs,l=>logTypeLabel(l.tipo),8),
+    byAgenda:topCounts(ops,o=>o.tipo==='salao'?'Locação do salão':(o.tipo==='mudanca'?'Mudança':o.tipo),5)
+  };
+}
+
+function agendaReportPeriodLabel(monthStr){
+  if(!monthStr)return '—';
+  const [y,m]=String(monthStr).split('-').map(Number);
+  try{return new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase())}catch(e){return monthStr}
+}
+function agendaReportData(ops){
+  const today=new Date().toISOString().slice(0,10);
+  const month=new Date().toISOString().slice(0,7);
+  const inMonth=(ops||[]).filter(o=>String(o.data||'').slice(0,7)===month);
+  const salaos=inMonth.filter(o=>o.tipo==='salao');
+  const mudancas=inMonth.filter(o=>o.tipo==='mudanca');
+  const future=(ops||[]).filter(o=>String(o.data||'')>=today).sort((a,b)=>String(a.data).localeCompare(String(b.data))).slice(0,6);
+  const topUnits=topCounts(inMonth,o=>o.unidade||'',6);
+  const months=[];
+  for(let i=5;i>=0;i--){
+    const d=new Date(); d.setMonth(d.getMonth()-i);
+    const key=d.toISOString().slice(0,7);
+    const arr=(state.operational||[]).filter(o=>String(o.data||'').slice(0,7)===key);
+    months.push({key,label:d.toLocaleDateString('pt-BR',{month:'short'}).replace('.',''),total:arr.length});
+  }
+  return {month,label:agendaReportPeriodLabel(month),inMonth,salaos,mudancas,future,topUnits,months};
+}
+function renderAgendaReportPanel(r){
+  const a=agendaReportData(state.operational||[]);
+  const next=a.future[0];
+  const nextLabel=next?`${opTypeLabel(next.tipo)} • ${next.unidade||'—'} • ${dateBR(next.data)}`:'Sem próximos eventos';
+  const nextRows=a.future.length?a.future.map(e=>{
+    const isMudanca=e.tipo==='mudanca';
+    return `<div class="agendaNextItem">
+      <span class="agendaNextType${isMudanca?' mudanca':''}">${isMudanca?'Mudança':'Salão'}</span>
+      <div class="agendaNextMain"><b>${esc(e.unidade||'—')}</b><small>${e.resp?esc(e.resp):'Sem responsável informado'}</small></div>
+      <div class="agendaNextDate">${esc(dateBR(e.data))}</div>
+    </div>`;
+  }).join(''):'<div class="reportEmpty">Nenhum evento futuro cadastrado.</div>';
+  const topRows=a.topUnits.length?a.topUnits.map(([unit,count])=>`<div class="agendaTopItem"><div><b>${esc(unit)}</b><small>Eventos no mês atual</small></div><div class="agendaTopCount">${count}</div></div>`).join(''):'<div class="reportEmpty">Sem unidades no mês atual.</div>';
+  const monthChips=a.months.map(m=>`<div class="agendaMonthChip"><b>${m.total}</b><span>${esc(m.label)}</span></div>`).join('');
+  return `<div class="card reportPanel agendaReportPanel">
+    <div class="agendaReportHead">
+      <div>
+   
+
+### CSV de acessos @ 580112
+tton>
+          </div>
+          <div id="accessTable"></div>
+        </div>
+      </div>
+    </section>
+    <section id="moradores" class="section">
+      <div class="moradoresPanels">
+        <div class="card"><div class="title"><h2>Unidades por bloco</h2></div><div class="blocks" id="blocks"></div></div>
+        <div class="card"><div id="adminSlot"></div></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="section adminOnly">
+      <div class="printReportHeader">
+        <h1>Portaria Primavera • Relatório Operacional</h1>
+        <p id="printReportMeta">Emitido em --/--/---- --:-- • Período: --</p>
+      </div>
+      <div class="reportsHero card">
+        <div>
+          <h2>Relatórios Operacionais</h2>
+          <p>Visão executiva dos acessos, moradores, agenda e auditoria para apoio à gestão da portaria.</p>
+        </div>
+        <div class="reportsActions">
+          <div class="reportsExportWrap">
+            <button class="btn gold" onclick="toggleReportsExportMenu(event)">Exportar ▾</button>
+            <div class="reportsExportMenu" id="reportsExportMenu">
+              <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
+              <button class="reportsExportOption" onclick="openPremiumPdfModal()"><span class="ico">📄</span><span><b>PDF premium</b><small>Relatório completo em 3 páginas, PDFs individuais ajustados e Merriweather.</small></span></button>
+            </div>
+          </div>
+          <button class="btn ghost" onclick="printReports()">Imprimir relatório</button>
+          <select id="reportPeriod" class="reportPeriodSelect" onchange="renderReports()" aria-label="Período do relatório">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="0">Tudo</option>
+          </select>
+        </div>
+      </div>
+      <div id="reportsBody" class="reportsBody"></div>
+      <div class="printReportFooter">Condomínio Edifício Primavera • Relatório gerado pelo Portaria Primavera</div>
+    </section>
+
+    <section id="configuracoes" class="section">
+      <div class="configHero card">
+        <div>
+          <h2>Central Administrativa</h2>
+          <p>Centro de comando do ADMIN: proteção dos dados, conectividade, usuários, auditoria, importação, temas e agenda operacional.</p>
+        </div>
+        <span class="configBadge">⚙️ Central ADMIN</span>
+      </div>
+      <div class="adminGroupTitle centralIntro adminOnly"><div><h3>🔗 Conectividade</h3><p>Credenciais e serviços externos usados pelo Primavera.</p></div><span class="line"></span></div>
+      <div class="integrationGrid adminOnly">
+        <div class="integrationPanel">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Google Drive</div>
+            <div class="integrationStatus warn" id="gdriveIntegrationStatus">Não configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>OAuth Client ID</label>
+              <input id="gdriveClientIdConfig" placeholder="xxxx.apps.googleusercontent.com" autocomplete="off">
+            </div>
+            <div>
+              <label>API Key</label>
+              <input id="gdriveApiKeyConfig" placeholder="AIza..." autocomplete="off">
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn gold" onclick="saveGDriveIntegrationConfig()">Salvar integração</button>
+            <button class="btn ghost" onclick="testGDriveIntegrationConfig()">Testar configuração</button>
+            <button class="btn ghost" onclick="clearGDriveIntegrationConfig()">Limpar</button>
+          </div>
+          <div class="integrationHelp">Use as credenciais do Google Cloud. O Drive só conecta depois do OAuth; a API Key fica guardada para a integração e testes.</div>
+        </div>
+        <div class="integrationPanel blue">
+          <div class="integrationHead">
+            <div class="integrationTitle">☁️ Integração Supabase</div>
+            <div class="integrationStatus ok" id="supabaseIntegrationStatus">Configurado</div>
+          </div>
+          <div class="integrationFields">
+            <div>
+              <label>URL do projeto</label>
+              <input id="supabaseUrlConfig" readonly>
+            </div>
+            <div>
+              <label>Chave pública anon</label>
+              <input id="supabaseKeyConfig" readonly>
+            </div>
+          </div>
+          <div class="integrationActions">
+            <button class="btn ghost" onclick="testSupabaseIntegrationConfig()">Testar Supabase</button>
+          </div>
+          <div class="integrationHelp">Supabase é usado para sincronização entre dispositivos e snapshots na nuvem.</div>
+        </div>
+      </div>
+      <div class="configGrid">
+        <div class="adminGroupTitle"><div><h3>💾 Proteção dos Dados</h3><p>Backup, restauração, snapshots e sincronização entre dispositivos.</p></div><span class="line"></span></div>
+        <div class="card toolCard protectionTool" style="grid-column:1/-1">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="toolIcon">💾</div>
+            <div>
+              <h3>Proteção dos dados</h3>
+              <p class="mini">Backup, restauração, snapshots e sincronização em uma área mais enxuta.</p>
+            </div>
+          </div>
+
+          <div class="recoveryCenter">
+            <div class="recoveryHero recoveryHeroCompact">
+            
+
+### exportAccess @ 853571
+ion runPremiumPdf(mode='completo'){
+  closePremiumPdfModal();
+  renderReports();
+  const r=buildReportData();
+  const meta=document.getElementById('printReportMeta');
+  if(meta){
+    const now=new Date();
+    meta.textContent=`PDF Premium • ${pdfReportLabel(mode)} • Emitido em ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} • Período: ${r.range.label} • Fonte: Merriweather`;
+  }
+  document.body.classList.add('pdfPremiumMode');
+  document.body.setAttribute('data-pdf-report',mode);
+  addLog?.('Gerou PDF premium dos relatórios',`${pdfReportLabel(mode)} • Período: ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+  setTimeout(()=>window.print(),160);
+  setTimeout(()=>{
+    document.body.classList.remove('pdfPremiumMode');
+    document.body.removeAttribute('data-pdf-report');
+  },1200);
+}
+
+function toggleReportsExportMenu(ev){
+  if(ev)ev.stopPropagation();
+  const menu=document.getElementById('reportsExportMenu');
+  if(!menu)return;
+  menu.classList.toggle('open');
+}
+function closeReportsExportMenu(){
+  const menu=document.getElementById('reportsExportMenu');
+  if(menu)menu.classList.remove('open');
+}
+document.addEventListener('click',function(ev){
+  const menu=document.getElementById('reportsExportMenu');
+  if(!menu||!menu.classList.contains('open'))return;
+  if(!ev.target.closest('.reportsExportWrap')) closeReportsExportMenu();
+});
+function csvDownload(filename, rows){
+  const lines=(rows||[]).map(row=>row.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';'));
+  const blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function exportAccessesCsv(){
+  normalizeAccesses();
+  const r=buildReportData();
+  const rows=[['Data entrada','Hora entrada','Nome','CPF','Empresa/Tipo','Unidade visitada','Autorizado por','Serviço','Saída']];
+  r.accesses.slice().sort((a,b)=>accessMs(a)-accessMs(b)).forEach(a=>{
+    rows.push([
+      a.data||'',
+      a.entrada||'',
+      a.nome||'',
+      a.cpf||'',
+      a.empresa||a.tipo||'',
+      a.destino||(a.bloco&&a.apto?`${a.bloco} ${a.apto}`:''),
+      a.autorizado||'',
+      a.servico||'',
+      a.saida||''
+    ]);
+  });
+  csvDownload('relatorio-acessos-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de acessos em CSV',`${r.accesses.length} acesso(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportResidentsCsv(){
+  const rows=[['Bloco','Apto','Morador','Telefone','Vínculo','Usa app','Biometria','Placa','Cor','Modelo','Vaga']];
+  Object.values(state.units||{}).forEach(u=>{
+    const people=(u.people||[]).filter(p=>p&&p.nome);
+    const vehicles=(u.vehicles||[]).filter(v=>v&&(v.placa||v.cor||v.modelo||v.vaga));
+    if(!people.length&&!vehicles.length){
+      rows.push([u.bloco||'',u.apto||'','','','','','','','','','']);
+      return;
+    }
+    const max=Math.max(people.length,vehicles.length,1);
+    for(let i=0;i<max;i++){
+      const p=people[i]||{};
+      const v=vehicles[i]||{};
+      rows.push([u.bloco||'',u.apto||'',p.nome||'',p.tel||p.telefone||'',p.vinculo||'',p.app||'',p.bio||'',v.placa||'',v.cor||'',v.modelo||'',v.vaga||'']);
+    }
+  });
+  csvDownload('relatorio-moradores-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de moradores em CSV',`${rows.length-1} linha(s)`,'relatorios');
+  persistNoRender?.();
+}
+function exportAuditCsv(){
+  const r=buildReportData();
+  const rows=[['Data/hora','Tipo','Ação','Detalhes','Operador','Perfil','Turno']];
+  r.logs.slice().sort((a,b)=>parseDateMs(a.criadoEm)-parseDateMs(b.criadoEm)).forEach(l=>{
+    rows.push([
+      l.criadoEm||'',
+      logTypeLabel(l.tipo),
+      l.acao||l.titulo||'',
+      l.detalhes||l.desc||'',
+      l.operador||l.user||'',
+      l.perfil||'',
+      l.turno||''
+    ]);
+  });
+  csvDownload('relatorio-auditoria-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de auditoria em CSV',`${r.logs.length} log(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportReportsFromMenu(type){
+  closeReportsExportMenu();
+  if(type==='json') return exportReports();
+  if(type==='agendaCsv') return exportAgendaCsv();
+  if(type==='accessCsv') return exportAccessesCsv();
+  if(type==='residentsCsv') return exportResidentsCsv();
+  if(type==='auditCsv') return exportAuditCsv();
+  if(type==='print') return printReports();
+}
+
+function exportReports(){
+  const r=buildReportData();
+  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:{resumo:r.byAgenda,eventos:r.ops},logs:r.byLogType};
+  addLog('Exportou relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='relatorio-portaria-primavera.json'; a.click(); URL.revokeObjectURL(url); renderReports();
+}
+
+function printReports(){
+  renderReports();
+  const r=buildReportData();
+  const meta=document.getElementById('printReportMeta');
+  if(meta){
+    const now=new Date();
+    meta.textContent=`Emitido em ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} • Período: ${r.range.label}`;
+  }
+  addLog('Imprimiu relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  setTimeout(()=>window.print(),120);
+}
+
+
+/* v105 — Tour Guiado Primavera */
+let helpTourIndex=0;
+let helpTourManual=false;
+function helpTourSlides(){
+  const slides=[
+    {icon:'🏢',title:'Resumo',selector:'.tab[data-tab="dashboard"]',tab:'dashboard',text:'Acompanhe em uma única tela os acessos do dia, quem ainda está no condomínio, mudanças e reservas do salão.',items:['Use os cards superiores para bater o olho na situação do dia.','Clique nos acessos recentes para consultar detalhes e registrar saída quando necessário.']},
+    {icon:'🚪',title:'Entrada / Saída',selector:'.tab[data-tab="acessos"]',tab:'acessos',text:'É a área principal da portaria para registrar visitantes, prestadores e controlar quem ainda está no local.',items:['Registre a entrada no painel Novo Acesso.','A baixa da saída é feita no Controle em Andamento ou pelo Resumo.']},
+    {icon:'👥',title:'Moradores',selector:'.tab[data-tab="moradores"]',tab:'moradores',text:'Consulte unidades, moradores, telefones, veículos, identificação do condomínio, emergências e prestadores.',items:['Use a busca global quando souber nome, telefone, placa ou unidade.','Em emergência, confira endereço e contatos rápidos nesta guia.']},
+    {icon:'🔎',title
+
+### exportAccess @ 856123
+ion exportResidentsCsv(){
+  const rows=[['Bloco','Apto','Morador','Telefone','Vínculo','Usa app','Biometria','Placa','Cor','Modelo','Vaga']];
+  Object.values(state.units||{}).forEach(u=>{
+    const people=(u.people||[]).filter(p=>p&&p.nome);
+    const vehicles=(u.vehicles||[]).filter(v=>v&&(v.placa||v.cor||v.modelo||v.vaga));
+    if(!people.length&&!vehicles.length){
+      rows.push([u.bloco||'',u.apto||'','','','','','','','','','']);
+      return;
+    }
+    const max=Math.max(people.length,vehicles.length,1);
+    for(let i=0;i<max;i++){
+      const p=people[i]||{};
+      const v=vehicles[i]||{};
+      rows.push([u.bloco||'',u.apto||'',p.nome||'',p.tel||p.telefone||'',p.vinculo||'',p.app||'',p.bio||'',v.placa||'',v.cor||'',v.modelo||'',v.vaga||'']);
+    }
+  });
+  csvDownload('relatorio-moradores-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de moradores em CSV',`${rows.length-1} linha(s)`,'relatorios');
+  persistNoRender?.();
+}
+function exportAuditCsv(){
+  const r=buildReportData();
+  const rows=[['Data/hora','Tipo','Ação','Detalhes','Operador','Perfil','Turno']];
+  r.logs.slice().sort((a,b)=>parseDateMs(a.criadoEm)-parseDateMs(b.criadoEm)).forEach(l=>{
+    rows.push([
+      l.criadoEm||'',
+      logTypeLabel(l.tipo),
+      l.acao||l.titulo||'',
+      l.detalhes||l.desc||'',
+      l.operador||l.user||'',
+      l.perfil||'',
+      l.turno||''
+    ]);
+  });
+  csvDownload('relatorio-auditoria-portaria-primavera.csv',rows);
+  addLog?.('Exportou relatório de auditoria em CSV',`${r.logs.length} log(s) no período ${r.range.label}`,'relatorios');
+  persistNoRender?.();
+}
+function exportReportsFromMenu(type){
+  closeReportsExportMenu();
+  if(type==='json') return exportReports();
+  if(type==='agendaCsv') return exportAgendaCsv();
+  if(type==='accessCsv') return exportAccessesCsv();
+  if(type==='residentsCsv') return exportResidentsCsv();
+  if(type==='auditCsv') return exportAuditCsv();
+  if(type==='print') return printReports();
+}
+
+function exportReports(){
+  const r=buildReportData();
+  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:{resumo:r.byAgenda,eventos:r.ops},logs:r.byLogType};
+  addLog('Exportou relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='relatorio-portaria-primavera.json'; a.click(); URL.revokeObjectURL(url); renderReports();
+}
+
+function printReports(){
+  renderReports();
+  const r=buildReportData();
+  const meta=document.getElementById('printReportMeta');
+  if(meta){
+    const now=new Date();
+    meta.textContent=`Emitido em ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} • Período: ${r.range.label}`;
+  }
+  addLog('Imprimiu relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
+  persistNoRender();
+  setTimeout(()=>window.print(),120);
+}
+
+
+/* v105 — Tour Guiado Primavera */
+let helpTourIndex=0;
+let helpTourManual=false;
+function helpTourSlides(){
+  const slides=[
+    {icon:'🏢',title:'Resumo',selector:'.tab[data-tab="dashboard"]',tab:'dashboard',text:'Acompanhe em uma única tela os acessos do dia, quem ainda está no condomínio, mudanças e reservas do salão.',items:['Use os cards superiores para bater o olho na situação do dia.','Clique nos acessos recentes para consultar detalhes e registrar saída quando necessário.']},
+    {icon:'🚪',title:'Entrada / Saída',selector:'.tab[data-tab="acessos"]',tab:'acessos',text:'É a área principal da portaria para registrar visitantes, prestadores e controlar quem ainda está no local.',items:['Registre a entrada no painel Novo Acesso.','A baixa da saída é feita no Controle em Andamento ou pelo Resumo.']},
+    {icon:'👥',title:'Moradores',selector:'.tab[data-tab="moradores"]',tab:'moradores',text:'Consulte unidades, moradores, telefones, veículos, identificação do condomínio, emergências e prestadores.',items:['Use a busca global quando souber nome, telefone, placa ou unidade.','Em emergência, confira endereço e contatos rápidos nesta guia.']},
+    {icon:'🔎',title:'Busca Global',selector:'.globalSearchBox',text:'A busca global localiza rapidamente moradores, unidades, telefones e placas sem precisar entrar em cada bloco.',items:['Digite parte do nome, placa, telefone ou unidade.','Clique no resultado para abrir a unidade correspondente.']},
+    {icon:'⛶',title:'Operação da Portaria',selector:'#kioskBtn',text:'O botão Kiosk coloca o sistema em modo tela cheia, ideal para deixar aberto no computador da portaria.',items:['Use o botão de tema para alternar entre claro, escuro e automático.','Use o ícone da porta para encerrar a sessão com confirmação.']}
+  ];
+  if(isAdmin())slides.push({icon:'📊',title:'Relatórios e Ferramentas',selector:'.tab[data-tab="relatorios"]',tab:'relatorios',text:'Usuários Admin também acessam relatórios, backups, logs, agenda operacional e configurações.',items:['Imprima relatórios para conferência ou prestação de contas.','Use a Central Administrativa para backup, usuários, logs e ajustes administrativos.']});
+  slides.push({icon:'✅',title:'Pronto para usar',selector:'#helpFloatBtn',text:'Este botão de ajuda fica sempre no canto inferior direito. Clique nele sempre que quiser rever este guia rápido.',items:['O guia é geral e rápido, sem explicar campo por campo.','A operação do dia a dia acontece principalmente em Resumo, Entrada/Saída e Moradores.']});
+  return slides;
+}
+function clearTourSpotlight(){document.querySelectorAll('.tourSpotlight').forEach(el=>el.classList.remove('tourSpotlight'))}
+function renderHelpTourStep(){
+  const slides=helpTourSlides();
+  if(helpTourIndex<0)helpTourIndex=0;if(helpTourIndex>=slides.length)helpTourIndex=slides.length-1;
+  const s=slides[helpTourIndex];
+  if(s.tab){try{goTab(s.tab)}catch(e){}}
+  clearTourSpotlight();
+  setTimeout(()=>{try{const target=document.querySelector(s.selector); if(target)target.classList.add('tourSpotlight')}catch(e){}},40);
+  const body=document.getElementById('helpTourBody');
+  if(body){body.innerHTML=`<div class="helpTourIcon">${s.icon}</div><p class="helpTourText"><b>${esc(s.title)}</b><br>${esc(s.text)}</p><div class="helpTourList">${(s.items||[]).map(item=>`<div><span>•</span><span>${esc(item)}</span></div>`).join('')}</div>`}
+  const prog=document.getElementById('helpTourProgress');
+  if(prog){prog.innerHTML=slides.map((_,i)=>`<span class="helpTourDot ${i===helpTourIndex?'active':''}"></span>`).join('')}
+  const prev=document.getElementById('helpTourPrev'); if(prev)prev.style.visibility=helpTourIndex===0?'hidden':'visible';
+  const next=document.getElementById('helpTourNext');
