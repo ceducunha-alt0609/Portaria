@@ -1,0 +1,30 @@
+name: Report access filter css
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/report-access-filter-css.yml'
+permissions:
+  contents: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text(encoding='utf-8')
+          out=[]
+          for pat in [r'[^{}]*accessQuickFilter[^{}]*\{[^{}]*\}',r'[^{}]*accessQuickFilters[^{}]*\{[^{}]*\}',r'[^{}]*button[^{}]*\{[^{}]*border-radius[^{}]*\}']:
+              for m in re.finditer(pat,s,re.I):
+                  out.append(f'POS {m.start()}\n{m.group(0).strip()}\n')
+          Path('backups/diagnostico_access_filter_css_2026-09-03.txt').write_text('\n'.join(out),encoding='utf-8')
+          PY
+      - run: |
+          git config user.name "Portaria Primavera Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add backups/diagnostico_access_filter_css_2026-09-03.txt
+          git commit -m "chore: registrar diagnostico temporario do css dos filtros"
+          git push origin main
