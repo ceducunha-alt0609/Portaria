@@ -8204,37 +8204,18 @@ let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||
 let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
 let localDeviceId=localStorage.getItem('pp_device_id')||'';
 if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
-const LOCAL_USER_PASSWORDS_KEY='pp_local_user_passwords_v1';
 const aptos=['01','02','03','04','11','12','13','14','21','22','23','24','31','32','33','34','41','42','43','44'];
 let state=load();
 function defaultUsers(){return[{id:'u-admin',nome:'Administrador',login:'admin',email:'c.edu.cunha1977@gmail.com',senha:'admin123',perfil:'admin',turno:'administracao',ativo:true,authRecoveryEnabled:false,authRecoveryPending:false},{id:'u-portaria-dia',nome:'Portaria Dia',login:'portaria',senha:'1234',perfil:'portaria',turno:'dia',ativo:true},{id:'u-portaria-noite',nome:'Portaria Noite',login:'portaria-noite',senha:'1234',perfil:'portaria',turno:'noite',ativo:true},{id:'u-zelador',nome:'Zelador',login:'zelador',senha:'1234',perfil:'zelador',turno:'zeladoria',ativo:true}]}
-function getLocalUserPasswordVault(){
-  try{const v=JSON.parse(localStorage.getItem(LOCAL_USER_PASSWORDS_KEY)||'{}');return v&&typeof v==='object'?v:{}}catch(e){return{}}
-}
-function rememberLocalUserPasswords(users){
-  const vault=getLocalUserPasswordVault();
-  (Array.isArray(users)?users:[]).forEach(u=>{
-    const senha=String(u?.senha||''); if(!senha)return;
-    if(u?.id)vault['id:'+u.id]=senha;
-    if(u?.login)vault['login:'+String(u.login).toLowerCase()]=senha;
-  });
-  try{localStorage.setItem(LOCAL_USER_PASSWORDS_KEY,JSON.stringify(vault))}catch(e){}
-  return vault;
-}
 function repairLocalUserPasswords(users){
   const defaults=defaultUsers();
   const byId=new Map(defaults.map(u=>[u.id,u]));
   const byLogin=new Map(defaults.map(u=>[u.login,u]));
-  const vault=getLocalUserPasswordVault();
-  const repaired=(Array.isArray(users)?users:[]).map(u=>{
+  return (Array.isArray(users)?users:[]).map(u=>{
     if(u&&String(u.senha||'')!=='')return u;
-    const saved=(u?.id&&vault['id:'+u.id])||(u?.login&&vault['login:'+String(u.login).toLowerCase()])||'';
-    if(saved)return {...u,senha:saved};
     const d=byId.get(u?.id)||byLogin.get(u?.login);
     return d?{...u,senha:d.senha}:u;
   });
-  rememberLocalUserPasswords(repaired);
-  return repaired;
 }
 function mergeUsersPreservingPasswords(localUsers,remoteUsers){
   const local=Array.isArray(localUsers)?localUsers:[];
@@ -8274,7 +8255,6 @@ function load(){
 function save(syncReason='alteracao'){
   normalizeAccesses();
   touchStateMeta(syncReason);
-  rememberLocalUserPasswords(state.users);
   localStorage.setItem(KEY,JSON.stringify(state));
   const st=document.getElementById('saveStatus');
   if(st)st.textContent='Salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
@@ -9683,7 +9663,7 @@ function applyBackupData(parsed,file){
     state.logs=[...dados.logs||[]];
   }
   if(!Array.isArray(state.logs))state.logs=[];
-  state.users=repairLocalUserPasswords(Array.isArray(state.users)&&state.users.length?state.users:defaultUsers());
+  if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
   state.users.forEach(u=>normalizeUserOperational(u));
   ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
   syncGDriveConfigStores();
@@ -10187,7 +10167,7 @@ async function cloudRestoreLatest(){
       createLocalSnapshot('antes-restaurar-supabase',true);
       state=nextState;
     state.users=mergeUsersPreservingPasswords(localUsersBeforeRestore,state.users);
-      state.users=repairLocalUserPasswords(Array.isArray(state.users)&&state.users.length?state.users:defaultUsers());
+      if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
       state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
       ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
       localStorage.setItem(KEY,JSON.stringify(state));
@@ -10343,7 +10323,7 @@ async function cloudSyncPullLatest(silent=false){
     const before=JSON.stringify({a:(state.accesses||[]).length,u:Object.keys(state.units||{}).length,l:(state.logs||[]).length});
     state=mergeStatesForSync(state,remoteState,remoteMeta);
     normalizeImportedVehicles?.(); normalizeAccesses?.(); ensureSettings?.(); ensureOperational?.();
-    state.users=repairLocalUserPasswords(Array.isArray(state.users)&&state.users.length?state.users:defaultUsers());
+    if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
     state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
     localStorage.setItem(KEY,JSON.stringify(state));
     lastSyncSnapshotId=snapId; localStorage.setItem('pp_last_sync_snapshot_id',String(lastSyncSnapshotId));
