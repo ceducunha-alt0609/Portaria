@@ -1,0 +1,28 @@
+name: Inspect access filter css
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/inspect-access-filter-css.yml'
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path('index.html').read_text(encoding='utf-8')
+          terms=['.accessQuickFilter{','.accessQuickFilter.active{','.accessQuickFilters{','border-radius:999px','border-radius:10px']
+          for term in terms:
+              print('\n###',term,'count=',s.count(term))
+              start=0
+              n=0
+              while True:
+                  i=s.find(term,start)
+                  if i<0: break
+                  n+=1
+                  print('\n-- occurrence',n,'at',i,'--')
+                  print(s[max(0,i-350):i+900])
+                  start=i+len(term)
+          PY
