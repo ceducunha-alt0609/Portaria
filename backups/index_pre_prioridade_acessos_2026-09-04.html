@@ -9344,8 +9344,7 @@ function renderAccess(){
   normalizeAccesses();
   const q=(document.getElementById('accessSearch')?.value||'').toLowerCase();
   const accesses=Array.isArray(state.accesses)?state.accesses:[];
-  const accessPriority=a=>{const mins=elapsedMinutes(a);return mins>=240?2:(mins>=90?1:0)};
-  const arr=accesses.filter(a=>!a.saida).filter(a=>!accessQuickType||accessTypeLabel(a)===accessQuickType).filter(a=>(String(a.nome||'')+String(a.docType||'')+String(a.doc||'')+(a.empresa||'')+(a.destino||'')+(a.autorizado||'')+(a.servico||'')+(a.bloco||'')+(a.apto||'')+(a.tipoAcesso||'')+(a.tipo||'')+(a.obs||'')).toLowerCase().includes(q)).sort((a,b)=>{const pa=accessPriority(a),pb=accessPriority(b);if(pb!==pa)return pb-pa;return new Date(a.entrada||0)-new Date(b.entrada||0)});
+  const arr=accesses.filter(a=>!a.saida).filter(a=>!accessQuickType||accessTypeLabel(a)===accessQuickType).filter(a=>(String(a.nome||'')+String(a.docType||'')+String(a.doc||'')+(a.empresa||'')+(a.destino||'')+(a.autorizado||'')+(a.servico||'')+(a.bloco||'')+(a.apto||'')+(a.tipoAcesso||'')+(a.tipo||'')+(a.obs||'')).toLowerCase().includes(q)).sort((a,b)=>new Date(b.entrada||0)-new Date(a.entrada||0));
   const html=accessCards(arr); const el=document.getElementById('accessTable'); if(el)el.innerHTML=html||'<div class="empty">Nenhum acesso em andamento.</div>';
 }
 function accessCards(arr){if(!arr.length)return'';return `<div class="accessCardsGrid">${arr.map(a=>accessCard(a)).join('')}</div>`}
