@@ -7766,7 +7766,7 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
               <div class="reportsExportTitle"><b>Exportar relatórios</b><span>Escolha o formato</span></div>
               <button class="reportsExportOption" onclick="exportReportsFromMenu('json')"><span class="ico">🧾</span><span><b>JSON completo</b><small>Resumo operacional, acessos, moradores, agenda e auditoria.</small></span></button>
               <button class="reportsExportOption" onclick="exportReportsFromMenu('agendaCsv')"><span class="ico">📅</span><span><b>CSV da agenda</b><small>Salão, mudanças, unidade, responsável e data.</small></span></button>
-              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Visitante/prestador, entradas, saídas, empresa, unidade e autorizador.</small></span></button>
+              <button class="reportsExportOption" onclick="exportReportsFromMenu('accessCsv')"><span class="ico">🚪</span><span><b>CSV de acessos</b><small>Entradas, saídas, empresa, unidade e autorizador.</small></span></button>
               <button class="reportsExportOption" onclick="exportReportsFromMenu('residentsCsv')"><span class="ico">👥</span><span><b>CSV de moradores</b><small>Unidades, moradores, vínculos, app, biometria e veículos.</small></span></button>
               <button class="reportsExportOption" onclick="exportReportsFromMenu('auditCsv')"><span class="ico">🧭</span><span><b>CSV de auditoria</b><small>Histórico administrativo e ações por operador.</small></span></button>
               <button class="reportsExportOption" onclick="exportReportsFromMenu('print')"><span class="ico">🖨️</span><span><b>Impressão limpa</b><small>Abre o relatório no formato próprio para imprimir.</small></span></button>
@@ -11372,9 +11372,6 @@ function renderReports(){
   const el=document.getElementById('reportsBody'); if(!el)return;
   const r=buildReportData();
   const total=r.accesses.length, noLocal=r.inside.length, saidas=r.exits.length;
-  const visitantes=r.accesses.filter(a=>accessTypeLabel(a)==='Visitante').length;
-  const prestadores=r.accesses.filter(a=>accessTypeLabel(a)==='Prestador').length;
-  const tipoNaoInformado=Math.max(0,total-visitantes-prestadores);
   const salaos=r.ops.filter(o=>o.tipo==='salao').length, mudancas=r.ops.filter(o=>o.tipo==='mudanca').length;
   const resumoBody=`
     <div class="reportsMetrics reportsMetricsAccordion">
@@ -11388,7 +11385,6 @@ function renderReports(){
       <div class="card reportPanel"><h3>Top unidades por acesso</h3>${reportRowsHTML(r.topUnits)}</div>
       <div class="card reportPanel"><h3>Empresas / prestadores</h3>${reportRowsHTML(r.topCompanies)}</div>
       <div class="card reportPanel"><h3>Autorizado por</h3>${reportRowsHTML(r.topAuthorized,'Ainda sem dados suficientes.')}</div>
-      <div class="card reportPanel"><h3>Tipos de acesso</h3><div class="reportMiniGrid"><div class="reportMini"><b>${visitantes}</b><span>visitantes</span></div><div class="reportMini"><b>${prestadores}</b><span>prestadores</span></div><div class="reportMini"><b>${tipoNaoInformado}</b><span>não informado</span></div></div></div>
       <div class="card reportPanel"><h3>Saídas registradas</h3><div class="reportMiniGrid"><div class="reportMini"><b>${saidas}</b><span>saídas no período</span></div><div class="reportMini"><b>${noLocal}</b><span>sem saída registrada</span></div><div class="reportMini"><b>${total}</b><span>entradas analisadas</span></div></div></div>
     </div>`;
   const moradoresBody=`
@@ -11403,7 +11399,7 @@ function renderReports(){
     <div class="reportsAccordionStack">
       ${reportAccordion('resumo','📊','Resumo geral','Indicadores principais do período selecionado.',[r.range.label,`${total} acessos`,`${salaos+mudancas} eventos`],resumoBody,true)}
       ${reportAccordion('agenda','📅','Agenda Operacional','Relatório mensal/anual de salão, mudanças e próximos eventos.',[`${salaos} salão`,`${mudancas} mudanças`],renderAgendaReportPanel(r),true)}
-      ${reportAccordion('acessos','🚪','Acessos','Visitantes, prestadores, unidades, autorizadores e saídas do período.',[`${total} entradas`,`${visitantes} visitantes`,`${prestadores} prestadores`,`${noLocal} dentro`],acessosBody,false)}
+      ${reportAccordion('acessos','🚪','Acessos','Unidades, empresas, autorizadores e saídas do período.',[`${total} entradas`,`${noLocal} dentro`],acessosBody,false)}
       ${reportAccordion('moradores','👥','Moradores','Base cadastral, app, biometria e veículos.',[`${r.residents.totalPeople} moradores`,`${r.residents.vehicles} veículos`],moradoresBody,false)}
       ${reportAccordion('auditoria','🧭','Auditoria','Resumo dos registros administrativos e eventos do sistema.',[`${r.logs.length} logs`],auditoriaBody,false)}
       ${reportAccordion('passagens','⇄','Passagens de turno','Histórico operacional das trocas de turno da portaria.',[`${(state.passagens||[]).length} registros`],renderPassagensPanel(),false)}
@@ -11620,15 +11616,14 @@ function csvDownload(filename, rows){
 function exportAccessesCsv(){
   normalizeAccesses();
   const r=buildReportData();
-  const rows=[['Data entrada','Hora entrada','Nome','CPF','Tipo de acesso','Empresa','Unidade visitada','Autorizado por','Serviço','Saída']];
+  const rows=[['Data entrada','Hora entrada','Nome','CPF','Empresa/Tipo','Unidade visitada','Autorizado por','Serviço','Saída']];
   r.accesses.slice().sort((a,b)=>accessMs(a)-accessMs(b)).forEach(a=>{
     rows.push([
       a.data||'',
       a.entrada||'',
       a.nome||'',
       a.cpf||'',
-      accessTypeLabel(a),
-      a.empresa||'',
+      a.empresa||a.tipo||'',
       a.destino||(a.bloco&&a.apto?`${a.bloco} ${a.apto}`:''),
       a.autorizado||'',
       a.servico||'',
@@ -11689,8 +11684,7 @@ function exportReportsFromMenu(type){
 
 function exportReports(){
   const r=buildReportData();
-  const tipos={visitantes:r.accesses.filter(a=>accessTypeLabel(a)==='Visitante').length,prestadores:r.accesses.filter(a=>accessTypeLabel(a)==='Prestador').length,naoInformado:r.accesses.filter(a=>accessTypeLabel(a)==='Não informado').length};
-  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,tipos,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:{resumo:r.byAgenda,eventos:r.ops},logs:r.byLogType};
+  const payload={geradoEm:new Date().toISOString(),periodo:r.range.label,acessos:{total:r.accesses.length,noLocal:r.inside.length,saidas:r.exits.length,topUnidades:r.topUnits,topEmpresas:r.topCompanies,autorizados:r.topAuthorized},moradores:r.residents,agenda:{resumo:r.byAgenda,eventos:r.ops},logs:r.byLogType};
   addLog('Exportou relatório operacional',`Período: ${r.range.label}. Acessos: ${r.accesses.length}.`,'sistema');
   persistNoRender();
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
