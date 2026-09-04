@@ -8244,11 +8244,6 @@ function load(){
     data.logs=Array.isArray(data.logs)?data.logs:[];
     data.comunicados=Array.isArray(data.comunicados)?data.comunicados:[];
     data.users.forEach(u=>normalizeUserOperational(u));
-    const legacyCid=localStorage.getItem('pp_gdrive_client_id')||'';
-    const legacyKey=localStorage.getItem('pp_gdrive_api_key')||'';
-    if(!data.settings.gdrive||typeof data.settings.gdrive!=='object')data.settings.gdrive={clientId:'',apiKey:''};
-    if(!data.settings.gdrive.clientId&&legacyCid)data.settings.gdrive.clientId=legacyCid;
-    if(!data.settings.gdrive.apiKey&&legacyKey)data.settings.gdrive.apiKey=legacyKey;
     return data;
   }catch(e){console.warn('Falha ao carregar base local',e);return initial()}
 }
@@ -9666,7 +9661,6 @@ function applyBackupData(parsed,file){
   if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers();
   state.users.forEach(u=>normalizeUserOperational(u));
   ensureSettings(); normalizeImportedVehicles?.(); normalizeAccesses?.();
-  syncGDriveConfigStores();
   localStorage.setItem(KEY,JSON.stringify(state));
   addLog('Restaurou backup','Arquivo: '+file.name+' (tipo: '+tipo+')','backup');
   applyTheme(); renderAll(); applyPermissions();
@@ -9738,32 +9732,11 @@ function setDriveStatus(msg,type='info'){
   el.style.color=type==='ok'?'#08734d':type==='err'?'#a32636':'var(--muted)';
 }
 
-function ensureGDriveSettings(){
-  if(!state.settings||typeof state.settings!=='object')state.settings={theme:'auto'};
-  if(!state.settings.gdrive||typeof state.settings.gdrive!=='object')state.settings.gdrive={clientId:'',apiKey:''};
-  return state.settings.gdrive;
-}
-function syncGDriveConfigStores({persistState=false}={}){
-  const cfg=ensureGDriveSettings();
-  const localCid=localStorage.getItem('pp_gdrive_client_id')||'';
-  const localKey=localStorage.getItem('pp_gdrive_api_key')||'';
-  let changed=false;
-  if(!cfg.clientId&&localCid){cfg.clientId=localCid;changed=true;}
-  if(!cfg.apiKey&&localKey){cfg.apiKey=localKey;changed=true;}
-  if(cfg.clientId&&localCid!==cfg.clientId)localStorage.setItem('pp_gdrive_client_id',cfg.clientId);
-  if(cfg.apiKey&&localKey!==cfg.apiKey)localStorage.setItem('pp_gdrive_api_key',cfg.apiKey);
-  if(persistState&&changed){
-    try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
-  }
-  return cfg;
-}
 function gdriveClientId(){
-  const cfg=syncGDriveConfigStores();
-  return String(cfg.clientId||localStorage.getItem('pp_gdrive_client_id')||'').trim();
+  return localStorage.getItem('pp_gdrive_client_id')||'';
 }
 function gdriveApiKey(){
-  const cfg=syncGDriveConfigStores();
-  return String(cfg.apiKey||localStorage.getItem('pp_gdrive_api_key')||'').trim();
+  return localStorage.getItem('pp_gdrive_api_key')||'';
 }
 
 
@@ -9773,11 +9746,10 @@ function maskCredential(v){
   return v.slice(0,8)+'••••••'+v.slice(-6);
 }
 function loadIntegrationConfigs(){
-  syncGDriveConfigStores({persistState:true});
   const cid=document.getElementById('gdriveClientIdConfig');
   const key=document.getElementById('gdriveApiKeyConfig');
-  if(cid)cid.value=gdriveClientId();
-  if(key)key.value=gdriveApiKey();
+  if(cid)cid.value=localStorage.getItem('pp_gdrive_client_id')||'';
+  if(key)key.value=localStorage.getItem('pp_gdrive_api_key')||'';
   const sbUrl=document.getElementById('supabaseUrlConfig');
   const sbKey=document.getElementById('supabaseKeyConfig');
   if(sbUrl)sbUrl.value=typeof SUPABASE_URL!=='undefined'?SUPABASE_URL:'';
@@ -9807,13 +9779,9 @@ function saveGDriveIntegrationConfig(){
     showCloudToast?.('Informe uma API Key válida do Google','err',5000);
     return;
   }
-  const cfg=ensureGDriveSettings();
-  cfg.clientId=cid;
-  cfg.apiKey=key;
   localStorage.setItem('pp_gdrive_client_id',cid);
   localStorage.setItem('pp_gdrive_api_key',key);
-  save('configuracao-google-drive');
-  addLog?.('Integração Google Drive','Credenciais salvas em Central Administrativa → Integrações e proteção de dados','sistema');
+  addLog?.('Integração Google Drive','Credenciais salvas em Central Administrativa → Integrações','sistema');
   updateIntegrationStatus();
   setDriveStatus('✅ Google Drive configurado. Clique em Conectar ao Google Drive.','ok');
   showCloudToast?.('Integração Google Drive salva ✅','ok',4000);
@@ -9844,14 +9812,10 @@ function clearGDriveIntegrationConfig(){
     message:'Isso remove o Client ID, API Key e token salvo neste navegador. Os backups já criados no Drive não serão apagados.',
     okText:'Limpar',
     onConfirm:()=>{
-      const cfg=ensureGDriveSettings();
-      cfg.clientId='';
-      cfg.apiKey='';
       localStorage.removeItem('pp_gdrive_client_id');
       localStorage.removeItem('pp_gdrive_api_key');
       localStorage.removeItem('pp_gdrive_token');
       _gdriveToken=null;
-      save('limpeza-configuracao-google-drive');
       loadIntegrationConfigs();
       gdriveUpdateUI?.(false);
       setDriveStatus('Google Drive desconectado e configuração removida.');
