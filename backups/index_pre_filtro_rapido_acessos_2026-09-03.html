@@ -7528,17 +7528,6 @@ body.theme-dark .accessTypePill.visitor{color:#8bbcff;background:rgba(54,126,220
 body.theme-dark .accessTypePill.service{color:#f0cf72;background:rgba(216,184,92,.12)}
 @media(max-width:760px){#accessHistoryModal .historyFilters{grid-template-columns:1fr 1fr!important}}
 @media(max-width:620px){#accessHistoryModal .historyFilters{grid-template-columns:1fr!important}}
-
-/* v155 — filtros rápidos do Controle em andamento */
-.accessQuickFilters{display:flex;align-items:center;gap:8px;margin:10px 0 12px;flex-wrap:wrap}
-.accessQuickFilter{min-height:34px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font:inherit;font-size:10px;font-weight:900;letter-spacing:.025em;cursor:pointer;transition:.15s ease}
-.accessQuickFilter:hover{border-color:rgba(200,162,74,.45);color:var(--text)}
-.accessQuickFilter.active{border-color:rgba(200,162,74,.58);background:rgba(200,162,74,.12);color:var(--gold,#c8a24a);box-shadow:inset 0 0 0 1px rgba(200,162,74,.08)}
-.accessCard-visitor{border-left:3px solid rgba(70,132,220,.55)}
-.accessCard-service{border-left:3px solid rgba(200,162,74,.68)}
-.accessCard-legacy{border-left:3px solid rgba(130,140,155,.28)}
-.accessCard .accessTypePill{font-size:9.5px;padding:5px 8px}
-@media(max-width:620px){.accessQuickFilters{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.accessQuickFilter{width:100%;padding-left:6px;padding-right:6px}}
 </style>
 <style>
 /* Auth 2.0 fase 1 — recuperação segura preparada */
@@ -7733,11 +7722,6 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
         <div class="card">
           <div class="panelHead"><div class="title" style="margin:0"><h2>Controle em andamento</h2></div><div class="actions" style="margin:0"><button class="btn ghost" onclick="openAccessHistory()">Histórico de acessos</button><button class="btn ghost adminOnly" onclick="exportData()">Exportar backup</button></div></div>
           <div class="searchbar accessSearchRow" style="margin-top:12px"><input id="accessSearch" oninput="renderAccess()" placeholder="Buscar por nome, doc, bloco ou apto"><button type="button" class="accessSearchClearBtn" onclick="clearAccessSearch()">Limpar</button></div>
-          <div class="accessQuickFilters" id="accessQuickFilters" aria-label="Filtrar acessos em andamento por tipo">
-            <button type="button" class="accessQuickFilter active" data-access-type="" onclick="setAccessQuickFilter('')">Todos</button>
-            <button type="button" class="accessQuickFilter" data-access-type="Visitante" onclick="setAccessQuickFilter('Visitante')">Visitantes</button>
-            <button type="button" class="accessQuickFilter" data-access-type="Prestador" onclick="setAccessQuickFilter('Prestador')">Prestadores</button>
-          </div>
           <div id="accessTable"></div>
         </div>
       </div>
@@ -9266,21 +9250,15 @@ function clearAccessSearch(){
 }
 function accessTypeLabel(a){return String(a?.tipoAcesso||'').trim()||'Não informado'}
 function accessTypeClass(a){const t=accessTypeLabel(a).toLowerCase();return t==='prestador'?'service':t==='visitante'?'visitor':'legacy'}
-let accessQuickType='';
-function setAccessQuickFilter(type=''){
-  accessQuickType=String(type||'');
-  document.querySelectorAll('.accessQuickFilter').forEach(btn=>btn.classList.toggle('active',(btn.dataset.accessType||'')===accessQuickType));
-  renderAccess();
-}
 function renderAccess(){
   normalizeAccesses();
   const q=(document.getElementById('accessSearch')?.value||'').toLowerCase();
   const accesses=Array.isArray(state.accesses)?state.accesses:[];
-  const arr=accesses.filter(a=>!a.saida).filter(a=>!accessQuickType||accessTypeLabel(a)===accessQuickType).filter(a=>(String(a.nome||'')+String(a.docType||'')+String(a.doc||'')+(a.empresa||'')+(a.destino||'')+(a.autorizado||'')+(a.servico||'')+(a.bloco||'')+(a.apto||'')+(a.tipoAcesso||'')+(a.tipo||'')+(a.obs||'')).toLowerCase().includes(q)).sort((a,b)=>new Date(b.entrada||0)-new Date(a.entrada||0));
+  const arr=accesses.filter(a=>!a.saida).filter(a=>(String(a.nome||'')+String(a.docType||'')+String(a.doc||'')+(a.empresa||'')+(a.destino||'')+(a.autorizado||'')+(a.servico||'')+(a.bloco||'')+(a.apto||'')+(a.tipoAcesso||'')+(a.tipo||'')+(a.obs||'')).toLowerCase().includes(q)).sort((a,b)=>new Date(b.entrada||0)-new Date(a.entrada||0));
   const html=accessCards(arr); const el=document.getElementById('accessTable'); if(el)el.innerHTML=html||'<div class="empty">Nenhum acesso em andamento.</div>';
 }
 function accessCards(arr){if(!arr.length)return'';return `<div class="accessCardsGrid">${arr.map(a=>accessCard(a)).join('')}</div>`}
-function accessCard(a){const mins=elapsedMinutes(a), stayClass=mins>=240?'long':(mins>=90?'medium':''); const destino=a.destino||(a.bloco? a.bloco+' '+a.apto:'—'); return `<article class="accessCard accessCard-${accessTypeClass(a)}" onclick="openAccessDetail('${a.id}')"><div class="accessCardTop"><div class="accessPerson">${esc(a.nome||'Sem nome')} <span class="accessTypePill ${accessTypeClass(a)}">${esc(accessTypeLabel(a))}</span></div><span class="accessDest">${esc(destino)}</span></div><div class="accessMeta"><div class="accessMetaItem"><b>Dia</b><span>${esc(dateBR(a.data||dateOnly(a.entrada)))}</span></div><div class="accessMetaItem"><b>Entrada</b><span>${esc(a.entradaHora||timeOnly(a.entrada))}</span></div></div><div class="stayPill ${stayClass}">⏱ ${esc(elapsed(a))}</div><div class="operatorLine"><span>👤 ${esc(a.createdByName||'Operador não registrado')}</span></div></article>`}
+function accessCard(a){const mins=elapsedMinutes(a), stayClass=mins>=240?'long':(mins>=90?'medium':''); const destino=a.destino||(a.bloco? a.bloco+' '+a.apto:'—'); return `<article class="accessCard" onclick="openAccessDetail('${a.id}')"><div class="accessCardTop"><div class="accessPerson">${esc(a.nome||'Sem nome')} <span class="accessTypePill ${accessTypeClass(a)}">${esc(accessTypeLabel(a))}</span></div><span class="accessDest">${esc(destino)}</span></div><div class="accessMeta"><div class="accessMetaItem"><b>Dia</b><span>${esc(dateBR(a.data||dateOnly(a.entrada)))}</span></div><div class="accessMetaItem"><b>Entrada</b><span>${esc(a.entradaHora||timeOnly(a.entrada))}</span></div></div><div class="stayPill ${stayClass}">⏱ ${esc(elapsed(a))}</div><div class="operatorLine"><span>👤 ${esc(a.createdByName||'Operador não registrado')}</span></div></article>`}
 function openAccessDetail(id){const a=state.accesses.find(x=>x.id===id); if(!a)return; const destino=a.destino||(a.bloco? a.bloco+' '+a.apto:'—'); const mins=elapsedMinutes(a), stayClass=mins>=240?'long':(mins>=90?'medium':''); const statusHtml=a.saida?`<span class="badge out access-status">SAIU ${esc(a.saidaHora||timeOnly(a.saida))}</span>`:`<span class="badge in access-status">NO LOCAL</span>`; document.getElementById('accessDetailName').textContent=a.nome||'Sem nome'; document.getElementById('accessDetailDest').textContent=destino; document.getElementById('accessDetailBody').innerHTML=`<div class="accessDetailTime">${statusHtml}<span class="stayPill ${stayClass}">⏱ ${esc(elapsed(a))}</span></div><div class="accessDetailsGrid"><div class="detailLine"><b>Data</b><span>${esc(dateBR(a.data||dateOnly(a.entrada)))}</span></div><div class="detailLine"><b>Entrada</b><span>${esc(a.entradaHora||timeOnly(a.entrada))}</span></div><div class="detailLine"><b>Documento</b><span>${esc(formatAccessDoc(a))}</span></div><div class="detailLine"><b>Tipo de acesso</b><span>${esc(accessTypeLabel(a))}</span></div><div class="detailLine"><b>Empresa</b><span>${esc(a.empresa||a.tipo||'—')}</span></div><div class="detailLine"><b>Autorizado por</b><span>${esc(a.autorizado||'—')}</span></div><div class="detailLine"><b>Serviço realizado</b><span>${esc(a.servico||a.motivo||a.obs||'—')}</span></div><div class="detailLine"><b>Entrada registrada por</b><span>${esc(a.createdByName||'—')}</span></div><div class="detailLine"><b>Saída registrada por</b><span>${esc(a.exitByName||'Ainda sem saída')}</span></div></div><div class="accessActions"><button class="btn ghost" onclick="openAccessEdit('${a.id}')">✏️ Editar</button>${a.saida?'':`<button class="btn gold" onclick="markOut('${a.id}');closeAccessDetail()">Registrar saída</button>`}<button class="btn bad" onclick="closeAccessDetail();removeAccess('${a.id}')">Excluir</button></div>`; document.getElementById('accessDetailModal').classList.add('show')}
 let editingAccessId='';
 function openAccessEdit(id){
