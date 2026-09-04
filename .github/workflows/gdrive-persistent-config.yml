@@ -1,0 +1,32 @@
+name: GDrive persistent config
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/gdrive-persistent-config.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Backups
+        run: |
+          cp index.html backups/index_pre_gdrive_persistente_2026-09-03.html
+          cp sw.js backups/sw_pre_gdrive_persistente_2026-09-03.js
+      - name: Aplicar
+        run: python .github/scripts/gdrive_persistent_config.py
+      - name: Validar
+        run: |
+          grep -q 'function ensureGDriveSettings' index.html
+          grep -q "save('configuracao-google-drive')" index.html
+          grep -q 'syncGDriveConfigStores({persistState:true})' index.html
+          grep -q 'portaria-primavera-v1-0-16' sw.js
+      - name: Commit
+        run: |
+          git config user.name "Portaria Primavera Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html sw.js backups/index_pre_gdrive_persistente_2026-09-03.html backups/sw_pre_gdrive_persistente_2026-09-03.js
+          git commit -m "feat: preservar configuracao do google drive"
+          git push origin main
