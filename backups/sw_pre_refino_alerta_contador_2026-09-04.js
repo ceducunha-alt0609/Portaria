@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portaria-primavera-v1-0-20';
+const CACHE_NAME = 'portaria-primavera-v1-0-19';
 const CACHE_PREFIX = 'portaria-primavera-';
 const CORE_ASSETS = [
   './',
