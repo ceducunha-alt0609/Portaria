@@ -75,7 +75,8 @@
     const s=document.createElement('style');
     s.id='ppLastAccessCompactStyle';
     s.textContent=`
-      #lastAccess .accessTableDesktop thead th{font-size:14px;font-weight:900;color:var(--navy);padding:0 10px 7px;line-height:1.25}
+      #lastAccess .accessTableDesktop thead tr{border-bottom:1px solid rgba(200,162,74,.32)}
+      #lastAccess .accessTableDesktop thead th{font-size:14px;font-weight:900;color:var(--navy);padding:0 10px 9px;line-height:1.25;border-bottom:1px solid rgba(200,162,74,.30)}
       #lastAccess .lastAccessWhen{display:grid;gap:2px;min-width:94px}
       #lastAccess .lastAccessWhen b{font-size:12px;color:var(--ink)}
       #lastAccess .lastAccessWhen small{font-size:11px;color:var(--muted);font-weight:800}
@@ -83,6 +84,7 @@
       #lastAccess .accessTypePill.service{background:#eef4ff;color:#1f5eb7}
       #lastAccess .accessTypePill.visitor{background:#fff5df;color:#9a6200}
       #lastAccess .accessTypePill.legacy{background:#f1f3f7;color:#667085}
+      body.theme-dark #lastAccess .accessTableDesktop thead th{color:#f2f5fa;border-bottom-color:rgba(216,184,92,.42)}
       body.theme-dark #lastAccess .accessTypePill.legacy{background:#1a2638;color:#a7b0c0}
     `;
     document.head.appendChild(s);
@@ -98,5 +100,5 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  window.PortariaLastAccessCompactV152={version:'152.2',refresh:compact};
+  window.PortariaLastAccessCompactV152={version:'152.3',refresh:compact};
 })();
