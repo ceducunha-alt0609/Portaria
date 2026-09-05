@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portaria Primavera — Teste Drive v151.9</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0d1b2a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+iframe{border:0;width:100%;height:100%;display:block;background:#fff}
+#badge{position:fixed;right:10px;bottom:10px;z-index:999999;max-width:min(94vw,620px);background:#0f6b4d;color:#fff;border:1px solid #c8a24a;border-radius:14px;padding:9px 12px;font-size:11px;font-weight:800;line-height:1.4;box-shadow:0 8px 24px rgba(0,0,0,.24);pointer-events:none;white-space:pre-line}
+#badge.err{background:#8f1025}
+</style>
+</head>
+<body>
+<iframe id="app" src="./index.html?ppdrive1519=1&cb=20260905i" title="Portaria Primavera v150 com Drive v151.9"></iframe>
+<div id="badge">Drive v151.9: carregando…</div>
+<script>
+(()=>{
+ const KEY='pp_gdrive_oauth_client_id_v151';
+ const LEGACY='pp_gdrive_client_id';
+ const FOLDER='Portaria Primavera';
+ const frame=document.getElementById('app'),badge=document.getElementById('badge');
+ function setBadge(msg,err=false){badge.textContent=msg;badge.classList.toggle('err',!!err);}
+ function normalize(s){return String(s||'').replace(/\s+/g,' ').trim().toLowerCase();}
+ function short(v){v=String(v||'');return v?`${v.slice(0,14)}…${v.slice(-14)}`:'(vazio)';}
+ function patchUi(w,d){
+   const key=d.getElementById('gdriveApiKeyConfig');if(key){const wrap=key.closest('div');if(wrap)wrap.style.display='none';}
+   d.querySelectorAll('label').forEach(l=>{if(l.textContent.trim()==='API Key'){const wrap=l.closest('div');if(wrap)wrap.style.display='none';}});
+   const id=String(w.localStorage.getItem(KEY)||'');
+   const f=d.getElementById('gdriveClientIdConfig')||d.getElementById('gdriveClientId');if(f)f.value=id;
+   const st=d.getElementById('gdriveIntegrationStatus');if(st){st.className='integrationStatus '+(id?'warn':'warn');st.textContent=id?'OAuth v151 configurado':'OAuth v151 não configurado';}
+ }
+ function setLegacyToken(w,token){try{w.eval('_gdriveToken = '+JSON.stringify(token||null));}catch(e){}w._gdriveToken=token||null;}
+ function waitForOAuth(){
+   return new Promise((resolve,reject)=>{
+     let done=false;
+     const timer=setTimeout(()=>{if(!done){done=true;cleanup();reject(new Error('Tempo esgotado aguardando autorização.'));}},120000);
+     function cleanup(){clearTimeout(timer);window.removeEventListener('message',onMsg);}
+     function onMsg(ev){
+       if(ev.origin!==location.origin)return;
+       if(ev.data?.type==='pp:gdrive-oauth-token'){if(done)return;done=true;cleanup();resolve(ev.data);}
+       else if(ev.data?.type==='pp:gdrive-oauth-error'){if(done)return;done=true;cleanup();reject(new Error(ev.data.message||'Falha no OAuth.'));}
+     }
+     window.addEventListener('message',onMsg);
+     const pop=window.open('./gdrive-oauth-bridge-v1518.html?cb=20260905i','pp-gdrive-oauth-v1519','width=560,height=720');
+     if(!pop){done=true;cleanup();reject(new Error('O navegador bloqueou a janela de autorização.'));}
+   });
+ }
+ async function api(token,url,opts={}){
+   const r=await fetch(url,{...opts,headers:{...(opts.headers||{}),Authorization:'Bearer '+token}});
+   if(!r.ok){const txt=await r.text();throw new Error(`Drive API HTTP ${r.status}: ${txt.slice(0,220)}`);}
+   return r.status===204?null:r.json();
+ }
+ async function ensureFolder(token){
+   const q=encodeURIComponent(`name='${FOLDER.replaceAll("'","\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`);
+   const list=await api(token,`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name)&pageSize=10`);
+   if(list.files?.[0])return {id:list.files[0].id,created:false};
+   const made=await api(token,'https://www.googleapis.com/drive/v3/files?fields=id,name',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:FOLDER,mimeType:'application/vnd.google-apps.folder'})});
+   return {id:made.id,created:true};
+ }
+ async function uploadDiagnostic(token,folderId){
+   const now=new Date();
+   const stamp=now.toISOString().replace(/[:.]/g,'-');
+   const name=`Portaria_Primavera_v1519_teste_${stamp}.json`;
+   const payload={app:'Portaria Primavera',test:'Google Drive OAuth v151.9',createdAt:now.toISOString(),scope:'drive.file',note:'Arquivo diagnóstico criado pelo teste isolado. Não contém dados de moradores, acessos ou credenciais.'};
+   const boundary='-------pp1519'+Math.random().toString(16).slice(2);
+   const meta={name,parents:[folderId],mimeType:'application/json'};
+   const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(payload,null,2)}\r\n--${boundary}--`;
+   return api(token,'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,parents,createdTime',{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+boundary},body});
+ }
+ async function runTest(w,d){
+   const id=String(w.localStorage.getItem(KEY)||'').trim();
+   if(!id.endsWith('.apps.googleusercontent.com')){setBadge('Salve primeiro o OAuth Client ID v151.',true);return;}
+   setBadge('1/4 — Abrindo OAuth Google…');
+   try{
+     const auth=await waitForOAuth();
+     const token=String(auth.token||'');
+     if(!token)throw new Error('Token OAuth não recebido.');
+     setLegacyToken(w,token);
+     setBadge('2/4 — OAuth OK. Localizando/criando pasta “Portaria Primavera”…');
+     const folder=await ensureFolder(token);
+     setBadge(`3/4 — Pasta ${folder.created?'criada':'localizada'}. Criando arquivo diagnóstico…`);
+     const file=await uploadDiagnostic(token,folder.id);
+     const verify=await api(token,`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(file.id)}?fields=id,name,parents,trashed`);
+     if(verify.trashed)throw new Error('Arquivo criado, mas apareceu como excluído.');
+     try{w.gdriveUpdateUI?.(true);w.refreshBackupCenterStatus?.();}catch(e){}
+     const st=d.getElementById('gdriveIntegrationStatus');if(st){st.className='integrationStatus ok';st.textContent='Drive conectado';}
+     setBadge(`✅ 4/4 — TESTE DE ESCRITA APROVADO\nPasta: ${FOLDER}\nArquivo criado: ${verify.name}\nOAuth + leitura + criação de pasta/arquivo funcionando.`);
+   }catch(e){setLegacyToken(w,'');setBadge('❌ '+(e?.message||e),true);}
+ }
+ frame.addEventListener('load',()=>{
+   try{
+     const w=frame.contentWindow,d=frame.contentDocument;
+     patchUi(w,d);
+     d.addEventListener('click',(ev)=>{
+       const btn=ev.target?.closest?.('button');if(!btn)return;
+       const txt=normalize(btn.textContent);
+       if(txt.includes('salvar integração')){
+         ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+         const f=d.getElementById('gdriveClientIdConfig')||d.getElementById('gdriveClientId');const id=String(f?.value||'').trim();
+         if(!id.endsWith('.apps.googleusercontent.com')){setBadge('OAuth Client ID inválido.',true);return;}
+         w.localStorage.setItem(KEY,id);patchUi(w,d);setBadge('✅ OAuth v151 salvo.\nNovo: '+short(id)+'\nLegado isolado: '+short(w.localStorage.getItem(LEGACY)));return;
+       }
+       if(txt.includes('testar configuração')){
+         ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();runTest(w,d);
+       }
+     },true);
+     setBadge('Drive v151.9 pronto.\nEste teste criará somente um JSON diagnóstico sem dados reais na pasta “Portaria Primavera”.');
+   }catch(e){setBadge('Falha ao iniciar v151.9: '+(e?.message||e),true);}
+ });
+})();
+</script>
+</body>
+</html>
