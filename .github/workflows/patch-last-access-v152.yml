@@ -1,0 +1,38 @@
+name: Patch last access compact v152
+on:
+  push:
+    branches: [v152-ultimos-acessos-compacto]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v152-ultimos-acessos-compacto
+      - name: Insert loader
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<script src="./last-access-compact-v152.js?v=152"></script>'
+          if marker not in s:
+              idx=s.rfind('</body>')
+              assert idx!=-1, 'body closing tag not found'
+              s=s[:idx]+'\n<!-- Últimos acessos compacto v152 -->\n'+marker+'\n'+s[idx:]
+              p.write_text(s,encoding='utf-8')
+      - name: Verify diff
+        run: |
+          git diff --check
+          grep -F './last-access-compact-v152.js?v=152' index.html
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'v152: carregar Últimos acessos compacto'
+          git push
