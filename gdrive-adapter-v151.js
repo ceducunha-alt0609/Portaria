@@ -17,6 +17,15 @@
   function field(){return document.getElementById('gdriveClientIdConfig')||document.getElementById('gdriveClientId');}
   function hydrateField(force=false){const f=field();const saved=clientId();if(f&&(force||!String(f.value||'').trim()))f.value=saved;}
 
+  function polishLogin(){
+    const card=document.querySelector('.loginCard');
+    if(!card)return;
+    const intro=card.querySelector('h2 + p');
+    if(intro)intro.textContent='Entre com o acesso da Portaria.';
+    const hint=card.querySelector('.loginHint');
+    if(hint)hint.innerHTML='<span class="loginHintTitle">Acesso da Portaria</span><span><b>Portaria</b> • portaria / 1234</span><span class="loginHintFoot">Acesso operacional do condomínio.</span>';
+  }
+
   function updateStatus({hydrate=false}={}){
     hideApiKey();
     if(hydrate)hydrateField(true);
@@ -29,6 +38,7 @@
   }
 
   function loadConfigs(){
+    polishLogin();
     hydrateField(true);hideApiKey();
     const sbUrl=document.getElementById('supabaseUrlConfig'),sbKey=document.getElementById('supabaseKeyConfig');
     try{if(sbUrl)sbUrl.value=typeof SUPABASE_URL!=='undefined'?SUPABASE_URL:'';}catch(e){}
@@ -82,5 +92,5 @@
   window.addEventListener('pp:gdrive-connected',()=>{setLegacyToken(window.PortariaGDriveOAuth?.token?.()||'');try{if(typeof gdriveUpdateUI==='function')gdriveUpdateUI(true);}catch(e){}updateStatus();});
   window.addEventListener('pp:gdrive-disconnected',()=>{setLegacyToken('');try{if(typeof gdriveUpdateUI==='function')gdriveUpdateUI(false);}catch(e){}updateStatus();});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadConfigs,{once:true});else setTimeout(loadConfigs,0);
-  window.PortariaGDriveAdapter={version:'151.12-consolidado',key:KEY,connect:connectDrive,disconnect:disconnectDrive,test:testConfig,save:saveConfig,clear:clearConfig,refresh:()=>updateStatus({hydrate:true})};
+  window.PortariaGDriveAdapter={version:'151.13-login-polish',key:KEY,connect:connectDrive,disconnect:disconnectDrive,test:testConfig,save:saveConfig,clear:clearConfig,refresh:()=>updateStatus({hydrate:true})};
 })();
