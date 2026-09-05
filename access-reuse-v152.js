@@ -1,4 +1,4 @@
-/* Portaria Primavera v152 — reaproveitamento de visitantes/prestadores */
+/* Portaria Primavera v152.1 — reaproveitamento de visitantes/prestadores */
 (()=>{
   if(window.__ppAccessReuseV152Loaded)return;
   window.__ppAccessReuseV152Loaded=true;
@@ -7,6 +7,25 @@
   const digits=v=>String(v||'').replace(/\D/g,'');
   const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
 
+  function getAccesses(){
+    try{
+      if(Array.isArray(window.state?.accesses))return window.state.accesses;
+    }catch(e){}
+    try{
+      for(let i=0;i<localStorage.length;i++){
+        const key=localStorage.key(i);
+        if(!key)continue;
+        const raw=localStorage.getItem(key);
+        if(!raw||raw[0]!=='{')continue;
+        let obj=null;
+        try{obj=JSON.parse(raw)}catch(e){continue}
+        if(Array.isArray(obj?.accesses))return obj.accesses;
+        if(Array.isArray(obj?.dados?.accesses))return obj.dados.accesses;
+      }
+    }catch(e){}
+    return [];
+  }
+
   function accessStamp(a){
     const raw=a?.entrada||a?.createdAt||((a?.data&&a?.entradaHora)?`${a.data}T${a.entradaHora}`:a?.data)||'';
     const t=new Date(raw).getTime();
@@ -14,7 +33,7 @@
   }
 
   function historyProfiles(){
-    const accesses=Array.isArray(window.state?.accesses)?window.state.accesses:[];
+    const accesses=getAccesses();
     const ordered=[...accesses].sort((a,b)=>accessStamp(b)-accessStamp(a));
     const seen=new Set();
     const out=[];
@@ -30,7 +49,7 @@
       out.push({
         nome,
         doc,
-        docType:String(a?.docType||'').trim()||((typeof window.getAccessDocType==='function')?window.getAccessDocType(a):'CPF'),
+        docType:String(a?.docType||'').trim()||'CPF',
         empresa,
         tipo:String(a?.tipoAcesso||'').trim()||'Visitante',
         stamp:accessStamp(a)
@@ -83,7 +102,7 @@
       const matches=findMatches(q);
       if(!matches.length){close();return}
       box.innerHTML=matches.map((p,i)=>{
-        const doc=(typeof window.formatDocument==='function'&&p.doc)?window.formatDocument(p.docType,p.doc):(p.doc?`${p.docType} ${p.doc}`:'Sem documento');
+        const doc=p.doc?`${p.docType||'Documento'} ${p.doc}`:'Sem documento';
         const meta=[doc,p.empresa||'',p.tipo||''].filter(Boolean).join(' • ');
         return `<button type="button" class="accessReuseItem" data-i="${i}" role="option"><div class="accessReuseName">${esc(p.nome)}</div><div class="accessReuseMeta">${esc(meta)}</div></button>`;
       }).join('');
@@ -94,17 +113,14 @@
         input.value=p.nome;
         const empresa=document.getElementById('aEmpresa'); if(empresa)empresa.value=p.empresa||'';
         const tipo=document.getElementById('aTipo'); if(tipo&&p.tipo)tipo.value=p.tipo;
-        if(typeof window.setAccessDocFields==='function')window.setAccessDocFields('new',p.docType||'CPF',p.doc||'');
-        else{
-          const dt=document.getElementById('aDocType'); if(dt)dt.value=p.docType||'CPF';
-          const dn=document.getElementById('aDoc'); if(dn)dn.value=p.doc||'';
-        }
+        const dt=document.getElementById('aDocType'); if(dt)dt.value=p.docType||'CPF';
+        const dn=document.getElementById('aDoc'); if(dn)dn.value=p.doc||'';
+        const disp=document.getElementById('aDocDisplay');if(disp)disp.textContent=p.doc?`${p.docType||'Documento'} ${p.doc}`:'Selecionar documento';
+        const docBtn=document.getElementById('aDocButton');if(docBtn)docBtn.classList.toggle('empty',!p.doc);
         ['aBloco','aApto','aDestino','aServico'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
         const auth=document.getElementById('aAutorizado'); if(auth){auth.innerHTML='<option value="">Selecione a unidade</option>';auth.disabled=true;}
         try{window.updateDestinoOptions?.();window.updateUnitPickButton?.()}catch(e){}
         close();
-        const unitBtn=document.querySelector('[onclick*="openUnitPicker"],#unitPickButton,.unitPickButton');
-        if(unitBtn&&typeof unitBtn.focus==='function')unitBtn.focus();
       }));
     }
 
@@ -115,5 +131,5 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  window.PortariaAccessReuseV152={version:'152.0',refresh:setup,profiles:historyProfiles};
+  window.PortariaAccessReuseV152={version:'152.1',refresh:setup,profiles:historyProfiles,getAccesses};
 })();
