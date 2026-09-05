@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portaria Primavera — Teste Drive v151.3</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0d1b2a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+iframe{border:0;width:100%;height:100%;display:block;background:#fff}
+#diag{position:fixed;right:10px;bottom:10px;z-index:999999;max-width:min(92vw,430px);background:#0f6b4d;color:#fff;border:1px solid #c8a24a;border-radius:14px;padding:9px 12px;font-size:11px;font-weight:800;line-height:1.35;box-shadow:0 8px 24px rgba(0,0,0,.24);pointer-events:none;white-space:pre-line}
+#diag.err{background:#8f1025}
+</style>
+</head>
+<body>
+<iframe id="app" src="./index.html?ppdrive1513=1&cb=20260905" title="Portaria Primavera v150 com adapter Drive v151.3"></iframe>
+<div id="diag">Drive v151.3: carregando…</div>
+<script>
+(()=>{
+ const frame=document.getElementById('app'), diag=document.getElementById('diag');
+ function short(v){v=String(v||'');return v?`${v.slice(0,12)}…${v.slice(-12)}`:'(vazio)';}
+ function setDiag(msg,err=false){diag.textContent=msg;diag.classList.toggle('err',!!err);}
+ function loadScript(doc,src){return new Promise((resolve,reject)=>{const s=doc.createElement('script');s.src=src+'?v=1513&cb=20260905';s.onload=resolve;s.onerror=reject;doc.head.appendChild(s);});}
+ function normalize(s){return String(s||'').replace(/\s+/g,' ').trim().toLowerCase();}
+ function snapshot(w,d,label){
+   const field=d.getElementById('gdriveClientIdConfig')||d.getElementById('gdriveClientId');
+   const stored=w.localStorage.getItem('pp_gdrive_client_id')||'';
+   setDiag(`${label}\nCampo: ${short(field?.value)}\nlocalStorage: ${short(stored)}\nAdapter: ${w.PortariaGDriveAdapter?.version||'não carregado'}`);
+ }
+ function wire(w,d){
+   const handler=(ev)=>{
+     const btn=ev.target?.closest?.('button'); if(!btn)return;
+     const txt=normalize(btn.textContent);
+     if(txt.includes('testar configuração')){
+       ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+       w.PortariaGDriveAdapter?.test?.();
+       return;
+     }
+     if(txt.includes('salvar integração')){
+       ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+       const field=d.getElementById('gdriveClientIdConfig')||d.getElementById('gdriveClientId');
+       const typed=String(field?.value||'').trim();
+       setDiag(`ANTES DE SALVAR\nDigitado: ${short(typed)}\nlocalStorage: ${short(w.localStorage.getItem('pp_gdrive_client_id'))}`);
+       w.PortariaGDriveAdapter?.refresh?.();
+       w.saveGDriveIntegrationConfig?.();
+       setTimeout(()=>snapshot(w,d,'APÓS SALVAR — 100 ms'),100);
+       setTimeout(()=>snapshot(w,d,'APÓS SALVAR — 2 s'),2000);
+       setTimeout(()=>snapshot(w,d,'APÓS SALVAR — 6 s'),6000);
+     }
+   };
+   d.addEventListener('click',handler,true);
+ }
+ frame.addEventListener('load',async()=>{
+   try{
+     const w=frame.contentWindow,d=frame.contentDocument;
+     await loadScript(d,'./gdrive-oauth-v151.js');
+     await loadScript(d,'./gdrive-adapter-v151.js');
+     wire(w,d);
+     snapshot(w,d,'Drive v151.3 carregado');
+     w.console?.info?.('[Portaria] Sandbox Drive v151.3 carregado com diagnóstico de Client ID.');
+   }catch(e){setDiag('Drive v151.3: falha ao carregar\n'+(e?.message||e),true);console.error(e);}
+ });
+})();
+</script>
+</body>
+</html>
