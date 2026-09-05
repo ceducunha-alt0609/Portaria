@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portaria Primavera — Autorização Google Drive v151.8</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d1b2a;color:#fff;margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box}
+main{width:min(520px,100%);background:#142338;border:1px solid #c8a24a;border-radius:18px;padding:24px;box-sizing:border-box;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+h1{font-size:20px;margin:0 0 10px}p{line-height:1.5;color:#d8e2ef}small{color:#9fb0c3;display:block;margin-top:12px}
+button{width:100%;margin-top:16px;border:1px solid #e2bd55;background:#c8a24a;color:#102033;border-radius:12px;padding:13px 16px;font-weight:800;font-size:15px;cursor:pointer}
+button:disabled{opacity:.55;cursor:default}.err{color:#ffb3bd}
+</style>
+</head>
+<body>
+<main>
+<h1>Conectar Google Drive</h1>
+<p id="status">Preparando autorização segura…</p>
+<button id="go" type="button">Continuar com Google</button>
+<small>Fluxo v151.8: replica o teste OAuth isolado que já foi validado com sucesso.</small>
+</main>
+<script>
+(()=>{
+ const KEY='pp_gdrive_oauth_client_id_v151';
+ const SCOPE='https://www.googleapis.com/auth/drive.file';
+ const statusEl=document.getElementById('status');
+ const go=document.getElementById('go');
+ let tokenClient=null;
+
+ function status(msg,err=false){statusEl.textContent=msg;statusEl.classList.toggle('err',!!err);}
+ function post(type,payload={}){try{window.opener?.postMessage({type,...payload},location.origin);}catch(e){}}
+ function loadGIS(){
+   return new Promise((resolve,reject)=>{
+     if(window.google?.accounts?.oauth2)return resolve();
+     const s=document.createElement('script');
+     s.src='https://accounts.google.com/gsi/client';
+     s.async=true;s.defer=true;
+     s.onload=resolve;
+     s.onerror=()=>reject(new Error('Falha ao carregar Google Identity Services.'));
+     document.head.appendChild(s);
+   });
+ }
+ async function initClient(){
+   if(!window.opener)throw new Error('Janela principal não encontrada.');
+   const id=String(localStorage.getItem(KEY)||'').trim();
+   if(!id.endsWith('.apps.googleusercontent.com'))throw new Error('OAuth Client ID v151 inválido.');
+   await loadGIS();
+   tokenClient=google.accounts.oauth2.initTokenClient({client_id:id,scope:SCOPE,callback:()=>{}});
+   return tokenClient;
+ }
+
+ go.onclick=async()=>{
+   try{
+     go.disabled=true;
+     status('Abrindo autorização do Google…');
+     const tc=await initClient();
+     tc.callback=(resp)=>{
+       try{
+         if(resp?.error)throw new Error(resp.error_description||resp.error);
+         const token=resp?.access_token||'';
+         if(!token)throw new Error('Google não retornou access token.');
+         status('✅ Autorizado. Enviando token ao Portaria Primavera…');
+         post('pp:gdrive-oauth-token',{token,expires_in:Number(resp.expires_in||3600)});
+         setTimeout(()=>window.close(),700);
+       }catch(e){
+         status('Falha: '+(e?.message||e),true);
+         post('pp:gdrive-oauth-error',{message:e?.message||String(e)});
+         go.disabled=false;
+       }
+     };
+     tc.requestAccessToken({prompt:'consent'});
+   }catch(e){
+     status('Falha: '+(e?.message||e),true);
+     post('pp:gdrive-oauth-error',{message:e?.message||String(e)});
+     go.disabled=false;
+   }
+ };
+ status('Pronto. Clique abaixo para autorizar pelo Google.');
+})();
+</script>
+</body>
+</html>
