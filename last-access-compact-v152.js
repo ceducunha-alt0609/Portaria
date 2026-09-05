@@ -79,7 +79,7 @@
       #lastAccess .lastAccessWhen{display:grid;gap:2px;min-width:94px}
       #lastAccess .lastAccessWhen b{font-size:12px;color:var(--ink)}
       #lastAccess .lastAccessWhen small{font-size:11px;color:var(--muted);font-weight:800}
-      #lastAccess .accessTypePill{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap}
+      #lastAccess .accessTypePill{display:inline-flex;padding:5px 8px;border-radius:8px;font-size:10px;font-weight:900;white-space:nowrap}
       #lastAccess .accessTypePill.service{background:#eef4ff;color:#1f5eb7}
       #lastAccess .accessTypePill.visitor{background:#fff5df;color:#9a6200}
       #lastAccess .accessTypePill.legacy{background:#f1f3f7;color:#667085}
@@ -98,5 +98,5 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  window.PortariaLastAccessCompactV152={version:'152.1',refresh:compact};
+  window.PortariaLastAccessCompactV152={version:'152.2',refresh:compact};
 })();
