@@ -1,0 +1,38 @@
+name: patch-v152-access
+on:
+  push:
+    branches: [v152-access-reuse]
+    paths: ['.github/workflows/patch-v152-access.yml']
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v152-access-reuse
+      - name: Inserir loader v152 no index
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<script src="./gdrive-adapter-v151.js?v=151"></script>'
+          add='''<script src="./gdrive-adapter-v151.js?v=151"></script>\n<script src="./access-reuse-v152.js?v=152"></script>'''
+          assert marker in s, 'marcador do loader v151 não encontrado'
+          assert 'access-reuse-v152.js' not in s, 'loader v152 já existe'
+          s=s.replace(marker,add,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git diff --check
+          git diff --numstat
+          test "$(git diff --numstat index.html | awk '{print $1+$2}')" -le 2
+      - name: Commit do patch e remoção do workflow temporário
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git rm .github/workflows/patch-v152-access.yml
+          git commit -m 'v152: carregar reaproveitamento de acessos'
+          git push origin HEAD:v152-access-reuse
