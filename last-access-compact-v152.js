@@ -75,6 +75,7 @@
     const s=document.createElement('style');
     s.id='ppLastAccessCompactStyle';
     s.textContent=`
+      #lastAccess .accessTableDesktop thead th{font-size:14px;font-weight:900;color:var(--navy);padding:0 10px 7px;line-height:1.25}
       #lastAccess .lastAccessWhen{display:grid;gap:2px;min-width:94px}
       #lastAccess .lastAccessWhen b{font-size:12px;color:var(--ink)}
       #lastAccess .lastAccessWhen small{font-size:11px;color:var(--muted);font-weight:800}
@@ -97,5 +98,5 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  window.PortariaLastAccessCompactV152={version:'152.0',refresh:compact};
+  window.PortariaLastAccessCompactV152={version:'152.1',refresh:compact};
 })();
