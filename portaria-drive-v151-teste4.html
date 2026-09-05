@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portaria Primavera — Teste Drive v151.4</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0d1b2a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+iframe{border:0;width:100%;height:100%;display:block;background:#fff}
+#diag{position:fixed;right:10px;bottom:10px;z-index:999999;max-width:min(94vw,560px);background:#0f6b4d;color:#fff;border:1px solid #c8a24a;border-radius:14px;padding:9px 12px;font-size:11px;font-weight:800;line-height:1.35;box-shadow:0 8px 24px rgba(0,0,0,.24);pointer-events:none;white-space:pre-line}
+#diag.err{background:#8f1025}
+</style>
+</head>
+<body>
+<iframe id="app" src="./index.html?ppdrive1514=1&cb=20260905c" title="Portaria Primavera v150 com rastreador Drive v151.4"></iframe>
+<div id="diag">Drive v151.4: carregando…</div>
+<script>
+(()=>{
+ const frame=document.getElementById('app'),diag=document.getElementById('diag');
+ let writes=[];
+ function short(v){v=String(v||'');return v?`${v.slice(0,14)}…${v.slice(-14)}`:'(vazio)';}
+ function setDiag(msg,err=false){diag.textContent=msg;diag.classList.toggle('err',!!err);}
+ function normalize(s){return String(s||'').replace(/\s+/g,' ').trim().toLowerCase();}
+ function render(w,d,label){
+   const f=d.getElementById('gdriveClientIdConfig')||d.getElementById('gdriveClientId');
+   const stored=w.localStorage.getItem('pp_gdrive_client_id')||'';
+   const last=writes.slice(-3).map((x,i)=>`${i+1}. ${short(x.value)} ← ${x.from}`).join('\n')||'(nenhuma escrita capturada)';
+   setDiag(`${label}\nCampo: ${short(f?.value)}\nlocalStorage: ${short(stored)}\nEscritas recentes:\n${last}`);
+ }
+ frame.addEventListener('load',()=>{
+   try{
+     const w=frame.contentWindow,d=frame.contentDocument;
+     const proto=w.Storage?.prototype;
+     if(proto && !proto.__ppTrace1514){
+       const original=proto.setItem;
+       Object.defineProperty(proto,'__ppTrace1514',{value:true});
+       proto.setItem=function(k,v){
+         if(String(k)==='pp_gdrive_client_id'){
+           let from='desconhecido';
+           try{
+             const st=String(new Error().stack||'').split('\n').slice(2,5).join(' | ');
+             from=st.replace(/https:\/\/ceducunha-alt0609\.github\.io\/Portaria\//g,'').slice(0,240);
+           }catch(e){}
+           writes.push({value:String(v||''),from,time:Date.now()});
+         }
+         return original.apply(this,arguments);
+       };
+     }
+     const handler=(ev)=>{
+       const btn=ev.target?.closest?.('button'); if(!btn)return;
+       const txt=normalize(btn.textContent);
+       if(!txt.includes('salvar integração'))return;
+       ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+       const field=d.getElementById('gdriveClientIdConfig')||d.getElementById('gdriveClientId');
+       const typed=String(field?.value||'').trim();
+       if(!typed.includes('.apps.googleusercontent.com')){
+         setDiag('Valor digitado não parece um OAuth Client ID válido.',true);return;
+       }
+       // Grava diretamente, sem chamar qualquer função antiga ou adapter.
+       w.localStorage.setItem('pp_gdrive_client_id',typed);
+       render(w,d,'GRAVADO DIRETAMENTE — agora');
+       setTimeout(()=>render(w,d,'APÓS 100 ms'),100);
+       setTimeout(()=>render(w,d,'APÓS 1 s'),1000);
+       setTimeout(()=>render(w,d,'APÓS 5 s'),5000);
+     };
+     d.addEventListener('click',handler,true);
+     render(w,d,'Drive v151.4 — rastreador ativo');
+   }catch(e){setDiag('Falha no rastreador: '+(e?.message||e),true);}
+ });
+})();
+</script>
+</body>
+</html>
