@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portaria Primavera — Teste Drive v151.2</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0d1b2a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+iframe{border:0;width:100%;height:100%;display:block;background:#fff}
+#badge{position:fixed;right:10px;bottom:10px;z-index:999999;background:#0f6b4d;color:#fff;border:1px solid #c8a24a;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.24);pointer-events:none}
+#badge.err{background:#8f1025}
+</style>
+</head>
+<body>
+<iframe id="app" src="./index.html?ppdrive1512=1" title="Portaria Primavera v150 com adapter Drive v151.2"></iframe>
+<div id="badge">Drive v151.2: carregando…</div>
+<script>
+(()=>{
+ const frame=document.getElementById('app'), badge=document.getElementById('badge');
+ function loadScript(doc,src){return new Promise((resolve,reject)=>{const s=doc.createElement('script');s.src=src+'?v=1512';s.onload=resolve;s.onerror=reject;doc.head.appendChild(s);});}
+ function normalize(s){return String(s||'').replace(/\s+/g,' ').trim().toLowerCase();}
+ function wire(w,d){
+   const handler=(ev)=>{
+     const btn=ev.target?.closest?.('button'); if(!btn)return;
+     const txt=normalize(btn.textContent);
+     if(txt.includes('testar configuração')){
+       ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+       w.PortariaGDriveAdapter?.test?.();
+     }
+     if(txt.includes('salvar integração')){
+       ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+       w.saveGDriveIntegrationConfig?.();
+     }
+   };
+   d.addEventListener('click',handler,true);
+ }
+ frame.addEventListener('load',async()=>{
+   try{
+     const w=frame.contentWindow,d=frame.contentDocument;
+     await loadScript(d,'./gdrive-oauth-v151.js');
+     await loadScript(d,'./gdrive-adapter-v151.js');
+     wire(w,d);
+     badge.textContent='Drive v151.2: iframe estável';
+     w.console?.info?.('[Portaria] Sandbox Drive v151.2 carregado em iframe estável.');
+   }catch(e){badge.textContent='Drive v151.2: falha';badge.classList.add('err');console.error(e);}
+ });
+})();
+</script>
+</body>
+</html>
