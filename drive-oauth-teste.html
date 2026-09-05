@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Teste OAuth Drive — Portaria Primavera</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f4f7f5;color:#1f2d27;margin:0;padding:24px}
+    main{max-width:760px;margin:30px auto;background:#fff;border:1px solid #dfe8e2;border-radius:18px;padding:28px;box-shadow:0 12px 30px rgba(0,0,0,.06)}
+    h1{margin-top:0} label{display:block;font-weight:700;margin:18px 0 6px} input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cfd9d3;border-radius:10px;font:inherit}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;background:#244d3b;color:#fff}.btn.secondary{background:#eef3f0;color:#244d3b;border:1px solid #cfd9d3}
+    .status{margin-top:18px;padding:14px;border-radius:12px;background:#f1f5f3;white-space:pre-wrap}.ok{background:#eaf6ef}.err{background:#fdecec;color:#8a1f2a}.muted{color:#66756e;font-size:.95rem;line-height:1.5}.scope{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9rem;background:#f6f8f7;padding:8px;border-radius:8px;word-break:break-all}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Teste isolado — Google Drive OAuth</h1>
+  <p class="muted">Esta página não altera o Portaria Primavera nem o Supabase. Ela serve apenas para validar o novo OAuth com Google Identity Services usando o escopo mínimo <strong>drive.file</strong>.</p>
+  <div class="scope">https://www.googleapis.com/auth/drive.file</div>
+
+  <label for="clientId">OAuth Client ID</label>
+  <input id="clientId" autocomplete="off" placeholder="...apps.googleusercontent.com">
+
+  <div class="row">
+    <button class="btn" id="saveBtn">Salvar Client ID neste navegador</button>
+    <button class="btn" id="connectBtn">Conectar ao Google Drive</button>
+    <button class="btn secondary" id="disconnectBtn">Desconectar</button>
+  </div>
+
+  <div id="status" class="status">Aguardando teste.</div>
+  <p class="muted">O token OAuth fica somente em memória nesta página e expira. Nenhuma chave secreta de cliente é usada.</p>
+</main>
+<script>
+(() => {
+  const SCOPE='https://www.googleapis.com/auth/drive.file';
+  const idEl=document.getElementById('clientId');
+  const statusEl=document.getElementById('status');
+  let tokenClient=null;
+  let accessToken='';
+
+  idEl.value=localStorage.getItem('pp_gdrive_client_id')||'';
+
+  function status(msg,type=''){
+    statusEl.textContent=msg;
+    statusEl.className='status '+type;
+  }
+
+  function loadGIS(){
+    return new Promise((resolve,reject)=>{
+      if(window.google?.accounts?.oauth2)return resolve();
+      const s=document.createElement('script');
+      s.src='https://accounts.google.com/gsi/client';
+      s.async=true;s.defer=true;
+      s.onload=resolve;
+      s.onerror=()=>reject(new Error('Falha ao carregar Google Identity Services.'));
+      document.head.appendChild(s);
+    });
+  }
+
+  function currentClientId(){
+    return idEl.value.trim();
+  }
+
+  async function initClient(){
+    const clientId=currentClientId();
+    if(!clientId.endsWith('.apps.googleusercontent.com')) throw new Error('Informe um OAuth Client ID válido.');
+    localStorage.setItem('pp_gdrive_client_id',clientId);
+    await loadGIS();
+    tokenClient=google.accounts.oauth2.initTokenClient({client_id:clientId,scope:SCOPE,callback:()=>{}});
+    return tokenClient;
+  }
+
+  async function verifyDrive(token){
+    const r=await fetch('https://www.googleapis.com/drive/v3/files?pageSize=1&fields=files(id,name)',{headers:{Authorization:'Bearer '+token}});
+    if(!r.ok){
+      const body=await r.text();
+      throw new Error('Drive API respondeu '+r.status+': '+body.slice(0,300));
+    }
+    return r.json();
+  }
+
+  document.getElementById('saveBtn').onclick=()=>{
+    const id=currentClientId();
+    if(!id.endsWith('.apps.googleusercontent.com')) return status('Client ID inválido.','err');
+    localStorage.setItem('pp_gdrive_client_id',id);
+    status('Client ID salvo neste navegador.','ok');
+  };
+
+  document.getElementById('connectBtn').onclick=async()=>{
+    try{
+      status('Abrindo autorização do Google...');
+      const tc=await initClient();
+      tc.callback=async(resp)=>{
+        try{
+          if(resp.error) throw new Error(resp.error_description||resp.error);
+          accessToken=resp.access_token||'';
+          await verifyDrive(accessToken);
+          status('✅ OAuth autorizado e Google Drive API respondeu corretamente.\n\nTeste concluído com sucesso.','ok');
+        }catch(e){status('❌ '+e.message,'err');}
+      };
+      tc.requestAccessToken({prompt:'consent'});
+    }catch(e){status('❌ '+e.message,'err');}
+  };
+
+  document.getElementById('disconnectBtn').onclick=()=>{
+    const old=accessToken;accessToken='';
+    if(old&&window.google?.accounts?.oauth2?.revoke){
+      try{google.accounts.oauth2.revoke(old,()=>{});}catch{}
+    }
+    status('Google Drive desconectado desta página de teste.');
+  };
+})();
+</script>
+</body>
+</html>
