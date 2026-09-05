@@ -123,9 +123,18 @@
   }
 
   function updateStatus(){
+    const savedClientId=clientId();
     const st=document.getElementById('gdriveIntegrationStatus');
-    const hasClient=!!clientId();
+    const hasClient=!!savedClientId;
     const connected=!!window.PortariaGDriveOAuth?.isConnected?.();
+
+    // Hidrata o campo visual com o Client ID persistido. A v150 podia deixar
+    // apenas o placeholder visível mesmo quando a credencial já estava salva.
+    const cidField=document.getElementById('gdriveClientIdConfig') || document.getElementById('gdriveClientId');
+    if(cidField && savedClientId && String(cidField.value||'').trim()!==savedClientId){
+      cidField.value=savedClientId;
+    }
+
     if(st){
       st.className='integrationStatus '+(connected?'ok':hasClient?'warn':'warn');
       st.textContent=connected?'Drive conectado':hasClient?'OAuth Client ID configurado':'Não configurado';
