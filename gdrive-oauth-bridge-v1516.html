@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portaria Primavera — Autorização Google Drive v151.6</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d1b2a;color:#fff;margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box}
+main{max-width:520px;background:#142338;border:1px solid #c8a24a;border-radius:18px;padding:24px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+h1{font-size:20px;margin:0 0 10px}p{line-height:1.5;color:#d8e2ef}small{color:#9fb0c3}
+</style>
+</head>
+<body>
+<main>
+<h1>Conectando ao Google Drive…</h1>
+<p id="status">Preparando autorização segura do Portaria Primavera.</p>
+<small>Esta janela usa apenas o OAuth Client ID da v151.6 e pode ser fechada automaticamente.</small>
+</main>
+<script>
+(()=>{
+ const KEY='pp_gdrive_oauth_client_id_v151';
+ const SCOPE='https://www.googleapis.com/auth/drive.file';
+ const status=document.getElementById('status');
+ function fail(msg){status.textContent='Falha: '+msg;try{window.opener?.postMessage({type:'pp:gdrive-oauth-error',message:msg},location.origin);}catch(e){}}
+ function loadGIS(){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;s.defer=true;s.onload=resolve;s.onerror=()=>reject(new Error('Não foi possível carregar Google Identity Services.'));document.head.appendChild(s);});}
+ async function run(){
+   try{
+     if(!window.opener){fail('Janela principal não encontrada.');return;}
+     const id=String(localStorage.getItem(KEY)||'').trim();
+     if(!id.includes('.apps.googleusercontent.com')){fail('OAuth Client ID v151.6 não configurado.');return;}
+     await loadGIS();
+     const tc=google.accounts.oauth2.initTokenClient({client_id:id,scope:SCOPE,callback:(resp)=>{
+       if(resp?.error){fail(resp.error_description||resp.error);return;}
+       const token=resp?.access_token||'';
+       if(!token){fail('Google não retornou access token.');return;}
+       status.textContent='Autorizado. Retornando ao Portaria Primavera…';
+       window.opener.postMessage({type:'pp:gdrive-oauth-token',token,expires_in:Number(resp.expires_in||3600)},location.origin);
+       setTimeout(()=>window.close(),250);
+     }});
+     status.textContent='Aguardando sua autorização no Google…';
+     tc.requestAccessToken({prompt:'consent'});
+   }catch(e){fail(e?.message||String(e));}
+ }
+ run();
+})();
+</script>
+</body>
+</html>
