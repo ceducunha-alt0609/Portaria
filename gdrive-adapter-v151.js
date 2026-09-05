@@ -1,5 +1,6 @@
 /* Portaria Primavera — Adapter Google Drive v151
    Integra o OAuth GIS ao motor de backup existente sem alterar Supabase.
+   v151.3: OAuth Client ID tem uma única fonte local: pp_gdrive_client_id.
 */
 (()=>{
   if(window.__ppGDriveAdapterV151Loaded)return;
@@ -11,9 +12,6 @@
   }
 
   function clientId(){
-    try{
-      if(typeof gdriveClientId==='function') return String(gdriveClientId()||'').trim();
-    }catch(e){}
     return String(localStorage.getItem('pp_gdrive_client_id')||'').trim();
   }
 
@@ -30,7 +28,7 @@
   function refresh(connected){
     try{ if(typeof gdriveUpdateUI==='function') gdriveUpdateUI(!!connected); }catch(e){}
     try{ if(typeof refreshBackupCenterStatus==='function') refreshBackupCenterStatus(); }catch(e){}
-    try{ if(typeof updateIntegrationStatus==='function') updateIntegrationStatus(); }catch(e){}
+    updateStatus();
   }
 
   async function connectDrive(){
@@ -80,29 +78,27 @@
       status('⚠ Informe o OAuth Client ID do Portaria Primavera.','err');
       return;
     }
+
+    // ÚNICA fonte da credencial OAuth: localStorage dedicado.
+    // Não gravar em state.settings: o state participa da sincronização/restore
+    // e poderia reintroduzir uma credencial histórica em outro dispositivo.
     localStorage.setItem('pp_gdrive_client_id',id);
     try{ localStorage.removeItem('pp_gdrive_api_key'); }catch(e){}
-    try{
-      if(typeof state==='object' && state){
-        state.settings=state.settings||{};
-        state.settings.integrations=state.settings.integrations||{};
-        state.settings.integrations.gdrive=state.settings.integrations.gdrive||{};
-        state.settings.integrations.gdrive.clientId=id;
-        state.settings.integrations.gdrive.apiKey='';
-        if(typeof save==='function') save('configuracao-google-drive-oauth-v151');
-      }
-    }catch(e){}
+
     updateStatus();
-    status('✅ OAuth Client ID salvo. Clique em Conectar ao Google Drive.','ok');
-    toast('Configuração Google Drive salva ✅','ok',4000);
+    status('✅ OAuth Client ID salvo neste navegador. Clique em Testar configuração.','ok');
+    toast('Configuração Google Drive salva neste navegador ✅','ok',4000);
   }
 
   async function testConfig(){
-    const id=String((document.getElementById('gdriveClientIdConfig')||document.getElementById('gdriveClientId'))?.value||clientId()||'').trim();
+    const field=document.getElementById('gdriveClientIdConfig') || document.getElementById('gdriveClientId');
+    const typed=String(field?.value||'').trim();
+    const id=typed||clientId();
     if(!id || !id.includes('.apps.googleusercontent.com')){
       toast('Informe um OAuth Client ID válido','err',5000);
       return;
     }
+    // O valor visível é a intenção explícita do Admin; persiste antes do OAuth.
     localStorage.setItem('pp_gdrive_client_id',id);
     status('⏳ Testando OAuth e acesso à Google Drive API...');
     const token=await connectDrive();
@@ -128,8 +124,6 @@
     const hasClient=!!savedClientId;
     const connected=!!window.PortariaGDriveOAuth?.isConnected?.();
 
-    // Hidrata o campo visual com o Client ID persistido. A v150 podia deixar
-    // apenas o placeholder visível mesmo quando a credencial já estava salva.
     const cidField=document.getElementById('gdriveClientIdConfig') || document.getElementById('gdriveClientId');
     if(cidField && savedClientId && String(cidField.value||'').trim()!==savedClientId){
       cidField.value=savedClientId;
@@ -163,14 +157,13 @@
     const token=window.PortariaGDriveOAuth?.token?.()||'';
     setLegacyToken(token);
     refresh(true);
-    updateStatus();
   });
   window.addEventListener('pp:gdrive-disconnected',()=>{
-    setLegacyToken('');refresh(false);updateStatus();
+    setLegacyToken('');refresh(false);
   });
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',updateStatus,{once:true});
   else setTimeout(updateStatus,0);
 
-  window.PortariaGDriveAdapter={version:'151',connect:connectDrive,disconnect:disconnectDrive,test:testConfig,refresh:updateStatus};
+  window.PortariaGDriveAdapter={version:'151.3',connect:connectDrive,disconnect:disconnectDrive,test:testConfig,refresh:updateStatus};
 })();
