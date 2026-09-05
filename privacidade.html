@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index,follow">
+  <title>Política de Privacidade — Portaria Primavera</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f7f5;
+      --card: #ffffff;
+      --text: #1f2d27;
+      --muted: #5e6d66;
+      --accent: #2f6d52;
+      --border: #dfe8e2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    main {
+      width: min(860px, calc(100% - 32px));
+      margin: 40px auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 12px 32px rgba(31, 45, 39, 0.06);
+    }
+    h1, h2 { line-height: 1.25; }
+    h1 { margin-top: 0; font-size: clamp(1.8rem, 4vw, 2.4rem); }
+    h2 { margin-top: 28px; font-size: 1.15rem; }
+    p, li { color: var(--muted); }
+    strong { color: var(--text); }
+    .badge {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e9f3ee;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    footer {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="badge">Portaria Primavera</span>
+    <h1>Política de Privacidade</h1>
+    <p><strong>Última atualização:</strong> setembro de 2026.</p>
+
+    <p>O <strong>Portaria Primavera</strong> é um aplicativo administrativo utilizado no Condomínio Edifício Primavera para apoio às rotinas internas de portaria e administração. Esta política descreve especificamente como o aplicativo utiliza o acesso autorizado à conta Google para realizar backups no Google Drive.</p>
+
+    <h2>1. Acesso ao Google Drive</h2>
+    <p>Quando o administrador escolhe conectar o Google Drive, o Portaria Primavera solicita autorização OAuth por meio do Google Identity Services. O aplicativo utiliza o escopo <strong>drive.file</strong>, limitado aos arquivos do Google Drive criados ou utilizados pelo próprio aplicativo.</p>
+
+    <h2>2. Finalidade do acesso</h2>
+    <p>O acesso ao Google Drive é usado exclusivamente para criar, localizar, atualizar, manter e restaurar arquivos de backup do Portaria Primavera. O Google Drive não é utilizado como base operacional do aplicativo nem para leitura geral dos arquivos pessoais do usuário.</p>
+
+    <h2>3. Dados armazenados nos backups</h2>
+    <p>Os backups podem conter dados administrativos e operacionais do Portaria Primavera, como registros de acessos, unidades, configurações, dados operacionais, usuários e logs necessários à recuperação do sistema. Senhas locais de usuários não são incluídas no backup.</p>
+
+    <h2>4. Tokens e credenciais Google</h2>
+    <p>O token de acesso OAuth é utilizado apenas durante a sessão necessária para comunicação com a API do Google Drive. O Portaria Primavera não utiliza nem incorpora uma chave secreta de cliente OAuth no navegador.</p>
+
+    <h2>5. Compartilhamento de dados</h2>
+    <p>O Portaria Primavera não vende, aluga ou utiliza os dados obtidos por meio das APIs do Google para publicidade. Os dados são usados somente para a finalidade de backup e restauração solicitada pelo administrador.</p>
+
+    <h2>6. Revogação do acesso</h2>
+    <p>O usuário pode desconectar o Google Drive pelo próprio aplicativo e também pode revogar a autorização do Portaria Primavera a qualquer momento nas configurações de segurança da sua Conta Google.</p>
+
+    <h2>7. Alterações nesta política</h2>
+    <p>Esta política poderá ser atualizada caso a forma de integração com o Google Drive seja alterada. A versão vigente será mantida nesta página.</p>
+
+    <h2>8. Contato</h2>
+    <p>Dúvidas sobre esta política ou sobre o uso do Google Drive pelo Portaria Primavera podem ser encaminhadas ao administrador responsável pelo aplicativo.</p>
+
+    <footer>
+      Portaria Primavera — Condomínio Edifício Primavera.
+    </footer>
+  </main>
+</body>
+</html>
