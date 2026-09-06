@@ -1,4 +1,4 @@
-/* Portaria Primavera v152.2 — reaproveitamento de visitantes/prestadores + card Ainda no condomínio */
+/* Portaria Primavera v152.3 — reaproveitamento + card Ainda no condomínio refinado */
 (()=>{
   if(window.__ppAccessReuseV152Loaded)return;
   window.__ppAccessReuseV152Loaded=true;
@@ -99,6 +99,12 @@
     return String(a?.destino||(a?.bloco?`${a.bloco} ${a.apto||''}`.trim():'—')||'—');
   }
 
+  function clearInsideModalState(){
+    document.body.classList.remove('insideQuickModalOpen');
+    const modal=document.getElementById('opListModal');
+    if(modal)modal.classList.remove('insideQuickOpen');
+  }
+
   function openInsideList(){
     const modal=document.getElementById('opListModal');
     const title=document.getElementById('opListTitle');
@@ -108,6 +114,8 @@
 
     try{document.activeElement?.blur?.()}catch(e){}
     document.querySelectorAll('.opTooltip').forEach(t=>t.style.display='none');
+    document.body.classList.add('insideQuickModalOpen');
+    modal.classList.add('insideQuickOpen');
 
     const arr=getAccesses().filter(a=>a&&!a.saida).sort((a,b)=>accessStamp(b)-accessStamp(a));
     title.textContent='Ainda no condomínio';
@@ -132,6 +140,7 @@
       const a=arr[Number(btn.dataset.insideIndex)];
       if(!a)return;
       modal.classList.remove('show');
+      clearInsideModalState();
       if(typeof window.openAccessDetail==='function')window.openAccessDetail(a.id);
     }));
 
@@ -152,16 +161,45 @@
       if(e.key==='Enter'||e.key===' '){e.preventDefault();openInsideList()}
     });
 
+    const modal=document.getElementById('opListModal');
+    if(modal&&!modal.dataset.insideQuickObserver){
+      modal.dataset.insideQuickObserver='1';
+      new MutationObserver(()=>{
+        if(!modal.classList.contains('show'))clearInsideModalState();
+      }).observe(modal,{attributes:true,attributeFilter:['class']});
+    }
+
     if(!document.getElementById('insideQuickV152Style')){
       const style=document.createElement('style');
       style.id='insideQuickV152Style';
       style.textContent=`
-        .insideQuickRow{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer;transition:.16s ease}
+        body.insideQuickModalOpen #cardInside .opTooltip{display:none!important;opacity:0!important;visibility:hidden!important}
+        #opListModal.insideQuickOpen .sheet{width:min(520px,calc(100vw - 32px))!important;max-width:520px!important;padding:18px 18px 16px!important;border-radius:20px!important}
+        #opListModal.insideQuickOpen .sheetHead{margin-bottom:10px!important;padding-bottom:10px!important}
+        #opListModal.insideQuickOpen .sheetHead h2{font-size:24px!important;line-height:1.15!important;margin-bottom:5px!important}
+        #opListModal.insideQuickOpen #opListBody{margin-top:0!important}
+        #opListModal.insideQuickOpen .empty{min-height:72px!important;padding:20px 12px!important;display:flex;align-items:center;justify-content:center;text-align:center}
+        .insideQuickRows{gap:7px!important}
+        .insideQuickRow{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer;transition:.16s ease;padding:10px 12px!important}
         .insideQuickRow:hover,.insideQuickRow:focus{outline:none;border-color:rgba(200,162,74,.62);box-shadow:0 10px 24px rgba(13,27,42,.10);transform:translateY(-1px)}
         .insideQuickRow .opListMeta b{color:var(--navy)}
         body.theme-dark .insideQuickRow:hover,body.theme-dark .insideQuickRow:focus{border-color:rgba(216,184,92,.5);box-shadow:0 12px 26px rgba(0,0,0,.18)}
+        @media(max-width:600px){#opListModal.insideQuickOpen .sheet{width:calc(100vw - 20px)!important;max-width:none!important;padding:16px 14px 14px!important;border-radius:18px!important}#opListModal.insideQuickOpen .sheetHead h2{font-size:21px!important}}
       `;
       document.head.appendChild(style);
+    }
+
+    if(typeof window.openOperationalList==='function'&&!window.openOperationalList.__insideQuickWrapped){
+      const prevOpenOperationalList=window.openOperationalList;
+      const wrapped=function(){clearInsideModalState();return prevOpenOperationalList.apply(this,arguments)};
+      wrapped.__insideQuickWrapped=true;
+      window.openOperationalList=wrapped;
+    }
+    if(typeof window.closeOperationalList==='function'&&!window.closeOperationalList.__insideQuickWrapped){
+      const prevCloseOperationalList=window.closeOperationalList;
+      const wrapped=function(){const r=prevCloseOperationalList.apply(this,arguments);clearInsideModalState();return r};
+      wrapped.__insideQuickWrapped=true;
+      window.closeOperationalList=wrapped;
     }
   }
 
@@ -230,5 +268,5 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  window.PortariaAccessReuseV152={version:'152.2',refresh:setup,profiles:historyProfiles,getAccesses,openInsideList};
+  window.PortariaAccessReuseV152={version:'152.3',refresh:setup,profiles:historyProfiles,getAccesses,openInsideList};
 })();
