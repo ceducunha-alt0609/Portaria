@@ -1,4 +1,4 @@
-/* Portaria Primavera v152.1 — reaproveitamento de visitantes/prestadores */
+/* Portaria Primavera v152.2 — reaproveitamento de visitantes/prestadores + card Ainda no condomínio */
 (()=>{
   if(window.__ppAccessReuseV152Loaded)return;
   window.__ppAccessReuseV152Loaded=true;
@@ -68,7 +68,106 @@
     }).slice(0,6);
   }
 
+  function formatInsideTime(a){
+    if(a?.entradaHora)return String(a.entradaHora).slice(0,5);
+    const stamp=accessStamp(a);
+    if(!stamp)return '—';
+    try{return new Date(stamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}catch(e){return '—'}
+  }
+
+  function formatInsideDate(a){
+    const raw=String(a?.data||'').trim();
+    if(/^\d{4}-\d{2}-\d{2}$/.test(raw)){
+      const [y,m,d]=raw.split('-');
+      return `${d}/${m}/${y}`;
+    }
+    const stamp=accessStamp(a);
+    if(!stamp)return '—';
+    try{return new Date(stamp).toLocaleDateString('pt-BR')}catch(e){return '—'}
+  }
+
+  function formatInsideElapsed(a){
+    const stamp=accessStamp(a);
+    if(!stamp)return 'tempo não disponível';
+    const mins=Math.max(0,Math.floor((Date.now()-stamp)/60000));
+    if(mins<60)return `${mins} min`;
+    const h=Math.floor(mins/60), m=mins%60;
+    return m?`${h}h ${m}min`:`${h}h`;
+  }
+
+  function insideDestination(a){
+    return String(a?.destino||(a?.bloco?`${a.bloco} ${a.apto||''}`.trim():'—')||'—');
+  }
+
+  function openInsideList(){
+    const modal=document.getElementById('opListModal');
+    const title=document.getElementById('opListTitle');
+    const sub=document.getElementById('opListSub');
+    const body=document.getElementById('opListBody');
+    if(!modal||!title||!sub||!body)return;
+
+    try{document.activeElement?.blur?.()}catch(e){}
+    document.querySelectorAll('.opTooltip').forEach(t=>t.style.display='none');
+
+    const arr=getAccesses().filter(a=>a&&!a.saida).sort((a,b)=>accessStamp(b)-accessStamp(a));
+    title.textContent='Ainda no condomínio';
+    sub.textContent=arr.length?`${arr.length} pessoa(s) sem saída registrada`:'Nenhuma pessoa sem saída registrada';
+
+    if(!arr.length){
+      body.innerHTML='<div class="empty">Nenhuma pessoa está com entrada em aberto.</div>';
+      modal.classList.add('show');
+      return;
+    }
+
+    body.innerHTML=`<div class="opListRows insideQuickRows">${arr.map((a,i)=>{
+      const nome=esc(a.nome||'Sem nome');
+      const destino=esc(insideDestination(a));
+      const data=esc(formatInsideDate(a));
+      const hora=esc(formatInsideTime(a));
+      const tempo=esc(formatInsideElapsed(a));
+      return `<button type="button" class="opListRow insideQuickRow" data-inside-index="${i}"><div class="opListRowTop"><b>${nome}</b><span class="badge in">NO LOCAL</span></div><div class="opListMeta"><b>${destino}</b> • Entrada ${data} às ${hora}<br>⏱ ${tempo} no condomínio</div></button>`;
+    }).join('')}</div>`;
+
+    [...body.querySelectorAll('.insideQuickRow')].forEach(btn=>btn.addEventListener('click',()=>{
+      const a=arr[Number(btn.dataset.insideIndex)];
+      if(!a)return;
+      modal.classList.remove('show');
+      if(typeof window.openAccessDetail==='function')window.openAccessDetail(a.id);
+    }));
+
+    modal.classList.add('show');
+  }
+
+  function setupInsideCard(){
+    const card=document.getElementById('cardInside');
+    if(!card||card.dataset.insideQuickV152==='1')return;
+    card.dataset.insideQuickV152='1';
+    card.classList.add('opMetric');
+    card.tabIndex=0;
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label','Ver pessoas ainda no condomínio');
+    card.title='Ver pessoas sem saída registrada';
+    card.addEventListener('click',openInsideList);
+    card.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();openInsideList()}
+    });
+
+    if(!document.getElementById('insideQuickV152Style')){
+      const style=document.createElement('style');
+      style.id='insideQuickV152Style';
+      style.textContent=`
+        .insideQuickRow{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer;transition:.16s ease}
+        .insideQuickRow:hover,.insideQuickRow:focus{outline:none;border-color:rgba(200,162,74,.62);box-shadow:0 10px 24px rgba(13,27,42,.10);transform:translateY(-1px)}
+        .insideQuickRow .opListMeta b{color:var(--navy)}
+        body.theme-dark .insideQuickRow:hover,body.theme-dark .insideQuickRow:focus{border-color:rgba(216,184,92,.5);box-shadow:0 12px 26px rgba(0,0,0,.18)}
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
   function setup(){
+    setupInsideCard();
+
     const input=document.getElementById('aNome');
     if(!input||input.dataset.reuseV152==='1')return;
     input.dataset.reuseV152='1';
@@ -131,5 +230,5 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  window.PortariaAccessReuseV152={version:'152.1',refresh:setup,profiles:historyProfiles,getAccesses};
+  window.PortariaAccessReuseV152={version:'152.2',refresh:setup,profiles:historyProfiles,getAccesses,openInsideList};
 })();
