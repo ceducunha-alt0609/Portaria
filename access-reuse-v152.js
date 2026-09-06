@@ -1,4 +1,4 @@
-/* Portaria Primavera v152.3 — reaproveitamento + card Ainda no condomínio refinado */
+/* Portaria Primavera v152.4 — reaproveitamento + card Ainda no condomínio refinado */
 (()=>{
   if(window.__ppAccessReuseV152Loaded)return;
   window.__ppAccessReuseV152Loaded=true;
@@ -8,17 +8,12 @@
   const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
 
   function getAccesses(){
-    try{
-      if(Array.isArray(window.state?.accesses))return window.state.accesses;
-    }catch(e){}
+    try{ if(Array.isArray(window.state?.accesses))return window.state.accesses; }catch(e){}
     try{
       for(let i=0;i<localStorage.length;i++){
-        const key=localStorage.key(i);
-        if(!key)continue;
-        const raw=localStorage.getItem(key);
-        if(!raw||raw[0]!=='{')continue;
-        let obj=null;
-        try{obj=JSON.parse(raw)}catch(e){continue}
+        const key=localStorage.key(i); if(!key)continue;
+        const raw=localStorage.getItem(key); if(!raw||raw[0]!=='{')continue;
+        let obj=null; try{obj=JSON.parse(raw)}catch(e){continue}
         if(Array.isArray(obj?.accesses))return obj.accesses;
         if(Array.isArray(obj?.dados?.accesses))return obj.dados.accesses;
       }
@@ -35,25 +30,16 @@
   function historyProfiles(){
     const accesses=getAccesses();
     const ordered=[...accesses].sort((a,b)=>accessStamp(b)-accessStamp(a));
-    const seen=new Set();
-    const out=[];
+    const seen=new Set(), out=[];
     for(const a of ordered){
-      const nome=String(a?.nome||'').trim();
-      if(!nome)continue;
+      const nome=String(a?.nome||'').trim(); if(!nome)continue;
       const doc=String(a?.doc||'').trim();
       const empresa=String(a?.empresa||'').trim();
       const docKey=digits(doc);
       const key=docKey?`doc:${docKey}`:`nome:${norm(nome)}|empresa:${norm(empresa)}`;
       if(seen.has(key))continue;
       seen.add(key);
-      out.push({
-        nome,
-        doc,
-        docType:String(a?.docType||'').trim()||'CPF',
-        empresa,
-        tipo:String(a?.tipoAcesso||'').trim()||'Visitante',
-        stamp:accessStamp(a)
-      });
+      out.push({nome,doc,docType:String(a?.docType||'').trim()||'CPF',empresa,tipo:String(a?.tipoAcesso||'').trim()||'Visitante',stamp:accessStamp(a)});
     }
     return out;
   }
@@ -70,39 +56,46 @@
 
   function formatInsideTime(a){
     if(a?.entradaHora)return String(a.entradaHora).slice(0,5);
-    const stamp=accessStamp(a);
-    if(!stamp)return '—';
+    const stamp=accessStamp(a); if(!stamp)return '—';
     try{return new Date(stamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}catch(e){return '—'}
   }
-
   function formatInsideDate(a){
     const raw=String(a?.data||'').trim();
-    if(/^\d{4}-\d{2}-\d{2}$/.test(raw)){
-      const [y,m,d]=raw.split('-');
-      return `${d}/${m}/${y}`;
-    }
-    const stamp=accessStamp(a);
-    if(!stamp)return '—';
+    if(/^\d{4}-\d{2}-\d{2}$/.test(raw)){const [y,m,d]=raw.split('-');return `${d}/${m}/${y}`;}
+    const stamp=accessStamp(a); if(!stamp)return '—';
     try{return new Date(stamp).toLocaleDateString('pt-BR')}catch(e){return '—'}
   }
-
   function formatInsideElapsed(a){
-    const stamp=accessStamp(a);
-    if(!stamp)return 'tempo não disponível';
+    const stamp=accessStamp(a); if(!stamp)return 'tempo não disponível';
     const mins=Math.max(0,Math.floor((Date.now()-stamp)/60000));
     if(mins<60)return `${mins} min`;
     const h=Math.floor(mins/60), m=mins%60;
     return m?`${h}h ${m}min`:`${h}h`;
   }
-
-  function insideDestination(a){
-    return String(a?.destino||(a?.bloco?`${a.bloco} ${a.apto||''}`.trim():'—')||'—');
-  }
+  function insideDestination(a){ return String(a?.destino||(a?.bloco?`${a.bloco} ${a.apto||''}`.trim():'—')||'—'); }
 
   function clearInsideModalState(){
     document.body.classList.remove('insideQuickModalOpen');
     const modal=document.getElementById('opListModal');
     if(modal)modal.classList.remove('insideQuickOpen');
+    const card=document.getElementById('cardInside');
+    if(card){card.style.removeProperty('visibility');card.style.removeProperty('pointer-events');card.removeAttribute('aria-hidden');}
+  }
+
+  function hardHideInsideCard(){
+    const card=document.getElementById('cardInside');
+    if(card){
+      card.blur?.();
+      card.style.setProperty('visibility','hidden','important');
+      card.style.setProperty('pointer-events','none','important');
+      card.setAttribute('aria-hidden','true');
+    }
+  }
+
+  function closeInsideList(){
+    const modal=document.getElementById('opListModal');
+    modal?.classList.remove('show');
+    clearInsideModalState();
   }
 
   function openInsideList(){
@@ -113,9 +106,15 @@
     if(!modal||!title||!sub||!body)return;
 
     try{document.activeElement?.blur?.()}catch(e){}
-    document.querySelectorAll('.opTooltip').forEach(t=>t.style.display='none');
+    document.querySelectorAll('.opTooltip').forEach(t=>t.style.setProperty('display','none','important'));
+    hardHideInsideCard();
     document.body.classList.add('insideQuickModalOpen');
     modal.classList.add('insideQuickOpen');
+
+    const closeBtn=modal.querySelector('.close');
+    if(closeBtn){
+      closeBtn.onclick=(ev)=>{ev.preventDefault();ev.stopPropagation();closeInsideList();};
+    }
 
     const arr=getAccesses().filter(a=>a&&!a.saida).sort((a,b)=>accessStamp(b)-accessStamp(a));
     title.textContent='Ainda no condomínio';
@@ -137,10 +136,8 @@
     }).join('')}</div>`;
 
     [...body.querySelectorAll('.insideQuickRow')].forEach(btn=>btn.addEventListener('click',()=>{
-      const a=arr[Number(btn.dataset.insideIndex)];
-      if(!a)return;
-      modal.classList.remove('show');
-      clearInsideModalState();
+      const a=arr[Number(btn.dataset.insideIndex)]; if(!a)return;
+      closeInsideList();
       if(typeof window.openAccessDetail==='function')window.openAccessDetail(a.id);
     }));
 
@@ -157,28 +154,28 @@
     card.setAttribute('aria-label','Ver pessoas ainda no condomínio');
     card.title='Ver pessoas sem saída registrada';
     card.addEventListener('click',openInsideList);
-    card.addEventListener('keydown',e=>{
-      if(e.key==='Enter'||e.key===' '){e.preventDefault();openInsideList()}
-    });
+    card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openInsideList()}});
 
     const modal=document.getElementById('opListModal');
     if(modal&&!modal.dataset.insideQuickObserver){
       modal.dataset.insideQuickObserver='1';
-      new MutationObserver(()=>{
-        if(!modal.classList.contains('show'))clearInsideModalState();
-      }).observe(modal,{attributes:true,attributeFilter:['class']});
+      new MutationObserver(()=>{if(!modal.classList.contains('show'))clearInsideModalState();}).observe(modal,{attributes:true,attributeFilter:['class']});
+      modal.addEventListener('mousedown',e=>{if(e.target===modal)closeInsideList();});
     }
 
     if(!document.getElementById('insideQuickV152Style')){
       const style=document.createElement('style');
       style.id='insideQuickV152Style';
       style.textContent=`
+        body.insideQuickModalOpen #cardInside{visibility:hidden!important;pointer-events:none!important;z-index:-1!important}
+        body.insideQuickModalOpen #cardInside *{visibility:hidden!important}
         body.insideQuickModalOpen #cardInside .opTooltip{display:none!important;opacity:0!important;visibility:hidden!important}
-        #opListModal.insideQuickOpen .sheet{width:min(520px,calc(100vw - 32px))!important;max-width:520px!important;padding:18px 18px 16px!important;border-radius:20px!important}
-        #opListModal.insideQuickOpen .sheetHead{margin-bottom:10px!important;padding-bottom:10px!important}
-        #opListModal.insideQuickOpen .sheetHead h2{font-size:24px!important;line-height:1.15!important;margin-bottom:5px!important}
+        #opListModal.insideQuickOpen{z-index:10000!important}
+        #opListModal.insideQuickOpen .sheet{width:500px!important;max-width:calc(100vw - 40px)!important;min-width:0!important;padding:16px 18px 14px!important;border-radius:18px!important}
+        #opListModal.insideQuickOpen .sheetHead{margin-bottom:8px!important;padding-bottom:8px!important}
+        #opListModal.insideQuickOpen .sheetHead h2{font-size:22px!important;line-height:1.15!important;margin:0 0 4px!important}
         #opListModal.insideQuickOpen #opListBody{margin-top:0!important}
-        #opListModal.insideQuickOpen .empty{min-height:72px!important;padding:20px 12px!important;display:flex;align-items:center;justify-content:center;text-align:center}
+        #opListModal.insideQuickOpen .empty{min-height:58px!important;padding:16px 10px!important;display:flex;align-items:center;justify-content:center;text-align:center}
         .insideQuickRows{gap:7px!important}
         .insideQuickRow{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer;transition:.16s ease;padding:10px 12px!important}
         .insideQuickRow:hover,.insideQuickRow:focus{outline:none;border-color:rgba(200,162,74,.62);box-shadow:0 10px 24px rgba(13,27,42,.10);transform:translateY(-1px)}
@@ -190,37 +187,30 @@
     }
 
     if(typeof window.openOperationalList==='function'&&!window.openOperationalList.__insideQuickWrapped){
-      const prevOpenOperationalList=window.openOperationalList;
-      const wrapped=function(){clearInsideModalState();return prevOpenOperationalList.apply(this,arguments)};
-      wrapped.__insideQuickWrapped=true;
-      window.openOperationalList=wrapped;
+      const prev=window.openOperationalList;
+      const wrapped=function(){clearInsideModalState();return prev.apply(this,arguments)};
+      wrapped.__insideQuickWrapped=true; window.openOperationalList=wrapped;
     }
     if(typeof window.closeOperationalList==='function'&&!window.closeOperationalList.__insideQuickWrapped){
-      const prevCloseOperationalList=window.closeOperationalList;
-      const wrapped=function(){const r=prevCloseOperationalList.apply(this,arguments);clearInsideModalState();return r};
-      wrapped.__insideQuickWrapped=true;
-      window.closeOperationalList=wrapped;
+      const prev=window.closeOperationalList;
+      const wrapped=function(){const r=prev.apply(this,arguments);clearInsideModalState();return r};
+      wrapped.__insideQuickWrapped=true; window.closeOperationalList=wrapped;
     }
   }
 
   function setup(){
     setupInsideCard();
-
     const input=document.getElementById('aNome');
     if(!input||input.dataset.reuseV152==='1')return;
-    input.dataset.reuseV152='1';
-    input.setAttribute('autocomplete','off');
-
+    input.dataset.reuseV152='1'; input.setAttribute('autocomplete','off');
     const host=input.parentElement||input;
-    const prevPosition=getComputedStyle(host).position;
-    if(prevPosition==='static')host.style.position='relative';
+    if(getComputedStyle(host).position==='static')host.style.position='relative';
 
     const box=document.createElement('div');
     box.className='accessReuseSuggestions';
     box.setAttribute('role','listbox');
     box.setAttribute('aria-label','Visitantes e prestadores já cadastrados no histórico');
-    box.hidden=true;
-    host.appendChild(box);
+    box.hidden=true; host.appendChild(box);
 
     const style=document.createElement('style');
     style.textContent=`
@@ -235,8 +225,7 @@
 
     function close(){box.hidden=true;box.innerHTML=''}
     function render(){
-      const q=input.value.trim();
-      const matches=findMatches(q);
+      const q=input.value.trim(), matches=findMatches(q);
       if(!matches.length){close();return}
       box.innerHTML=matches.map((p,i)=>{
         const doc=p.doc?`${p.docType||'Documento'} ${p.doc}`:'Sem documento';
@@ -245,15 +234,13 @@
       }).join('');
       box.hidden=false;
       [...box.querySelectorAll('.accessReuseItem')].forEach((btn,i)=>btn.addEventListener('mousedown',ev=>{
-        ev.preventDefault();
-        const p=matches[i];
-        input.value=p.nome;
+        ev.preventDefault(); const p=matches[i]; input.value=p.nome;
         const empresa=document.getElementById('aEmpresa'); if(empresa)empresa.value=p.empresa||'';
         const tipo=document.getElementById('aTipo'); if(tipo&&p.tipo)tipo.value=p.tipo;
         const dt=document.getElementById('aDocType'); if(dt)dt.value=p.docType||'CPF';
         const dn=document.getElementById('aDoc'); if(dn)dn.value=p.doc||'';
-        const disp=document.getElementById('aDocDisplay');if(disp)disp.textContent=p.doc?`${p.docType||'Documento'} ${p.doc}`:'Selecionar documento';
-        const docBtn=document.getElementById('aDocButton');if(docBtn)docBtn.classList.toggle('empty',!p.doc);
+        const disp=document.getElementById('aDocDisplay'); if(disp)disp.textContent=p.doc?`${p.docType||'Documento'} ${p.doc}`:'Selecionar documento';
+        const docBtn=document.getElementById('aDocButton'); if(docBtn)docBtn.classList.toggle('empty',!p.doc);
         ['aBloco','aApto','aDestino','aServico'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
         const auth=document.getElementById('aAutorizado'); if(auth){auth.innerHTML='<option value="">Selecione a unidade</option>';auth.disabled=true;}
         try{window.updateDestinoOptions?.();window.updateUnitPickButton?.()}catch(e){}
@@ -268,5 +255,5 @@
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
-  window.PortariaAccessReuseV152={version:'152.3',refresh:setup,profiles:historyProfiles,getAccesses,openInsideList};
+  window.PortariaAccessReuseV152={version:'152.4',refresh:setup,profiles:historyProfiles,getAccesses,openInsideList};
 })();
