@@ -7909,6 +7909,44 @@ body.theme-dark .mobileStayTime{background:rgba(213,138,0,.15);color:#ffd47c;bor
 body.theme-dark .mobileStayTime.warning2{background:rgba(224,126,0,.18);color:#ffc66d;border-color:rgba(240,153,56,.48)}
 body.theme-dark .mobileStayTime.critical{background:rgba(204,51,68,.14);color:#ff9cab;border-color:rgba(255,93,115,.38)}
 </style>
+<style>
+/* v180 — popovers premium do Resumo no desktop */
+@media(min-width:851px){
+  #resumo .card.metric.opMetric .opTooltip,
+  #dashboard .card.metric.opMetric .opTooltip{
+    left:0!important;right:auto!important;top:calc(100% + 14px)!important;
+    width:100%!important;min-width:100%!important;max-width:none!important;
+    padding:16px!important;border-radius:18px!important;overflow:visible!important;
+    background:rgba(255,255,255,.98)!important;border:1px solid rgba(72,126,184,.55)!important;
+    box-shadow:0 22px 50px rgba(13,27,42,.20)!important;backdrop-filter:blur(16px);
+  }
+  #resumo .card.metric.opMetric .opTooltip::before,
+  #dashboard .card.metric.opMetric .opTooltip::before{
+    content:""!important;position:absolute!important;left:50%!important;top:-9px!important;
+    width:16px!important;height:16px!important;transform:translateX(-50%) rotate(45deg)!important;
+    background:inherit!important;border-left:1px solid rgba(72,126,184,.55)!important;
+    border-top:1px solid rgba(72,126,184,.55)!important;
+  }
+  #resumo .opTipHead,#dashboard .opTipHead{display:flex;gap:11px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  #resumo .opTipIcon,#dashboard .opTipIcon{font-size:20px;line-height:1}
+  #resumo .opTipTitle,#dashboard .opTipTitle{margin:0!important;font-size:14px!important;line-height:1.15;text-transform:none!important;letter-spacing:0!important;color:var(--navy)!important}
+  #resumo .opTipIntro,#dashboard .opTipIntro{margin-top:5px;font-size:11px;line-height:1.35;color:var(--muted)}
+  #resumo .opTipRows,#dashboard .opTipRows{display:grid;gap:0;margin-top:3px}
+  #resumo .opTipItem,#dashboard .opTipItem{display:flex!important;align-items:center;justify-content:space-between;gap:14px;padding:11px 2px!important;margin:0!important;border-top:1px solid var(--line)!important;font-size:11px!important}
+  #resumo .opTipItem:first-child,#dashboard .opTipItem:first-child{border-top:0!important}
+  #resumo .opTipWho,#dashboard .opTipWho{text-align:right;display:grid;gap:2px}
+  #resumo .opTipWho small,#dashboard .opTipWho small{font-size:10px;color:var(--muted);font-weight:700}
+  #resumo .opTipEmpty,#dashboard .opTipEmpty{margin-top:12px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(84,126,172,.07);font-size:11px;font-weight:800;color:var(--muted)}
+  body.theme-dark #resumo .card.metric.opMetric .opTooltip,
+  body.theme-dark #dashboard .card.metric.opMetric .opTooltip{background:rgba(10,24,40,.98)!important;border-color:rgba(69,151,221,.65)!important;box-shadow:0 24px 55px rgba(0,0,0,.48)!important}
+  body.theme-dark #resumo .card.metric.opMetric .opTooltip::before,
+  body.theme-dark #dashboard .card.metric.opMetric .opTooltip::before{border-color:rgba(69,151,221,.65)!important}
+  body.theme-dark #resumo .opTipTitle,body.theme-dark #dashboard .opTipTitle{color:#f5f7fb!important}
+  body.theme-dark #resumo .opTipHead,body.theme-dark #dashboard .opTipHead,
+  body.theme-dark #resumo .opTipItem,body.theme-dark #dashboard .opTipItem{border-color:rgba(185,199,219,.14)!important}
+  body.theme-dark #resumo .opTipEmpty,body.theme-dark #dashboard .opTipEmpty{background:rgba(53,111,169,.10);border-color:rgba(69,151,221,.28);color:#aebdd0}
+}
+</style>
 </head>
 <body class="splashing">
 
@@ -10943,7 +10981,15 @@ function removeOperationalEvent(id){
   });
 }
 function renderOperationalTooltips(){ const s=document.getElementById('tipSalao'), m=document.getElementById('tipMudanca'); if(s) s.innerHTML=operationalTooltipHtml('salao'); if(m) m.innerHTML=operationalTooltipHtml('mudanca'); }
-function operationalTooltipHtml(tipo){ const arr=getOperationalEvents(tipo); if(!arr.length) return `<div class="opTipTitle">${opTypeLabel(tipo)} no mês</div><div class="mini">Nenhum registro neste mês.</div>`; return `<div class="opTipTitle">${opTypeLabel(tipo)} no mês</div>`+arr.map(e=>`<div class="opTipItem"><span class="opTipDate">${esc(dateBR(e.data))}</span><span><span class="opTipUnit">${esc(e.unidade||'—')}</span>${e.resp?`<br><span class="mini">${esc(e.resp)}</span>`:''}</span></div>`).join(''); }
+function operationalTooltipHtml(tipo){
+  const arr=getOperationalEvents(tipo);
+  const icon=tipo==='mudanca'?'📅':'🎉';
+  const title=opTypeLabel(tipo)+' no mês';
+  const intro=tipo==='mudanca'?'Mudanças de entrada e saída agendadas para este mês.':'Locações do salão de festas agendadas para este mês.';
+  if(!arr.length)return `<div class="opTipHead"><span class="opTipIcon">${icon}</span><div><div class="opTipTitle">${title}</div><div class="opTipIntro">${intro}</div></div></div><div class="opTipEmpty">ⓘ Nenhum registro neste mês.</div>`;
+  return `<div class="opTipHead"><span class="opTipIcon">${icon}</span><div><div class="opTipTitle">${title}</div><div class="opTipIntro">${intro}</div></div></div><div class="opTipRows">`+
+    arr.map(e=>`<div class="opTipItem"><span class="opTipDate">▣ &nbsp;${esc(dateBR(e.data))}</span><span class="opTipWho"><span class="opTipUnit">${esc(e.unidade||'—')}</span>${e.resp?`<small>${esc(e.resp)}</small>`:''}</span></div>`).join('')+`</div>`;
+}
 function renderAgendaList(){
   const box=document.getElementById('agendaList');
   if(!box)return;
