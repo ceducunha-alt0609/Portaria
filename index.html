@@ -7947,6 +7947,18 @@ body.theme-dark .mobileStayTime.critical{background:rgba(204,51,68,.14);color:#f
   body.theme-dark #resumo .opTipEmpty,body.theme-dark #dashboard .opTipEmpty{background:rgba(53,111,169,.10);border-color:rgba(69,151,221,.28);color:#aebdd0}
 }
 </style>
+<style>
+/* v181 — popover de permanência no card Ainda no condomínio */
+@media(min-width:851px){
+  #cardInside .insideTipAlert{display:grid;grid-template-columns:auto 1fr;gap:3px 7px;margin:12px 0 4px;padding:10px 11px;border:1px solid rgba(204,51,68,.35);border-radius:12px;background:rgba(204,51,68,.08);color:#a32636;font-size:11px}
+  #cardInside .insideTipAlert small{grid-column:2;color:var(--muted);font-size:9px;line-height:1.35}
+  #cardInside .insideTipWho{text-align:left!important;min-width:0}
+  #cardInside .insideTipWho .opTipUnit{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #cardInside .insideTipTime{font-weight:900;color:#b72e40;white-space:nowrap}
+  body.theme-dark #cardInside .insideTipAlert{background:rgba(204,51,68,.11);border-color:rgba(255,93,115,.34);color:#ff9cab}
+  body.theme-dark #cardInside .insideTipTime{color:#ff8295}
+}
+</style>
 </head>
 <body class="splashing">
 
@@ -8046,7 +8058,7 @@ body.theme-dark .mobileStayTime.critical{background:rgba(204,51,68,.14);color:#f
       <div class="grid cards dashboardCards">
         <div class="card metric opMetric" id="cardMudanca" tabindex="0" onclick="openOperationalList('mudanca')"><div class="n" id="mMudanca">0</div><div class="l">Mudanças</div><span class="tag" id="mMudancaTag">agenda do mês</span><div class="opTooltip" id="tipMudanca"></div></div>
         <div class="card metric" id="cardToday"><div class="n" id="mToday">0</div><div class="l">Acessos hoje</div><span class="tag">visitantes e prestadores</span></div>
-        <div class="card metric" id="cardInside"><div class="n" id="mInside">0</div><div class="l">Ainda no condomínio</div><span class="tag" id="mInsideTag">sem saída registrada</span></div>
+        <div class="card metric opMetric" id="cardInside" tabindex="0"><div class="n" id="mInside">0</div><div class="l">Ainda no condomínio</div><span class="tag" id="mInsideTag">sem saída registrada</span><div class="opTooltip" id="tipInside"></div></div>
         <div class="card metric opMetric" id="cardSalao" tabindex="0" onclick="openOperationalList('salao')"><div class="n" id="mSalao">0</div><div class="l">Locação do salão</div><span class="tag" id="mSalaoTag">agenda do mês</span><div class="opTooltip" id="tipSalao"></div></div>
       </div>
       <div class="mobileHistoryShortcut"><button type="button" class="mobileHistoryShortcutBtn" onclick="openAccessHistory()"><span class="mobileHistoryShortcutIcon">⌕</span><span><b>Consultar histórico de acessos</b><small>Buscar visitas e prestadores anteriores</small></span><span class="mobileHistoryShortcutArrow">›</span></button></div>
@@ -10980,7 +10992,16 @@ function removeOperationalEvent(id){
     }
   });
 }
-function renderOperationalTooltips(){ const s=document.getElementById('tipSalao'), m=document.getElementById('tipMudanca'); if(s) s.innerHTML=operationalTooltipHtml('salao'); if(m) m.innerHTML=operationalTooltipHtml('mudanca'); }
+function renderOperationalTooltips(){ const s=document.getElementById('tipSalao'), m=document.getElementById('tipMudanca'), i=document.getElementById('tipInside'); if(s) s.innerHTML=operationalTooltipHtml('salao'); if(m) m.innerHTML=operationalTooltipHtml('mudanca'); if(i) i.innerHTML=insideTooltipHtml(); }
+function insideTooltipHtml(){
+  const arr=(Array.isArray(state.accesses)?state.accesses:[]).filter(a=>!a.saida).sort((a,b)=>elapsedMinutes(b)-elapsedMinutes(a));
+  if(!arr.length)return '<div class="opTipHead"><span class="opTipIcon">👥</span><div><div class="opTipTitle">Ainda no condomínio</div><div class="opTipIntro">Pessoas que ainda não registraram a saída.</div></div></div><div class="opTipEmpty">✓ Nenhuma saída pendente.</div>';
+  const overdue=arr.filter(a=>elapsedMinutes(a)>=60).length;
+  const maxM=Math.max(...arr.map(elapsedMinutes)), maxH=Math.floor(maxM/60);
+  return `<div class="opTipHead"><span class="opTipIcon">⚠️</span><div><div class="opTipTitle">Ainda no condomínio</div><div class="opTipIntro">Pessoas que ainda não registraram a saída.</div></div></div>`+
+    (overdue?`<div class="insideTipAlert">⏱ <b>${overdue} ${overdue===1?'registro':'registros'} há mais de 1 hora</b><small>Maior permanência: ${maxH}h+. Verifique se a saída foi esquecida.</small></div>`:'')+
+    `<div class="opTipRows">`+arr.slice(0,4).map(a=>`<div class="opTipItem"><span class="opTipWho insideTipWho"><span class="opTipUnit">${esc(a.nome||'Sem nome')}</span><small>${esc(a.tipo||'Acesso')} · ${esc(a.destino||a.unidade||'—')} · entrada ${esc(a.entradaHora||timeOnly(a.entrada))}</small></span><span class="insideTipTime">${esc(elapsed(a))}</span></div>`).join('')+`</div>`;
+}
 function operationalTooltipHtml(tipo){
   const arr=getOperationalEvents(tipo);
   const icon=tipo==='mudanca'?'📅':'🎉';
