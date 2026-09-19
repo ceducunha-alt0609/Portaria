@@ -7575,6 +7575,22 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
 /* Auth 2.0 — modais de recuperação acima da tela de login */
 #passwordRecoveryModal,#passwordResetModal{z-index:1205!important}
 </style>
+
+<style>
+/* v160 — Histórico de acessos: filtros compactos no mobile */
+@media(max-width:620px){
+  #accessHistoryModal .sheet{padding:14px!important}
+  #accessHistoryModal .historyFilters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px 10px!important;margin-bottom:10px!important}
+  #accessHistoryModal .historyFilters>label{margin:2px 0 0!important;min-width:0!important}
+  #accessHistoryModal .historyFilters>label:first-child{grid-column:1/-1!important}
+  #accessHistoryModal .historyFilters>label:nth-child(6){grid-column:1/-1!important}
+  #accessHistoryModal .historyFilters input,
+  #accessHistoryModal .historyFilters select{min-width:0!important;height:48px!important;padding:10px 12px!important;border-radius:12px!important;font-size:14px!important}
+  #accessHistoryModal .historyFilters label{font-size:11px!important}
+  #accessHistoryModal .historyExitDate{display:block;margin-top:3px;font-size:9px;line-height:1.1;color:var(--muted);font-weight:900;white-space:nowrap}
+}
+.historyExitDate{display:block;margin-top:3px;font-size:9px;line-height:1.1;color:var(--muted);font-weight:800;white-space:nowrap}
+</style>
 </head>
 <body class="splashing">
 
@@ -9303,6 +9319,14 @@ function openAccessHistory(){
 }
 function closeAccessHistory(){document.getElementById('accessHistoryModal')?.classList.remove('show')}
 function clearAccessHistoryFilters(){['histAccessSearch','histAccessUnit'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});const tp=document.getElementById('histAccessType');if(tp)tp.value='';const st=document.getElementById('histAccessStatus');if(st)st.value='';const to=document.getElementById('histAccessTo'),from=document.getElementById('histAccessFrom');const d=new Date();if(to)to.value=d.toISOString().slice(0,10);d.setDate(d.getDate()-30);if(from)from.value=d.toISOString().slice(0,10);renderAccessHistory()}
+function historyExitCell(a){
+  const time=a.saidaHora||timeOnly(a.saida)||'—';
+  if(!a.saida)return esc(time);
+  const entryDate=a.data||dateOnly(a.entrada)||'';
+  const exitDate=dateOnly(a.saida)||'';
+  const extra=entryDate&&exitDate&&entryDate!==exitDate?'<span class="historyExitDate">'+esc(exitDate.slice(8,10)+'/'+exitDate.slice(5,7))+'</span>':'';
+  return esc(time)+extra;
+}
 function renderAccessHistory(){
   normalizeAccesses();
   const q=(document.getElementById('histAccessSearch')?.value||'').trim().toLowerCase();
@@ -9324,7 +9348,7 @@ function renderAccessHistory(){
   const summary=document.getElementById('histAccessSummary');if(summary)summary.textContent=`${arr.length} registro${arr.length===1?'':'s'} encontrado${arr.length===1?'':'s'}`;
   const box=document.getElementById('histAccessList');if(!box)return;
   if(!arr.length){box.innerHTML='<div class="empty">Nenhum acesso encontrado para os filtros selecionados.</div>';return;}
-  box.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Data</th><th>Entrada</th><th>Saída</th><th>Nome</th><th>Tipo</th><th>Documento</th><th>Empresa</th><th>Unidade</th><th>Autorizado por</th><th>Serviço</th><th>Status</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${esc(a.data||String(a.entrada||'').slice(0,10)||'—')}</td><td>${esc(a.entradaHora||timeOnly(a.entrada)||'—')}</td><td>${esc(a.saidaHora||timeOnly(a.saida)||'—')}</td><td><b>${esc(a.nome||'—')}</b></td><td><span class="accessTypePill ${accessTypeClass(a)}">${esc(accessTypeLabel(a))}</span></td><td>${esc(formatAccessDoc(a)||'—')}</td><td>${esc(a.empresa||'—')}</td><td>${esc(a.destino||[a.bloco,a.apto].filter(Boolean).join(' ')||'—')}</td><td>${esc(a.autorizado||'—')}</td><td>${esc(a.servico||'—')}</td><td><span class="badge ${a.saida?'out':'in'}">${a.saida?'Saiu':'Dentro'}</span></td></tr>`).join('')}</tbody></table></div>`;
+  box.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Data</th><th>Entrada</th><th>Saída</th><th>Nome</th><th>Tipo</th><th>Documento</th><th>Empresa</th><th>Unidade</th><th>Autorizado por</th><th>Serviço</th><th>Status</th></tr></thead><tbody>${arr.map(a=>`<tr><td>${esc(a.data||String(a.entrada||'').slice(0,10)||'—')}</td><td>${esc(a.entradaHora||timeOnly(a.entrada)||'—')}</td><td>${historyExitCell(a)}</td><td><b>${esc(a.nome||'—')}</b></td><td><span class="accessTypePill ${accessTypeClass(a)}">${esc(accessTypeLabel(a))}</span></td><td>${esc(formatAccessDoc(a)||'—')}</td><td>${esc(a.empresa||'—')}</td><td>${esc(a.destino||[a.bloco,a.apto].filter(Boolean).join(' ')||'—')}</td><td>${esc(a.autorizado||'—')}</td><td>${esc(a.servico||'—')}</td><td><span class="badge ${a.saida?'out':'in'}">${a.saida?'Saiu':'Dentro'}</span></td></tr>`).join('')}</tbody></table></div>`;
 }
 
 function clearAccessSearch(){
