@@ -7767,6 +7767,20 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   #residentModal .residentSheet .sheetHead #modalActions .btn:not(.bad):nth-last-child(1){grid-column:2!important;grid-row:2!important}
 }
 </style>
+
+<style>
+/* v171 — Compensa o espaço reservado ao botão fechar no cabeçalho mobile */
+@media(max-width:850px){
+  #residentModal .residentSheet .sheetHead #modalActions{
+    width:calc(100% + 54px)!important;
+    max-width:none!important;
+    margin-left:0!important;
+    margin-right:-54px!important;
+    padding:0!important;
+    box-sizing:border-box!important;
+  }
+}
+</style>
 </head>
 <body class="splashing">
 
