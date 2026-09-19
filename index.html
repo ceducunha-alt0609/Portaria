@@ -7878,6 +7878,27 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   #opListModal .opToday .opListRowTop b{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0!important}
 }
 </style>
+<style>
+/* v178 — contraste das guias Resumo/Moradores no tema escuro mobile */
+@media(max-width:850px){
+  body.theme-dark .tabs .tab[data-tab="dashboard"],
+  body.theme-dark .tabs .tab[data-tab="moradores"]{
+    background:#0b1523!important;
+    color:#e7edf6!important;
+    border-color:rgba(185,199,219,.20)!important;
+    box-shadow:none!important;
+  }
+  body.theme-dark .tabs .tab[data-tab="dashboard"].active,
+  body.theme-dark .tabs .tab[data-tab="moradores"].active{
+    background:linear-gradient(145deg,#1f4b78 0%,#173a63 52%,#102b4b 100%)!important;
+    color:#ffffff!important;
+    border-color:rgba(216,184,92,.72)!important;
+    box-shadow:0 10px 24px rgba(0,0,0,.30),inset 0 0 0 1px rgba(255,255,255,.05)!important;
+  }
+  body.theme-dark .tabs .tab[data-tab="dashboard"].active .tabText,
+  body.theme-dark .tabs .tab[data-tab="moradores"].active .tabText{color:#ffffff!important}
+}
+</style>
 </head>
 <body class="splashing">
 
