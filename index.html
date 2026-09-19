@@ -7848,6 +7848,24 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   body.opListOpen #resumo #cardSalao.metric.alertSalao::after{content:none!important;display:none!important;animation:none!important}
 }
 </style>
+
+<style>
+/* v176 — hierarquia visual da agenda operacional */
+@media(max-width:850px){
+ #opListModal .modalHeader{padding-bottom:12px!important}
+ #opListModal .modalHeader h2{font-size:25px!important;line-height:1.12!important}
+ #opListModal .modalHeader p{font-size:14px!important;margin-top:4px!important}
+ #opListModal .modalBody{padding-top:14px!important}
+ #opListModal .opListRows{gap:12px}
+ #opListModal .opListRow{padding:16px 18px!important;border-radius:18px!important}
+ #opListModal .opListRowTop b{font-size:24px!important;line-height:1.1}
+ #opListModal .opListRowTop .badge{font-size:14px!important;padding:8px 12px!important}
+ #opListModal .opListMeta{font-size:16px!important;line-height:1.45!important;margin-top:10px!important}
+ #opListModal .opToday{border-color:rgba(200,162,74,.65)!important;background:linear-gradient(145deg,#fff,#fffaf0)!important;box-shadow:0 10px 24px rgba(200,162,74,.12)}
+ #opListModal .opTodayLabel{display:block;color:#9a6a00;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+ #opListModal .empty{font-size:18px!important;padding:28px 14px!important;text-align:center}
+}
+</style>
 </head>
 <body class="splashing">
 
@@ -10902,7 +10920,7 @@ function renderAgendaList(){
     </div>`;
   }).join('');
 }
-function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; const source=document.activeElement?.closest?.('.opMetric'); try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>{t.style.display='none';t.style.visibility='hidden';}); document.querySelectorAll('.opMetric').forEach(card=>{card.blur&&card.blur();card.removeAttribute('tabindex');card.classList.remove('opModalSource');}); if(source)source.classList.add('opModalSource'); document.body.classList.add('opListOpen'); const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>`<div class="opListRow"><div class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>'; modal.classList.add('show'); }
+function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; const source=document.activeElement?.closest?.('.opMetric'); try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>{t.style.display='none';t.style.visibility='hidden';}); document.querySelectorAll('.opMetric').forEach(card=>{card.blur&&card.blur();card.removeAttribute('tabindex');card.classList.remove('opModalSource');}); if(source)source.classList.add('opModalSource'); document.body.classList.add('opListOpen'); const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; const today=new Date().toISOString().slice(0,10); document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>{const isToday=String(e.data||'').slice(0,10)===today;return `<div class="opListRow${isToday?' opToday':''}"><div class="opListRowTop"><b>${isToday?'<span class="opTodayLabel">Hoje</span>':''}${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: <b>${esc(e.resp)}</b><br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`}).join('')}</div>`:`<div class="empty">Nenhum ${tipo==='mudanca'?'agendamento de mudança':'agendamento do salão'} para este mês.</div>`; modal.classList.add('show'); }
 function closeOperationalList(){document.getElementById('opListModal')?.classList.remove('show');document.body.classList.remove('opListOpen');document.querySelectorAll('.opMetric.opModalSource').forEach(card=>card.classList.remove('opModalSource'))}
 
 // ===== v15: Administração fixa + importação de moradores do Excel =====
