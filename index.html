@@ -7610,6 +7610,19 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   #residentModal .vehicleHint{margin-top:7px!important;line-height:1.4!important}
 }
 </style>
+
+<style>
+/* v162 — Vaga e tipo de vaga lado a lado no mobile */
+@media(max-width:800px){
+  #residentModal .vehicleGrid>div:first-child{grid-column:auto!important;grid-row:1!important}
+  #residentModal .vehicleGrid>div:nth-child(6){grid-column:2!important;grid-row:1!important}
+  #residentModal .vehicleGrid>div:nth-child(2){grid-column:1!important;grid-row:2!important}
+  #residentModal .vehicleGrid>div:nth-child(3){grid-column:2!important;grid-row:2!important}
+  #residentModal .vehicleGrid>div:nth-child(4){grid-column:1!important;grid-row:3!important}
+  #residentModal .vehicleGrid>div:nth-child(5){grid-column:2!important;grid-row:3!important}
+  #residentModal .vehicleGrid>div:first-child input,#residentModal .vehicleGrid>div:nth-child(6) input{height:48px!important;background:#fff8df!important;color:#7a5a12!important;font-weight:900!important}
+}
+</style>
 </head>
 <body class="splashing">
 
