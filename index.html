@@ -9837,16 +9837,19 @@ function renderDashboard(){
   const todayCount=accesses.filter(a=>accessDay(a)===today).length;
   const salaos=getOperationalEvents('salao'), mudancas=getOperationalEvents('mudanca');
   const salaosHoje=salaos.filter(e=>String(e.data||'')===today), mudancasHoje=mudancas.filter(e=>String(e.data||'')===today);
+  const tomorrowDate=new Date(); tomorrowDate.setDate(tomorrowDate.getDate()+1); const tomorrow=[tomorrowDate.getFullYear(),String(tomorrowDate.getMonth()+1).padStart(2,'0'),String(tomorrowDate.getDate()).padStart(2,'0')].join('-');
+  const salaosAmanha=salaos.filter(e=>String(e.data||'')===tomorrow), mudancasAmanha=mudancas.filter(e=>String(e.data||'')===tomorrow);
   const setTxt=(id,txt)=>{const el=document.getElementById(id); if(el)el.textContent=txt;};
   setTxt('mInside',inside); setTxt('mToday',todayCount); setTxt('mSalao',salaos.length); setTxt('mMudanca',mudancas.length);
   const sNext=nextOperationalEvent('salao'), mNext=nextOperationalEvent('mudanca');
   const insideOpen=accesses.filter(a=>!a.saida); const maxInsideMins=insideOpen.reduce((m,a)=>Math.max(m,elapsedMinutes(a)),0); const maxInsideHours=Math.floor(maxInsideMins/60);
   const insideTag=document.getElementById('mInsideTag'); if(insideTag){insideTag.textContent=inside>0?(maxInsideMins>=60?`⚠️ ${maxInsideHours}h+ aguardando saída`:'⚠️ aguardando saída'):'sem saída registrada'; insideTag.classList.toggle('todayAlert',inside>0);}
-  setTxt('mSalaoTag',salaosHoje.length?('🎉 hoje: '+salaosHoje.map(e=>e.unidade||'—').join(', ')):(sNext?('próximo: '+dateBR(sNext.data)+' • '+(sNext.unidade||'—')):'sem agenda no mês'));
-  setTxt('mMudancaTag',mudancasHoje.length?('📅 hoje: '+mudancasHoje.map(e=>e.unidade||'—').join(', ')):(mNext?('próxima: '+dateBR(mNext.data)+' • '+(mNext.unidade||'—')):'sem agenda no mês'));
+  setTxt('mSalaoTag',salaosHoje.length?('🎉 hoje: '+salaosHoje.map(e=>e.unidade||'—').join(', ')):(salaosAmanha.length?('🎉 amanhã: '+salaosAmanha.map(e=>e.unidade||'—').join(', ')):(sNext?('próximo: '+dateBR(sNext.data)+' • '+(sNext.unidade||'—')):'sem agenda no mês')));
+  setTxt('mMudancaTag',mudancasHoje.length?('📅 hoje: '+mudancasHoje.map(e=>e.unidade||'—').join(', ')):(mudancasAmanha.length?('📅 amanhã: '+mudancasAmanha.map(e=>e.unidade||'—').join(', ')):(mNext?('próxima: '+dateBR(mNext.data)+' • '+(mNext.unidade||'—')):'sem agenda no mês')));
   const cardInside=document.getElementById('cardInside'), cardSalao=document.getElementById('cardSalao'), cardMudanca=document.getElementById('cardMudanca');
-  if(cardInside)cardInside.classList.toggle('alertInside',inside>0); if(cardSalao)cardSalao.classList.toggle('alertSalao',salaosHoje.length>0); if(cardMudanca)cardMudanca.classList.toggle('alertMudanca',mudancasHoje.length>0);
-  document.getElementById('mSalaoTag')?.classList.toggle('todayAlert',salaosHoje.length>0); document.getElementById('mMudancaTag')?.classList.toggle('todayAlert',mudancasHoje.length>0);
+  const salaosAlert=salaosHoje.length>0||salaosAmanha.length>0, mudancasAlert=mudancasHoje.length>0||mudancasAmanha.length>0;
+  if(cardInside)cardInside.classList.toggle('alertInside',inside>0); if(cardSalao)cardSalao.classList.toggle('alertSalao',salaosAlert); if(cardMudanca)cardMudanca.classList.toggle('alertMudanca',mudancasAlert);
+  document.getElementById('mSalaoTag')?.classList.toggle('todayAlert',salaosAlert); document.getElementById('mMudancaTag')?.classList.toggle('todayAlert',mudancasAlert);
   renderOperationalTooltips();
   const last=document.getElementById('lastAccess'); if(last)last.innerHTML=tableAccess(accesses.slice(0,6),false,true)||'<div class="empty">Ainda não há registros.</div>';
   renderTurnoCard();
