@@ -7808,6 +7808,27 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   #opListModal.modal.center .opListSheet{width:100%!important;max-width:none!important;max-height:72vh!important;margin:0!important;align-self:flex-end!important;border-radius:24px 24px 0 0!important;padding:0!important}
 }
 </style>
+
+<style>
+/* v174 — Modal operacional flutuante; card acionado neutro enquanto aberto */
+@media(max-width:850px){
+  #opListModal.modal.center{align-items:center!important;justify-content:center!important;padding:18px!important}
+  #opListModal.modal.center .opListSheet{width:min(100%,620px)!important;max-width:620px!important;max-height:78vh!important;margin:auto!important;align-self:auto!important;border-radius:24px!important;padding:0!important}
+  #resumo .dashboardCards .card.metric.opModalSource,
+  body:not(.theme-dark) #resumo .dashboardCards .card.metric.opModalSource,
+  body.theme-light #resumo .dashboardCards .card.metric.opModalSource,
+  body.theme-dark #resumo .dashboardCards .card.metric.opModalSource{
+    border-color:#9fb0c8!important;
+    background:linear-gradient(180deg,#ffffff 0%,#f7faff 100%)!important;
+    box-shadow:0 15px 36px rgba(13,27,42,.15)!important;
+    transform:none!important;
+  }
+  body.theme-dark #resumo .dashboardCards .card.metric.opModalSource{
+    background:var(--card)!important;
+    border-color:var(--line)!important;
+  }
+}
+</style>
 </head>
 <body class="splashing">
 
@@ -10862,8 +10883,8 @@ function renderAgendaList(){
     </div>`;
   }).join('');
 }
-function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>{t.style.display='none';t.style.visibility='hidden';}); document.querySelectorAll('.opMetric').forEach(card=>{card.blur&&card.blur();card.removeAttribute('tabindex');}); const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>`<div class="opListRow"><div class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>'; modal.classList.add('show'); }
-function closeOperationalList(){document.getElementById('opListModal')?.classList.remove('show')}
+function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; const source=document.activeElement?.closest?.('.opMetric'); try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>{t.style.display='none';t.style.visibility='hidden';}); document.querySelectorAll('.opMetric').forEach(card=>{card.blur&&card.blur();card.removeAttribute('tabindex');card.classList.remove('opModalSource');}); if(source)source.classList.add('opModalSource'); const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>`<div class="opListRow"><div class="opListRowTop"><b>${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: ${esc(e.resp)}<br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`).join('')}</div>`:'<div class="empty">Nenhum item cadastrado para este mês.</div>'; modal.classList.add('show'); }
+function closeOperationalList(){document.getElementById('opListModal')?.classList.remove('show');document.querySelectorAll('.opMetric.opModalSource').forEach(card=>card.classList.remove('opModalSource'))}
 
 // ===== v15: Administração fixa + importação de moradores do Excel =====
 function getAdmin(){
