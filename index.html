@@ -7643,6 +7643,27 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   #residentModal .sheetActions .btn.bad{grid-column:1/-1!important;width:100%!important;justify-self:stretch!important}
 }
 </style>
+
+<style>
+/* v165 — Corrige override antigo do cabeçalho da ficha no mobile */
+@media(max-width:850px){
+  #residentModal .residentSheet .sheetHead #modalActions{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    width:min(88%,520px)!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    padding-right:0!important;
+    gap:8px!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn{
+    flex:none!important;width:100%!important;min-width:0!important;margin:0!important;padding:10px 4px!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn.bad{
+    grid-column:1/-1!important;width:100%!important;justify-self:stretch!important;
+  }
+}
+</style>
 </head>
 <body class="splashing">
 
