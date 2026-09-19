@@ -7688,6 +7688,31 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   }
 }
 </style>
+
+<style>
+/* v167 — Ações da ficha em grade 2x2 no mobile */
+@media(max-width:850px){
+  #residentModal .residentSheet .sheetHead #modalActions{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    gap:10px!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn{
+    width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;
+    padding:10px 8px!important;justify-content:center!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn.bad{
+    grid-column:auto!important;width:100%!important;min-width:0!important;max-width:none!important;justify-self:stretch!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn:nth-child(1){grid-column:1;grid-row:1}
+  #residentModal .residentSheet .sheetHead #modalActions .btn:nth-child(2){grid-column:2;grid-row:1}
+  #residentModal .residentSheet .sheetHead #modalActions .btn.bad{grid-column:1;grid-row:2}
+  #residentModal .residentSheet .sheetHead #modalActions .btn:not(.bad):nth-last-child(1){grid-column:2;grid-row:2}
+}
+</style>
 </head>
 <body class="splashing">
 
