@@ -9,7 +9,29 @@
 
   const KEY='pp_gdrive_oauth_client_id_v151';
 
-  function clientId(){return String(localStorage.getItem(KEY)||'').trim();}
+  function isValidClientId(v){return !!v&&String(v).trim().endsWith('.apps.googleusercontent.com');}
+  function legacyClientId(){
+    const candidates=[];
+    try{candidates.push(localStorage.getItem('pp_gdrive_client_id')||'');}catch(e){}
+    try{candidates.push(window.state?.settings?.gdrive?.clientId||'');}catch(e){}
+    try{
+      const raw=localStorage.getItem(typeof KEY!=='undefined'&&window.KEY?window.KEY:'portaria_primavera_v1');
+      if(raw){const parsed=JSON.parse(raw);candidates.push(parsed?.settings?.gdrive?.clientId||'');}
+    }catch(e){}
+    return String(candidates.find(isValidClientId)||'').trim();
+  }
+  function migrateLegacyClientId(){
+    let current='';
+    try{current=String(localStorage.getItem(KEY)||'').trim();}catch(e){}
+    if(isValidClientId(current))return current;
+    const legacy=legacyClientId();
+    if(isValidClientId(legacy)){
+      try{localStorage.setItem(KEY,legacy);}catch(e){}
+      return legacy;
+    }
+    return current;
+  }
+  function clientId(){return migrateLegacyClientId();}
   function setLegacyToken(token){try{_gdriveToken=token||null;}catch(e){}window._gdriveToken=token||null;}
   function status(msg,type='info'){try{if(typeof setDriveStatus==='function')return setDriveStatus(msg,type);}catch(e){}const el=document.getElementById('driveStatus');if(el){el.style.display='block';el.textContent=msg;}}
   function toast(msg,type='ok',ms=4000){try{if(typeof showCloudToast==='function')return showCloudToast(msg,type,ms);}catch(e){}}
@@ -39,6 +61,7 @@
 
   function loadConfigs(){
     polishLogin();
+    migrateLegacyClientId();
     hydrateField(true);hideApiKey();
     const sbUrl=document.getElementById('supabaseUrlConfig'),sbKey=document.getElementById('supabaseKeyConfig');
     try{if(sbUrl)sbUrl.value=typeof SUPABASE_URL!=='undefined'?SUPABASE_URL:'';}catch(e){}
@@ -92,5 +115,5 @@
   window.addEventListener('pp:gdrive-connected',()=>{setLegacyToken(window.PortariaGDriveOAuth?.token?.()||'');try{if(typeof gdriveUpdateUI==='function')gdriveUpdateUI(true);}catch(e){}updateStatus();});
   window.addEventListener('pp:gdrive-disconnected',()=>{setLegacyToken('');try{if(typeof gdriveUpdateUI==='function')gdriveUpdateUI(false);}catch(e){}updateStatus();});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadConfigs,{once:true});else setTimeout(loadConfigs,0);
-  window.PortariaGDriveAdapter={version:'151.13-login-polish',key:KEY,connect:connectDrive,disconnect:disconnectDrive,test:testConfig,save:saveConfig,clear:clearConfig,refresh:()=>updateStatus({hydrate:true})};
+  window.PortariaGDriveAdapter={version:'151.14-legacy-migration',key:KEY,connect:connectDrive,disconnect:disconnectDrive,test:testConfig,save:saveConfig,clear:clearConfig,refresh:()=>updateStatus({hydrate:true})};
 })();
