@@ -7866,6 +7866,18 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
  #opListModal .empty{font-size:18px!important;padding:28px 14px!important;text-align:center}
 }
 </style>
+<style>
+/* v177 — modal operacional: vazio compacto + HOJE em evidência */
+@media(max-width:850px){
+  #opListModal.opListEmpty .opListSheet{max-height:none!important}
+  #opListModal.opListEmpty .sheetHead{padding:16px 20px 11px!important}
+  #opListModal.opListEmpty #opListBody{padding:8px 20px 16px!important}
+  #opListModal.opListEmpty #opListBody>.empty{padding:10px 8px 4px!important;font-size:16px!important;line-height:1.35!important;min-height:0!important}
+  #opListModal.opListEmpty .sheetHead h2{font-size:23px!important}
+  #opListModal .opTodayLabel{display:inline-flex!important;align-items:center!important;margin:0 9px 0 0!important;padding:5px 9px!important;border-radius:999px!important;background:#fff1c9!important;border:1px solid rgba(200,162,74,.5)!important;color:#8a6100!important;font-size:11px!important;line-height:1!important;letter-spacing:.07em!important;vertical-align:middle!important}
+  #opListModal .opToday .opListRowTop b{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:0!important}
+}
+</style>
 </head>
 <body class="splashing">
 
@@ -10920,7 +10932,7 @@ function renderAgendaList(){
     </div>`;
   }).join('');
 }
-function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; const source=document.activeElement?.closest?.('.opMetric'); try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>{t.style.display='none';t.style.visibility='hidden';}); document.querySelectorAll('.opMetric').forEach(card=>{card.blur&&card.blur();card.removeAttribute('tabindex');card.classList.remove('opModalSource');}); if(source)source.classList.add('opModalSource'); document.body.classList.add('opListOpen'); const arr=getOperationalEvents(tipo); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; const today=new Date().toISOString().slice(0,10); document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>{const isToday=String(e.data||'').slice(0,10)===today;return `<div class="opListRow${isToday?' opToday':''}"><div class="opListRowTop"><b>${isToday?'<span class="opTodayLabel">Hoje</span>':''}${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: <b>${esc(e.resp)}</b><br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`}).join('')}</div>`:`<div class="empty">Nenhum ${tipo==='mudanca'?'agendamento de mudança':'agendamento do salão'} para este mês.</div>`; modal.classList.add('show'); }
+function openOperationalList(tipo){ const modal=document.getElementById('opListModal'); if(!modal)return; const source=document.activeElement?.closest?.('.opMetric'); try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){} document.querySelectorAll('.opTooltip').forEach(t=>{t.style.display='none';t.style.visibility='hidden';}); document.querySelectorAll('.opMetric').forEach(card=>{card.blur&&card.blur();card.removeAttribute('tabindex');card.classList.remove('opModalSource');}); if(source)source.classList.add('opModalSource'); document.body.classList.add('opListOpen'); const arr=getOperationalEvents(tipo); modal.classList.toggle('opListEmpty',!arr.length); document.getElementById('opListTitle').textContent=opTypeLabel(tipo)+' do mês'; document.getElementById('opListSub').textContent=arr.length?`${arr.length} registro(s) no mês atual`:'Nenhum registro no mês atual'; const now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-'); const eventISO=(v)=>{const s=String(v||'').trim();if(/^\d{4}-\d{2}-\d{2}/.test(s))return s.slice(0,10);const m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);return m?`${m[3]}-${m[2]}-${m[1]}`:s.slice(0,10)}; document.getElementById('opListBody').innerHTML=arr.length?`<div class="opListRows">${arr.map(e=>{const isToday=eventISO(e.data)===today;return `<div class="opListRow${isToday?' opToday':''}"><div class="opListRowTop"><b>${isToday?'<span class="opTodayLabel">HOJE</span>':''}${esc(dateBR(e.data))}</b><span class="badge service">${esc(e.unidade||'—')}</span></div><div class="opListMeta">${e.resp?`Responsável: <b>${esc(e.resp)}</b><br>`:''}${e.obs?`Observação: ${esc(e.obs)}`:''}</div></div>`}).join('')}</div>`:`<div class="empty">Nenhum ${tipo==='mudanca'?'agendamento de mudança':'agendamento do salão'} para este mês.</div>`; modal.classList.add('show'); }
 function closeOperationalList(){document.getElementById('opListModal')?.classList.remove('show');document.body.classList.remove('opListOpen');document.querySelectorAll('.opMetric.opModalSource').forEach(card=>card.classList.remove('opModalSource'))}
 
 // ===== v15: Administração fixa + importação de moradores do Excel =====
