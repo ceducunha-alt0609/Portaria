@@ -7743,6 +7743,30 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   }
 }
 </style>
+
+<style>
+/* v170 — Ações da ficha seguem a largura do seletor Resumo/Moradores */
+@media(max-width:850px){
+  #residentModal .residentSheet .sheetHead #modalActions{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
+    gap:10px 12px!important;
+    box-sizing:border-box!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn{
+    width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;
+    padding:10px 8px!important;justify-content:center!important;box-sizing:border-box!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn:nth-child(1){grid-column:1!important;grid-row:1!important}
+  #residentModal .residentSheet .sheetHead #modalActions .btn:nth-child(2){grid-column:2!important;grid-row:1!important}
+  #residentModal .residentSheet .sheetHead #modalActions .btn.bad{grid-column:1!important;grid-row:2!important;width:100%!important;min-width:0!important;max-width:none!important;justify-self:stretch!important}
+  #residentModal .residentSheet .sheetHead #modalActions .btn:not(.bad):nth-last-child(1){grid-column:2!important;grid-row:2!important}
+}
+</style>
 </head>
 <body class="splashing">
 
