@@ -7664,6 +7664,30 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   }
 }
 </style>
+
+<style>
+/* v166 — Ações da ficha: 3 botões distribuídos + limpar centralizado */
+@media(max-width:850px){
+  #residentModal .residentSheet .sheetHead #modalActions{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    gap:8px!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn{
+    width:100%!important;min-width:0!important;margin:0!important;
+  }
+  #residentModal .residentSheet .sheetHead #modalActions .btn.bad{
+    grid-column:1/-1!important;
+    width:58%!important;
+    min-width:240px!important;
+    max-width:360px!important;
+    justify-self:center!important;
+  }
+}
+</style>
 </head>
 <body class="splashing">
 
