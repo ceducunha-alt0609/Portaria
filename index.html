@@ -7899,6 +7899,16 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   body.theme-dark .tabs .tab[data-tab="moradores"].active .tabText{color:#ffffff!important}
 }
 </style>
+<style>
+/* v179 — alerta progressivo de permanência sem saída */
+.mobileStatusStack{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.mobileStayTime{display:inline-flex;align-items:center;justify-content:center;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:900;white-space:nowrap;line-height:1;border:1px solid rgba(213,138,0,.38);background:#fff5df;color:#8a5600}
+.mobileStayTime.warning2{background:#fff0d7;color:#a45a00;border-color:rgba(224,126,0,.48)}
+.mobileStayTime.critical{background:#fbe7ea;color:#a32636;border-color:rgba(204,51,68,.42)}
+body.theme-dark .mobileStayTime{background:rgba(213,138,0,.15);color:#ffd47c;border-color:rgba(240,184,68,.40)}
+body.theme-dark .mobileStayTime.warning2{background:rgba(224,126,0,.18);color:#ffc66d;border-color:rgba(240,153,56,.48)}
+body.theme-dark .mobileStayTime.critical{background:rgba(204,51,68,.14);color:#ff9cab;border-color:rgba(255,93,115,.38)}
+</style>
 </head>
 <body class="splashing">
 
@@ -9780,7 +9790,8 @@ function renderDashboard(){
   const setTxt=(id,txt)=>{const el=document.getElementById(id); if(el)el.textContent=txt;};
   setTxt('mInside',inside); setTxt('mToday',todayCount); setTxt('mSalao',salaos.length); setTxt('mMudanca',mudancas.length);
   const sNext=nextOperationalEvent('salao'), mNext=nextOperationalEvent('mudanca');
-  const insideTag=document.getElementById('mInsideTag'); if(insideTag){insideTag.textContent=inside>0?'⚠️ aguardando saída':'sem saída registrada'; insideTag.classList.toggle('todayAlert',inside>0);}
+  const insideOpen=accesses.filter(a=>!a.saida); const maxInsideMins=insideOpen.reduce((m,a)=>Math.max(m,elapsedMinutes(a)),0); const maxInsideHours=Math.floor(maxInsideMins/60);
+  const insideTag=document.getElementById('mInsideTag'); if(insideTag){insideTag.textContent=inside>0?(maxInsideMins>=60?`⚠️ ${maxInsideHours}h+ aguardando saída`:'⚠️ aguardando saída'):'sem saída registrada'; insideTag.classList.toggle('todayAlert',inside>0);}
   setTxt('mSalaoTag',salaosHoje.length?('🎉 hoje: '+salaosHoje.map(e=>e.unidade||'—').join(', ')):(sNext?('próximo: '+dateBR(sNext.data)+' • '+(sNext.unidade||'—')):'sem agenda no mês'));
   setTxt('mMudancaTag',mudancasHoje.length?('📅 hoje: '+mudancasHoje.map(e=>e.unidade||'—').join(', ')):(mNext?('próxima: '+dateBR(mNext.data)+' • '+(mNext.unidade||'—')):'sem agenda no mês'));
   const cardInside=document.getElementById('cardInside'), cardSalao=document.getElementById('cardSalao'), cardMudanca=document.getElementById('cardMudanca');
@@ -13206,7 +13217,12 @@ try{updateTopbarClockGreeting();}catch(e){}
   window.ppIsMobileView = isMobile;
 
   function mobileStatusHtml(a){
-    return a && a.saida ? `<span class="badge out access-status">SAIU</span>` : `<span class="badge in access-status">NO LOCAL</span>`;
+    if(a && a.saida) return `<span class="badge out access-status">SAIU</span>`;
+    const mins=typeof elapsedMinutes==='function'?elapsedMinutes(a):0;
+    const hours=Math.floor(mins/60);
+    const level=mins>=180?'critical':(mins>=120?'warning2':(mins>=60?'warning1':''));
+    const label=mins>=60?`<span class="mobileStayTime ${level}">⏱ ${hours}h+</span>`:'';
+    return `<span class="mobileStatusStack"><span class="badge in access-status">NO LOCAL</span>${label}</span>`;
   }
   window.renderMobileAccessAccordion = function(arr){
     if(!arr || !arr.length) return '<div class="mobileAccessEmpty">Ainda não há registros.</div>';
