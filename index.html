@@ -7634,6 +7634,15 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   #residentModal .residentMainGrid input[data-p="nome"],#residentModal .residentMainGrid input[data-p="cel"]{font-size:18px!important}
 }
 </style>
+
+<style>
+/* v164 — Conjunto de ações superior centralizado no mobile */
+@media(max-width:800px){
+  #residentModal .sheetActions{grid-template-columns:repeat(3,minmax(0,1fr))!important;width:min(88%,520px)!important;margin-left:auto!important;margin-right:auto!important;gap:8px!important}
+  #residentModal .sheetActions .btn{min-width:0!important;width:100%!important;padding:10px 4px!important}
+  #residentModal .sheetActions .btn.bad{grid-column:1/-1!important;width:100%!important;justify-self:stretch!important}
+}
+</style>
 </head>
 <body class="splashing">
 
