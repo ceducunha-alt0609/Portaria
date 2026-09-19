@@ -7713,6 +7713,21 @@ body.theme-dark .recoveryAuthBox{background:#151b24;border-color:rgba(216,184,92
   #residentModal .residentSheet .sheetHead #modalActions .btn:not(.bad):nth-last-child(1){grid-column:2;grid-row:2}
 }
 </style>
+
+<style>
+/* v168 — Grade de ações ocupa toda a largura útil no mobile */
+@media(max-width:850px){
+  #residentModal .residentSheet .sheetHead #modalActions{
+    width:auto!important;
+    max-width:none!important;
+    margin-left:0!important;
+    margin-right:-16px!important;
+    padding-left:0!important;
+    padding-right:0!important;
+    box-sizing:border-box!important;
+  }
+}
+</style>
 </head>
 <body class="splashing">
 
