@@ -4998,6 +4998,17 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
 }
 .commReadAck.done{border-color:rgba(66,211,146,.18)!important;background:rgba(66,211,146,.06)!important}
 .commReadAck.done .commReadAckText b{color:#76e0ad!important}
+.commReaderCompact{display:grid!important;gap:11px!important}
+.commReaderMeta{display:flex!important;gap:8px!important;flex-wrap:wrap!important}
+.commReaderMeta span{font-size:10px!important;font-weight:900!important;color:#a7b0c0!important;background:#0f1928!important;border:1px solid rgba(185,199,219,.14)!important;border-radius:999px!important;padding:6px 9px!important}
+.commReaderMessage{border:1px solid rgba(185,199,219,.16)!important;background:linear-gradient(180deg,#0f1928,#0c1524)!important;border-radius:16px!important;padding:14px!important;color:#edf2f7!important;font-size:14px!important;line-height:1.6!important;white-space:pre-wrap!important}
+.commReaderMessage b{color:#f3d27a!important}
+.commAckChooser{display:grid!important;gap:8px!important;margin-top:4px!important}
+.commAckChooserIntro{font-size:11px!important;color:#a7b0c0!important;line-height:1.45!important;margin-bottom:2px!important}
+.commAckPerson{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;border:1px solid rgba(185,199,219,.14)!important;background:#0f1928!important;border-radius:13px!important;padding:9px 10px!important}
+.commAckPersonInfo{min-width:0!important}.commAckPersonInfo b{display:block!important;color:#edf2f7!important;font-size:12px!important}.commAckPersonInfo small{display:block!important;color:#a7b0c0!important;font-size:10px!important;margin-top:2px!important}
+.commAckPerson button{border:0!important;border-radius:10px!important;padding:8px 10px!important;font:inherit!important;font-size:10px!important;font-weight:900!important;cursor:pointer!important;background:#b38b2f!important;color:white!important;white-space:nowrap!important}
+.commAckPerson.read button{background:rgba(66,211,146,.14)!important;color:#76e0ad!important;border:1px solid rgba(66,211,146,.24)!important;cursor:default!important}
 @media(max-width:620px){
   .commReadAck{align-items:stretch!important;flex-direction:column!important}
   .commReadAckBtn{width:100%!important}
@@ -13050,6 +13061,32 @@ function ensureCommunications(){
 }
 function commNowISO(){return new Date().toISOString()}
 function commCurrentUser(){try{return getCurrentUser&&getCurrentUser()}catch(e){return null}}
+function isSharedPortariaUser(u){
+  if(!u)return false;
+  const perfil=String(u.perfil||u.role||u.profile||'').toLowerCase();
+  if(!perfil.includes('portaria'))return false;
+  const login=String(u.login||'').trim().toLowerCase();
+  const nome=String(u.nome||u.name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
+  return login==='portaria' || nome==='portaria' || nome==='portaria dia' || String(u.id||'')==='u-portaria-dia';
+}
+function commSessionPending(c){
+  const u=commCurrentUser();
+  if(!u||!isCommForUser(c,u))return false;
+  if(!isSharedPortariaUser(u))return !commReadAtForUser(c,u);
+  const team=commTargetUsers(c).filter(x=>{
+    const p=String(x?.perfil||x?.role||x?.profile||'').toLowerCase();
+    return !isSharedPortariaUser(x) && (p.includes('portaria')||p.includes('zelador'));
+  });
+  return team.length?team.some(x=>!commReadAtForUser(c,x)):!commReadAtForUser(c,u);
+}
+function commSharedTeamStats(c){
+  const team=commTargetUsers(c).filter(x=>{
+    const p=String(x?.perfil||x?.role||x?.profile||'').toLowerCase();
+    return !isSharedPortariaUser(x) && (p.includes('portaria')||p.includes('zelador'));
+  });
+  const read=team.filter(x=>!!commReadAtForUser(c,x));
+  return {team,read,pending:team.filter(x=>!commReadAtForUser(c,x))};
+}
 function commUserKey(u=commCurrentUser()){return u?(u.id||u.login||u.nome):''}
 function commTargetLabel(t){return ({all:'Todos',portaria:'Portaria',admin:'Administradores',dia:'Equipe do dia',noite:'Equipe da noite',user:'Usuário específico'}[t]||'Todos')}
 function commTypeLabel(t){return ({emergencia:'Emergência',manutencao:'Manutenção',aviso:'Aviso',info:'Informação',agua:'Água',energia:'Energia',dedetizacao:'Dedetização',portao:'Portão',concluido:'Concluído'}[t]||'Aviso')}
@@ -13073,7 +13110,7 @@ function isCommVisibleInCenter(c){
   return isAdmin() || isCommForCurrentUser(c);
 }
 function isCommRead(c){const k=commUserKey(); return !!(k && c.reads && c.reads[k])}
-function getPendingComms(){ensureCommunications(); return state.comunicados.filter(c=>c.active!==false && !c.archived && c.scheduled!==true && !isCommExpired(c) && isCommForCurrentUser(c) && !isCommRead(c));}
+function getPendingComms(){ensureCommunications(); return state.comunicados.filter(c=>c.active!==false && !c.archived && c.scheduled!==true && !isCommExpired(c) && commSessionPending(c));}
 function toggleCommTargetUser(){const wrap=document.getElementById('commTargetUserWrap'); const target=document.getElementById('commTarget')?.value; if(wrap)wrap.classList.toggle('hide',target!=='user');}
 function fillCommUsers(){const sel=document.getElementById('commTargetUser'); if(!sel)return; sel.innerHTML=(state.users||[]).filter(u=>u.ativo!==false).map(u=>`<option value="${escapeHtml(u.id||u.login||u.nome)}">${escapeHtml(u.nome||u.login)} • ${u.perfil==='admin'?'Admin':'Portaria'}</option>`).join('');}
 function clearCommunicationForm(){['commTitle','commEta','commMessage'].forEach(id=>{const el=document.getElementById(id); if(el)el.value=''}); const t=document.getElementById('commType'); if(t)t.value='manutencao'; const target=document.getElementById('commTarget'); if(target)target.value='all'; const v=document.getElementById('commValidity'); if(v)v.value='today'; toggleCommTargetUser();}
@@ -13419,6 +13456,39 @@ function markCommunicationReadAndRefresh(id){
   markCommunicationRead(id);
   setTimeout(()=>viewCommunication(id),120);
 }
+function confirmCommunicationAsUser(commId,userId){
+  ensureCommunications();
+  const c=state.comunicados.find(x=>String(x.id)===String(commId));
+  const u=(state.users||[]).find(x=>String(x.id)===String(userId));
+  if(!c||!u)return;
+  c.reads=c.reads||{};
+  const k=commReadKeyForUser(u);
+  if(c.reads[k]){openCommAckChooser(commId);return;}
+  c.reads[k]=commNowISO();
+  const session=commCurrentUser();
+  commAudit(c,'read',`Lido por ${u.nome||u.login}`,'👁️',isSharedPortariaUser(session)?'Ciência registrada no perfil Portaria compartilhado':'Ciência registrada');
+  addLog?.('Leu comunicado',`${c.title} • ${u.nome||u.login}`,'comunicado');
+  save('leitura-comunicado');
+  renderCommunications();
+  setTimeout(()=>openCommAckChooser(commId),120);
+}
+function openCommAckChooser(commId){
+  ensureCommunications();
+  const c=state.comunicados.find(x=>String(x.id)===String(commId));
+  if(!c)return;
+  const stats=commSharedTeamStats(c);
+  const rows=stats.team.map(u=>{
+    const at=commReadAtForUser(c,u);
+    const read=!!at;
+    const uid=String(u.id||'').replace(/'/g,'&#39;');
+    return `<div class="commAckPerson ${read?'read':''}"><div class="commAckPersonInfo"><b>${escapeHtml(u.nome||u.login||'Usuário')}</b><small>${escapeHtml(commUserRoleLabel(u))}${u.turno?' • '+escapeHtml(userTurnoLabel?.(u.turno)||u.turno):''}${read?' • '+escapeHtml(formatDateTimeBR(at)):''}</small></div><button ${read?'disabled':''} onclick="confirmCommunicationAsUser('${String(c.id).replace(/'/g,'&#39;')}','${uid}')">${read?'✓ Confirmado':'Confirmar ciência'}</button></div>`;
+  }).join('');
+  openAppConfirm?.({
+    title:'Quem está confirmando?',
+    message:`<div class="commAckChooser"><div class="commAckChooserIntro">Perfil Portaria compartilhado • ${stats.read.length} de ${stats.team.length} confirmaram. Selecione seu nome.</div>${rows||'<div class="commArchiveEmpty">Nenhum integrante da equipe foi encontrado.</div>'}</div>`,
+    okText:'Fechar'
+  });
+}
 function archiveCommunication(id){
   if(!canManageCommunications?.())return;
   ensureCommunications();
@@ -13641,7 +13711,12 @@ function commTargetUsers(c){
   ensureCommunications();
   const users=(state.users||[]).filter(u=>u && u.ativo!==false && u.active!==false);
   const filtered=users.filter(u=>isCommForUser(c,u));
-  return filtered.length?filtered:users;
+  const base=filtered.length?filtered:users;
+  const hasNamedPortaria=base.some(u=>{
+    const p=String(u?.perfil||u?.role||u?.profile||'').toLowerCase();
+    return p.includes('portaria')&&!isSharedPortariaUser(u);
+  });
+  return hasNamedPortaria?base.filter(u=>!isSharedPortariaUser(u)):base;
 }
 function commReadKeyForUser(u){
   return u?(u.id||u.login||u.nome):'';
@@ -13718,6 +13793,31 @@ function renderCommunicationReadPanel(c){
   const published=c.createdAt?formatDateTimeBR(c.createdAt):'—';
   const archived=c.archivedAt?formatDateTimeBR(c.archivedAt):'—';
   const scheduled=c.scheduledAt?formatDateTimeBR(c.scheduledAt):'—';
+  const current=commCurrentUser?.();
+  const shared=!!(current&&isSharedPortariaUser(current));
+  const admin=!!isAdmin?.();
+
+  if(!admin){
+    const currentAt=current?commReadAtForUser(c,current):'';
+    const currentPending=!!(current && isCommForUser(c,current) && !currentAt);
+    const teamStats=shared?commSharedTeamStats(c):null;
+    let ack='';
+    if(shared){
+      ack=teamStats&&teamStats.pending.length
+        ? `<div class="commReadAck"><div class="commReadAckText"><b>${teamStats.pending.length} pessoa${teamStats.pending.length>1?'s':''} da equipe ainda ${teamStats.pending.length>1?'precisam':'precisa'} confirmar</b><small>Toque para identificar quem está dando ciência.</small></div><button class="commReadAckBtn" onclick="openCommAckChooser('${String(c.id).replace(/'/g,'&#39;')}')">👤 Identificar e confirmar</button></div>`
+        : `<div class="commReadAck done"><div class="commReadAckText"><b>✓ Equipe com ciência confirmada</b><small>Todos os destinatários operacionais confirmaram a leitura.</small></div></div>`;
+    }else{
+      ack=currentPending
+        ? `<div class="commReadAck"><div class="commReadAckText"><b>Este comunicado aguarda sua ciência</b><small>Confirme abaixo depois de ler a mensagem.</small></div><button class="commReadAckBtn" onclick="markCommunicationReadAndRefresh('${String(c.id).replace(/'/g,'&#39;')}')">✅ Li e estou ciente</button></div>`
+        : (currentAt?`<div class="commReadAck done"><div class="commReadAckText"><b>✓ Ciência confirmada</b><small>${escapeHtml(formatDateTimeBR(currentAt))}</small></div></div>`:'');
+    }
+    return `<div class="commReaderCompact">
+      <div class="commReaderMeta"><span>${escapeHtml(commTypeLabel(c.type||'aviso'))}</span><span>${escapeHtml(commTargetLabel(c.target||'all'))}</span><span>${escapeHtml(published)}</span></div>
+      <div class="commReaderMessage"><b>${escapeHtml(c.title||'Comunicado')}</b><br><br>${escapeHtml(c.message||'Sem mensagem.')}</div>
+      ${ack}
+    </div>`;
+  }
+
   const pendingCount=Math.max((stats.total||0)-(stats.readCount||0),0);
   const readPhrase=`${stats.readCount} de ${stats.total} confirmaram ciência`;
   const pendingPhrase=pendingCount?`${pendingCount} pendente${pendingCount>1?'s':''} de leitura`:'Todos confirmaram ciência';
@@ -13735,13 +13835,12 @@ function renderCommunicationReadPanel(c){
   }).join('');
   const extra=c.archived?`<div class="commReadSummaryCard"><b>Arquivado em</b><span>${escapeHtml(archived)}</span></div>`:
     (c.scheduled?`<div class="commReadSummaryCard"><b>Programado para</b><span>${escapeHtml(scheduled)}</span></div>`:'');
-  const current=commCurrentUser?.();
-  const currentPending=!!(current && isCommForUser(c,current) && !commReadAtForUser(c,current));
-  const currentReadAt=current?commReadAtForUser(c,current):'';
+  const currentAt=current?commReadAtForUser(c,current):'';
+  const currentPending=!!(current && isCommForUser(c,current) && !currentAt);
   const safeId=String(c.id||'').replace(/'/g,'&#39;');
   const ack=currentPending
     ? `<div class="commReadAck"><div class="commReadAckText"><b>Este comunicado aguarda sua ciência</b><small>Confirme abaixo depois de ler a mensagem.</small></div><button class="commReadAckBtn" onclick="markCommunicationReadAndRefresh('${safeId}')">✅ Li e estou ciente</button></div>`
-    : (currentReadAt?`<div class="commReadAck done"><div class="commReadAckText"><b>✓ Ciência confirmada</b><small>${escapeHtml(formatDateTimeBR(currentReadAt))}</small></div></div>`:'');
+    : (currentAt?`<div class="commReadAck done"><div class="commReadAckText"><b>✓ Ciência confirmada</b><small>${escapeHtml(formatDateTimeBR(currentAt))}</small></div></div>`:'');
   return `<div class="commReadPanel">
     <div class="commReadSummary">
       <div class="commReadSummaryCard"><b>Publicado por</b><span>${escapeHtml(c.createdBy||'Admin')}</span></div>
@@ -13781,7 +13880,7 @@ function viewCommunication(id){
   setTimeout(()=>{document.querySelector('#confirmModal .sheet')?.classList.add('commViewSheet')},30);
 }
 function renderCommunicationCard(c){
-  const pending=isCommForCurrentUser(c)&&!isCommRead(c);
+  const pending=commSessionPending(c);
   const current=getCurrentUser();
   const uid=current?(current.id||current.login||current.nome):'anon';
   const published=c.createdAt?new Date(c.createdAt).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
@@ -13815,15 +13914,26 @@ document.addEventListener('click',function(ev){
     if(!t.closest('.commArchivePopover') && !t.closest('.commArchiveBtn')) closeCommunicationsArchive?.();
     if(!t.closest('.commSchedulePopover') && !t.closest('.commScheduleBtn')) closeCommunicationsSchedule?.();
 });
-function hideCommInsight(minutes=10){document.getElementById('commInsight')?.classList.remove('show'); try{localStorage.setItem('pp_comm_snooze_until',String(Date.now()+minutes*60000))}catch(e){}}
+function hideCommInsight(minutes=30){document.getElementById('commInsight')?.classList.remove('show'); try{localStorage.setItem('pp_comm_snooze_until',String(Date.now()+minutes*60000))}catch(e){}}
 function scheduleCommInsight(){
   const box=document.getElementById('commInsight'); if(!box)return; const pending=getPendingComms(); if(!pending.length){box.classList.remove('show');return;}
   const snooze=Number(localStorage.getItem('pp_comm_snooze_until')||0); if(Date.now()<snooze)return;
-  const txt=pending.length===1?'1 comunicado aguarda leitura':pending.length+' comunicados aguardam leitura';
-  box.innerHTML=`<div class="commInsightIcon">📢</div><div style="flex:1"><div class="commInsightTitle">${txt}</div><div class="commInsightText">Leia para ciência e mantenha a portaria atualizada.</div><div class="commInsightActions"><button class="btn gold" onclick="openCommunicationsCenter();hideCommInsight(0)">Ler agora</button><button class="btn ghost" onclick="hideCommInsight(10)">Lembrar depois</button></div></div><button class="commInsightClose" onclick="hideCommInsight(10)" title="Fechar">×</button>`;
-  box.classList.add('show'); setTimeout(()=>hideCommInsight(10),7000);
+  const u=commCurrentUser();
+  let txt=pending.length===1?'1 comunicado aguarda leitura':pending.length+' comunicados aguardam leitura';
+  let detail='Leia para ciência e mantenha a portaria atualizada.';
+  if(isSharedPortariaUser(u)){
+    const people=new Map();
+    pending.forEach(c=>commSharedTeamStats(c).pending.forEach(p=>people.set(String(p.id||p.login),p)));
+    const n=people.size;
+    if(n){detail=`${n} pessoa${n>1?'s':''} da equipe ainda ${n>1?'precisam':'precisa'} confirmar ciência.`;}
+  }else if(isAdmin()){
+    const total=pending.reduce((n,c)=>n+commReadStatsFull(c).users.filter(x=>!commReadAtForUser(c,x)).length,0);
+    if(total)detail=`${total} confirmação${total>1?'ões':''} ainda pendente${total>1?'s':''}.`;
+  }
+  box.innerHTML=`<div class="commInsightIcon">📢</div><div style="flex:1"><div class="commInsightTitle">${txt}</div><div class="commInsightText">${detail}</div><div class="commInsightActions"><button class="btn gold" onclick="openCommunicationsCenter();hideCommInsight(0)">Ver comunicados</button><button class="btn ghost" onclick="hideCommInsight(30)">Lembrar em 30 min</button></div></div><button class="commInsightClose" onclick="hideCommInsight(30)" title="Fechar">×</button>`;
+  box.classList.add('show'); setTimeout(()=>hideCommInsight(30),9000);
 }
-setInterval(()=>{try{scheduleCommInsight();renderCommunications();}catch(e){}},600000);
+setInterval(()=>{try{scheduleCommInsight();renderCommunications();}catch(e){}},1800000);
 
 function renderAll(){
   safeRender(renderDashboard,'Resumo');
