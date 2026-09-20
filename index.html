@@ -8213,6 +8213,13 @@ body.skipSplash .appSplash{display:none!important}
 </head>
 <body class="splashing">
 <script>
+try{
+  if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches){
+    document.body.classList.add('mobileExperience');
+  }
+}catch(e){}
+</script>
+<script>
 (function(){
   function ppKeepLoginPasswordEmpty(){
     const p=document.getElementById('loginPass');
@@ -11361,7 +11368,7 @@ function opsContactsPanel(adm){
 }
 let ppResidentTowerMobile=null;
 const PP_TOWER_NAMES={1:'Azaleia',2:'Dália',3:'Gardênia',4:'Hortênsia'};
-function ppIsResidentsMobile(){return document.body.classList.contains('mobileExperience')&&window.matchMedia('(max-width:760px)').matches}
+function ppIsResidentsMobile(){return !!(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)}
 function openResidentTowerMobile(b){ppResidentTowerMobile=Number(b)||null;renderBlocks();try{document.getElementById('moradores')?.scrollIntoView({behavior:'smooth',block:'start'})}catch(e){}}
 function closeResidentTowerMobile(){ppResidentTowerMobile=null;renderBlocks()}
 function residentTowerStats(b){
