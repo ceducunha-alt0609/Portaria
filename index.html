@@ -327,6 +327,12 @@ body.splashing{overflow:hidden}
 .appSplash{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 78% 14%,rgba(243,210,122,.22),transparent 34%),linear-gradient(145deg,#071427,#0d1b2a 54%,#241b0d);color:#fff;transition:opacity .45s ease,visibility .45s ease;padding:24px}
 .appSplash.hide{opacity:0;visibility:hidden;pointer-events:none}
 body.skipSplash .appSplash{display:none!important}
+body.authPending .loginOverlay,
+body.authPending .app{
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
 body.splashing .loginOverlay{
   visibility:hidden!important;
   opacity:0!important;
@@ -8211,7 +8217,7 @@ body.skipSplash .appSplash{display:none!important}
 }
 </style>
 </head>
-<body class="splashing">
+<body class="splashing authPending">
 <script>
 try{
   if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches){
@@ -11704,7 +11710,7 @@ document.addEventListener('keydown',(ev)=>{
   }
 });
 
-function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill){pill.classList.remove('adminShield','portariaShield','hierarchyShield'); if(logged){const isAdm=u.perfil==='admin'; pill.classList.add('hierarchyShield',isAdm?'adminShield':'portariaShield'); pill.textContent='🛡️'; pill.title=(isAdm?'Administrador':'Portaria')+' • '+(u.nome||u.login); pill.setAttribute('aria-label',pill.title);}else{pill.textContent=''; pill.title='Não conectado'; pill.setAttribute('aria-label','Não conectado');}} document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.(); renderCommunications?.()}
+function applyPermissions(){const u=getCurrentUser(); const logged=!!u; document.getElementById('loginOverlay')?.classList.toggle('hide',logged); document.body.classList.remove('authPending'); document.body.classList.toggle('role-admin',logged&&u.perfil==='admin'); document.body.classList.toggle('role-portaria',logged&&u.perfil==='portaria'); const pill=document.getElementById('currentUserPill'); if(pill){pill.classList.remove('adminShield','portariaShield','hierarchyShield'); if(logged){const isAdm=u.perfil==='admin'; pill.classList.add('hierarchyShield',isAdm?'adminShield':'portariaShield'); pill.textContent='🛡️'; pill.title=(isAdm?'Administrador':'Portaria')+' • '+(u.nome||u.login); pill.setAttribute('aria-label',pill.title);}else{pill.textContent=''; pill.title='Não conectado'; pill.setAttribute('aria-label','Não conectado');}} document.querySelectorAll('.adminOnly').forEach(el=>{el.style.display=(logged&&u.perfil==='admin')?'':'none'}); const config=document.getElementById('configuracoes'); if(config&&config.classList.contains('active')&&!isAdmin())goTab('dashboard'); renderUsers?.(); updateTopbarClockGreeting?.(); updateKioskButton?.(); renderCommunications?.()}
 function loginUser(){const login=val('loginUser'), senha=val('loginPass'); const msg=document.getElementById('loginMsg'); const u=(state.users||[]).find(x=>x.login===login&&String(x.senha||'')===senha); if(!u){if(msg)msg.textContent='Usuário ou senha inválidos.';return;} if(u.ativo===false){if(msg)msg.textContent='Usuário inativo. Procure o administrador.';return;} sessionStorage.setItem('pp_current_user',u.login); u.lastAccessAt=new Date().toISOString(); try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){} const remember=document.getElementById('rememberLoginUser'); if(remember&&remember.checked){localStorage.setItem('pp_remember_user','1');localStorage.setItem('pp_saved_login',u.login)}else{localStorage.removeItem('pp_remember_user');localStorage.removeItem('pp_saved_login')} if(msg)msg.textContent=''; const pass=document.getElementById('loginPass'); if(pass)pass.value=''; applyPermissions(); renderAll(); maybeShowHelpTour();}
 function confirmLogoutUser(){
   openAppConfirm({
