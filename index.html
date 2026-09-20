@@ -11047,6 +11047,40 @@ function mergeDeletedAccessIds(local=[],remote=[]){
   [...(remote||[]),...(local||[])].forEach(d=>{if(!d)return; const id=typeof d==='string'?d:d.id; if(!id)return; const prev=map.get(id); const item=typeof d==='string'?{id,deletedAt:new Date().toISOString()}:d; if(!prev||new Date(item.deletedAt||0)>=new Date(prev.deletedAt||0))map.set(id,item);});
   return [...map.values()].sort((a,b)=>new Date(b.deletedAt||0)-new Date(a.deletedAt||0)).slice(0,800);
 }
+function mergeCommReads(a={},b={}){
+  const out={...(a||{})};
+  Object.entries(b||{}).forEach(([k,v])=>{
+    if(!out[k] || new Date(v||0).getTime()>=new Date(out[k]||0).getTime()) out[k]=v;
+  });
+  return out;
+}
+function mergeCommAudit(a=[],b=[]){
+  const map=new Map();
+  [...(a||[]),...(b||[])].forEach(item=>{
+    if(!item)return;
+    const key=item.id||[item.type,item.at,item.label,item.by].join('|');
+    if(!map.has(key))map.set(key,item);
+  });
+  return [...map.values()].sort((x,y)=>new Date(x?.at||0)-new Date(y?.at||0)).slice(-1200);
+}
+function mergeCommunicationsForSync(localArr=[],remoteArr=[],remoteIsPortaria=false){
+  const localMap=new Map((localArr||[]).filter(Boolean).map(c=>[String(c.id||''),c]));
+  const remoteMap=new Map((remoteArr||[]).filter(Boolean).map(c=>[String(c.id||''),c]));
+  const ids=new Set([...localMap.keys(),...remoteMap.keys()]);
+  const out=[];
+  ids.forEach(id=>{
+    const l=localMap.get(id), r=remoteMap.get(id);
+    if(!l){out.push(r);return;}
+    if(!r){out.push(l);return;}
+    // Se o snapshot remoto veio da portaria, ela contribui com leitura/auditoria,
+    // mas não sobrescreve o conteúdo/estado administrativo do comunicado.
+    const base=remoteIsPortaria?{...l}:{...l,...r};
+    base.reads=mergeCommReads(l.reads||l.readBy||{},r.reads||r.readBy||{});
+    base.audit=mergeCommAudit(l.audit||[],r.audit||[]);
+    out.push(base);
+  });
+  return out.sort((a,b)=>new Date(b?.createdAt||b?.publishedAt||0)-new Date(a?.createdAt||a?.publishedAt||0));
+}
 function mergeStatesForSync(localState,remoteState,remoteMeta={}){
   if(!remoteState||typeof remoteState!=='object')return localState;
   const merged={...localState};
@@ -11062,6 +11096,10 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
 
   // Logs: todos podem gerar; admin visualiza completo.
   merged.logs=mergeById(localState.logs||[],remoteState.logs||[],x=>new Date(x?.criadoEm||0).getTime()||0,1500);
+
+  // Comunicados: todos precisam receber. Portaria pode acrescentar leitura/auditoria,
+  // mas o conteúdo e o estado administrativo continuam sob autoridade do Admin.
+  merged.comunicados=mergeCommunicationsForSync(localState.comunicados||[],remoteState.comunicados||[],remoteIsPortaria);
 
   // Módulos administrativos: portaria nunca sobrepõe. Snapshot de portaria não manda autoridade sobre moradores/admin/config.
   if(!remoteIsPortaria){
