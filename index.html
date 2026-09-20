@@ -10992,21 +10992,48 @@ function mergeById(localArr=[],remoteArr=[],stampFn=(x)=>new Date(x?.criadoEm||x
   });
   return [...map.values()].sort((a,b)=>stampFn(b)-stampFn(a)).slice(0,limit);
 }
+function accessSyncSignature(a={}){
+  const norm=v=>String(v||'').trim().toLowerCase().replace(/\s+/g,' ');
+  const day=norm(a.data||accessDay(a)||'');
+  const time=norm(a.entradaHora||timeOnly(a.entrada)||'');
+  const who=norm(a.nome||'');
+  const dest=norm(a.destino||[a.bloco,a.apto].filter(Boolean).join(' '));
+  const doc=norm(a.doc||'');
+  return [day,time,who,dest,doc].join('|');
+}
 function mergeAccessesForSync(localArr=[],remoteArr=[],limit=2500){
-  const map=new Map();
+  const byId=new Map();
   [...(localArr||[]),...(remoteArr||[])].forEach(item=>{
     if(!item)return;
     const id=item.id||('sem-id-'+JSON.stringify(item).slice(0,80));
-    const prev=map.get(id);
-    if(!prev){map.set(id,item);return;}
+    const prev=byId.get(id);
+    if(!prev){byId.set(id,item);return;}
     const prevOut=!!prev.saida, itemOut=!!item.saida;
     if(prevOut!==itemOut){
-      map.set(id,itemOut?item:prev);
+      byId.set(id,itemOut?item:prev);
       return;
     }
-    map.set(id,getAccessStamp(item)>=getAccessStamp(prev)?item:prev);
+    byId.set(id,getAccessStamp(item)>=getAccessStamp(prev)?item:prev);
   });
-  return [...map.values()].sort((a,b)=>getAccessStamp(b)-getAccessStamp(a)).slice(0,limit);
+
+  const byLogicalVisit=new Map();
+  [...byId.values()].forEach(item=>{
+    const sig=accessSyncSignature(item);
+    if(!sig||sig==='||||'){
+      byLogicalVisit.set('id:'+String(item.id||Math.random()),item);
+      return;
+    }
+    const prev=byLogicalVisit.get(sig);
+    if(!prev){byLogicalVisit.set(sig,item);return;}
+    const prevOut=!!prev.saida, itemOut=!!item.saida;
+    if(prevOut!==itemOut){
+      byLogicalVisit.set(sig,itemOut?item:prev);
+      return;
+    }
+    byLogicalVisit.set(sig,getAccessStamp(item)>=getAccessStamp(prev)?item:prev);
+  });
+
+  return [...byLogicalVisit.values()].sort((a,b)=>getAccessStamp(b)-getAccessStamp(a)).slice(0,limit);
 }
 function mergeDeletedAccessIds(local=[],remote=[]){
   const map=new Map();
