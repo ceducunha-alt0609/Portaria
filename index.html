@@ -3973,6 +3973,80 @@ body.theme-dark .mobileAccessBody{border-top-color:rgba(216,184,92,.22)}
 
 
 
+
+/* v155 — Moradores mobile: 4 cards de torres com abertura por bloco */
+.residentTowerChooser,.residentTowerHead{display:none}
+@media(max-width:760px){
+  body.mobileExperience #moradores .moradoresPanels>.card:first-child{padding:12px!important;border-radius:17px!important}
+  body.mobileExperience #moradores .moradoresPanels>.card:first-child>.title{margin-bottom:10px!important}
+  body.mobileExperience #moradores .moradoresPanels>.card:first-child>.title h2{font-size:16px!important}
+  body.mobileExperience #moradores .blocks.mobileTowerMode{display:block!important}
+  body.mobileExperience #moradores .residentTowerChooser{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+  body.mobileExperience #moradores .residentTowerCard{
+    border:1px solid rgba(200,162,74,.28);
+    border-radius:17px;
+    background:linear-gradient(180deg,#fff,#f9fbfe);
+    color:var(--navy);
+    padding:14px 12px;
+    min-height:126px;
+    text-align:left;
+    font-family:inherit;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(13,27,42,.07);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:10px;
+  }
+  body.mobileExperience #moradores .residentTowerCard:active{transform:scale(.985)}
+  body.mobileExperience #moradores .residentTowerCardTop{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+  body.mobileExperience #moradores .residentTowerIcon{
+    width:38px;height:38px;border-radius:12px;
+    display:grid;place-items:center;
+    background:linear-gradient(145deg,#0d1b2a,#173654);
+    color:#f3d27a;font-size:18px;
+    border:1px solid rgba(200,162,74,.35);
+    flex:0 0 38px;
+  }
+  body.mobileExperience #moradores .residentTowerArrow{font-size:24px;line-height:1;color:#8a94a6}
+  body.mobileExperience #moradores .residentTowerName{font-size:15px;font-weight:900;line-height:1.2;color:var(--navy)}
+  body.mobileExperience #moradores .residentTowerBlock{font-size:9.5px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:#8a6a1f;margin-top:3px}
+  body.mobileExperience #moradores .residentTowerStats{font-size:10.5px;line-height:1.45;color:var(--muted)}
+  body.mobileExperience #moradores .residentTowerStats b{color:var(--navy)}
+  body.mobileExperience #moradores .residentTowerHead{
+    display:flex!important;align-items:center;gap:10px;margin-bottom:12px;
+  }
+  body.mobileExperience #moradores .residentTowerBack{
+    width:38px;height:38px;min-width:38px;border-radius:12px;
+    border:1px solid rgba(200,162,74,.32);
+    background:#fff;color:var(--navy);font-size:22px;font-weight:900;
+    display:grid;place-items:center;cursor:pointer;font-family:inherit;
+  }
+  body.mobileExperience #moradores .residentTowerHeadText{min-width:0}
+  body.mobileExperience #moradores .residentTowerHeadText b{display:block;font-size:16px;color:var(--navy)}
+  body.mobileExperience #moradores .residentTowerHeadText span{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+  body.mobileExperience #moradores .block.mobileSingleTower{display:block!important;padding:10px!important;border-radius:15px!important}
+  body.mobileExperience #moradores .block.mobileSingleTower h3{display:none!important}
+  body.mobileExperience #moradores .block.mobileSingleTower .aptGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+  body.mobileExperience #moradores .block.mobileSingleTower .apt{padding:11px 4px!important;border-radius:12px!important;font-size:14px!important}
+  body.mobileExperience #moradores .block.mobileSingleTower .apt small{font-size:8.8px!important;line-height:1.25!important}
+  body.theme-dark.mobileExperience #moradores .residentTowerCard{
+    background:linear-gradient(180deg,#121f31,#0e1827);
+    border-color:rgba(216,184,92,.26);
+  }
+  body.theme-dark.mobileExperience #moradores .residentTowerBack{
+    background:#111c2c;color:#edf2f7;border-color:rgba(216,184,92,.28);
+  }
+}
+@media(max-width:390px){
+  body.mobileExperience #moradores .residentTowerChooser{grid-template-columns:1fr 1fr}
+  body.mobileExperience #moradores .residentTowerCard{min-height:118px;padding:12px 10px}
+}
+
 /* v136.1 — Correção: Topbar e menu fixos durante rolagem */
 header.v55Header{
   position:fixed!important;
@@ -11285,12 +11359,50 @@ function opsContactsPanel(adm){
   const providerRows=prest.length?prest.map(p=>{const name=[p.categoria,p.empresa].filter(Boolean).join(' • ')||'Prestador'; const meta=[p.contato?('Contato: '+p.contato):'',p.plantao?('Plantão: '+p.plantao):'',p.obs||''].filter(Boolean).join(' • '); return opsContactRowHtml(name,p.telefone,meta,'blue')}).join(''):'<div class="opsEmpty">Cadastre administradora, jurídico e prestadores técnicos.</div>';
   return `<div class="opsInfoGrid"><div class="opsInfoPanel emergency"><div class="opsInfoHead"><h4>🚨 Contatos de emergência</h4></div><div class="opsContactList">${emergencyRows}</div></div><div class="opsInfoPanel contracts"><div class="opsInfoHead"><h4>🛠️ Prestadores e contratos</h4></div><div class="opsContactList">${providerRows}</div></div></div>`;
 }
+let ppResidentTowerMobile=null;
+const PP_TOWER_NAMES={1:'Azaleia',2:'Dália',3:'Gardênia',4:'Hortênsia'};
+function ppIsResidentsMobile(){return document.body.classList.contains('mobileExperience')&&window.matchMedia('(max-width:760px)').matches}
+function openResidentTowerMobile(b){ppResidentTowerMobile=Number(b)||null;renderBlocks();try{document.getElementById('moradores')?.scrollIntoView({behavior:'smooth',block:'start'})}catch(e){}}
+function closeResidentTowerMobile(){ppResidentTowerMobile=null;renderBlocks()}
+function residentTowerStats(b){
+  const bloco='Bloco '+b;
+  let residents=0,occupied=0;
+  aptos.forEach(ap=>{const u=getUnit(bloco,ap);const n=(u.people||[]).length;residents+=n;if(n)occupied++});
+  return {residents,occupied,total:aptos.length};
+}
 function renderBlocks(){
   const q=(document.getElementById('residentSearch')?.value||'').toLowerCase();
   const root=document.getElementById('blocks'); const adminSlot=document.getElementById('adminSlot');
   const adm=getAdmin();
   if(adminSlot){adminSlot.innerHTML=(!q||adminSearchText().includes(q))?adminQuickCard(adm):'';}
+  if(!root)return;
   root.innerHTML='';
+
+  if(ppIsResidentsMobile()&&!q){
+    root.classList.add('mobileTowerMode');
+    if(!ppResidentTowerMobile){
+      let chooser='<div class="residentTowerChooser">';
+      for(let b=1;b<=4;b++){
+        const s=residentTowerStats(b);
+        chooser+=`<button type="button" class="residentTowerCard" onclick="openResidentTowerMobile(${b})">
+          <div class="residentTowerCardTop"><span class="residentTowerIcon">▦</span><span class="residentTowerArrow">›</span></div>
+          <div><div class="residentTowerName">${PP_TOWER_NAMES[b]}</div><div class="residentTowerBlock">Bloco ${b}</div></div>
+          <div class="residentTowerStats"><b>${s.occupied}</b> de ${s.total} unidades cadastradas<br><b>${s.residents}</b> morador(es)</div>
+        </button>`;
+      }
+      root.innerHTML=chooser+'</div>';
+      return;
+    }
+
+    const b=ppResidentTowerMobile;
+    const bloco='Bloco '+b;
+    let html='';
+    aptos.forEach(ap=>{const u=getUnit(bloco,ap);const cls=(u.people?.length?'ok':'');html+=`<button class="apt ${cls}" onclick="openResidentModal('${unitId(bloco,ap)}')">${ap}<small>${u.people?.length||0} morador(es)</small></button>`});
+    root.innerHTML=`<div class="residentTowerHead"><button type="button" class="residentTowerBack" onclick="closeResidentTowerMobile()" aria-label="Voltar às torres">‹</button><div class="residentTowerHeadText"><b>${PP_TOWER_NAMES[b]}</b><span>Bloco ${b} • ${aptos.length} unidades</span></div></div><div class="card block b${b} mobileSingleTower"><div class="aptGrid">${html}</div></div>`;
+    return;
+  }
+
+  root.classList.remove('mobileTowerMode');
   for(let b=1;b<=4;b++){
     let bloco='Bloco '+b; let html='';
     aptos.forEach(ap=>{let u=getUnit(bloco,ap); let txt=(bloco+ap+u.fixo+(u.people||[]).map(p=>p.nome+p.cel+(p.vinculo||'')+(p.tipo||'')).join(' ')+(u.vehicles||[]).map(vehicleToText).join(' ')).toLowerCase(); if(q&&!txt.includes(q))return; let cls=(u.people?.length?'ok':''); html+=`<button class="apt ${cls}" onclick="openResidentModal('${unitId(bloco,ap)}')">${ap}<small>${u.people?.length||0} morador(es)</small></button>`});
