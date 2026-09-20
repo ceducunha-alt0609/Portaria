@@ -10993,13 +10993,19 @@ function mergeById(localArr=[],remoteArr=[],stampFn=(x)=>new Date(x?.criadoEm||x
   return [...map.values()].sort((a,b)=>stampFn(b)-stampFn(a)).slice(0,limit);
 }
 function accessSyncSignature(a={}){
-  const norm=v=>String(v||'').trim().toLowerCase().replace(/\s+/g,' ');
-  const day=norm(a.data||accessDay(a)||'');
-  const time=norm(a.entradaHora||timeOnly(a.entrada)||'');
+  const norm=v=>String(v||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase().trim()
+    .replace(/[^a-z0-9]+/g,' ')
+    .replace(/\s+/g,' ');
+  const day=String(a.data||accessDay(a)||'').slice(0,10);
+  const rawTime=String(a.entradaHora||timeOnly(a.entrada)||'').trim();
+  const m=rawTime.match(/(\d{1,2}):(\d{2})/);
+  const time=m?(String(m[1]).padStart(2,'0')+':'+m[2]):rawTime;
   const who=norm(a.nome||'');
-  const dest=norm(a.destino||[a.bloco,a.apto].filter(Boolean).join(' '));
-  const doc=norm(a.doc||'');
-  return [day,time,who,dest,doc].join('|');
+  // Para conciliação entre versões legadas, data + minuto + nome são a identidade mais estável.
+  // Destino/documento podem ter sido formatados de maneiras diferentes entre dispositivos.
+  return [day,time,who].join('|');
 }
 function mergeAccessesForSync(localArr=[],remoteArr=[],limit=2500){
   const byId=new Map();
