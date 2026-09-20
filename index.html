@@ -8225,15 +8225,15 @@ body.skipSplash .appSplash{display:none!important}
 body.ppRefreshing #ppBootOverlay{
   position:fixed;inset:0;z-index:5000;
   display:flex;align-items:center;justify-content:center;
-  background:rgba(6,27,49,.72);
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
+  background:rgba(6,27,49,.90);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
   color:#f7f8fb;
   opacity:1;
   transition:opacity .18s ease;
 }
 body.theme-light.ppRefreshing #ppBootOverlay{
-  background:rgba(244,247,251,.78);
+  background:rgba(244,247,251,.92);
   color:#17324f;
 }
 #ppBootOverlay.ppDone{opacity:0;pointer-events:none}
@@ -12819,9 +12819,33 @@ function restoreUiState(){
     const savedTab=sessionStorage.getItem(PP_UI_STATE_TAB_KEY)||localStorage.getItem(PP_UI_STATE_TAB_KEY)||'dashboard';
     const target=document.getElementById(savedTab)?savedTab:'dashboard';
     if(typeof goTab==='function')goTab(target,{silent:true});
-    const y=parseInt(sessionStorage.getItem(PP_UI_STATE_SCROLL_KEY)||'0',10)||0;
-    if(y>0)setTimeout(()=>window.scrollTo({top:y,left:0,behavior:'auto'}),120);
-  }catch(e){}
+    window.__ppRestoreScrollY=parseInt(sessionStorage.getItem(PP_UI_STATE_SCROLL_KEY)||'0',10)||0;
+  }catch(e){window.__ppRestoreScrollY=0}
+}
+function ppFinalizeRefreshLayout(){
+  const finish=()=>{
+    const y=Number(window.__ppRestoreScrollY||0);
+    try{window.adjustMobileTopOffset?.()}catch(e){}
+    try{window.scrollTo({top:y,left:0,behavior:'auto'})}catch(e){}
+    requestAnimationFrame(()=>{
+      try{window.adjustMobileTopOffset?.()}catch(e){}
+      try{window.scrollTo({top:y,left:0,behavior:'auto'})}catch(e){}
+      setTimeout(()=>{
+        try{window.adjustMobileTopOffset?.()}catch(e){}
+        try{window.scrollTo({top:y,left:0,behavior:'auto'})}catch(e){}
+        const ov=document.getElementById('ppBootOverlay');
+        if(ov&&document.body.classList.contains('ppRefreshing')){
+          ov.classList.add('ppDone');
+          setTimeout(()=>{
+            document.body.classList.remove('ppRefreshing');
+            ov.classList.remove('ppDone');
+          },190);
+        }
+      },50);
+    });
+  };
+  try{window.applyMobileExperience?.()}catch(e){}
+  requestAnimationFrame(()=>requestAnimationFrame(finish));
 }
 window.addEventListener('beforeunload',saveUiState);
 window.addEventListener('pagehide',saveUiState);
@@ -13627,7 +13651,7 @@ initCloud();
 initInputMasks();
 initDocumentModal();
 initLoginPreferences();
-ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();applyAdminAccordionMemory?.();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();requestAnimationFrame(()=>requestAnimationFrame(()=>{const ov=document.getElementById('ppBootOverlay');if(ov&&document.body.classList.contains('ppRefreshing')){ov.classList.add('ppDone');setTimeout(()=>{document.body.classList.remove('ppRefreshing');ov.classList.remove('ppDone')},190)}}));setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
+ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();applyAdminAccordionMemory?.();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();ppFinalizeRefreshLayout?.();setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
 
 function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen_v154','1')}catch(e){} const sp=document.getElementById('appSplash'); const login=document.getElementById('loginOverlay'); const logged=!!(typeof getCurrentUser==='function'&&getCurrentUser()); if(login&&!logged&&!login.classList.contains('hide'))login.classList.add('ppLoginReveal'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); requestAnimationFrame(()=>document.body.classList.remove('splashing')); setTimeout(()=>sp.remove(),460)}
 window.addEventListener('load',()=>{if(document.body.classList.contains('skipSplash'))return; setTimeout(()=>{const s=document.getElementById('ppSplashStatus'); if(s)s.textContent='QUASE PRONTO...';},1120); setTimeout(hideAppSplash,1560);});
@@ -13732,8 +13756,8 @@ try{updateTopbarClockGreeting();}catch(e){}
       const active = document.querySelector('.tab.active')?.dataset?.tab || '';
       if(['acessos','relatorios','configuracoes'].includes(active)) goTab('dashboard');
     }
-    setTimeout(()=>{ try{ window.adjustMobileTopOffset(); }catch(e){} }, 0);
-    setTimeout(()=>{ try{ window.adjustMobileTopOffset(); }catch(e){} }, 120);
+    try{ window.adjustMobileTopOffset(); }catch(e){}
+    requestAnimationFrame(()=>{ try{ window.adjustMobileTopOffset(); }catch(e){} });
   };
 
   const oldRenderDashboard = window.renderDashboard;
