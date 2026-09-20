@@ -7505,6 +7505,47 @@ body.mobileExperience .tab[data-tab="moradores"]{
   }
 }
 
+
+/* v152 — Login: corrige autofill do navegador e mantém tema escuro */
+#loginUser,
+#loginPass{
+  background:#0b1220!important;
+  color:#f8fafc!important;
+  border-color:rgba(216,184,92,.34)!important;
+  -webkit-text-fill-color:#f8fafc!important;
+  caret-color:#f8fafc!important;
+}
+#loginUser:-webkit-autofill,
+#loginUser:-webkit-autofill:hover,
+#loginUser:-webkit-autofill:focus,
+#loginPass:-webkit-autofill,
+#loginPass:-webkit-autofill:hover,
+#loginPass:-webkit-autofill:focus{
+  -webkit-text-fill-color:#f8fafc!important;
+  -webkit-box-shadow:0 0 0 1000px #0b1220 inset!important;
+  box-shadow:0 0 0 1000px #0b1220 inset!important;
+  border:1px solid rgba(216,184,92,.34)!important;
+  caret-color:#f8fafc!important;
+  transition:background-color 9999s ease-out 0s!important;
+}
+#loginPass[readonly]{
+  cursor:text;
+  opacity:1!important;
+}
+body.theme-light #loginUser,
+body.theme-light #loginPass{
+  background:#fff!important;
+  color:#142033!important;
+  -webkit-text-fill-color:#142033!important;
+  border-color:#d7dee9!important;
+}
+body.theme-light #loginUser:-webkit-autofill,
+body.theme-light #loginPass:-webkit-autofill{
+  -webkit-text-fill-color:#142033!important;
+  -webkit-box-shadow:0 0 0 1000px #fff inset!important;
+  box-shadow:0 0 0 1000px #fff inset!important;
+}
+
 </style>
 <style>
 /* v151 — Atalho mobile para Histórico de acessos no Resumo */
@@ -8059,7 +8100,7 @@ body.theme-dark .mobileStayTime.critical{background:rgba(204,51,68,.14);color:#f
       <h2>Portaria Primavera</h2>
       <p>Entre com seu usuário para liberar as funções conforme o perfil: Portaria ou Admin.</p>
       <label>Usuário</label><input id="loginUser" autocomplete="off" autocapitalize="none" spellcheck="false">
-      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
+      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="new-password" readonly aria-readonly="false" data-lpignore="true" data-1p-ignore="true" onfocus="this.removeAttribute('readonly');this.value='';" onpointerdown="this.removeAttribute('readonly');this.value='';" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
       <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
       <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
       <button type="button" class="loginRecoverBtn" onclick="openPasswordRecovery()">Esqueci minha senha</button>
@@ -11775,9 +11816,22 @@ function toggleLoginPassword(){
   pass.type=showing?'password':'text';
   if(btn){btn.textContent=showing?'👁':'🙈';btn.title=showing?'Mostrar senha':'Ocultar senha';btn.setAttribute('aria-label',btn.title)}
 }
+
+function clearLoginPasswordAutofill(){
+  const p=document.getElementById('loginPass');
+  if(!p)return;
+  p.value='';
+  p.setAttribute('value','');
+  p.setAttribute('readonly','readonly');
+  p.setAttribute('autocomplete','new-password');
+  const btn=document.getElementById('loginEyeBtn');
+  if(btn){btn.textContent='👁';btn.title='Mostrar senha';btn.setAttribute('aria-label','Mostrar senha');}
+  p.type='password';
+}
 function initLoginPreferences(){
   const input=document.getElementById('loginUser');
   const pass=document.getElementById('loginPass');
+  clearLoginPasswordAutofill();
   const remember=document.getElementById('rememberLoginUser');
   const saved=localStorage.getItem('pp_saved_login')||'';
   const enabled=localStorage.getItem('pp_remember_user')==='1'&&!!saved;
@@ -11789,7 +11843,7 @@ function initLoginPreferences(){
   if(remember)remember.checked=enabled;
 }
 
-window.addEventListener('pageshow',()=>{const p=document.getElementById('loginPass');if(p){p.value='';p.setAttribute('value','');}});
+window.addEventListener('pageshow',()=>clearLoginPasswordAutofill());
 function safeRender(fn,name){try{fn()}catch(e){console.error('Erro ao renderizar '+name,e)}}
 
 
@@ -13316,7 +13370,7 @@ setTimeout(hideAppSplash,2600);
 // PWA oficial — manifest.webmanifest + sw.js
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Falha ao registrar Service Worker', err));
+    navigator.serviceWorker.register('./sw.js?v=152',{updateViaCache:'none'}).then(reg=>reg.update()).catch(err => console.warn('Falha ao registrar Service Worker', err));
   });
 }
 
