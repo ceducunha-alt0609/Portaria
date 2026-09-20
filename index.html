@@ -8223,6 +8223,12 @@ body.skipSplash .appSplash{display:none!important}
 <body class="splashing authPending">
 <script>
 try{
+  const savedTheme=localStorage.getItem('pp_local_theme_v1')||'auto';
+  const resolvedTheme=(savedTheme==='dark'||savedTheme==='light')
+    ? savedTheme
+    : ((new Date().getHours()>=18||new Date().getHours()<6)?'dark':'light');
+  document.body.classList.add(resolvedTheme==='dark'?'theme-dark':'theme-light');
+  document.documentElement.style.colorScheme=resolvedTheme;
   if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches){
     document.body.classList.add('mobileExperience');
   }
