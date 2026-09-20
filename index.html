@@ -8943,6 +8943,8 @@ let cloudReady=false;
 let syncTimer=null;
 let syncPushTimer=null;
 let syncInProgress=false;
+let syncPendingPushReason='';
+let syncPendingPull=false;
 let syncRealtimeChannel=null;
 let syncRealtimeReady=false;
 let lastRealtimeEventAt=0;
@@ -11074,13 +11076,20 @@ function setupCloudRealtimeSync(){
 }
 function queueCloudSyncPush(reason='alteracao'){
   if(!cloudReady||!supabaseClient)return;
+  syncPendingPushReason=reason||syncPendingPushReason||'alteracao';
   clearTimeout(syncPushTimer);
-  syncPushTimer=setTimeout(()=>cloudSyncPush(reason),CLOUD_SYNC_DEBOUNCE_MS);
+  syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||reason||'alteracao'),CLOUD_SYNC_DEBOUNCE_MS);
 }
 async function cloudSyncPush(reason='alteracao'){
-  if(!cloudReady||!supabaseClient||syncInProgress)return false;
+  if(!cloudReady||!supabaseClient)return false;
+  if(syncInProgress){
+    syncPendingPushReason=reason||syncPendingPushReason||'alteracao';
+    clearTimeout(syncPushTimer);
+    syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||'alteracao'),900);
+    return false;
+  }
   try{
-    syncInProgress=true; updateSyncButtonStatus?.('syncing');
+    syncInProgress=true; syncPendingPushReason=''; updateSyncButtonStatus?.('syncing');
     const op=currentOperator();
     const desc='Sync '+new Date().toLocaleString('pt-BR')+' • '+(op.nome||op.login||'sem usuário')+' • '+reason;
     const {data,error}=await supabaseClient.from('snapshots').insert({descricao:desc,dados:cloudSnapshotPayload('sync')}).select('id').single();
@@ -11090,12 +11099,26 @@ async function cloudSyncPush(reason='alteracao'){
     setCloudStatus((syncRealtimeReady?'☁️ Sync em tempo real ativo. Último envio: ':'☁️ Sync ativo. Último envio: ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     return true;
   }catch(e){console.warn('Falha no sync push',e);setCloudStatus('☁️ Sync pendente. Dados locais preservados.');return false;}
-  finally{syncInProgress=false; refreshSyncCenterStatus?.();}
+  finally{
+    syncInProgress=false;
+    refreshSyncCenterStatus?.();
+    if(syncPendingPushReason){
+      clearTimeout(syncPushTimer);
+      syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||'alteracao'),350);
+    }else if(syncPendingPull){
+      syncPendingPull=false;
+      setTimeout(()=>cloudSyncPullLatest(true),350);
+    }
+  }
 }
 async function cloudSyncPullLatest(silent=false){
-  if(!cloudReady||!supabaseClient||syncInProgress)return false;
+  if(!cloudReady||!supabaseClient)return false;
+  if(syncInProgress){
+    syncPendingPull=true;
+    return false;
+  }
   try{
-    syncInProgress=true; updateSyncButtonStatus?.('syncing');
+    syncInProgress=true; syncPendingPull=false; updateSyncButtonStatus?.('syncing');
     const {data,error}=await supabaseClient.from('snapshots').select('id,descricao,dados,criado_em').order('criado_em',{ascending:false}).limit(1);
     if(error)throw error;
     if(!data||!data.length)return false;
@@ -11120,7 +11143,17 @@ async function cloudSyncPullLatest(silent=false){
     setCloudStatus((syncRealtimeReady?'☁️ Sync em tempo real ativo. Atualizado às ':'☁️ Sync ativo. Atualizado às ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     return true;
   }catch(e){console.warn('Falha no sync pull',e); if(!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.'); return false;}
-  finally{syncInProgress=false; refreshSyncCenterStatus?.();}
+  finally{
+    syncInProgress=false;
+    refreshSyncCenterStatus?.();
+    if(syncPendingPushReason){
+      clearTimeout(syncPushTimer);
+      syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||'alteracao'),350);
+    }else if(syncPendingPull){
+      syncPendingPull=false;
+      setTimeout(()=>cloudSyncPullLatest(true),350);
+    }
+  }
 }
 function atualizarDaNuvemAgora(){cloudSyncPullLatest(false).then(ok=>{showCloudToast(ok?'Dados atualizados pela nuvem.':'Nenhuma atualização nova encontrada.','ok',3500); refreshBackupCenterStatus?.();})}
 
@@ -11176,6 +11209,9 @@ async function forceSyncNow(){
   showCloudToast?.((pushed||pulled)?'Sincronização concluída ✅':'Nenhuma atualização nova encontrada.','ok',4000);
 }
 window.addEventListener('online',()=>{showCloudToast?.('Conexão restabelecida. Sincronizando...','ok',3500); queueCloudSyncPush?.('retorno-online'); setTimeout(()=>cloudSyncPullLatest?.(true),1200); refreshSyncCenterStatus();});
+window.addEventListener('focus',()=>{setTimeout(()=>cloudSyncPullLatest?.(true),180);});
+window.addEventListener('pageshow',()=>{setTimeout(()=>cloudSyncPullLatest?.(true),220);});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(()=>cloudSyncPullLatest?.(true),180);});
 window.addEventListener('offline',()=>{showCloudToast?.('Você está offline. Dados locais preservados.','err',5000); refreshSyncCenterStatus();});
 setInterval(()=>refreshSyncCenterStatus(),15000);
 
