@@ -327,6 +327,9 @@ body.splashing{overflow:hidden}
 .appSplash{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 78% 14%,rgba(243,210,122,.22),transparent 34%),linear-gradient(145deg,#071427,#0d1b2a 54%,#241b0d);color:#fff;transition:opacity .45s ease,visibility .45s ease;padding:24px}
 .appSplash.hide{opacity:0;visibility:hidden;pointer-events:none}
 body.skipSplash .appSplash{display:none!important}
+body.authPending{
+  background:#061b31!important;
+}
 body.authPending .loginOverlay,
 body.authPending .app{
   visibility:hidden!important;
