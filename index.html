@@ -8219,6 +8219,46 @@ body.skipSplash .appSplash{display:none!important}
   }
 }
 </style>
+<style id="ppRefreshCritical">
+/* v180 — inicialização consolidada: refresh sem estados intermediários visíveis */
+#ppBootOverlay{display:none}
+body.ppRefreshing #ppBootOverlay{
+  position:fixed;inset:0;z-index:5000;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(6,27,49,.72);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  color:#f7f8fb;
+  opacity:1;
+  transition:opacity .18s ease;
+}
+body.theme-light.ppRefreshing #ppBootOverlay{
+  background:rgba(244,247,251,.78);
+  color:#17324f;
+}
+#ppBootOverlay.ppDone{opacity:0;pointer-events:none}
+.ppBootBox{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 14px;border-radius:999px;
+  background:rgba(7,17,29,.74);
+  border:1px solid rgba(216,184,92,.32);
+  box-shadow:0 10px 28px rgba(0,0,0,.20);
+  font-size:12px;font-weight:900;letter-spacing:.02em;
+}
+body.theme-light .ppBootBox{
+  background:rgba(255,255,255,.94);
+  border-color:rgba(163,128,37,.28);
+  box-shadow:0 10px 28px rgba(13,27,42,.12);
+}
+.ppBootSpinner{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(216,184,92,.28);
+  border-top-color:#d8b85c;
+  animation:ppBootSpin .7s linear infinite;
+}
+@keyframes ppBootSpin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.ppBootSpinner{animation:none}}
+</style>
 </head>
 <body class="splashing authPending">
 <script>
@@ -8232,8 +8272,15 @@ try{
   if(window.matchMedia&&window.matchMedia('(max-width:760px)').matches){
     document.body.classList.add('mobileExperience');
   }
+  if(sessionStorage.getItem('pp_splash_seen_v154')==='1'){
+    document.body.classList.add('skipSplash','ppRefreshing');
+    document.body.classList.remove('splashing');
+  }
 }catch(e){}
 </script>
+<div id="ppBootOverlay" aria-live="polite" aria-label="Atualizando aplicação">
+  <div class="ppBootBox"><span class="ppBootSpinner" aria-hidden="true"></span><span>Atualizando…</span></div>
+</div>
 <script>
 (function(){
   function ppKeepLoginPasswordEmpty(){
@@ -11381,11 +11428,11 @@ function opsContactsPanel(adm){
   const providerRows=prest.length?prest.map(p=>{const name=[p.categoria,p.empresa].filter(Boolean).join(' • ')||'Prestador'; const meta=[p.contato?('Contato: '+p.contato):'',p.plantao?('Plantão: '+p.plantao):'',p.obs||''].filter(Boolean).join(' • '); return opsContactRowHtml(name,p.telefone,meta,'blue')}).join(''):'<div class="opsEmpty">Cadastre administradora, jurídico e prestadores técnicos.</div>';
   return `<div class="opsInfoGrid"><div class="opsInfoPanel emergency"><div class="opsInfoHead"><h4>🚨 Contatos de emergência</h4></div><div class="opsContactList">${emergencyRows}</div></div><div class="opsInfoPanel contracts"><div class="opsInfoHead"><h4>🛠️ Prestadores e contratos</h4></div><div class="opsContactList">${providerRows}</div></div></div>`;
 }
-let ppResidentTowerMobile=null;
+let ppResidentTowerMobile=(()=>{try{const v=parseInt(sessionStorage.getItem('pp_resident_tower')||'',10);return (v>=1&&v<=4)?v:null}catch(e){return null}})();
 const PP_TOWER_NAMES={1:'Azaleia',2:'Dália',3:'Gardênia',4:'Hortênsia'};
 function ppIsResidentsMobile(){return !!(window.matchMedia&&window.matchMedia('(max-width:760px)').matches)}
-function openResidentTowerMobile(b){ppResidentTowerMobile=Number(b)||null;renderBlocks();try{document.getElementById('moradores')?.scrollIntoView({behavior:'smooth',block:'start'})}catch(e){}}
-function closeResidentTowerMobile(){ppResidentTowerMobile=null;renderBlocks()}
+function openResidentTowerMobile(b){ppResidentTowerMobile=Number(b)||null;try{if(ppResidentTowerMobile)sessionStorage.setItem('pp_resident_tower',String(ppResidentTowerMobile))}catch(e){}renderBlocks();try{document.getElementById('moradores')?.scrollIntoView({behavior:'smooth',block:'start'})}catch(e){}}
+function closeResidentTowerMobile(){ppResidentTowerMobile=null;try{sessionStorage.removeItem('pp_resident_tower')}catch(e){}renderBlocks()}
 function residentTowerStats(b){
   const bloco='Bloco '+b;
   let residents=0,occupied=0;
@@ -13580,7 +13627,7 @@ initCloud();
 initInputMasks();
 initDocumentModal();
 initLoginPreferences();
-ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();applyAdminAccordionMemory?.();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
+ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();applyAdminAccordionMemory?.();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();requestAnimationFrame(()=>requestAnimationFrame(()=>{const ov=document.getElementById('ppBootOverlay');if(ov&&document.body.classList.contains('ppRefreshing')){ov.classList.add('ppDone');setTimeout(()=>{document.body.classList.remove('ppRefreshing');ov.classList.remove('ppDone')},190)}}));setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
 
 function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen_v154','1')}catch(e){} const sp=document.getElementById('appSplash'); const login=document.getElementById('loginOverlay'); const logged=!!(typeof getCurrentUser==='function'&&getCurrentUser()); if(login&&!logged&&!login.classList.contains('hide'))login.classList.add('ppLoginReveal'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); requestAnimationFrame(()=>document.body.classList.remove('splashing')); setTimeout(()=>sp.remove(),460)}
 window.addEventListener('load',()=>{if(document.body.classList.contains('skipSplash'))return; setTimeout(()=>{const s=document.getElementById('ppSplashStatus'); if(s)s.textContent='QUASE PRONTO...';},1120); setTimeout(hideAppSplash,1560);});
