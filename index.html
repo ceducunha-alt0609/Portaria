@@ -8163,7 +8163,7 @@ body.skipSplash .appSplash{display:none!important}
     </div>
   </div>
 
-<script>try{if(sessionStorage.getItem('pp_splash_seen')==='1'){document.body.classList.add('skipSplash');document.body.classList.remove('splashing');}}catch(e){}</script>
+<script>try{if(sessionStorage.getItem('pp_splash_seen_v153')==='1'){document.body.classList.add('skipSplash');document.body.classList.remove('splashing');}}catch(e){}</script>
   <!-- v107 — Toast de feedback do backup cloud -->
   <div id="cloudToast" role="status" aria-live="polite" aria-atomic="true">
     <span class="toastIcon" id="cloudToastIcon"></span>
@@ -13407,7 +13407,7 @@ initDocumentModal();
 initLoginPreferences();
 ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();applyAdminAccordionMemory?.();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
 
-function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen','1')}catch(e){} const sp=document.getElementById('appSplash'); const login=document.getElementById('loginOverlay'); if(login&&!login.classList.contains('hide'))login.classList.add('ppLoginReveal'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); document.body.classList.remove('splashing'); setTimeout(()=>sp.remove(),460)}
+function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen_v153','1')}catch(e){} const sp=document.getElementById('appSplash'); const login=document.getElementById('loginOverlay'); if(login&&!login.classList.contains('hide'))login.classList.add('ppLoginReveal'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); document.body.classList.remove('splashing'); setTimeout(()=>sp.remove(),460)}
 window.addEventListener('load',()=>{if(document.body.classList.contains('skipSplash'))return; setTimeout(()=>{const s=document.getElementById('ppSplashStatus'); if(s)s.textContent='QUASE PRONTO...';},1120); setTimeout(hideAppSplash,1560);});
 setInterval(()=>{promoteDueScheduledCommunications?.(); renderCommunications?.();},60000);
 setTimeout(()=>{if(!document.body.classList.contains('skipSplash')){const s=document.getElementById('ppSplashStatus'); if(s)s.textContent='QUASE PRONTO...';}},1120); setTimeout(hideAppSplash,2200);
