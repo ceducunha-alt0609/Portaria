@@ -4978,6 +4978,30 @@ body:not(.role-admin) .commScheduleBtn{display:none!important}
   gap:12px!important;
   margin-top:4px!important;
 }
+.commReadAck{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  border:1px solid rgba(66,211,146,.30)!important;
+  background:linear-gradient(180deg,rgba(66,211,146,.10),rgba(66,211,146,.05))!important;
+  border-radius:15px!important;
+  padding:11px 12px!important;
+}
+.commReadAckText b{display:block!important;color:#76e0ad!important;font-size:12px!important}
+.commReadAckText small{display:block!important;color:#a7b0c0!important;font-size:10px!important;margin-top:3px!important;line-height:1.35!important}
+.commReadAckBtn{
+  border:0!important;border-radius:12px!important;padding:10px 14px!important;
+  font-weight:900!important;font-family:inherit!important;cursor:pointer!important;
+  background:linear-gradient(180deg,#2fbf83,#239e6c)!important;color:white!important;
+  white-space:nowrap!important;
+}
+.commReadAck.done{border-color:rgba(66,211,146,.18)!important;background:rgba(66,211,146,.06)!important}
+.commReadAck.done .commReadAckText b{color:#76e0ad!important}
+@media(max-width:620px){
+  .commReadAck{align-items:stretch!important;flex-direction:column!important}
+  .commReadAckBtn{width:100%!important}
+}
 .commReadSummary{
   display:grid!important;
   grid-template-columns:repeat(3,minmax(0,1fr))!important;
@@ -13382,10 +13406,18 @@ function saveCommunication(){
 }
 function markCommunicationRead(id){
   ensureCommunications(); const c=state.comunicados.find(x=>x.id===id); const u=commCurrentUser(); if(!c||!u)return;
-  const k=commUserKey(u); c.reads[k]=commNowISO();
+  const k=commUserKey(u);
+  if(c.reads&&c.reads[k])return;
+  c.reads=c.reads||{};
+  c.reads[k]=commNowISO();
   commAudit(c,'read',`Lido por ${u.nome||u.login}`,'👁️','Ciência registrada');
   addLog?.('Leu comunicado',`${c.title} • ${u.nome||u.login}`,'comunicado');
-  save('leitura-comunicado'); renderCommunications();
+  save('leitura-comunicado');
+  renderCommunications();
+}
+function markCommunicationReadAndRefresh(id){
+  markCommunicationRead(id);
+  setTimeout(()=>viewCommunication(id),120);
 }
 function archiveCommunication(id){
   if(!canManageCommunications?.())return;
@@ -13703,6 +13735,13 @@ function renderCommunicationReadPanel(c){
   }).join('');
   const extra=c.archived?`<div class="commReadSummaryCard"><b>Arquivado em</b><span>${escapeHtml(archived)}</span></div>`:
     (c.scheduled?`<div class="commReadSummaryCard"><b>Programado para</b><span>${escapeHtml(scheduled)}</span></div>`:'');
+  const current=commCurrentUser?.();
+  const currentPending=!!(current && isCommForUser(c,current) && !commReadAtForUser(c,current));
+  const currentReadAt=current?commReadAtForUser(c,current):'';
+  const safeId=String(c.id||'').replace(/'/g,'&#39;');
+  const ack=currentPending
+    ? `<div class="commReadAck"><div class="commReadAckText"><b>Este comunicado aguarda sua ciência</b><small>Confirme abaixo depois de ler a mensagem.</small></div><button class="commReadAckBtn" onclick="markCommunicationReadAndRefresh('${safeId}')">✅ Li e estou ciente</button></div>`
+    : (currentReadAt?`<div class="commReadAck done"><div class="commReadAckText"><b>✓ Ciência confirmada</b><small>${escapeHtml(formatDateTimeBR(currentReadAt))}</small></div></div>`:'');
   return `<div class="commReadPanel">
     <div class="commReadSummary">
       <div class="commReadSummaryCard"><b>Publicado por</b><span>${escapeHtml(c.createdBy||'Admin')}</span></div>
@@ -13711,6 +13750,7 @@ function renderCommunicationReadPanel(c){
       ${extra}
     </div>
     <div class="commReadMessage"><b>${escapeHtml(commTypeLabel(c.type||'aviso'))} • ${escapeHtml(commTargetLabel(c.target||'all'))}</b><br><br>${escapeHtml(c.message||'Sem mensagem.')}</div>
+    ${ack}
     <div class="commReadUsers">
       <div class="commReadUsersHead"><b>✅ Painel de ciência</b><small>${stats.total?Math.round((stats.readCount/stats.total)*100):0}% lido</small></div>
       <div class="commReadFilterBar">
