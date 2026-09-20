@@ -10188,11 +10188,12 @@ function renderDashboard(){
   const inside=accesses.filter(a=>!a.saida).length;
   const todayCount=accesses.filter(a=>accessDay(a)===today).length;
   const salaos=getOperationalEvents('salao'), mudancas=getOperationalEvents('mudanca');
-  const salaosHoje=salaos.filter(e=>String(e.data||'')===today), mudancasHoje=mudancas.filter(e=>String(e.data||'')===today);
+  const salaosAtivos=salaos.filter(e=>String(e.data||'')>=today), mudancasAtivas=mudancas.filter(e=>String(e.data||'')>=today);
+  const salaosHoje=salaosAtivos.filter(e=>String(e.data||'')===today), mudancasHoje=mudancasAtivas.filter(e=>String(e.data||'')===today);
   const tomorrowDate=new Date(); tomorrowDate.setDate(tomorrowDate.getDate()+1); const tomorrow=[tomorrowDate.getFullYear(),String(tomorrowDate.getMonth()+1).padStart(2,'0'),String(tomorrowDate.getDate()).padStart(2,'0')].join('-');
-  const salaosAmanha=salaos.filter(e=>String(e.data||'')===tomorrow), mudancasAmanha=mudancas.filter(e=>String(e.data||'')===tomorrow);
+  const salaosAmanha=salaosAtivos.filter(e=>String(e.data||'')===tomorrow), mudancasAmanha=mudancasAtivas.filter(e=>String(e.data||'')===tomorrow);
   const setTxt=(id,txt)=>{const el=document.getElementById(id); if(el)el.textContent=txt;};
-  setTxt('mInside',inside); setTxt('mToday',todayCount); setTxt('mSalao',salaos.length); setTxt('mMudanca',mudancas.length);
+  setTxt('mInside',inside); setTxt('mToday',todayCount); setTxt('mSalao',salaosAtivos.length); setTxt('mMudanca',mudancasAtivas.length);
   const sNext=nextOperationalEvent('salao'), mNext=nextOperationalEvent('mudanca');
   const insideOpen=accesses.filter(a=>!a.saida); const maxInsideMins=insideOpen.reduce((m,a)=>Math.max(m,elapsedMinutes(a)),0); const maxInsideHours=Math.floor(maxInsideMins/60);
   const insideTag=document.getElementById('mInsideTag'); if(insideTag){insideTag.textContent=inside>0?(maxInsideMins>=60?`⚠️ ${maxInsideHours}h+ aguardando saída`:'⚠️ aguardando saída'):'sem saída registrada'; insideTag.classList.toggle('todayAlert',inside>0);}
@@ -11374,7 +11375,7 @@ function dateOnly(iso){return iso?new Date(iso).toISOString().slice(0,10):''}fun
 function ensureOperational(){ if(!state.operational) state.operational=[]; }
 function monthKey(d=new Date()){ return d.toISOString().slice(0,7); }
 function getOperationalEvents(tipo){ ensureOperational(); const mk=monthKey(); return state.operational.filter(e=>e.tipo===tipo && String(e.data||'').slice(0,7)===mk).sort((a,b)=>String(a.data).localeCompare(String(b.data))); }
-function nextOperationalEvent(tipo){ const today=new Date().toISOString().slice(0,10); return getOperationalEvents(tipo).find(e=>String(e.data||'')>=today) || getOperationalEvents(tipo)[0]; }
+function nextOperationalEvent(tipo){ const today=new Date().toISOString().slice(0,10); return getOperationalEvents(tipo).find(e=>String(e.data||'')>=today) || null; }
 function opTypeLabel(tipo){ return tipo==='mudanca'?'Mudança':'Salão'; }
 function openAgendaUnitPicker(){renderAgendaUnitPicker();document.getElementById('agendaUnitPickerModal')?.classList.add('show')}
 function closeAgendaUnitPicker(){document.getElementById('agendaUnitPickerModal')?.classList.remove('show')}
