@@ -10992,6 +10992,22 @@ function mergeById(localArr=[],remoteArr=[],stampFn=(x)=>new Date(x?.criadoEm||x
   });
   return [...map.values()].sort((a,b)=>stampFn(b)-stampFn(a)).slice(0,limit);
 }
+function mergeAccessesForSync(localArr=[],remoteArr=[],limit=2500){
+  const map=new Map();
+  [...(localArr||[]),...(remoteArr||[])].forEach(item=>{
+    if(!item)return;
+    const id=item.id||('sem-id-'+JSON.stringify(item).slice(0,80));
+    const prev=map.get(id);
+    if(!prev){map.set(id,item);return;}
+    const prevOut=!!prev.saida, itemOut=!!item.saida;
+    if(prevOut!==itemOut){
+      map.set(id,itemOut?item:prev);
+      return;
+    }
+    map.set(id,getAccessStamp(item)>=getAccessStamp(prev)?item:prev);
+  });
+  return [...map.values()].sort((a,b)=>getAccessStamp(b)-getAccessStamp(a)).slice(0,limit);
+}
 function mergeDeletedAccessIds(local=[],remote=[]){
   const map=new Map();
   [...(remote||[]),...(local||[])].forEach(d=>{if(!d)return; const id=typeof d==='string'?d:d.id; if(!id)return; const prev=map.get(id); const item=typeof d==='string'?{id,deletedAt:new Date().toISOString()}:d; if(!prev||new Date(item.deletedAt||0)>=new Date(prev.deletedAt||0))map.set(id,item);});
@@ -11008,7 +11024,7 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
   const deleted=mergeDeletedAccessIds(localState.deletedAccessIds,remoteState.deletedAccessIds);
   const deletedIds=new Set(deleted.map(x=>x.id));
   merged.deletedAccessIds=deleted;
-  merged.accesses=mergeById(localState.accesses||[],remoteState.accesses||[],getAccessStamp,2500).filter(a=>!deletedIds.has(a.id));
+  merged.accesses=mergeAccessesForSync(localState.accesses||[],remoteState.accesses||[],2500).filter(a=>!deletedIds.has(a.id));
 
   // Logs: todos podem gerar; admin visualiza completo.
   merged.logs=mergeById(localState.logs||[],remoteState.logs||[],x=>new Date(x?.criadoEm||0).getTime()||0,1500);
