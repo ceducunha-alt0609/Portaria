@@ -1,30 +1,27 @@
-const CACHE_NAME = 'portaria-primavera-v1-0-23';
+// Portaria Primavera SW v24 — atualização automática / GitHub Pages
+const CACHE = 'portaria-primavera-v1-0-24';
 const CACHE_PREFIX = 'portaria-primavera-';
-const CORE_ASSETS = [
-  './',
-  './index.html',
-  './manifest.webmanifest',
-  './favicon.png',
-  './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png',
-  './assets/screenshots/desktop-dark.png',
-  './assets/screenshots/desktop-light.png'
-];
+const OFFLINE_URL = './index.html';
 
 self.addEventListener('install', event => {
-  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS))
+    caches.open(CACHE)
+      .then(cache => fetch(OFFLINE_URL, { cache: 'no-store' }).then(r => {
+        if (r && r.ok) return cache.put(OFFLINE_URL, r.clone());
+      }))
+      .then(() => self.skipWaiting())
   );
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys
-          .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
-          .map(key => caches.delete(key))
+        keys.filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE).map(k => caches.delete(k))
       ))
       .then(() => self.clients.claim())
   );
@@ -32,26 +29,36 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-
   const url = new URL(event.request.url);
-  if (url.origin === self.location.origin && !url.pathname.startsWith(self.registration.scope.replace(self.location.origin, ''))) {
+
+  if (url.origin === self.location.origin && !url.pathname.startsWith(new URL(self.registration.scope).pathname)) return;
+
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const fresh = await fetch(event.request, { cache: 'no-store' });
+        if (fresh && fresh.ok) {
+          const cache = await caches.open(CACHE);
+          cache.put(OFFLINE_URL, fresh.clone());
+        }
+        return fresh;
+      } catch (_) {
+        return (await caches.match(OFFLINE_URL)) || Response.error();
+      }
+    })());
     return;
   }
 
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        if (response && response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => cache.put(event.request, copy))
-            .catch(() => {});
-        }
-        return response;
-      })
-      .catch(() =>
-        caches.match(event.request)
-          .then(cached => cached || (event.request.mode === 'navigate' ? caches.match('./index.html') : undefined))
-      )
-  );
+  event.respondWith((async () => {
+    try {
+      const fresh = await fetch(event.request, { cache: 'no-store' });
+      if (fresh && fresh.ok && url.origin === self.location.origin) {
+        const cache = await caches.open(CACHE);
+        cache.put(event.request, fresh.clone());
+      }
+      return fresh;
+    } catch (_) {
+      return (await caches.match(event.request)) || Response.error();
+    }
+  })());
 });
