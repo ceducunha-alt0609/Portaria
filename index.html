@@ -327,6 +327,15 @@ body.splashing{overflow:hidden}
 .appSplash{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 78% 14%,rgba(243,210,122,.22),transparent 34%),linear-gradient(145deg,#071427,#0d1b2a 54%,#241b0d);color:#fff;transition:opacity .45s ease,visibility .45s ease;padding:24px}
 .appSplash.hide{opacity:0;visibility:hidden;pointer-events:none}
 body.skipSplash .appSplash{display:none!important}
+body.splashing .loginOverlay{
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+body.splashing .app{
+  visibility:hidden!important;
+}
+
 body.skipSplash{overflow:auto!important}.splashCard{text-align:center;display:grid;gap:14px;justify-items:center}.splashMark{width:92px;height:92px;border-radius:30px;background:linear-gradient(145deg,#0d1b2a,#24496b 62%,#c8a24a);display:grid;place-items:center;color:#f3d27a;font-weight:900;font-size:30px;box-shadow:0 26px 70px rgba(0,0,0,.36),0 0 0 1px rgba(243,210,122,.28)}.splashTitle{font-size:26px;font-weight:900;font-family:'Merriweather',Georgia,serif;letter-spacing:.01em}.splashSub{font-size:13px;color:rgba(255,255,255,.72);line-height:1.5}.splashBar{width:210px;height:7px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden;margin-top:6px}.splashBar i{display:block;width:44%;height:100%;border-radius:999px;background:linear-gradient(90deg,#c8a24a,#f3d27a);animation:splashMove 1.2s ease-in-out infinite}@keyframes splashMove{0%{transform:translateX(-100%)}100%{transform:translateX(240%)}}
 .installBadge{font-size:11px;border:1px solid rgba(243,210,122,.28);background:rgba(255,255,255,.06);border-radius:999px;padding:7px 11px;color:rgba(255,255,255,.82)}
 @media(max-width:760px){
@@ -13439,7 +13448,7 @@ initDocumentModal();
 initLoginPreferences();
 ensureOperational(); if(!Array.isArray(state.logs))state.logs=[]; if(!Array.isArray(state.users)||!state.users.length)state.users=defaultUsers(); state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true}); normalizeImportedVehicles(); normalizeAccesses(); maybeRunRotation(); localStorage.setItem(KEY,JSON.stringify(state));fillAptos();setNowFields(true); applyPermissions(); const opd=document.getElementById('opData'); if(opd&&!opd.value)opd.value=new Date().toISOString().slice(0,10); updateUnitPickButton();renderAll();applyAdminAccordionMemory?.();restoreUiState?.();initCondoPopover();scheduleCloudAutoBackup();maybeShowHelpTour();setTimeout(renderStorageHealth,1200);setInterval(()=>{setNowFields();safeRender(renderAccess,'Controle em andamento');safeRender(renderDashboard,'Resumo')},60000);
 
-function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen_v154','1')}catch(e){} const sp=document.getElementById('appSplash'); const login=document.getElementById('loginOverlay'); if(login&&!login.classList.contains('hide'))login.classList.add('ppLoginReveal'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); document.body.classList.remove('splashing'); setTimeout(()=>sp.remove(),460)}
+function hideAppSplash(){try{sessionStorage.setItem('pp_splash_seen_v154','1')}catch(e){} const sp=document.getElementById('appSplash'); const login=document.getElementById('loginOverlay'); const logged=!!(typeof getCurrentUser==='function'&&getCurrentUser()); if(login&&!logged&&!login.classList.contains('hide'))login.classList.add('ppLoginReveal'); if(!sp){document.body.classList.remove('splashing');return;} sp.classList.add('hide'); requestAnimationFrame(()=>document.body.classList.remove('splashing')); setTimeout(()=>sp.remove(),460)}
 window.addEventListener('load',()=>{if(document.body.classList.contains('skipSplash'))return; setTimeout(()=>{const s=document.getElementById('ppSplashStatus'); if(s)s.textContent='QUASE PRONTO...';},1120); setTimeout(hideAppSplash,1560);});
 setInterval(()=>{promoteDueScheduledCommunications?.(); renderCommunications?.();},60000);
 setTimeout(()=>{if(!document.body.classList.contains('skipSplash')){const s=document.getElementById('ppSplashStatus'); if(s)s.textContent='QUASE PRONTO...';}},1120); setTimeout(hideAppSplash,2200);
