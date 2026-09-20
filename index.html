@@ -7961,6 +7961,23 @@ body.theme-dark .mobileStayTime.critical{background:rgba(204,51,68,.14);color:#f
 </style>
 </head>
 <body class="splashing">
+<script>
+(function(){
+  function ppKeepLoginPasswordEmpty(){
+    const p=document.getElementById('loginPass');
+    if(!p)return;
+    p.value='';
+    p.setAttribute('value','');
+    if(document.activeElement!==p)p.setAttribute('readonly','readonly');
+  }
+  document.addEventListener('DOMContentLoaded',ppKeepLoginPasswordEmpty,{once:true});
+  window.addEventListener('pageshow',ppKeepLoginPasswordEmpty);
+  setTimeout(ppKeepLoginPasswordEmpty,0);
+  setTimeout(ppKeepLoginPasswordEmpty,120);
+  setTimeout(ppKeepLoginPasswordEmpty,500);
+})();
+</script>
+
 
   <div class="modal center" id="commModal">
     <div class="sheet commSheet">
@@ -8022,7 +8039,7 @@ body.theme-dark .mobileStayTime.critical{background:rgba(204,51,68,.14);color:#f
       <h2>Portaria Primavera</h2>
       <p>Entre com seu usuário para liberar as funções conforme o perfil: Portaria ou Admin.</p>
       <label>Usuário</label><input id="loginUser" autocomplete="username">
-      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
+      <label>Senha</label><div class="loginPassWrap"><input id="loginPass" type="password" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');this.value='';" onpointerdown="this.removeAttribute('readonly');this.value='';" onkeydown="if(event.key==='Enter')loginUser()"><button type="button" class="loginEyeBtn" id="loginEyeBtn" onclick="toggleLoginPassword()" title="Mostrar senha" aria-label="Mostrar senha">👁</button></div>
       <label class="loginRemember"><input id="rememberLoginUser" type="checkbox"><span>Lembrar usuário neste computador</span></label>
       <button class="btn gold" style="width:100%;margin-top:14px" onclick="loginUser()">Entrar</button>
       <button type="button" class="loginRecoverBtn" onclick="openPasswordRecovery()">Esqueci minha senha</button>
