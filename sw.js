@@ -1,5 +1,5 @@
-// Portaria Primavera SW v24 — atualização automática / GitHub Pages
-const CACHE = 'portaria-primavera-v1-0-24';
+// Portaria Primavera SW v25 — atualização automática / GitHub Pages
+const CACHE = 'portaria-primavera-v1-0-25';
 const CACHE_PREFIX = 'portaria-primavera-';
 const OFFLINE_URL = './index.html';
 
