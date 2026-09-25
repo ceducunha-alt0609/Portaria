@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0d1b2a" />
   <meta name="description" content="Controle de portaria, visitantes, prestadores e moradores do Condomínio Edifício Primavera." />
-  <title>Portaria Primavera v150</title>
+  <title>Portaria Primavera v151</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -9174,7 +9174,8 @@ let syncPendingPull=false;
 let syncRealtimeChannel=null;
 let syncRealtimeReady=false;
 let lastRealtimeEventAt=0;
-let lastSyncSnapshotId=Number(localStorage.getItem('pp_last_sync_snapshot_id')||0)||0;
+let lastSyncSnapshotId=String(localStorage.getItem('pp_last_sync_snapshot_id')||'');
+let lastAdminSnapshotId=String(localStorage.getItem('pp_last_admin_snapshot_id')||'');
 let lastSyncAt=localStorage.getItem('pp_last_sync_at')||'';
 let localDeviceId=localStorage.getItem('pp_device_id')||'';
 if(!localDeviceId){localDeviceId='dev-'+Date.now()+'-'+Math.random().toString(16).slice(2);localStorage.setItem('pp_device_id',localDeviceId)}
@@ -11086,7 +11087,7 @@ function cloudTargetLabel(d){return d.toLocaleTimeString('pt-BR',{hour:'2-digit'
 function cloudSnapshotPayload(reason='auto'){
   return {
     app:'Portaria Primavera',
-    version:'v150',
+    version:'v151',
     reason,
     saved_at:new Date().toISOString(),
     source:reason==='sync'?'pwa-sync':'pwa-localstorage',
@@ -11170,7 +11171,7 @@ async function cloudRestoreLatest(){
   if(!cloudReady&&!initCloud())return;
   try{
     setCloudStatus('☁️ Buscando último backup na nuvem...');
-    const {data,error}=await supabaseClient.from('snapshots').select('id,descricao,dados,criado_em').order('criado_em',{ascending:false}).limit(1);
+    const {data,error}=await supabaseClient.from('snapshots').select('id,descricao,dados,criado_em').eq('dados->>app','Portaria Primavera').order('criado_em',{ascending:false}).limit(1);
     if(error)throw error;
     if(!data||!data.length){setCloudStatus('☁️ Nenhum backup encontrado na nuvem.');return;}
     const snap=data[0];
@@ -11307,13 +11308,25 @@ function mergeCommunicationsForSync(localArr=[],remoteArr=[],remoteIsPortaria=fa
   });
   return out.sort((a,b)=>new Date(b?.createdAt||b?.publishedAt||0)-new Date(a?.createdAt||a?.publishedAt||0));
 }
+function mergeAdminAuthority(localState,adminState){
+  if(!adminState||typeof adminState!=='object')return localState;
+  const merged={...localState};
+  merged.units=adminState.units&&typeof adminState.units==='object'?adminState.units:(merged.units||{});
+  merged.admin=adminState.admin&&typeof adminState.admin==='object'?adminState.admin:merged.admin;
+  merged.operational=Array.isArray(adminState.operational)?adminState.operational:(merged.operational||[]);
+  merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(adminState.users)&&adminState.users.length?adminState.users:(merged.users||defaultUsers()));
+  merged.settings={...(merged.settings||{}),...(adminState.settings||{})};
+  merged.settings.theme=getLocalThemeMode();
+  merged.passagens=mergeById(localState.passagens||[],adminState.passagens||[],x=>new Date(x?.createdAt||x?.data||0).getTime()||0,500);
+  merged.comunicados=mergeCommunicationsForSync(localState.comunicados||[],adminState.comunicados||[],false);
+  merged.meta={...(merged.meta||{}),lastAdminAuthorityAt:new Date().toISOString()};
+  return merged;
+}
 function mergeStatesForSync(localState,remoteState,remoteMeta={}){
   if(!remoteState||typeof remoteState!=='object')return localState;
   const merged={...localState};
   const remoteRole=remoteMeta?.role||remoteState?.meta?.updatedByPerfil||'';
   const remoteIsPortaria=String(remoteRole).toLowerCase()==='portaria';
-  const localIsPortaria=!isAdmin();
-
   // Acessos: sempre mão dupla, com último update vencendo por registro.
   const deleted=mergeDeletedAccessIds(localState.deletedAccessIds,remoteState.deletedAccessIds);
   const deletedIds=new Set(deleted.map(x=>x.id));
@@ -11336,15 +11349,6 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
     merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
     merged.settings.theme=getLocalThemeMode();
     merged.passagens=mergeById(localState.passagens||[],remoteState.passagens||[],x=>new Date(x?.createdAt||x?.data||0).getTime()||0,500);
-  }else if(localIsPortaria){
-    // Mesmo quando o último snapshot foi feito pela portaria, ela continua recebendo esses módulos do estado remoto se existirem,
-    // mas sem transformar isso em edição local; serve apenas para manter visualização consistente.
-    merged.units=remoteState.units&&typeof remoteState.units==='object'?remoteState.units:(merged.units||{});
-    merged.admin=remoteState.admin&&typeof remoteState.admin==='object'?remoteState.admin:merged.admin;
-    merged.operational=Array.isArray(remoteState.operational)?remoteState.operational:(merged.operational||[]);
-    merged.users=mergeUsersPreservingPasswords(localState?.users,Array.isArray(remoteState.users)&&remoteState.users.length?remoteState.users:(merged.users||defaultUsers()));
-    merged.settings={...(merged.settings||{}),...(remoteState.settings||{})};
-    merged.settings.theme=getLocalThemeMode();
   }
   merged.meta={...(merged.meta||{}),lastSyncMergeAt:new Date().toISOString()};
   return merged;
@@ -11364,7 +11368,7 @@ function setupCloudRealtimeSync(){
         const row=payload?.new||{};
         const payloadData=row.dados||{};
         const meta=payloadData.syncMeta||{};
-        const id=Number(row.id)||0;
+        const id=String(row.id||'');
         if(meta.deviceId&&meta.deviceId===localDeviceId){
           if(id){lastSyncSnapshotId=id;localStorage.setItem('pp_last_sync_snapshot_id',String(lastSyncSnapshotId));}
           return;
@@ -11408,7 +11412,7 @@ async function cloudSyncPush(reason='alteracao'){
     const desc='Sync '+new Date().toLocaleString('pt-BR')+' • '+(op.nome||op.login||'sem usuário')+' • '+reason;
     const {data,error}=await supabaseClient.from('snapshots').insert({descricao:desc,dados:cloudSnapshotPayload('sync')}).select('id').single();
     if(error)throw error;
-    if(data?.id){lastSyncSnapshotId=Number(data.id)||lastSyncSnapshotId;localStorage.setItem('pp_last_sync_snapshot_id',String(lastSyncSnapshotId));}
+    if(data?.id){lastSyncSnapshotId=String(data.id);localStorage.setItem('pp_last_sync_snapshot_id',lastSyncSnapshotId);}
     lastSyncAt=new Date().toISOString();localStorage.setItem('pp_last_sync_at',lastSyncAt);
     setCloudStatus((syncRealtimeReady?'☁️ Sync em tempo real ativo. Último envio: ':'☁️ Sync ativo. Último envio: ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     return true;
@@ -11433,31 +11437,92 @@ async function cloudSyncPullLatest(silent=false){
   }
   try{
     syncInProgress=true; syncPendingPull=false; updateSyncButtonStatus?.('syncing');
-    const {data,error}=await supabaseClient.from('snapshots').select('id,descricao,dados,criado_em').order('criado_em',{ascending:false}).limit(1);
+
+    // Somente snapshots de sincronização representam o estado corrente.
+    // Arquivos históricos e backups permanecem na tabela, mas não participam do pull.
+    const {data,error}=await supabaseClient.from('snapshots')
+      .select('id,descricao,dados,criado_em')
+      .eq('dados->>reason','sync')
+      .order('criado_em',{ascending:false})
+      .limit(1);
     if(error)throw error;
-    if(!data||!data.length)return false;
-    const snap=data[0];
-    const snapId=Number(snap.id)||0;
-    if(snapId&&snapId===lastSyncSnapshotId)return false;
-    const payload=snap.dados||{};
-    const remoteState=payload.state||payload;
-    const remoteMeta=payload.syncMeta||{};
-    if(remoteMeta.deviceId&&remoteMeta.deviceId===localDeviceId){lastSyncSnapshotId=snapId;localStorage.setItem('pp_last_sync_snapshot_id',String(lastSyncSnapshotId));return false;}
-    const before=JSON.stringify({a:(state.accesses||[]).length,u:Object.keys(state.units||{}).length,l:(state.logs||[]).length});
-    state=mergeStatesForSync(state,remoteState,remoteMeta);
+
+    // A autoridade administrativa é independente do último dispositivo que sincronizou.
+    // Isso impede um snapshot recente da Portaria de ocultar o último estado publicado pelo Admin.
+    const {data:adminData,error:adminError}=await supabaseClient.from('snapshots')
+      .select('id,descricao,dados,criado_em')
+      .eq('dados->>reason','sync')
+      .eq('dados->syncMeta->>role','admin')
+      .order('criado_em',{ascending:false})
+      .limit(1);
+    if(adminError)throw adminError;
+
+    const snap=(data&&data.length)?data[0]:null;
+    const adminSnap=(adminData&&adminData.length)?adminData[0]:null;
+    if(!snap&&!adminSnap)return false;
+
+    const before=JSON.stringify({
+      a:(state.accesses||[]).length,
+      u:Object.keys(state.units||{}).length,
+      l:(state.logs||[]).length,
+      c:(state.comunicados||[]).length
+    });
+    let applied=false;
+
+    // 1) Autoridade Admin: moradores, agenda, usuários, configurações e comunicados.
+    if(adminSnap){
+      const adminId=String(adminSnap.id||'');
+      if(adminId && adminId!==lastAdminSnapshotId){
+        const adminPayload=adminSnap.dados||{};
+        const adminState=adminPayload.state||adminPayload;
+        state=mergeAdminAuthority(state,adminState);
+        lastAdminSnapshotId=adminId;
+        localStorage.setItem('pp_last_admin_snapshot_id',lastAdminSnapshotId);
+        applied=true;
+      }
+    }
+
+    // 2) Estado operacional mais recente: acessos, logs e confirmações de leitura.
+    if(snap){
+      const snapId=String(snap.id||'');
+      const payload=snap.dados||{};
+      const remoteState=payload.state||payload;
+      const remoteMeta=payload.syncMeta||{};
+      const sameDevice=!!(remoteMeta.deviceId&&remoteMeta.deviceId===localDeviceId);
+
+      if(snapId && snapId!==lastSyncSnapshotId){
+        if(!sameDevice){
+          state=mergeStatesForSync(state,remoteState,remoteMeta);
+          applied=true;
+        }
+        lastSyncSnapshotId=snapId;
+        localStorage.setItem('pp_last_sync_snapshot_id',lastSyncSnapshotId);
+      }
+    }
+
+    if(!applied)return false;
+
     normalizeImportedVehicles?.(); normalizeAccesses?.(); ensureSettings?.(); ensureOperational?.();
     state.users=repairLocalUserPasswords(Array.isArray(state.users)&&state.users.length?state.users:defaultUsers());
     state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
     localStorage.setItem(KEY,JSON.stringify(state));
-    lastSyncSnapshotId=snapId; localStorage.setItem('pp_last_sync_snapshot_id',String(lastSyncSnapshotId));
     lastSyncAt=new Date().toISOString(); localStorage.setItem('pp_last_sync_at',lastSyncAt);
     applyTheme?.(); applyPermissions?.(); renderAll?.();
-    const after=JSON.stringify({a:(state.accesses||[]).length,u:Object.keys(state.units||{}).length,l:(state.logs||[]).length});
+
+    const after=JSON.stringify({
+      a:(state.accesses||[]).length,
+      u:Object.keys(state.units||{}).length,
+      l:(state.logs||[]).length,
+      c:(state.comunicados||[]).length
+    });
     if(before!==after&&!silent)showCloudToast('Dados atualizados pela nuvem.','ok',3500);
     setCloudStatus((syncRealtimeReady?'☁️ Sync em tempo real ativo. Atualizado às ':'☁️ Sync ativo. Atualizado às ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     return true;
-  }catch(e){console.warn('Falha no sync pull',e); if(!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.'); return false;}
-  finally{
+  }catch(e){
+    console.warn('Falha no sync pull',e);
+    if(!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.');
+    return false;
+  }finally{
     syncInProgress=false;
     refreshSyncCenterStatus?.();
     if(syncPendingPushReason){
@@ -11517,8 +11582,8 @@ function openSyncCenter(){
 function closeSyncCenter(){document.getElementById('syncCenterModal')?.classList.remove('show')}
 async function forceSyncNow(){
   updateSyncButtonStatus('syncing'); refreshSyncCenterStatus();
-  const pushed=await cloudSyncPush('manual-topbar');
   const pulled=await cloudSyncPullLatest(false);
+  const pushed=await cloudSyncPush('manual-topbar');
   refreshSyncCenterStatus();
   showCloudToast?.((pushed||pulled)?'Sincronização concluída ✅':'Nenhuma atualização nova encontrada.','ok',4000);
 }
@@ -13116,7 +13181,7 @@ function renderCondoPopover(){
     </div>
     <div class="condoPopSection"><div class="condoPopLabel">Sistema</div>
       <div class="condoPopSystem">
-        <div class="condoPopMini"><b>Portaria Primavera</b>Versão v150</div>
+        <div class="condoPopMini"><b>Portaria Primavera</b>Versão v151</div>
         <div class="condoPopMini"><b>Sincronização</b>${esc(syncText)}</div>
         <div class="condoPopMini"><b>Google Drive</b>${esc(driveText)}</div>
         <div class="condoPopMini"><b>Perfil atual</b>${esc((currentOperator&&currentOperator().perfil)||'—')}</div>
