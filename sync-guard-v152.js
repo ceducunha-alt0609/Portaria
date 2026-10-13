@@ -1,8 +1,39 @@
-/* Portaria Primavera v152.3 — Sync Guard */
+/* Portaria Primavera v152.4 — Sync Guard */
 (()=>{
   if(window.__ppSyncGuardV152Loaded)return;
   window.__ppSyncGuardV152Loaded=true;
   const originalPush=cloudSyncPush;
+
+  function accessClosed(a){return !!(a&&(a.saida||String(a.status||'').toLowerCase()==='saiu'))}
+  function accessStamp(a){
+    const vals=[a?.updatedAt,a?.exitAt,a?.editedAt,a?.saida,a?.createdAt,a?.entrada];
+    for(const v of vals){const t=new Date(v||0).getTime();if(Number.isFinite(t)&&t>0)return t}
+    return 0;
+  }
+  function mergeAccessRecord(local,remote){
+    if(!local)return remote;if(!remote)return local;
+    const lc=accessClosed(local),rc=accessClosed(remote);
+    // Regra monotônica: para o mesmo ID, uma saída registrada nunca pode voltar a "NO LOCAL".
+    if(lc!==rc){
+      const closed=lc?local:remote,open=lc?remote:local;
+      return {...open,...closed,saida:closed.saida||closed.exitAt||open.saida||null,status:closed.status||'saiu'};
+    }
+    return accessStamp(remote)>=accessStamp(local)?{...local,...remote}:{...remote,...local};
+  }
+  function reconcileAccessesFromSnapshots(rows){
+    const deleted=new Set((state.deletedAccessIds||[]).map(String));
+    const byId=new Map();
+    for(const a of (state.accesses||[])){if(a?.id&&!deleted.has(String(a.id)))byId.set(String(a.id),a)}
+    for(const snap of [...rows].reverse()){
+      const payload=snap?.dados||{},remoteState=payload.state||payload;
+      for(const a of (remoteState?.accesses||[])){
+        if(!a?.id||deleted.has(String(a.id)))continue;
+        const id=String(a.id);byId.set(id,mergeAccessRecord(byId.get(id),a));
+      }
+    }
+    state.accesses=[...byId.values()].sort((a,b)=>new Date(b?.entrada||b?.createdAt||0)-new Date(a?.entrada||a?.createdAt||0));
+  }
+
   async function guardedPull(silent=false){
     if(!cloudReady||!supabaseClient)return false;
     if(syncInProgress){syncPendingPull=true;return false}
@@ -28,8 +59,10 @@
       }
       if(!applied)return false;
 
-      // A conciliação usa snapshots antigos para recuperar saídas perdidas, mas o localStorage
-      // continua respeitando a janela operacional de 90 dias. O histórico antigo segue arquivado no Supabase.
+      // Segunda passagem específica dos acessos: resolve versões concorrentes pelo ID.
+      // Estado encerrado é monotônico: uma saída existente vence qualquer cópia aberta do mesmo acesso.
+      reconcileAccessesFromSnapshots(rows);
+
       const cutoff=Date.now()-90*86400000;
       state.accesses=(state.accesses||[]).filter(a=>{
         if(!a?.saida)return true;
@@ -47,7 +80,7 @@
       if(before!==after&&!silent)showCloudToast?.('Dados conciliados com a nuvem.','ok',3500);
       setCloudStatus?.((syncRealtimeReady?'☁️ Sync em tempo real ativo. Conciliado às ':'☁️ Sync ativo. Conciliado às ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
       return true;
-    }catch(e){console.warn('Falha no Sync Guard v152.3',e);if(!silent)setCloudStatus?.('☁️ Não foi possível conciliar a nuvem agora.');return false}
+    }catch(e){console.warn('Falha no Sync Guard v152.4',e);if(!silent)setCloudStatus?.('☁️ Não foi possível conciliar a nuvem agora.');return false}
     finally{syncInProgress=false;refreshSyncCenterStatus?.()}
   }
   cloudSyncPullLatest=guardedPull;
@@ -55,5 +88,5 @@
   cloudSyncPush=async function(reason='alteracao'){await guardedPull(true);return originalPush(reason)};
   window.cloudSyncPush=cloudSyncPush;
   setTimeout(()=>guardedPull(true),1200);
-  window.PortariaSyncGuardV152={version:'152.3',pull:guardedPull};
+  window.PortariaSyncGuardV152={version:'152.4',pull:guardedPull};
 })();
