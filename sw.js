@@ -1,5 +1,5 @@
-// Portaria Primavera SW v25 — atualização automática / GitHub Pages
-const CACHE = 'portaria-primavera-v1-0-25';
+// Portaria Primavera SW v26 — atualização automática / GitHub Pages
+const CACHE = 'portaria-primavera-v1-0-26';
 const CACHE_PREFIX = 'portaria-primavera-';
 const OFFLINE_URL = './index.html';
 
@@ -30,9 +30,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
-
   if (url.origin === self.location.origin && !url.pathname.startsWith(new URL(self.registration.scope).pathname)) return;
-
   if (event.request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
@@ -48,7 +46,6 @@ self.addEventListener('fetch', event => {
     })());
     return;
   }
-
   event.respondWith((async () => {
     try {
       const fresh = await fetch(event.request, { cache: 'no-store' });
