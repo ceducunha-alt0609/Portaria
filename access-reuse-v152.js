@@ -151,7 +151,8 @@
       let pulled=false,pushed=false;
       if(window.PortariaSyncGuardV152?.pull) pulled=await window.PortariaSyncGuardV152.pull(false);
       else if(typeof cloudSyncPullLatest==='function') pulled=await cloudSyncPullLatest(false);
-      if(typeof cloudSyncPush==='function') pushed=await cloudSyncPush('manual-portaria');
+      // Atualização manual é somente leitura: nunca publicar uma base possivelmente desatualizada.
+      // Um envio é permitido apenas pelas rotinas normais após alterações locais legítimas.
       try{refreshSyncCenterStatus?.()}catch(e){}
       try{renderAll?.()}catch(e){}
       showCloudToast?.((pulled||pushed)?'Sincronização concluída ✅':'Nenhuma atualização nova encontrada.','ok',4000);
