@@ -171,17 +171,18 @@
       document.getElementById('portariaSyncButtonRow')?.remove();
       return;
     }
-    const host=document.querySelector('.subbarInner');
+    const host=document.querySelector('.statusGroup');
     if(!host)return;
     const btn=existing||document.createElement('button');
     if(!existing){
       btn.id='portariaSyncNowBtn';btn.type='button';btn.className='btn ghost';
-      btn.textContent='🔄 Sincronizar agora';
+      btn.textContent='🔄';
+      btn.setAttribute('aria-label','Sincronizar agora');
       btn.title='Atualizar os dados da Portaria com a nuvem';
       btn.addEventListener('click',()=>portariaSyncNow(btn));
     }
     if(btn.parentElement!==host)host.appendChild(btn);
-    btn.style.cssText='white-space:nowrap;position:static;flex:0 0 auto;padding:6px 10px;font-size:11px;line-height:1.2;width:auto;min-height:0';
+    btn.style.cssText='position:static;flex:0 0 auto;padding:6px 9px;font-size:17px;line-height:1;width:auto;min-height:0;border-radius:10px';
     document.getElementById('portariaSyncButtonRow')?.remove();
   }
 
@@ -199,7 +200,7 @@
   // Restrito ao tema escuro e ao Resumo; não altera o comportamento dos cards.
   const metricStyle=document.createElement('style');
   metricStyle.id='pp-desktop-metric-visibility';
-  metricStyle.textContent='@media (min-width:851px){body.theme-dark #dashboard .dashboardCards .card.metric .n{color:var(--ink)!important;opacity:1!important;visibility:visible!important;display:block!important}#dashboard .dashboardCards{padding-top:24px!important;overflow:visible!important}}';
+  metricStyle.textContent='@media (min-width:851px){body.theme-dark #dashboard .dashboardCards .card.metric .n{color:var(--ink)!important;opacity:1!important;visibility:visible!important;display:block!important}#dashboard .dashboardCards{padding-top:0!important;overflow:visible!important}}';
   document.head.appendChild(metricStyle);
 
   const observer=new MutationObserver(()=>ensurePortariaSyncButton());
