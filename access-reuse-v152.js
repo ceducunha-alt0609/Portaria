@@ -178,16 +178,13 @@
     btn.style.whiteSpace='nowrap';
     btn.addEventListener('click',()=>portariaSyncNow(btn));
 
-    const dashboard=document.getElementById('dashboard');
-    const cards=dashboard?.querySelector('.dashboardCards');
-    if(dashboard&&cards){
-      const row=document.createElement('div');
-      row.id='portariaSyncButtonRow';
-      row.style.cssText='display:flex;justify-content:flex-end;align-items:center;position:relative;clear:both;margin:0 0 14px;padding:2px 0;min-height:36px';
-      btn.style.cssText='white-space:nowrap;position:static;flex:0 0 auto;max-width:100%';
-      row.appendChild(btn);
-      dashboard.insertBefore(row,cards);
+    // Botão compacto no cabeçalho secundário, sem criar uma linha sobre os indicadores.
+    const host=document.querySelector('.subbarInner');
+    if(host){
+      btn.style.cssText='white-space:nowrap;position:static;flex:0 0 auto;padding:6px 10px;font-size:11px;line-height:1.2;width:auto;min-height:0';
+      host.appendChild(btn);
     }
+
   }
 
   try{
