@@ -166,25 +166,23 @@
 
   function ensurePortariaSyncButton(){
     const existing=document.getElementById('portariaSyncNowBtn');
-    if(existing&&!isPortaria()){existing.remove();return}
-    if(!isPortaria()||existing)return;
-
-    const btn=document.createElement('button');
-    btn.id='portariaSyncNowBtn';
-    btn.type='button';
-    btn.className='btn ghost';
-    btn.textContent='🔄 Sincronizar agora';
-    btn.title='Atualizar os dados da Portaria com a nuvem';
-    btn.style.whiteSpace='nowrap';
-    btn.addEventListener('click',()=>portariaSyncNow(btn));
-
-    // Botão compacto no cabeçalho secundário, sem criar uma linha sobre os indicadores.
-    const host=document.querySelector('.subbarInner');
-    if(host){
-      btn.style.cssText='white-space:nowrap;position:static;flex:0 0 auto;padding:6px 10px;font-size:11px;line-height:1.2;width:auto;min-height:0';
-      host.appendChild(btn);
+    if(!isPortaria()){
+      existing?.remove();
+      document.getElementById('portariaSyncButtonRow')?.remove();
+      return;
     }
-
+    const host=document.querySelector('.subbarInner');
+    if(!host)return;
+    const btn=existing||document.createElement('button');
+    if(!existing){
+      btn.id='portariaSyncNowBtn';btn.type='button';btn.className='btn ghost';
+      btn.textContent='🔄 Sincronizar agora';
+      btn.title='Atualizar os dados da Portaria com a nuvem';
+      btn.addEventListener('click',()=>portariaSyncNow(btn));
+    }
+    if(btn.parentElement!==host)host.appendChild(btn);
+    btn.style.cssText='white-space:nowrap;position:static;flex:0 0 auto;padding:6px 10px;font-size:11px;line-height:1.2;width:auto;min-height:0';
+    document.getElementById('portariaSyncButtonRow')?.remove();
   }
 
   try{
@@ -201,7 +199,7 @@
   // Restrito ao tema escuro e ao Resumo; não altera o comportamento dos cards.
   const metricStyle=document.createElement('style');
   metricStyle.id='pp-desktop-metric-visibility';
-  metricStyle.textContent='@media (min-width:851px){body.theme-dark #dashboard .dashboardCards .card.metric .n{color:var(--ink)!important;opacity:1!important;visibility:visible!important;display:block!important}}';
+  metricStyle.textContent='@media (min-width:851px){body.theme-dark #dashboard .dashboardCards .card.metric .n{color:var(--ink)!important;opacity:1!important;visibility:visible!important;display:block!important}#dashboard .dashboardCards{padding-top:24px!important;overflow:visible!important}}';
   document.head.appendChild(metricStyle);
 
   const observer=new MutationObserver(()=>ensurePortariaSyncButton());
