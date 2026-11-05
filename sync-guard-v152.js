@@ -1,4 +1,4 @@
-/* Portaria Primavera v152.4 — Sync Guard */
+/* Portaria Primavera v152.5 — Sync Guard */
 (()=>{
   if(window.__ppSyncGuardV152Loaded)return;
   window.__ppSyncGuardV152Loaded=true;
@@ -39,9 +39,15 @@
     if(syncInProgress){syncPendingPull=true;return false}
     try{
       syncInProgress=true;syncPendingPull=false;updateSyncButtonStatus?.('syncing');
-      const {data,error}=await supabaseClient.from('snapshots').select('id,descricao,dados,criado_em').eq('dados->>reason','sync').order('criado_em',{ascending:false}).limit(100);
+      const {data,error}=await supabaseClient.from('snapshots').select('id,dados,criado_em').eq('dados->>reason','sync').order('criado_em',{ascending:false}).limit(12);
       if(error)throw error;
-      const rows=Array.isArray(data)?data:[];if(!rows.length)return false;
+      // O último estado Admin pode estar fora dos 12 snapshots operacionais.
+      const {data:adminData,error:adminError}=await supabaseClient.from('snapshots').select('id,dados,criado_em').eq('dados->>reason','sync').eq('dados->syncMeta->>role','admin').order('criado_em',{ascending:false}).limit(1);
+      if(adminError)throw adminError;
+      const rows=Array.isArray(data)?[...data]:[];
+      for(const snap of (adminData||[])){if(!rows.some(r=>String(r.id)===String(snap.id)))rows.push(snap)}
+      rows.sort((a,b)=>new Date(b.criado_em||0)-new Date(a.criado_em||0));
+      if(!rows.length)return false;
       const before=JSON.stringify({a:(state.accesses||[]).length,u:Object.keys(state.units||{}).length,l:(state.logs||[]).length,c:(state.comunicados||[]).length});
       let applied=false;
       const adminSnap=rows.find(r=>String(r?.dados?.syncMeta?.role||'').toLowerCase()==='admin')||null;
@@ -80,13 +86,18 @@
       if(before!==after&&!silent)showCloudToast?.('Dados conciliados com a nuvem.','ok',3500);
       setCloudStatus?.((syncRealtimeReady?'☁️ Sync em tempo real ativo. Conciliado às ':'☁️ Sync ativo. Conciliado às ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
       return true;
-    }catch(e){console.warn('Falha no Sync Guard v152.4',e);if(!silent)setCloudStatus?.('☁️ Não foi possível conciliar a nuvem agora.');return false}
+    }catch(e){console.warn('Falha no Sync Guard v152.5',e);if(!silent)setCloudStatus?.('☁️ Não foi possível conciliar a nuvem agora.');return false}
     finally{syncInProgress=false;refreshSyncCenterStatus?.()}
   }
   cloudSyncPullLatest=guardedPull;
   window.cloudSyncPullLatest=guardedPull;
-  cloudSyncPush=async function(reason='alteracao'){await guardedPull(true);return originalPush(reason)};
+  cloudSyncPush=async function(reason='alteracao'){
+    // Falha de leitura nunca autoriza publicar um estado local possivelmente obsoleto.
+    const readOk=await guardedPull(true);
+    if(!readOk){console.warn('Envio suspenso: não foi possível validar a nuvem antes de publicar.');return false}
+    return originalPush(reason);
+  };
   window.cloudSyncPush=cloudSyncPush;
   setTimeout(()=>guardedPull(true),1200);
-  window.PortariaSyncGuardV152={version:'152.4',pull:guardedPull};
+  window.PortariaSyncGuardV152={version:'152.5',pull:guardedPull};
 })();
