@@ -200,6 +200,13 @@
     }
   }catch(e){console.warn('Falha ao carregar Sync Guard v152.4',e)}
 
+  // Desktop: mantém os valores dos indicadores legíveis sem depender do hover.
+  // Restrito ao tema escuro e ao Resumo; não altera o comportamento dos cards.
+  const metricStyle=document.createElement('style');
+  metricStyle.id='pp-desktop-metric-visibility';
+  metricStyle.textContent='@media (min-width:851px){body.theme-dark #dashboard .dashboardCards .card.metric .n{color:var(--ink)!important;opacity:1!important;visibility:visible!important;display:block!important}}';
+  document.head.appendChild(metricStyle);
+
   const observer=new MutationObserver(()=>ensurePortariaSyncButton());
   observer.observe(document.documentElement,{childList:true,subtree:true});
   setTimeout(ensurePortariaSyncButton,900);
