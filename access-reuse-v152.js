@@ -178,8 +178,16 @@
     btn.style.whiteSpace='nowrap';
     btn.addEventListener('click',()=>portariaSyncNow(btn));
 
-    const host=document.querySelector('.subbarInner')||document.querySelector('.top')||document.querySelector('header');
-    if(host)host.appendChild(btn);
+    const dashboard=document.getElementById('dashboard');
+    const cards=dashboard?.querySelector('.dashboardCards');
+    if(dashboard&&cards){
+      const row=document.createElement('div');
+      row.id='portariaSyncButtonRow';
+      row.style.cssText='display:flex;justify-content:flex-end;align-items:center;position:relative;clear:both;margin:0 0 14px;padding:2px 0;min-height:36px';
+      btn.style.cssText='white-space:nowrap;position:static;flex:0 0 auto;max-width:100%';
+      row.appendChild(btn);
+      dashboard.insertBefore(row,cards);
+    }
   }
 
   try{
