@@ -190,7 +190,7 @@
   try{
     if(!window.PortariaSyncGuardV152&&!document.querySelector('script[data-pp-sync-guard="1"]')){
       const s=document.createElement('script');
-      s.src='./sync-guard-v152.js?v=152.5';
+      s.src='./sync-guard-v152.js?v=152.6';
       s.async=true;
       s.dataset.ppSyncGuard='1';
       document.head.appendChild(s);
