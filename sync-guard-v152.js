@@ -21,7 +21,7 @@
     return accessStamp(remote)>=accessStamp(local)?{...local,...remote}:{...remote,...local};
   }
   function reconcileAccessesFromSnapshots(rows){
-    const deleted=new Set((state.deletedAccessIds||[]).map(String));
+    const deleted=new Set((state.deletedAccessIds||[]).map(d=>String(typeof d==='string'?d:(d&&d.id)||'')).filter(Boolean));
     const byId=new Map();
     for(const a of (state.accesses||[])){if(a?.id&&!deleted.has(String(a.id)))byId.set(String(a.id),a)}
     for(const snap of [...rows].reverse()){
