@@ -9168,6 +9168,23 @@ let cloudReady=false;
 let syncTimer=null;
 let syncPushTimer=null;
 let syncInProgress=false;
+let syncBlockedUntil=0;
+const CLOUD_SYNC_402_PAUSE_MS=15*60*1000;
+function syncCanContactCloud(){return Date.now()>=syncBlockedUntil;}
+function syncNoticeError(error){
+  const status=Number(error?.status||error?.code||error?.statusCode||0);
+  if(status===402||/\b402\b/.test(String(error?.message||''))){
+    syncBlockedUntil=Date.now()+CLOUD_SYNC_402_PAUSE_MS;
+    syncRealtimeReady=false;
+    if(syncRealtimeChannel&&supabaseClient){
+      const old=syncRealtimeChannel;syncRealtimeChannel=null;
+      try{supabaseClient.removeChannel(old).catch(()=>{});}catch(e){}
+    }
+    setCloudStatus('☁️ Supabase com cota excedida (HTTP 402). Sincronização pausada por 15 minutos; dados locais preservados.');
+    return true;
+  }
+  return false;
+}
 let syncPendingPushReason='';
 let syncPendingPull=false;
 let syncRealtimeChannel=null;
@@ -11355,12 +11372,12 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
 function startCloudSync(){
   if(!cloudReady||!supabaseClient)return;
   clearInterval(syncTimer);
-  syncTimer=setInterval(()=>cloudSyncPullLatest(true),CLOUD_SYNC_INTERVAL_MS);
+  syncTimer=setInterval(()=>{if(!document.hidden&&syncCanContactCloud())cloudSyncPullLatest(true);},CLOUD_SYNC_INTERVAL_MS);
   setupCloudRealtimeSync();
   setTimeout(()=>cloudSyncPullLatest(true),2500);
 }
 function setupCloudRealtimeSync(){
-  if(!cloudReady||!supabaseClient||syncRealtimeChannel)return;
+  if(!cloudReady||!supabaseClient||syncRealtimeChannel||!syncCanContactCloud())return;
   try{
     syncRealtimeChannel=supabaseClient.channel('pp_snapshots_realtime_'+localDeviceId)
       .on('postgres_changes',{event:'INSERT',schema:'public',table:'snapshots'},payload=>{
@@ -11394,11 +11411,12 @@ function setupCloudRealtimeSync(){
 function queueCloudSyncPush(reason='alteracao'){
   if(!cloudReady||!supabaseClient)return;
   syncPendingPushReason=reason||syncPendingPushReason||'alteracao';
+  if(!syncCanContactCloud()){setCloudStatus('☁️ Envio pendente: cota do Supabase excedida. Dados locais preservados.');return;}
   clearTimeout(syncPushTimer);
   syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||reason||'alteracao'),CLOUD_SYNC_DEBOUNCE_MS);
 }
 async function cloudSyncPush(reason='alteracao'){
-  if(!cloudReady||!supabaseClient)return false;
+  if(!cloudReady||!supabaseClient||!syncCanContactCloud())return false;
   if(syncInProgress){
     syncPendingPushReason=reason||syncPendingPushReason||'alteracao';
     clearTimeout(syncPushTimer);
@@ -11415,11 +11433,11 @@ async function cloudSyncPush(reason='alteracao'){
     lastSyncAt=new Date().toISOString();localStorage.setItem('pp_last_sync_at',lastSyncAt);
     setCloudStatus((syncRealtimeReady?'☁️ Sync em tempo real ativo. Último envio: ':'☁️ Sync ativo. Último envio: ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     return true;
-  }catch(e){console.warn('Falha no sync push',e);setCloudStatus('☁️ Sync pendente. Dados locais preservados.');return false;}
+  }catch(e){console.warn('Falha no sync push',e);if(!syncNoticeError(e))setCloudStatus('☁️ Sync pendente. Dados locais preservados.');return false;}
   finally{
     syncInProgress=false;
     refreshSyncCenterStatus?.();
-    if(syncPendingPushReason){
+    if(syncPendingPushReason&&syncCanContactCloud()){
       clearTimeout(syncPushTimer);
       syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||'alteracao'),350);
     }else if(syncPendingPull){
@@ -11429,7 +11447,7 @@ async function cloudSyncPush(reason='alteracao'){
   }
 }
 async function cloudSyncPullLatest(silent=false){
-  if(!cloudReady||!supabaseClient)return false;
+  if(!cloudReady||!supabaseClient||!syncCanContactCloud())return false;
   if(syncInProgress){
     syncPendingPull=true;
     return false;
@@ -11437,27 +11455,35 @@ async function cloudSyncPullLatest(silent=false){
   try{
     syncInProgress=true; syncPendingPull=false; updateSyncButtonStatus?.('syncing');
 
-    // Somente snapshots de sincronização representam o estado corrente.
-    // Arquivos históricos e backups permanecem na tabela, mas não participam do pull.
-    const {data,error}=await supabaseClient.from('snapshots')
-      .select('id,descricao,dados,criado_em')
-      .eq('dados->>reason','sync')
-      .order('criado_em',{ascending:false})
-      .limit(1);
+    // Leitura econômica: busca apenas os IDs; o JSON completo só é baixado quando muda.
+    const {data:latest,error}=await supabaseClient.from('snapshots')
+      .select('id').eq('dados->>reason','sync')
+      .order('criado_em',{ascending:false}).limit(1);
     if(error)throw error;
-
-    // A autoridade administrativa é independente do último dispositivo que sincronizou.
-    // Isso impede um snapshot recente da Portaria de ocultar o último estado publicado pelo Admin.
-    const {data:adminData,error:adminError}=await supabaseClient.from('snapshots')
-      .select('id,descricao,dados,criado_em')
-      .eq('dados->>reason','sync')
+    const {data:adminLatest,error:adminError}=await supabaseClient.from('snapshots')
+      .select('id').eq('dados->>reason','sync')
       .eq('dados->syncMeta->>role','admin')
-      .order('criado_em',{ascending:false})
-      .limit(1);
+      .order('criado_em',{ascending:false}).limit(1);
     if(adminError)throw adminError;
-
-    const snap=(data&&data.length)?data[0]:null;
-    const adminSnap=(adminData&&adminData.length)?adminData[0]:null;
+    const newestId=String(latest?.[0]?.id||'');
+    const newestAdminId=String(adminLatest?.[0]?.id||'');
+    const needsMain=!!newestId&&newestId!==lastSyncSnapshotId;
+    const needsAdmin=!!newestAdminId&&newestAdminId!==lastAdminSnapshotId;
+    if(!needsMain&&!needsAdmin){setupCloudRealtimeSync();return false;}
+    let snap=null,adminSnap=null;
+    if(needsMain){
+      const {data,error:fullError}=await supabaseClient.from('snapshots')
+        .select('id,descricao,dados,criado_em').eq('id',newestId).limit(1);
+      if(fullError)throw fullError;
+      snap=data?.[0]||null;
+    }
+    if(needsAdmin){
+      const {data,error:fullError}=await supabaseClient.from('snapshots')
+        .select('id,descricao,dados,criado_em').eq('id',newestAdminId).limit(1);
+      if(fullError)throw fullError;
+      adminSnap=data?.[0]||null;
+    }
+    setupCloudRealtimeSync();
     if(!snap&&!adminSnap)return false;
 
     const before=JSON.stringify({
@@ -11519,12 +11545,12 @@ async function cloudSyncPullLatest(silent=false){
     return true;
   }catch(e){
     console.warn('Falha no sync pull',e);
-    if(!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.');
+    if(!syncNoticeError(e)&&!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.');
     return false;
   }finally{
     syncInProgress=false;
     refreshSyncCenterStatus?.();
-    if(syncPendingPushReason){
+    if(syncPendingPushReason&&syncCanContactCloud()){
       clearTimeout(syncPushTimer);
       syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||'alteracao'),350);
     }else if(syncPendingPull){
