@@ -3,6 +3,12 @@
   if(window.__ppSyncGuardV152Loaded)return;
   window.__ppSyncGuardV152Loaded=true;
   const originalPush=cloudSyncPush;
+  const PENDING_KEY='pp_pending_local_sync_v1';
+  const COOLDOWN_MS=15*60*1000;
+  let pauseUntil=0;
+  function isQuotaError(error){return String(error?.status||error?.code||'')==='402'||/\b402\b|payment required|quota exceeded/i.test(String(error?.message||''))}
+  function paused(){return Date.now()<pauseUntil}
+  function markQuotaPause(error){if(isQuotaError(error)){pauseUntil=Date.now()+COOLDOWN_MS;setCloudStatus?.('☁️ Limite temporário da nuvem; tentativas pausadas por 15 minutos. Dados locais preservados.')}}
 
   function accessClosed(a){return !!(a&&(a.saida||String(a.status||'').toLowerCase()==='saiu'))}
   function accessStamp(a){
@@ -35,7 +41,7 @@
   }
 
   async function guardedPull(silent=false){
-    if(!cloudReady||!supabaseClient)return false;
+    if(!cloudReady||!supabaseClient||paused())return false;
     if(syncInProgress){syncPendingPull=true;return false}
     try{
       syncInProgress=true;syncPendingPull=false;updateSyncButtonStatus?.('syncing');
@@ -69,12 +75,8 @@
       // Estado encerrado é monotônico: uma saída existente vence qualquer cópia aberta do mesmo acesso.
       reconcileAccessesFromSnapshots(rows);
 
-      const cutoff=Date.now()-90*86400000;
-      state.accesses=(state.accesses||[]).filter(a=>{
-        if(!a?.saida)return true;
-        const ts=new Date(a.saida||a.updatedAt||a.createdAt||a.entrada||0).getTime();
-        return !Number.isFinite(ts)||ts>=cutoff;
-      });
+      // Não eliminar automaticamente acessos antigos durante uma simples leitura da nuvem.
+      // Retenção e exclusão são operações administrativas independentes da sincronização.
 
       normalizeImportedVehicles?.();normalizeAccesses?.();ensureSettings?.();ensureOperational?.();
       state.users=repairLocalUserPasswords(Array.isArray(state.users)&&state.users.length?state.users:defaultUsers());state.users.forEach(u=>{if(u.ativo===undefined)u.ativo=true});
@@ -86,16 +88,19 @@
       if(before!==after&&!silent)showCloudToast?.('Dados conciliados com a nuvem.','ok',3500);
       setCloudStatus?.((syncRealtimeReady?'☁️ Sync em tempo real ativo. Conciliado às ':'☁️ Sync ativo. Conciliado às ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
       return true;
-    }catch(e){console.warn('Falha no Sync Guard v152.5',e);if(!silent)setCloudStatus?.('☁️ Não foi possível conciliar a nuvem agora.');return false}
+    }catch(e){console.warn('Falha no Sync Guard v152.5',e);markQuotaPause(e);if(!silent&&!paused())setCloudStatus?.('☁️ Não foi possível conciliar a nuvem agora.');return false}
     finally{syncInProgress=false;refreshSyncCenterStatus?.()}
   }
   cloudSyncPullLatest=guardedPull;
   window.cloudSyncPullLatest=guardedPull;
   cloudSyncPush=async function(reason='alteracao'){
     // Falha de leitura nunca autoriza publicar um estado local possivelmente obsoleto.
+    if(paused())return false;
     const readOk=await guardedPull(true);
     if(!readOk){console.warn('Envio suspenso: não foi possível validar a nuvem antes de publicar.');return false}
-    return originalPush(reason);
+    const pushed=await originalPush(reason);
+    if(pushed)localStorage.removeItem(PENDING_KEY);
+    return pushed;
   };
   window.cloudSyncPush=cloudSyncPush;
   setTimeout(()=>guardedPull(true),1200);
