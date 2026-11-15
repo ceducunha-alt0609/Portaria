@@ -185,9 +185,31 @@
       alert('Não foi possível desfazer: '+(e?.message||e));
     }
   }
+  function ensureMobileImportButton() {
+    const id='ppMobileImportHistoryBtn';
+    const existing=document.getElementById(id);
+    const mobile=!!document.body?.classList.contains('mobileExperience');
+    if (!mobile || !isAdminSession()) { existing?.remove(); return; }
+    const host=document.querySelector('header .statusGroup');
+    if (!host) return;
+    const button=existing || document.createElement('button');
+    if (!existing) {
+      button.type='button'; button.id=id; button.className='btn ghost';
+      button.textContent='📥';
+      button.setAttribute('aria-label','Recuperar histórico local da Portaria por arquivo');
+      button.title='Recuperar histórico local (JSON), sem Supabase';
+      button.style.cssText='position:static;flex:0 0 auto;min-width:36px;padding:7px;border-radius:10px;font-size:17px;line-height:1';
+      button.addEventListener('click',() => {
+        const input=document.getElementById(INPUT_ID);
+        if(input)input.click();
+        else alert('Importação ainda não disponível nesta tela.');
+      });
+    }
+    if(button.parentElement!==host)host.appendChild(button);
+  }
   function ensureButton() {
     const existing = document.getElementById(BUTTON_ID);
-    if (!isAdminSession()) { existing?.remove(); return; }
+    if (!isAdminSession()) { existing?.remove(); ensureMobileImportButton(); return; }
     const host = document.querySelector('.recoveryActionsTop');
     if (!host) return;
     const button = existing || document.createElement('button');
@@ -218,6 +240,7 @@
       input.style.display='none'; input.addEventListener('change',receiveFile);
       host.appendChild(input);
     }
+    ensureMobileImportButton();
   }
   document.addEventListener('DOMContentLoaded',ensureButton);
   setInterval(ensureButton,3000);
