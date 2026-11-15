@@ -112,14 +112,13 @@
       if (!isAdminSession()) return;
       const raw = localStorage.getItem(KEY);
       if (!raw) throw new Error('Não foi possível ler o estado atual para backup.');
-      // Guarda a cópia EXATA no navegador; nenhuma alteração aplicada antes disso.
-      const recoveryKey = 'pp_pre_reconcile_full_20261115';
-      localStorage.setItem(recoveryKey, raw);
-      if (localStorage.getItem(recoveryKey) !== raw) throw new Error('Falha ao conferir cópia local.');
-      // Arquivo bruto de recuperação: pode conter dados privados. Manter em local seguro.
+      // NÃO duplicar o estado no localStorage: pode exceder a cota do navegador.
+      // Backup descarregado como arquivo; nenhuma informação é enviada ao Supabase.
+      const backupFileName = 'portaria-backup-integral-antes-conciliacao-' +
+        new Date().toISOString().replace(/[:.]/g,'-') + '.json';
       downloadJson({format:'pp-estado-integral-antes-conciliacao-v1',
         generatedAt:new Date().toISOString(), state:JSON.parse(raw)},
-        'portaria-backup-integral-antes-conciliacao-' + new Date().toISOString().slice(0,10) + '.json');
+        backupFileName);
       if (!confirm('A cópia de segurança foi solicitada para download.\n\n' +
         'CONFIRA se o arquivo foi salvo antes de continuar.\n\n' +
         'Aplicar somente os acessos e marcadores de exclusão neste PC?')) return;
@@ -147,24 +146,44 @@
       alert('Não foi possível conciliar: ' + (error?.message || 'erro desconhecido') + '\nNenhum envio à nuvem realizado.');
     }
   }
-  function restorePreReconcile() {
-    if (!isAdminSession()) return;
+  async function restorePreReconcile(event) {
+    const file=event.target.files?.[0];
+    event.target.value='';
+    if (!file || !isAdminSession()) return;
     if (typeof syncInProgress !== 'undefined' && syncInProgress) {
       alert('Sincronização em andamento. Não é seguro reverter agora.'); return;
     }
-    const raw = localStorage.getItem('pp_pre_reconcile_full_20261115');
-    if (!raw) { alert('Nenhum ponto de retorno local foi encontrado neste navegador.'); return; }
-    if (!confirm('Reverter a conciliação neste PC?\\n\\nIsso restaura o estado EXATO preservado antes da conciliação, inclusive módulos administrativos.\\n\\nAlterações feitas depois dela serão desfeitas.')) return;
-    const current = localStorage.getItem(KEY);
-    if (!current) { alert('Estado atual indisponível. Nenhum dado alterado.'); return; }
     try {
-      const original = JSON.parse(raw);
-      if (!original || !Array.isArray(original.accesses)) throw new Error('Ponto de retorno inválido');
-      localStorage.setItem(KEY,raw);
-      state = original;
+      const envelope=JSON.parse(await file.text());
+      if (envelope?.format!=='pp-estado-integral-antes-conciliacao-v1' ||
+          !envelope?.state || !Array.isArray(envelope.state.accesses) ||
+          !Array.isArray(envelope.state.deletedAccessIds || [])) {
+        throw new Error('Escolha o backup integral gerado ANTES da conciliação.');
+      }
+      const currentRaw=localStorage.getItem(KEY);
+      if (!currentRaw) throw new Error('Dados atuais indisponíveis.');
+      const current=JSON.parse(currentRaw);
+      const count=envelope.state.accesses.length;
+      if (!confirm('Restaurar apenas o histórico de acessos do arquivo escolhido?\\n\\n' +
+        'Acessos no arquivo: '+count+'\\n' +
+        'Acessos neste PC: '+(current.accesses||[]).length+'\\n\\n' +
+        'Moradores, usuários, configurações e demais módulos NÃO serão substituídos.\\n' +
+        'Alterações de acesso posteriores à conciliação serão desfeitas.')) return;
+      if (!isAdminSession() || (typeof syncInProgress!=='undefined' && syncInProgress))
+        throw new Error('Sessão alterada ou sincronização iniciada.');
+      if (localStorage.getItem(KEY)!==currentRaw)
+        throw new Error('Histórico alterado durante confirmação. Tente novamente.');
+      const next={...current, accesses:envelope.state.accesses,
+        deletedAccessIds:envelope.state.deletedAccessIds||[]};
+      // A versão atual ainda ocupa o localStorage; uma gravação maior pode falhar
+      // sem perda do estado anterior (Storage.setItem é atômico).
+      localStorage.setItem(KEY,JSON.stringify(next));
+      state=next;
       try { renderAll?.(); } catch(e) { console.warn(e); }
-      alert('Ponto de retorno aplicado somente neste PC. Nenhuma informação enviada à nuvem.');
-    } catch(e) { alert('Não foi possível reverter: '+e.message); }
+      alert('Histórico de acessos restaurado somente neste PC. Nenhum envio à nuvem.');
+    } catch(e) {
+      alert('Não foi possível desfazer: '+(e?.message||e));
+    }
   }
   function ensureButton() {
     const existing = document.getElementById(BUTTON_ID);
@@ -182,9 +201,16 @@
     if (!document.getElementById('ppRevertReconcileBtn')) {
       const undo = document.createElement('button');
       undo.id='ppRevertReconcileBtn'; undo.type='button'; undo.className='btn ghost adminOnly';
-      undo.textContent='Desfazer conciliação'; undo.onclick=restorePreReconcile;
-      undo.title='Reverter ao ponto de retorno local anterior à última conciliação';
+      undo.textContent='Desfazer conciliação'; undo.onclick=() => document.getElementById('ppRevertReconcileFile')?.click();
+      undo.title='Escolher o arquivo de backup anterior para restaurar somente acessos';
       host.appendChild(undo);
+    }
+    if (!document.getElementById('ppRevertReconcileFile')) {
+      const undoFile=document.createElement('input');
+      undoFile.id='ppRevertReconcileFile'; undoFile.type='file';
+      undoFile.accept='.json,application/json'; undoFile.style.display='none';
+      undoFile.addEventListener('change',restorePreReconcile);
+      host.appendChild(undoFile);
     }
     if (!document.getElementById(INPUT_ID)) {
       const input = document.createElement('input');
