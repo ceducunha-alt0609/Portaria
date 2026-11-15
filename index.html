@@ -9160,7 +9160,7 @@ const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 const CLOUD_DAILY_KEY='portaria_primavera_last_cloud_backup';
 const CLOUD_BACKUP_HOUR=2; // backup automático diário na nuvem às 02:00
 const CLOUD_BACKUP_MINUTE=0;
-const CLOUD_SYNC_INTERVAL_MS=30000; // sincronização multi-dispositivo a cada 30s
+const CLOUD_SYNC_INTERVAL_MS=30000; // legado; polling desativado no modo por eventos
 const CLOUD_SYNC_DEBOUNCE_MS=3500;  // espera curta para agrupar alterações antes de enviar
 let supabaseClient=null;
 let cloudTimer=null;
@@ -9250,6 +9250,8 @@ function save(syncReason='alteracao'){
   touchStateMeta(syncReason);
   rememberLocalUserPasswords(state.users);
   localStorage.setItem(KEY,JSON.stringify(state));
+  // Registrar a alteração pendente antes de tentar enviá-la; manter após erro/offline.
+  localStorage.setItem('pp_pending_local_sync_v1','1');
   const st=document.getElementById('saveStatus');
   if(st)st.textContent='Salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
   renderAll();
@@ -14421,7 +14423,7 @@ try{updateTopbarClockGreeting();}catch(e){}
 <!-- Drive OAuth v151 loader -->
 <script src="./gdrive-oauth-v151.js?v=151"></script>
 <script src="./gdrive-adapter-v151.js?v=151"></script>
-<script src="./access-reuse-v152.js?v=152-sync-guard-20261107-1"></script>
+<script src="./access-reuse-v152.js?v=152-sync-events-20261115-1"></script>
 <!-- Exportador local de seguranca: perfil Portaria, somente leitura -->
 <script src="./export-access-local-audit.js?v=audit-20261115-2"></script>
 
