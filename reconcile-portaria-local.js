@@ -147,6 +147,25 @@
       alert('Não foi possível conciliar: ' + (error?.message || 'erro desconhecido') + '\nNenhum envio à nuvem realizado.');
     }
   }
+  function restorePreReconcile() {
+    if (!isAdminSession()) return;
+    if (typeof syncInProgress !== 'undefined' && syncInProgress) {
+      alert('Sincronização em andamento. Não é seguro reverter agora.'); return;
+    }
+    const raw = localStorage.getItem('pp_pre_reconcile_full_20261115');
+    if (!raw) { alert('Nenhum ponto de retorno local foi encontrado neste navegador.'); return; }
+    if (!confirm('Reverter a conciliação neste PC?\\n\\nIsso restaura o estado EXATO preservado antes da conciliação, inclusive módulos administrativos.\\n\\nAlterações feitas depois dela serão desfeitas.')) return;
+    const current = localStorage.getItem(KEY);
+    if (!current) { alert('Estado atual indisponível. Nenhum dado alterado.'); return; }
+    try {
+      const original = JSON.parse(raw);
+      if (!original || !Array.isArray(original.accesses)) throw new Error('Ponto de retorno inválido');
+      localStorage.setItem(KEY,raw);
+      state = original;
+      try { renderAll?.(); } catch(e) { console.warn(e); }
+      alert('Ponto de retorno aplicado somente neste PC. Nenhuma informação enviada à nuvem.');
+    } catch(e) { alert('Não foi possível reverter: '+e.message); }
+  }
   function ensureButton() {
     const existing = document.getElementById(BUTTON_ID);
     if (!isAdminSession()) { existing?.remove(); return; }
@@ -160,6 +179,13 @@
       button.onclick = () => document.getElementById(INPUT_ID)?.click();
     }
     if (!button.parentElement) host.appendChild(button);
+    if (!document.getElementById('ppRevertReconcileBtn')) {
+      const undo = document.createElement('button');
+      undo.id='ppRevertReconcileBtn'; undo.type='button'; undo.className='btn ghost adminOnly';
+      undo.textContent='Desfazer conciliação'; undo.onclick=restorePreReconcile;
+      undo.title='Reverter ao ponto de retorno local anterior à última conciliação';
+      host.appendChild(undo);
+    }
     if (!document.getElementById(INPUT_ID)) {
       const input = document.createElement('input');
       input.id = INPUT_ID; input.type='file'; input.accept='.json,application/json';
