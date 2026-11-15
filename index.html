@@ -9160,7 +9160,7 @@ const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 const CLOUD_DAILY_KEY='portaria_primavera_last_cloud_backup';
 const CLOUD_BACKUP_HOUR=2; // backup automático diário na nuvem às 02:00
 const CLOUD_BACKUP_MINUTE=0;
-const CLOUD_SYNC_INTERVAL_MS=30000; // sincronização multi-dispositivo a cada 30s
+const CLOUD_SYNC_INTERVAL_MS=30000; // legado; polling desativado no modo por eventos
 const CLOUD_SYNC_DEBOUNCE_MS=3500;  // espera curta para agrupar alterações antes de enviar
 let supabaseClient=null;
 let cloudTimer=null;
@@ -9250,6 +9250,8 @@ function save(syncReason='alteracao'){
   touchStateMeta(syncReason);
   rememberLocalUserPasswords(state.users);
   localStorage.setItem(KEY,JSON.stringify(state));
+  // Registrar a alteração pendente antes de tentar enviá-la; manter após erro/offline.
+  localStorage.setItem('pp_pending_local_sync_v1','1');
   const st=document.getElementById('saveStatus');
   if(st)st.textContent='Salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
   renderAll();
@@ -11230,7 +11232,7 @@ function accessSyncSignature(a={}){
   const m=rawTime.match(/(\d{1,2}):(\d{2})/);
   const time=m?(String(m[1]).padStart(2,'0')+':'+m[2]):rawTime;
   const who=norm(a.nome||'');
-  // Para conciliação entre versões legadas, data + minuto + nome são a identidade mais estável.
+  // Assinatura legada: apenas diagnóstico; IDs são a identidade canônica na sincronização.
   // Destino/documento podem ter sido formatados de maneiras diferentes entre dispositivos.
   return [day,time,who].join('|');
 }
@@ -11249,24 +11251,9 @@ function mergeAccessesForSync(localArr=[],remoteArr=[],limit=2500){
     byId.set(id,getAccessStamp(item)>=getAccessStamp(prev)?item:prev);
   });
 
-  const byLogicalVisit=new Map();
-  [...byId.values()].forEach(item=>{
-    const sig=accessSyncSignature(item);
-    if(!sig||sig==='||||'){
-      byLogicalVisit.set('id:'+String(item.id||Math.random()),item);
-      return;
-    }
-    const prev=byLogicalVisit.get(sig);
-    if(!prev){byLogicalVisit.set(sig,item);return;}
-    const prevOut=!!prev.saida, itemOut=!!item.saida;
-    if(prevOut!==itemOut){
-      byLogicalVisit.set(sig,itemOut?item:prev);
-      return;
-    }
-    byLogicalVisit.set(sig,getAccessStamp(item)>=getAccessStamp(prev)?item:prev);
-  });
-
-  return [...byLogicalVisit.values()].sort((a,b)=>getAccessStamp(b)-getAccessStamp(a)).slice(0,limit);
+  // Nunca unir duas visitas pelo nome/minuto: pessoas podem entrar mais de uma vez.
+  // Deduplicar apenas por ID e preservar a saída já registrada.
+  return [...byId.values()].sort((a,b)=>getAccessStamp(b)-getAccessStamp(a)).slice(0,limit);
 }
 function mergeDeletedAccessIds(local=[],remote=[]){
   const map=new Map();
@@ -11355,9 +11342,10 @@ function mergeStatesForSync(localState,remoteState,remoteMeta={}){
 function startCloudSync(){
   if(!cloudReady||!supabaseClient)return;
   clearInterval(syncTimer);
-  syncTimer=setInterval(()=>cloudSyncPullLatest(true),CLOUD_SYNC_INTERVAL_MS);
-  setupCloudRealtimeSync();
-  setTimeout(()=>cloudSyncPullLatest(true),2500);
+  // Modo por eventos: sem polling de 30s nem websocket reconectando em erro 402.
+  // A leitura inicial é feita pelo Sync Guard e as demais por foco/retorno/manual.
+  if(syncRealtimeChannel){try{supabaseClient.removeChannel(syncRealtimeChannel)}catch(e){}syncRealtimeChannel=null;}
+  syncRealtimeReady=false;
 }
 function setupCloudRealtimeSync(){
   if(!cloudReady||!supabaseClient||syncRealtimeChannel)return;
@@ -11560,8 +11548,8 @@ function refreshSyncCenterStatus(){
   if(supD)supD.textContent=last?`Última sync: ${formatWhenBR(last)}`:'Ainda sem sync registrada';
   setSyncCard('syncSupabaseCard',cloudReady?'ok':'warn');
   const rt=document.getElementById('syncRealtimeStatus'), rtD=document.getElementById('syncRealtimeDetail');
-  if(rt)rt.textContent=syncRealtimeReady?'Tempo real ativo':'Verificação automática';
-  if(rtD)rtD.textContent=syncRealtimeReady?'Recebe alterações instantâneas':'Fallback a cada 30 segundos';
+  if(rt)rt.textContent='Sincronização por eventos';
+  if(rtD)rtD.textContent='Ao salvar, reabrir ou solicitar manualmente';
   setSyncCard('syncRealtimeCard',syncRealtimeReady?'ok':(cloudReady?'warn':'err'));
   const drv=document.getElementById('syncDriveStatus'), drvD=document.getElementById('syncDriveDetail');
   const lastDrive=localStorage.getItem('pp_last_gdrive_backup_at')||'';
@@ -11586,10 +11574,21 @@ async function forceSyncNow(){
   refreshSyncCenterStatus();
   showCloudToast?.((pushed||pulled)?'Sincronização concluída ✅':'Nenhuma atualização nova encontrada.','ok',4000);
 }
-window.addEventListener('online',()=>{showCloudToast?.('Conexão restabelecida. Sincronizando...','ok',3500); queueCloudSyncPush?.('retorno-online'); setTimeout(()=>cloudSyncPullLatest?.(true),1200); refreshSyncCenterStatus();});
-window.addEventListener('focus',()=>{setTimeout(()=>cloudSyncPullLatest?.(true),180);});
-window.addEventListener('pageshow',()=>{setTimeout(()=>cloudSyncPullLatest?.(true),220);});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(()=>cloudSyncPullLatest?.(true),180);});
+let ppLastResumeSyncAt=0;
+function ppResumeSyncFromEvent(){
+  if(!cloudReady||!supabaseClient||navigator.onLine===false||document.hidden)return;
+  const now=Date.now();
+  if(now-ppLastResumeSyncAt<5*60*1000)return;
+  ppLastResumeSyncAt=now;
+  setTimeout(()=>{
+    if(localStorage.getItem('pp_pending_local_sync_v1')==='1')cloudSyncPush?.('retomar-pendente');
+    else cloudSyncPullLatest?.(true);
+  },350);
+}
+window.addEventListener('online',()=>{ppLastResumeSyncAt=0;ppResumeSyncFromEvent();refreshSyncCenterStatus();});
+window.addEventListener('focus',ppResumeSyncFromEvent);
+window.addEventListener('pageshow',ppResumeSyncFromEvent);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)ppResumeSyncFromEvent();});
 window.addEventListener('offline',()=>{showCloudToast?.('Você está offline. Dados locais preservados.','err',5000); refreshSyncCenterStatus();});
 setInterval(()=>refreshSyncCenterStatus(),15000);
 
@@ -14424,7 +14423,9 @@ try{updateTopbarClockGreeting();}catch(e){}
 <!-- Drive OAuth v151 loader -->
 <script src="./gdrive-oauth-v151.js?v=151"></script>
 <script src="./gdrive-adapter-v151.js?v=151"></script>
-<script src="./access-reuse-v152.js?v=152-sync-guard-20261107-1"></script>
+<!-- Guard antes do botão: não deixar envios escaparem à verificação de segurança -->
+<script src="./sync-guard-v152.js?v=152.7-eventos-20261115"></script>
+<script src="./access-reuse-v152.js?v=152-sync-events-20261115-1"></script>
 <!-- Exportador local de seguranca: perfil Portaria, somente leitura -->
 <script src="./export-access-local-audit.js?v=audit-20261115-2"></script>
 
