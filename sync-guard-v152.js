@@ -94,6 +94,12 @@
   cloudSyncPullLatest=guardedPull;
   window.cloudSyncPullLatest=guardedPull;
   cloudSyncPush=async function(reason='alteracao'){
+    // Os celulares são terminais de consulta: nunca publicam snapshots do histórico.
+    // Um viewport móvel pode incluir janelas pequenas no desktop; falhar fechado é mais seguro.
+    if((window.matchMedia?.('(max-width:760px)')?.matches) || document.body?.classList.contains('mobileExperience')){
+      console.warn('Publicação desativada para o modo mobile de consulta.');
+      return false;
+    }
     // Falha de leitura nunca autoriza publicar um estado local possivelmente obsoleto.
     if(paused())return false;
     const readOk=await guardedPull(true);
