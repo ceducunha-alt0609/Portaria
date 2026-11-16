@@ -5,10 +5,13 @@
   const originalPush=cloudSyncPush;
   const PENDING_KEY='pp_pending_local_sync_v1';
   const COOLDOWN_MS=15*60*1000;
-  let pauseUntil=0;
+  let pauseUntil=Number(localStorage.getItem('pp_cloud_quota_pause_until')||0);
+  let lastCloudSnapshotSignature='';
+  let lastCloudAdminId='';
+  const QUOTA_PAUSE_MS=60*60*1000;
   function isQuotaError(error){return String(error?.status||error?.code||'')==='402'||/\b402\b|payment required|quota exceeded/i.test(String(error?.message||''))}
   function paused(){return Date.now()<pauseUntil}
-  function markQuotaPause(error){if(isQuotaError(error)){pauseUntil=Date.now()+COOLDOWN_MS;setCloudStatus?.('☁️ Limite temporário da nuvem; tentativas pausadas por 15 minutos. Dados locais preservados.')}}
+  function markQuotaPause(error){if(isQuotaError(error)){pauseUntil=Date.now()+QUOTA_PAUSE_MS;localStorage.setItem('pp_cloud_quota_pause_until',String(pauseUntil));setCloudStatus?.('☁️ Cota Supabase excedida: consultas pausadas por 1 hora. Dados locais preservados.')}}
 
   function accessClosed(a){return !!(a&&(a.saida||String(a.status||'').toLowerCase()==='saiu'))}
   function accessStamp(a){
@@ -41,17 +44,24 @@
   }
 
   async function guardedPull(silent=false){
-    if(!cloudReady||!supabaseClient||paused())return false;
+    if(!cloudReady||!supabaseClient||paused()||window.ppCloudQuotaPaused?.())return false;
     if(syncInProgress){syncPendingPull=true;return false}
     try{
       syncInProgress=true;syncPendingPull=false;updateSyncButtonStatus?.('syncing');
-      const {data,error}=await supabaseClient.from('snapshots').select('id,dados,criado_em').eq('dados->>reason','sync').order('criado_em',{ascending:false}).limit(12);
+      // Consulta leve: primeiro apenas IDs, sem baixar snapshots inteiros.
+      const {data:heads,error:headError}=await supabaseClient.from('snapshots').select('id,criado_em').eq('dados->>reason','sync').order('criado_em',{ascending:false}).limit(12);
+      if(headError)throw headError;
+      const {data:adminHead,error:adminHeadError}=await supabaseClient.from('snapshots').select('id,criado_em').eq('dados->>reason','sync').eq('dados->syncMeta->>role','admin').order('criado_em',{ascending:false}).limit(1);
+      if(adminHeadError)throw adminHeadError;
+      const ids=(heads||[]).map(r=>String(r.id));
+      const signature=ids.join('|');
+      const adminId=String(adminHead?.[0]?.id||'');
+      if(signature===lastCloudSnapshotSignature&&adminId===lastCloudAdminId)return true;
+      const wanted=[...new Set([...ids,...(adminId?[adminId]:[])])];
+      if(!wanted.length)return true;
+      const {data,error}=await supabaseClient.from('snapshots').select('id,dados,criado_em').in('id',wanted);
       if(error)throw error;
-      // O último estado Admin pode estar fora dos 12 snapshots operacionais.
-      const {data:adminData,error:adminError}=await supabaseClient.from('snapshots').select('id,dados,criado_em').eq('dados->>reason','sync').eq('dados->syncMeta->>role','admin').order('criado_em',{ascending:false}).limit(1);
-      if(adminError)throw adminError;
       const rows=Array.isArray(data)?[...data]:[];
-      for(const snap of (adminData||[])){if(!rows.some(r=>String(r.id)===String(snap.id)))rows.push(snap)}
       rows.sort((a,b)=>new Date(b.criado_em||0)-new Date(a.criado_em||0));
       if(!rows.length)return false;
       const before=JSON.stringify({a:(state.accesses||[]).length,u:Object.keys(state.units||{}).length,l:(state.logs||[]).length,c:(state.comunicados||[]).length});
@@ -83,6 +93,7 @@
       localStorage.setItem(KEY,JSON.stringify(state));
       lastSyncSnapshotId=String(rows[0]?.id||'');if(lastSyncSnapshotId)localStorage.setItem('pp_last_sync_snapshot_id',lastSyncSnapshotId);
       lastSyncAt=new Date().toISOString();localStorage.setItem('pp_last_sync_at',lastSyncAt);
+      lastCloudSnapshotSignature=signature;lastCloudAdminId=adminId;
       applyTheme?.();applyPermissions?.();renderAll?.();
       const after=JSON.stringify({a:(state.accesses||[]).length,u:Object.keys(state.units||{}).length,l:(state.logs||[]).length,c:(state.comunicados||[]).length});
       if(before!==after&&!silent)showCloudToast?.('Dados conciliados com a nuvem.','ok',3500);
@@ -101,7 +112,7 @@
       return false;
     }
     // Falha de leitura nunca autoriza publicar um estado local possivelmente obsoleto.
-    if(paused())return false;
+    if(paused()||window.ppCloudQuotaPaused?.())return false;
     const readOk=await guardedPull(true);
     if(!readOk){console.warn('Envio suspenso: não foi possível validar a nuvem antes de publicar.');return false}
     const pushed=await originalPush(reason);
