@@ -58,7 +58,7 @@
       const adminId=String(adminHead?.[0]?.id||'');
       if(signature===lastCloudSnapshotSignature&&adminId===lastCloudAdminId)return true;
       const wanted=[...new Set([...ids,...(adminId?[adminId]:[])])];
-      if(!wanted.length)return true;
+      if(!wanted.length)return false;
       const {data,error}=await supabaseClient.from('snapshots').select('id,dados,criado_em').in('id',wanted);
       if(error)throw error;
       const rows=Array.isArray(data)?[...data]:[];
