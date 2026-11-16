@@ -9172,6 +9172,12 @@ let syncPendingPushReason='';
 let syncPendingPull=false;
 let syncRealtimeChannel=null;
 let syncRealtimeReady=false;
+// Proteção contra consultas repetidas quando a organização esgota a cota.
+const PP_CLOUD_QUOTA_PAUSE_MS=60*60*1000;
+let ppCloudQuotaBlockedUntil=Number(localStorage.getItem('pp_cloud_quota_pause_until')||0);
+function ppCloudQuotaPaused(){return Date.now()<ppCloudQuotaBlockedUntil;}
+function ppCloudQuotaError(e){const msg=String(e?.message||'')+' '+String(e?.code||'')+' '+String(e?.status||'');return /(?:\b402\b|payment required|quota exceeded|services restricted)/i.test(msg);}
+function ppRememberCloudQuotaError(e){if(!ppCloudQuotaError(e))return false;ppCloudQuotaBlockedUntil=Date.now()+PP_CLOUD_QUOTA_PAUSE_MS;localStorage.setItem('pp_cloud_quota_pause_until',String(ppCloudQuotaBlockedUntil));setCloudStatus('☁️ Cota Supabase esgotada. Dados locais preservados; novas tentativas pausadas por 1h.');return true;}
 let lastRealtimeEventAt=0;
 let lastSyncSnapshotId=String(localStorage.getItem('pp_last_sync_snapshot_id')||'');
 let lastAdminSnapshotId=String(localStorage.getItem('pp_last_admin_snapshot_id')||'');
@@ -11129,10 +11135,15 @@ function scheduleCloudAutoBackup(checkCatchUp=false){
 }
 async function cloudSaveDailyIfNeeded(){
   if(!cloudReady||!supabaseClient)return;
+  // Não duplicar um backup diário sem alterações locais desde o último backup concluído.
+  const currentStamp=String(state?.meta?.updatedAt||'');
+  const lastBackedStamp=localStorage.getItem('pp_last_daily_backed_state_stamp')||'';
+  if(currentStamp && currentStamp===lastBackedStamp){scheduleCloudAutoBackup(false);return;}
+  if(ppCloudQuotaPaused()){scheduleCloudAutoBackup(false);return;}
   const today=cloudTodayKey();
   if(localStorage.getItem(CLOUD_DAILY_KEY)===today){scheduleCloudAutoBackup(false);return;}
   const ok=await cloudSaveNow('auto-diario',true);
-  if(ok)localStorage.setItem(CLOUD_DAILY_KEY,today);
+  if(ok){localStorage.setItem(CLOUD_DAILY_KEY,today);localStorage.setItem('pp_last_daily_backed_state_stamp',currentStamp);}
   scheduleCloudAutoBackup(false);
 }
 /* v107 — Toast de feedback do backup cloud */
@@ -11150,6 +11161,7 @@ function showCloudToast(msg,type='ok',duration=5000){
 }
 
 async function cloudSaveNow(reason='manual',silent=false){
+  if(ppCloudQuotaPaused())return false;
   if(!cloudReady&&!initCloud())return false;
   try{
     if(!silent)setCloudStatus('☁️ Enviando backup para a nuvem...');
@@ -11386,7 +11398,7 @@ function queueCloudSyncPush(reason='alteracao'){
   syncPushTimer=setTimeout(()=>cloudSyncPush(syncPendingPushReason||reason||'alteracao'),CLOUD_SYNC_DEBOUNCE_MS);
 }
 async function cloudSyncPush(reason='alteracao'){
-  if(!cloudReady||!supabaseClient)return false;
+  if(!cloudReady||!supabaseClient||ppCloudQuotaPaused())return false;
   if(syncInProgress){
     syncPendingPushReason=reason||syncPendingPushReason||'alteracao';
     clearTimeout(syncPushTimer);
@@ -11397,13 +11409,18 @@ async function cloudSyncPush(reason='alteracao'){
     syncInProgress=true; syncPendingPushReason=''; updateSyncButtonStatus?.('syncing');
     const op=currentOperator();
     const desc='Sync '+new Date().toLocaleString('pt-BR')+' • '+(op.nome||op.login||'sem usuário')+' • '+reason;
-    const {data,error}=await supabaseClient.from('snapshots').insert({descricao:desc,dados:cloudSnapshotPayload('sync')}).select('id').single();
+    const payload=cloudSnapshotPayload('sync');
+    const sentStateStamp=String(payload.state?.meta?.updatedAt||'');
+    const {data,error}=await supabaseClient.from('snapshots').insert({descricao:desc,dados:payload}).select('id').single();
     if(error)throw error;
     if(data?.id){lastSyncSnapshotId=String(data.id);localStorage.setItem('pp_last_sync_snapshot_id',lastSyncSnapshotId);}
     lastSyncAt=new Date().toISOString();localStorage.setItem('pp_last_sync_at',lastSyncAt);
+    // Só confirmar o que foi efetivamente enviado: uma edição durante o envio permanece pendente.
+    if(String(state?.meta?.updatedAt||'')===sentStateStamp)localStorage.removeItem('pp_pending_local_sync_v1');
+    else syncPendingPushReason=syncPendingPushReason||'alteracao-durante-envio';
     setCloudStatus((syncRealtimeReady?'☁️ Sync em tempo real ativo. Último envio: ':'☁️ Sync ativo. Último envio: ')+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     return true;
-  }catch(e){console.warn('Falha no sync push',e);setCloudStatus('☁️ Sync pendente. Dados locais preservados.');return false;}
+  }catch(e){console.warn('Falha no sync push',e);if(!ppRememberCloudQuotaError(e))setCloudStatus('☁️ Sync pendente. Dados locais preservados.');return false;}
   finally{
     syncInProgress=false;
     refreshSyncCenterStatus?.();
@@ -11417,7 +11434,7 @@ async function cloudSyncPush(reason='alteracao'){
   }
 }
 async function cloudSyncPullLatest(silent=false){
-  if(!cloudReady||!supabaseClient)return false;
+  if(!cloudReady||!supabaseClient||ppCloudQuotaPaused())return false;
   if(syncInProgress){
     syncPendingPull=true;
     return false;
@@ -11507,7 +11524,7 @@ async function cloudSyncPullLatest(silent=false){
     return true;
   }catch(e){
     console.warn('Falha no sync pull',e);
-    if(!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.');
+    if(!ppRememberCloudQuotaError(e)&&!silent)setCloudStatus('☁️ Não foi possível atualizar da nuvem agora.');
     return false;
   }finally{
     syncInProgress=false;
@@ -11576,7 +11593,7 @@ async function forceSyncNow(){
 }
 let ppLastResumeSyncAt=0;
 function ppResumeSyncFromEvent(){
-  if(!cloudReady||!supabaseClient||navigator.onLine===false||document.hidden)return;
+  if(!cloudReady||!supabaseClient||ppCloudQuotaPaused()||navigator.onLine===false||document.hidden)return;
   const now=Date.now();
   if(now-ppLastResumeSyncAt<5*60*1000)return;
   ppLastResumeSyncAt=now;
